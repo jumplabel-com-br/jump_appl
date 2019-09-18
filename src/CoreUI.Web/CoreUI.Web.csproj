@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-CoreUI.Web-E534EDE1-4B2A-4B35-AFCC-593BF1B67926</UserSecretsId>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Configurations>Debug;Release;Any(CPU)</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190910171457_Project.cs" />
+    <Compile Remove="Migrations\20190910171457_Project.Designer.cs" />
+    <Compile Remove="Migrations\20190912123528_NewEmployee.cs" />
+    <Compile Remove="Migrations\20190912123528_NewEmployee.Designer.cs" />
+    <Compile Remove="Migrations\20190917184519_NewMigration2.cs" />
+    <Compile Remove="Migrations\20190917184519_NewMigration2.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" PrivateAssets="All" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Views\CoreUI\" />
+  </ItemGroup>
+
+</Project>

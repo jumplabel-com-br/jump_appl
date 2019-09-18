@@ -1,0 +1,131 @@
+﻿@model CoreUI.Web.Models.ViewModel.HourFormViewModel;
+
+@{
+  ViewData["Title"] = "Edit";
+}
+
+
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">@ViewData["Title"]</div>
+        <div class="card-body">
+          <form id="HoursForm" asp-action="Edit">
+            <input type="hidden" asp-for="Hour.Id" />
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject()">
+                  <option value="">Choose your Project</option>
+                </select>
+                <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <input asp-for="Hour.Date" class="form-control" />
+                <span asp-validation-for="Hour.Date" class="text-danger col-12"></span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input asp-for="Hour.Arrival_Time" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <span asp-validation-for="Hour.Arrival_Time" name="hour_arrival_time" id="hour_arrival_time" class="text-danger text-danger-span col-12">Arrival time invalid</span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input asp-for="Hour.Beginning_Of_The_Break" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <span asp-validation-for="Hour.Beginning_Of_The_Break" name="hour_beginning_of_the_break" id="hour_beginning_of_the_break" class="text-danger text-danger-span col-12">Beginning of the break invalid</span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input asp-for="Hour.End_Of_The_Break" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <span asp-validation-for="Hour.End_Of_The_Break" name="hour_end_of_the_break" id="hour_end_of_the_break" class="text-danger text-danger-span col-12">End of the break invalid</span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input asp-for="Hour.Exit_Time" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <span asp-validation-for="Hour.Exit_Time" name="hour_exit_time" id="hour_exit_time" class="text-danger text-danger-span col-12">Stop time invalid</span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input asp-for="Hour.Total_Hours_In_Activity" class="form-control" readonly />
+                <span asp-validation-for="Hour.Total_Hours_In_Activity" name="hour_total_hours_in_activity" id="hour_total_hours_in_activity" class="text-danger text-danger-span col-12">Invalid calculation</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-list-ul"></i>
+                  </span>
+                </div>
+                <textarea asp-for="Hour.Activies" class="form-control" placeholder="Activities" style="height:100px;"></textarea>
+                <span asp-validation-for="Hour.Activies" name="hour_activies" id="hour_activies" class="text-danger text-danger-span col-12">Activities invalid</span>
+              </div>
+            </div>
+            <input type="hidden" asp-for="Hour.Start_Time" />
+            <input type="hidden" asp-for="Hour.Stop_Time" />
+            <input type="hidden" asp-for="Hour.Start_Time_2" />
+            <input type="hidden" asp-for="Hour.Stop_Time_2" />
+            <input type="hidden" asp-for="Hour.Total_Activies_Hours" />
+            <input type="hidden" asp-for="Hour.Project" class="form-control" />
+            <input type="hidden" asp-for="Hour.Consultant" />
+            <input type="hidden" asp-for="Hour.Id_Project" />
+            <input type="hidden" asp-for="Hour.Employee_Id" />
+            <input type="hidden" asp-for="Hour.Creation_Date" />
+            <div class="form-group form-actions text-right">
+              <div class="col-10">
+                <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
+                <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit()" asp-route-id="Id">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

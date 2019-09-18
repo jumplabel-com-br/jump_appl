@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7D0C3849-4EF4-4764-8DC6-AAEF74A72073}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreUI.Web", "src\CoreUI.Web\CoreUI.Web.csproj", "{7C45491D-C3EF-49C8-8638-775C003D8DA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{700EDF00-52B4-49C4-9E53-F5F9D4ED6AF3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Debug|x64.ActiveCfg = Any(CPU)|x64
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Debug|x64.Build.0 = Any(CPU)|x64
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Release|x64.ActiveCfg = Release|x64
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C45491D-C3EF-49C8-8638-775C003D8DA7} = {7D0C3849-4EF4-4764-8DC6-AAEF74A72073}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02FC4FD1-103F-4DFB-BC50-DA0B2BB244F6}
+	EndGlobalSection
+EndGlobal
