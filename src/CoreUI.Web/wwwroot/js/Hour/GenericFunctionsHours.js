@@ -11,28 +11,32 @@ function TextNameProject() {
 
 function calculaHora() {
 
-    /*if ($('#Hour_Start_Time').val() == '') {
-        alert('Informar horário de inicio');
-        return;
+    let Hour_Date = $('#Hour_Date').val();
+    let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');
+    let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '')
+    let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '')
+    let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '')
 
-    } else if ($('#Hour_Stop_Time').val() == '') {
-        alert('Informar horário de inicio de intervalo');
-        return;
+    if (Arrival_Time == '') {
+        $('#Hour_Arrival_Time').val('00:00:00.000')
+    }
 
-    } else if ($('#Hour_Start_Time_2').val() == '') {
-        alert('Informar horário de retorno de intervalo');
-        return;
+    if (Beginning_Of_The_Break == '') {
+        $('#Beginning_Of_The_Break').val('00:00:00.000')
+    }
 
-    } else if ($('#Hour_Stop_Time_2').val() == '') {
-        alert('Informar horário de saída')
-        return;
+    if (End_Of_The_Break == '') {
+        $('#End_Of_The_Break').val('00:00:00.000')
+    }
 
-    }*/
+    if (Exit_Time == '') {
+        $('#Exit_Time').val('00:00:00.000')
+    }
 
-    var Hour_Arrival_Time = new Date($('#Hour_Date').val() + ' ' + $('#Hour_Arrival_Time').val().replace(':00.000', ''));
-    var Hour_Beginning_Of_The_Break = new Date($('#Hour_Date').val() + ' ' + $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', ''));
-    var Hour_End_Of_The_Break = new Date($('#Hour_Date').val() + ' ' + $('#Hour_End_Of_The_Break').val().replace(':00.000', ''));
-    var Hour_Exit_Time = new Date($('#Hour_Date').val() + ' ' + $('#Hour_Exit_Time').val().replace(':00.000', ''));
+    var Hour_Arrival_Time = new Date(Hour_Date + ' ' + Arrival_Time);
+    var Hour_Beginning_Of_The_Break = new Date(Hour_Date + ' ' + Beginning_Of_The_Break);
+    var Hour_End_Of_The_Break = new Date(Hour_Date + ' ' + End_Of_The_Break);
+    var Hour_Exit_Time = new Date(Hour_Date + ' ' + Exit_Time);
 
     var diff = Hour_Beginning_Of_The_Break.getTime() - Hour_Arrival_Time.getTime();
 
@@ -72,6 +76,14 @@ function SetValuesHours() {
 
 
 function HourSubmit() {
+
+    let Hour_Date = $('#Hour_Date').val();
+    let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');
+    let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '')
+    let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '')
+    let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '')
+
+
     $('#id_project').hide();
     $('#hour_date').hide();
     $('#hour_arrival_time').hide();
@@ -129,31 +141,35 @@ function HourSubmit() {
         return false;
     }
 
-    /*
-    if (($('#Hour_Arrival_Time').val() > $('#Hour_Beginning_Of_The_Break').val() && $('#Hour_Beginning_Of_The_Break').val().replace(':00.000','') != '00:00') && ($('#Hour_Arrival_Time').val() != '00:00' && $('#Hour_Beginning_Of_The_Break').val() != '00:00') && ($('#Hour_Arrival_Time').val() != '' && $('#Hour_Beginning_Of_The_Break').val() != '')) {
-        alert('Hour between arrival and beginning of the break invalid because arrival is bigger than beginning of the break')
+    if (Arrival_Time > Beginning_Of_The_Break && Beginning_Of_The_Break != '00:00') {
+        alert('Hour between arrival and beginning of the break invalid because arrival is bigger than beginning od the break');
         return false;
     }
 
-    if ($('#Hour_End_Of_The_Break').val() > $('#Hour_Exit_Time').val() && ($('#Hour_Exit_Time').val().replace(':00.000', '') != '00:00' && $('#Hour_End_Of_The_Break').val() != '00:00') && ($('#Hour_Exit_Time').val() != '' && $('#Hour_End_Of_The_Break').val() != '')) {
-        alert('Hour between end of break and exit invalid because end of break is bigger than exit')
+    if (Exit_Time < End_Of_The_Break && End_Of_The_Break != '00:00') {
+        alert('Hour between exit and end of the break invalid because end of the break is bigger than exit');
         return false;
     }
 
-    if ($('#Hour_Arrival_Time').val().replace(':00.000', '') == '00:00' || $('#Hour_Exit_Time').val().replace(':00.000', '') == '00:00') {
-        alert('Arrival time and departure time cannot be reset');
+    if (Beginning_Of_The_Break != '00:00' && End_Of_The_Break == '00:00') {
+        alert('If you fiiled in the beginning of the break you must also fill in end of the break');
         return false;
     }
 
-    if ($('#Hour_End_Of_The_Break').val().replace(':00.000', '') == '00:00' && $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '') != '00:00') {
-        alert('End of range cannot be 00: 00 or "" e Start of longest interval 0');
+    if (Beginning_Of_The_Break == '00:00' && End_Of_The_Break != '00:00') {
+        alert('If you fiiled in the end of the break you must also fill in beginning of the break');
         return false;
     }
 
-    if ($('#Hour_End_Of_The_Break').val().replace(':00.000', '') == '00:00' || $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '') == '00:00') {
-        alert('Range start cannot be 00:00 or "" and end of longest range 0');
+    if (Beginning_Of_The_Break > End_Of_The_Break) {
+        alert("Beginning of the break can't be bigger than end of the break");
         return false;
-    }*/
+    }
+
+    if (Arrival_Time > Exit_Time) {
+        alert("Arrival can't be bigger than exit");
+        return false;
+    }
     $('#HoursForm').submit();
 }
 
@@ -172,4 +188,12 @@ $(document).ready(function () {
     wlp == 'Create' || wlp == 'Edit' ? $('.text-danger-span').hide() : '';
 
     SetValuesHours();
+
+    $(document).ready(function () {
+        if (window.matchMedia("(max-width: 300px)").matches) {
+            $('.col-2').addClass('col-8');
+            $('.col-2').addClass('mt-3');
+            $('.col-8').removeClass('col-2');
+        }
+    });
 });

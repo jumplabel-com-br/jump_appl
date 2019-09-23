@@ -9,11 +9,15 @@ using Microsoft.AspNetCore.Http;
 using CoreUI.Web.Services;
 using MySql.Data.MySqlClient;
 using System.Data;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace CoreUI.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration _config;
+
         private readonly ApplicationDbContext _context;
         private readonly ProjectService _projectService;
         private readonly EmployeeService _employeeService;
@@ -24,12 +28,13 @@ namespace CoreUI.Web.Controllers
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
 
-        public HomeController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour)
+        public HomeController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, IConfiguration config)
         {
             _context = context;
             _projectService = project;
             _employeeService = employee;
             _hourService = hour;
+            _config = config;
         }
 
 
@@ -86,7 +91,7 @@ namespace CoreUI.Web.Controllers
             }
 
             string queryString = "SELECT * FROM dev_jump.Employee where email = '" + employee.Email + "'";
-            string connString = "Server = datajump.ci9niqaqsefm.us-east-1.rds.amazonaws.com; Database = dev_jump; Uid = dev_jump; Pwd = dev_jump;";
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);
             MySqlCommand command = new MySqlCommand(queryString, connection);

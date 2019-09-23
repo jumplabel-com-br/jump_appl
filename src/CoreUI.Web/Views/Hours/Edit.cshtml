@@ -33,7 +33,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input asp-for="Hour.Date" class="form-control" />
+                <input asp-for="Hour.Date" class="form-control" onchange="calculaHora();" />
                 <span asp-validation-for="Hour.Date" class="text-danger col-12"></span>
               </div>
             </div>

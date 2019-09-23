@@ -43,19 +43,28 @@ namespace CoreUI.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
-
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+           
+            try
             {
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
-            }
+                ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+                ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+                ViewBag.Name = HttpContext.Session.GetString(SessionName);
+                int empId = ViewBag.Id;
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
 
-            var result = await _hourService.FindAllAsync(ViewBag.Id);
-            return View(result);
+                var result = await _hourService.FindAllAsync(ViewBag.Id);
+                return View(result);
+
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
 
@@ -72,27 +81,36 @@ namespace CoreUI.Web.Controllers
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
 
-
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            try
             {
+                int empId = ViewBag.Id;
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var hour = await _context.Hour
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (hour == null)
+                {
+                    return NotFound();
+                }
+
+                return View(hour);
+            }
+            catch (Exception)
+            {
+
                 HttpContext.Session.SetString(SessionExpired, "true");
                 return RedirectToAction("Index", "Home", "Index");
             }
 
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var hour = await _context.Hour
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (hour == null)
-            {
-                return NotFound();
-            }
-
-            return View(hour);
         }
 
         // GET: Hours/Create
@@ -103,17 +121,27 @@ namespace CoreUI.Web.Controllers
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
 
-            int empId = ViewBag.Id;
+            try
+            {
+                int empId = ViewBag.Id;
 
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
+
+                var projects = await _projectService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Projects = projects };
+                return View(viewModel);
+            }
+            catch (Exception)
             {
                 HttpContext.Session.SetString(SessionExpired, "true");
                 return RedirectToAction("Index", "Home", "Index");
+
             }
 
-            var projects = await _projectService.FindAllAsync();
-            var viewModel = new HourFormViewModel { Projects = projects };
-            return View(viewModel);
         }
 
         // POST: Hours/Create
@@ -127,23 +155,34 @@ namespace CoreUI.Web.Controllers
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
 
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+
+            try
             {
+                int empId = ViewBag.Id;
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
+
+                if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
+                {
+                    var projects = await _projectService.FindAllAsync();
+                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+
+                    return View(viewModel);
+                }
+
+                await _hourService.InsertAsync(hour);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+
                 HttpContext.Session.SetString(SessionExpired, "true");
                 return RedirectToAction("Index", "Home", "Index");
             }
 
-            if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
-            {
-                var projects = await _projectService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
-
-                return View(viewModel);
-            }
-
-            await _hourService.InsertAsync(hour);
-            return RedirectToAction(nameof(Index));
 
             /*
             if (ModelState.IsValid)
@@ -156,7 +195,7 @@ namespace CoreUI.Web.Controllers
             */
         }
 
-        
+
         // GET: Hours/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -164,24 +203,34 @@ namespace CoreUI.Web.Controllers
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
 
-            int empId = ViewBag.Id;
-
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            try
             {
+                int empId = ViewBag.Id;
+
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var hour = await _context.Hour.FindAsync(id);
+                var projects = await _projectService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+
                 HttpContext.Session.SetString(SessionExpired, "true");
                 return RedirectToAction("Index", "Home", "Index");
             }
 
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var hour = await _context.Hour.FindAsync(id);
-            var projects = await _projectService.FindAllAsync();
-            var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
-
-            return View(viewModel);
 
             /*
             if (hour == null)
@@ -211,36 +260,46 @@ namespace CoreUI.Web.Controllers
         {
             ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);                                                                     
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
 
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null)
+            try
             {
+                int empId = ViewBag.Id;
+                if (ViewBag.Email == null)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(hour);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!HourExists(hour.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(hour);
+            }
+            catch (Exception)
+            {
+
                 HttpContext.Session.SetString(SessionExpired, "true");
                 return RedirectToAction("Index", "Home", "Index");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(hour);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HourExists(hour.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(hour);
         }
 
         // GET: Hours/Delete/5
@@ -254,17 +313,27 @@ namespace CoreUI.Web.Controllers
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
 
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            try
             {
+                int empId = ViewBag.Id;
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    HttpContext.Session.SetString(SessionExpired, "true");
+                    return RedirectToAction("Index", "Home", "Index");
+                }
+
+                var hour = await _context.Hour.FindAsync(id);
+                _context.Hour.Remove(hour);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Hours", "Index");
+            }
+            catch (Exception)
+            {
+
                 HttpContext.Session.SetString(SessionExpired, "true");
                 return RedirectToAction("Index", "Home", "Index");
             }
 
-            var hour = await _context.Hour.FindAsync(id);
-            _context.Hour.Remove(hour);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Hours", "Index");
         }
 
         private bool HourExists(int id)
@@ -272,7 +341,7 @@ namespace CoreUI.Web.Controllers
             return _context.Hour.Any(e => e.Id == id);
         }
 
-         public IActionResult Error(string message)
+        public IActionResult Error(string message)
         {
             var viewModel = new ErrorViewModel
             {
