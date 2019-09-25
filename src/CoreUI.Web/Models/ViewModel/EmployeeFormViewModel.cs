@@ -9,5 +9,6 @@ namespace CoreUI.Web.Models.ViewModel
     {
         public Employee Employee { get; set; }
         public ICollection<Employee> Employees { get; set; }
+        public ICollection<Access_Level> Access_Level { get; set; }
     }
 }

@@ -61,7 +61,7 @@
                       <i class="icon-lock"></i>
                     </span>
                   </div>
-                  <input class="form-control" asp-for="Employee.Password" placeholder="Password">
+                  <input type="password" class="form-control" asp-for="Employee.Password" placeholder="Password">
                 </div>
                 @{
                   if (ViewBag.Expired == "true" || ViewBag.Invalid == "true")

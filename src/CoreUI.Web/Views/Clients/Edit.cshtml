@@ -1,0 +1,57 @@
+﻿@model CoreUI.Web.Models.Client
+
+@{
+  ViewData["Title"] = "Edit";
+}
+
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> Edit Client
+          <div class="card-header-actions">
+            <a asp-action="Create">
+              <input type="hidden" asp-for="@ViewData["Email"]" />
+              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="projectForm" asp-action="Edit">
+            <input type="hidden" asp-for="Id"/>
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger col-12"></span>
+              </div>
+            </div>
+            <div class="form-group form-actions text-right col-10">
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
+              <button class="btn btn-sm btn-success" type="submit">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-top-center" style="display:none;">
+  <div class="toast toast-info" aria-live="polite">
+    <div class="toast-title">Saved</div>
+    <div class="toast-message">
+      Saved successfully
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

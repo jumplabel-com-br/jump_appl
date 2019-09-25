@@ -17,10 +17,36 @@ namespace CoreUI.Web.Migrations
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("CoreUI.Web.Models.Access_Level", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Access_level");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Access_Level");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Client");
+                });
+
             modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Access_LevelId");
 
                     b.Property<int>("Active");
 
@@ -35,14 +61,15 @@ namespace CoreUI.Web.Migrations
                     b.Property<string>("Email")
                         .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<string>("Password")
                         .IsRequired();
 
-                    b.Property<double>("Salary");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("Access_LevelId");
 
                     b.ToTable("Employee");
                 });
@@ -107,6 +134,51 @@ namespace CoreUI.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.Project_team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("EmployeeId");
+
+                    b.Property<int>("Employee_Id");
+
+                    b.Property<DateTime>("End_Date");
+
+                    b.Property<int?>("ProjectId");
+
+                    b.Property<int>("Project_Id");
+
+                    b.Property<DateTime>("Start_Date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Project_team");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>
+                {
+                    b.HasOne("CoreUI.Web.Models.Access_Level", "Access_Level")
+                        .WithMany()
+                        .HasForeignKey("Access_LevelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.Project_team", b =>
+                {
+                    b.HasOne("CoreUI.Web.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("CoreUI.Web.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

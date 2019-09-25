@@ -20,7 +20,7 @@ namespace CoreUI.Web.Services
         public async Task<List<Hour>> FindAllAsync(dynamic employeeId)
         {
             int employee = employeeId;
-            return await _context.Hour.Where(x => x.Employee_Id == employee).ToListAsync();
+            return await _context.Hour.Where(x => x.Employee_Id == employee).OrderBy(x => x.Date).ToListAsync();
             /*
             var result = from obj in _context.Hour select obj;
 

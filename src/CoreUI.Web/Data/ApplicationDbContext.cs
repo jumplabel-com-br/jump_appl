@@ -16,6 +16,9 @@ namespace CoreUI.Web.Models
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Hour> Hour { get; set; }
         public DbSet<Project> Project { get; set; }
+        public DbSet<Access_Level> Access_Level { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<CoreUI.Web.Models.Project_team> Project_team { get; set; }
 
 
     }

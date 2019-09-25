@@ -1,9 +1,10 @@
 ﻿
-function TextNameProject() {
-    let select = document.querySelector('#Hour_Id_Project');
+function TextNameProject(id) {
+
+    let select = document.querySelector('#'+id);
     let option = select.children[select.selectedIndex];
     let texto = option.textContent;
-    console.log(texto)
+    console.log(texto);
 
     document.querySelector('#Hour_Project').value = texto;
 }
@@ -13,24 +14,24 @@ function calculaHora() {
 
     let Hour_Date = $('#Hour_Date').val();
     let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');
-    let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '')
-    let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '')
-    let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '')
+    let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '');
+    let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '');
+    let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '');
 
     if (Arrival_Time == '') {
-        $('#Hour_Arrival_Time').val('00:00:00.000')
+        $('#Hour_Arrival_Time').val('00:00:00.000');
     }
 
     if (Beginning_Of_The_Break == '') {
-        $('#Beginning_Of_The_Break').val('00:00:00.000')
+        $('#Beginning_Of_The_Break').val('00:00:00.000');
     }
 
     if (End_Of_The_Break == '') {
-        $('#End_Of_The_Break').val('00:00:00.000')
+        $('#End_Of_The_Break').val('00:00:00.000');
     }
 
     if (Exit_Time == '') {
-        $('#Exit_Time').val('00:00:00.000')
+        $('#Exit_Time').val('00:00:00.000');
     }
 
     var Hour_Arrival_Time = new Date(Hour_Date + ' ' + Arrival_Time);
@@ -48,17 +49,12 @@ function calculaHora() {
     var mins = Math.floor(diff / (1000 * 60));
     diff -= mins * (1000 * 60);
 
-    /*
-    if (Hour_Arrival_Time >= Hour_Beginning_Of_The_Break || Hour_Beginning_Of_The_Break >= Hour_End_Of_The_Break || Hour_End_Of_The_Break >= Hour_Exit_Time) {
-        return false;
-    }*/
-
     if (hours < 10) {
-        hours = '0' + hours
+        hours = '0' + hours;
     }
 
     if (mins < 10) {
-        mins = '0' + mins
+        mins = '0' + mins;
     }
 
     $('#Hour_Total_Hours_In_Activity').val(hours + ':' + mins);
@@ -67,11 +63,16 @@ function calculaHora() {
 }
 
 function SetValuesHours() {
-    $('#Hour_Start_Time').val($('#Hour_Arrival_Time').val())
-    $('#Hour_Stop_Time').val($('#Hour_Beginning_Of_The_Break').val())
-    $('#Hour_Start_Time_2').val($('#Hour_End_Of_The_Break').val())
-    $('#Hour_Stop_Time_2').val($('#Hour_Exit_Time').val())
-    $('#Hour_Total_Activies_Hours').val($('#Hour_Total_Hours_In_Activity').val())
+    $('#Hour_Start_Time').val() == '' ? $('#Hour_Start_Time').val('00:00:00.000') : '';
+    $('#Hour_Stop_Time').val() == '' ? $('#Hour_Stop_Time').val('00:00:00.000') : '';
+    $('#Hour_Start_Time_2').val() == '' ? $('#Hour_Start_Time_2').val('00:00:00.000') : '';
+    $('#Hour_Stop_Time_2').val() == '' ? $('#Hour_Stop_Time_2').val('00:00:00.000') : '';
+
+    $('#Hour_Start_Time').val($('#Hour_Arrival_Time').val());
+    $('#Hour_Stop_Time').val($('#Hour_Beginning_Of_The_Break').val());
+    $('#Hour_Start_Time_2').val($('#Hour_End_Of_The_Break').val());
+    $('#Hour_Stop_Time_2').val($('#Hour_Exit_Time').val());
+    $('#Hour_Total_Activies_Hours').val($('#Hour_Total_Hours_In_Activity').val());
 }
 
 
@@ -79,9 +80,9 @@ function HourSubmit() {
 
     let Hour_Date = $('#Hour_Date').val();
     let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');
-    let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '')
-    let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '')
-    let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '')
+    let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '');
+    let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '');
+    let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '');
 
 
     $('#id_project').hide();
@@ -93,11 +94,6 @@ function HourSubmit() {
     $('#hour_total_hours_in_activity').hide();
     $('#hour_activies').hide();
     SetValuesHours();
-
-    $('#Hour_Arrival_Time').val() == '' ? $('#Hour_Arrival_Time').val('00:00') : '';
-    $('#Hour_Beginning_Of_The_Break').val() == '' ? $('#Hour_Beginning_Of_The_Break').val('00:00') : '';
-    $('#Hour_End_Of_The_Break').val() == '' ? $('#Hour_End_Of_The_Break').val('00:00') : '';
-    $('#Hour_Exit_Time').val() == '' ? $('#Hour_Exit_Time').val('00:00') : '';
 
     if ($('#Hour_Id_Project').val() == '') {
         $('#id_project').show();
@@ -141,22 +137,22 @@ function HourSubmit() {
         return false;
     }
 
-    if (Arrival_Time > Beginning_Of_The_Break && Beginning_Of_The_Break != '00:00') {
+    if (Arrival_Time > Beginning_Of_The_Break && Beginning_Of_The_Break != '00:00' && Beginning_Of_The_Break != '') {
         alert('Hour between arrival and beginning of the break invalid because arrival is bigger than beginning od the break');
         return false;
     }
 
-    if (Exit_Time < End_Of_The_Break && End_Of_The_Break != '00:00') {
+    if (Exit_Time < End_Of_The_Break && End_Of_The_Break != '00:00' && End_Of_The_Break != '') {
         alert('Hour between exit and end of the break invalid because end of the break is bigger than exit');
         return false;
     }
 
-    if (Beginning_Of_The_Break != '00:00' && End_Of_The_Break == '00:00') {
+    if (Beginning_Of_The_Break != '00:00' && Beginning_Of_The_Break != '' && (End_Of_The_Break == '00:00' || End_Of_The_Break == '')) {
         alert('If you fiiled in the beginning of the break you must also fill in end of the break');
         return false;
     }
 
-    if (Beginning_Of_The_Break == '00:00' && End_Of_The_Break != '00:00') {
+    if ((Beginning_Of_The_Break == '00:00' || Beginning_Of_The_Break == '') && End_Of_The_Break != '00:00' && End_Of_The_Break != '') {
         alert('If you fiiled in the end of the break you must also fill in beginning of the break');
         return false;
     }
@@ -170,21 +166,26 @@ function HourSubmit() {
         alert("Arrival can't be bigger than exit");
         return false;
     }
+
+    $('#toast-container').toggle();
+
     $('#HoursForm').submit();
 }
 
 function ActiveLinck() {
-    let wlp = window.location.pathname.split('/')[2]
+    let wlp = window.location.pathname.split('/')[2];
 
     if (wlp == 'Create') {
-        $('.biHourCreate').addClass('active')
+        $('.biHourCreate').addClass('active');
     } else {
-        $('.biHome').addClass('active')
+        $('.biHome').addClass('active');
     }
+
+    $('.active').css("color", 'blue');
 }
 
 $(document).ready(function () {
-    let wlp = window.location.pathname.split('/')[2]
+    let wlp = window.location.pathname.split('/')[2];
     wlp == 'Create' || wlp == 'Edit' ? $('.text-danger-span').hide() : '';
 
     SetValuesHours();

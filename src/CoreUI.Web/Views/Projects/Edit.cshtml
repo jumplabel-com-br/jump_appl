@@ -1,49 +1,73 @@
-﻿@model CoreUI.Web.Models.Project
+﻿@model CoreUI.Web.Models.ViewModel.ProjectFormViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+  ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> Create Project
+          <div class="card-header-actions">
+            <a asp-action="Create">
+              <input type="hidden" asp-for="@ViewData["Email"]" />
+              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="projectForm" asp-action="Edit">
+            <input type="hidden" asp-for="Project.Id" />
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <input asp-for="Project.Project_Name" class="form-control" placeholder="Project Name" />
+                <span asp-validation-for="Project.Project_Name" class="text-danger col-12"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select asp-for="Project.Client_Id" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" class="form-control">
+                  <option value="" disabled>Client</option>
+                </select>
+                <span asp-validation-for="Project.Client_Id" class="text-danger col-12"></span>
+              </div>
+            </div>
 
-<h4>Project</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Project_Name" class="control-label"></label>
-                <input asp-for="Project_Name" class="form-control" />
-                <span asp-validation-for="Project_Name" class="text-danger"></span>
+            <input type="hidden" asp-for="Project.Active" />
+            <input type="hidden" asp-for="Project.Cost_Center_Id" />
+            <div class="form-group form-actions text-right col-10">
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
+              <button class="btn btn-sm btn-success" type="submit" onclick="$('#toast-container')">Save</button>
             </div>
-            <div class="form-group">
-                <label asp-for="Client_Id" class="control-label"></label>
-                <input asp-for="Client_Id" class="form-control" />
-                <span asp-validation-for="Client_Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cost_Center_Id" class="control-label"></label>
-                <input asp-for="Cost_Center_Id" class="form-control" />
-                <span asp-validation-for="Cost_Center_Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Active" class="control-label"></label>
-                <input asp-for="Active" class="form-control" />
-                <span asp-validation-for="Active" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div id="toast-container" class="toast-top-center" style="display:none;">
+  <div class="toast toast-info" aria-live="polite">
+    <div class="toast-title">Saved</div>
+    <div class="toast-message">
+      Saved successfully
+    </div>
+  </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

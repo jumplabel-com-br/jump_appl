@@ -1,73 +1,177 @@
-﻿@model CoreUI.Web.Models.Employee
+﻿@model CoreUI.Web.Models.ViewModel.EmployeeFormViewModel
 
 @{
-    ViewData["Title"] = "Create";
+  ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
 
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> Create Employee
+          <div class="card-header-actions">
+            <a asp-controller="UploadFiles" asp-action="Create">
+              <input type="hidden" asp-for="Employee.@ViewData["Email"]" />
+              <input type="hidden" asp-for="Employee.@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="EmployeeForm" asp-action="Create">
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </div>
+                <input asp-for="Employee.Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Employee.Email" class="text-danger col-12"></span>
+              </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <input asp-for="Employee.Name" class="form-control" placeholder="Full Name" />
+                <span asp-validation-for="Employee.Name" class="text-danger col-12"></span>
+              </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Document" class="control-label"></label>
-                <input asp-for="Document" class="form-control" />
-                <span asp-validation-for="Document" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract_Mode" class="control-label"></label>
-                <input asp-for="Contract_Mode" class="form-control" />
-                <span asp-validation-for="Contract_Mode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Active" class="control-label"></label>
-                <input asp-for="Active" class="form-control" />
-                <span asp-validation-for="Active" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Salary" class="control-label"></label>
-                <input asp-for="Salary" class="form-control" />
-                <span asp-validation-for="Salary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Appointment" class="control-label"></label>
-                <input asp-for="Appointment" class="form-control" />
-                <span asp-validation-for="Appointment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Change_Password" class="control-label"></label>
-                <input asp-for="Change_Password" class="form-control" />
-                <span asp-validation-for="Change_Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+
+            <div class="form-group row">
+              <div class="input-group col-4" title="Document">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text"></i>
+                  </span>
+                </div>
+                <input type="file" multiple="" asp-for="Employee.Document" class="mt-1 ml-1">  
+                <span asp-validation-for="Employee.Document" class="text-danger"></span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <input asp-for="Employee.Contract_Mode" class="form-control" placeholder="Contract Mode" />
+                <span asp-validation-for="Employee.Contract_Mode" class="text-danger"></span>
+              </div>
+
+              <!--
+  <div class="input-group col-2">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-money"></i>
+      </span>
     </div>
+    <input asp-for="Employee.Salary" class="form-control" placeholder="Salary" />
+    <span asp-validation-for="Employee.Salary" name="employee_salary" id="employee_salary" class="text-danger col-12">Salary invalid</span>
+  </div>
+  -->
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="icon-lock"></i>
+                  </span>
+                </div>
+                <input type="password" asp-for="Employee.Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Employee.Password" name="employee_password" id="employee_password" class="text-danger col-12">Password invalid</span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-address-book-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Employee.Appointment" class="form-control">
+                  <option value="">Appointment</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+                <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-address-book-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Employee.Access_LevelId" asp-items="@(new SelectList(Model.Access_Level, "Id", "Access_level"))" class="form-control">
+                  <option value="">Access Level</option>
+                </select>
+                <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
+              </div>
+            </div>
+
+            <input type="hidden" asp-for="Employee.Change_Password" class="form-control" placeholder="Change Password" value="0" />
+            <input type="hidden" asp-for="Employee.Active" class="form-control" placeholder="Active" value="1" />
+
+
+            <div class="form-group form-actions text-right col-10">
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="EmployeeSubmit();">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div id="toast-container" class="toast-top-center" style="display:none;">
+  <div class="toast toast-info" aria-live="polite">
+    <div class="toast-title">Saved</div>
+    <div class="toast-message">
+      Saved successfully
+    </div>
+  </div>
 </div>
 
+<style>
+  #employee_salary,
+  #employee_appointment,
+  #employee_password {
+    display: none;
+  }
+</style>
+
+<script>
+  function EmployeeSubmit() {
+
+    $('#employee_salary').hide();
+    $('#employee_appointment').hide();
+    $('#employee_password').hide();
+
+    if ($('#Salary').val() == '') {
+      $('#Salary').focus();
+      $('#employee_salary').show();
+      return;
+    }
+
+    if ($('#Appointment').val() == '') {
+      $('#Appointment').focus();
+      $('#employee_appointment').show();
+      return;
+    }
+
+    $('#toast-container').toggle();
+    $('#EmployeeForm').submit();
+  }
+</script>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

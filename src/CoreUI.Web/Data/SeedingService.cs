@@ -23,12 +23,6 @@ namespace CoreUI.Web.Data
                 return; //DB has been seeded
             }
 
-            Employee ts1 = new Employee(1, "teste", "teste1", "teste2", 1, 200.0, 0, "xyz123", 0);
-            Project p = new Project(1, "Teste", 1, 1, 0);
-
-            _context.Employee.AddRange(ts1);
-            _context.Project.AddRange(p);
-
             _context.SaveChanges();
         }
     }

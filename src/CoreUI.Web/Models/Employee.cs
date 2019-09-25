@@ -15,26 +15,36 @@ namespace CoreUI.Web.Models
         [Required(ErrorMessage = "{0} requerid")]
         public string Email { get; set; }
 
-        [Display(Name = "Username")]
+        [Display(Name = "Name")]
         [DataType(DataType.Text)]
+        [Required(ErrorMessage = "{0} invalid")]
         public string Name { get; set; }
+
         public string Document { get; set; }
+
+        [Display(Name = "Contract Mode")]
         public string Contract_Mode { get; set; }
+
         public int Active { get; set; }
 
+        /* 
         [Required(ErrorMessage = "{0} requerid")]
         [Range(100.0, 50000.0, ErrorMessage = "{0} must be from {1} to {2}")]
-        [Display(Name = "Salary")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double Salary { get; set; }
+        */
         public int Appointment { get; set; }
 
         [Display(Name = "Password")]
-        [DataType(DataType.Password)]
         [Required(ErrorMessage = "{0} requerid")]
 
         public string Password { get; set; }
+
+        [Display(Name = "Change Password")]
         public int Change_Password { get; set; }
+
+        public Access_Level Access_Level { get; set; }
+        public int Access_LevelId { get; set; }
 
         public Employee()
         {
@@ -47,17 +57,18 @@ namespace CoreUI.Web.Models
             Password = password;
         }
 
-        public Employee(int id, string name, string document, string contract_Mode, int active, double salary, int appointment, string password, int change_Password)
+        public Employee(int id, string name, string document, string contract_Mode, int active, /*double salary,*/ int appointment, string password, int change_Password, Access_Level access_Level)
         {
             Id = id;
             Name = name;
             Document = document;
             Contract_Mode = contract_Mode;
             Active = active;
-            Salary = salary;
+            //Salary = salary;
             Appointment = appointment;
             Password = password;
             Change_Password = change_Password;
+            Access_Level = access_Level;
         }
 
     }

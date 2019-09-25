@@ -9,6 +9,7 @@ namespace CoreUI.Web.Models
     {
         public int Id { get; set; }
         public string Project_Name { get; set; }
+
         public int Client_Id { get; set; }
         public long Cost_Center_Id { get; set; }
         public int Active { get; set; }

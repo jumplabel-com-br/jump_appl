@@ -14,14 +14,19 @@
     <Compile Remove="Migrations\20190912123528_NewEmployee.Designer.cs" />
     <Compile Remove="Migrations\20190917184519_NewMigration2.cs" />
     <Compile Remove="Migrations\20190917184519_NewMigration2.Designer.cs" />
+    <Compile Remove="Migrations\20190925183707_NewClient.cs" />
+    <Compile Remove="Migrations\20190925183707_NewClient.Designer.cs" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="3.3.103.43" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.104.31" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" PrivateAssets="All" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.0" />
+    <PackageReference Include="WebUI" Version="1.0.6.1" />
   </ItemGroup>
 
 

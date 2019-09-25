@@ -9,7 +9,16 @@
   <div class="row">
     <div class="col">
       <div class="card">
-        <div class="card-header">@ViewData["Title"]</div>
+        <div class="card-header">
+            <i class="fa fa-edit"></i> Time Sheet
+            <div class="card-header-actions">
+              <a asp-action="Create">
+                <input type="hidden" asp-for="@ViewData["Email"]" />
+                <input type="hidden" asp-for="@ViewData["Password"]" />
+                <i class="fa fa-plus"></i>
+              </a>
+          </div>
+        </div>
         <div class="card-body">
           <form id="HoursForm" asp-action="Edit">
             <input type="hidden" asp-for="Hour.Id" />
@@ -20,7 +29,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject()">
+                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id)">
                   <option value="">Choose your Project</option>
                 </select>
                 <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
@@ -115,7 +124,7 @@
             <div class="form-group form-actions text-right">
               <div class="col-10">
                 <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-                <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit()" asp-route-id="Id">Save</button>
+                <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();" asp-route-id="Id">Save</button>
               </div>
             </div>
           </form>
@@ -125,7 +134,16 @@
   </div>
 </div>
 
+<div id="toast-container" class="toast-top-center" style="display:none;">
+  <div class="toast toast-info" aria-live="polite">
+    <div class="toast-title">Edited</div>
+    <div class="toast-message">
+      successfully changed
+    </div>
+  </div>
+</div>
 
+<script src="~/js/Hour/Edit.js" ></script>
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
