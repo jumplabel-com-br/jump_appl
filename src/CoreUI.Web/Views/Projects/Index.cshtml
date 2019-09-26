@@ -51,17 +51,9 @@
                     @Html.DisplayFor(modelItem => item.Project_Name)
                   </td>
                   <td>
-                    @{
-                      if (item.Active == 1)
-                      {
-                        @Html.DisplayName("Yes")
-                      }
-                      else
-                      {
-                        @Html.DisplayName("No")
-                      }
-                    }
+                    @Html.DisplayFor(modelItem => item.Active)
                   </td>
+
                   <td colspan="2">
                     <div class="row ml-0">
                       <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
@@ -96,4 +88,5 @@
     </div>
   </div>
 </div>
+
 <script src="~/js/Employee/Delete.js"></script>

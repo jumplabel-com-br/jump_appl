@@ -56,6 +56,7 @@ namespace CoreUI.Web
             services.AddScoped<HourService>();
             services.AddScoped<AccessLevelService>();
             services.AddScoped<ClientService>();
+            services.AddScoped<ProjectTeamService>();
 
         }
 

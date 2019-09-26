@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreUI.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190925190123_Project_Team")]
-    partial class Project_Team
+    [Migration("20190926161704_ProjectTeam")]
+    partial class ProjectTeam
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,23 +143,15 @@ namespace CoreUI.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("EmployeeId");
-
                     b.Property<int>("Employee_Id");
 
                     b.Property<DateTime>("End_Date");
-
-                    b.Property<int?>("ProjectId");
 
                     b.Property<int>("Project_Id");
 
                     b.Property<DateTime>("Start_Date");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("Project_team");
                 });
@@ -170,17 +162,6 @@ namespace CoreUI.Web.Migrations
                         .WithMany()
                         .HasForeignKey("Access_LevelId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CoreUI.Web.Models.Project_team", b =>
-                {
-                    b.HasOne("CoreUI.Web.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId");
-
-                    b.HasOne("CoreUI.Web.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

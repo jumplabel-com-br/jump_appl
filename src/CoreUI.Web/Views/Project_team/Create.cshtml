@@ -1,48 +1,97 @@
-﻿@model CoreUI.Web.Models.Project_team
+﻿@model CoreUI.Web.Models.ViewModel.ProjectTeamFormViewModel
 
 @{
-    ViewData["Title"] = "Create";
+  ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
 
-<h4>Project_team</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Project_Id" class="control-label"></label>
-                <input asp-for="Project_Id" class="form-control" />
-                <span asp-validation-for="Project_Id" class="text-danger"></span>
+
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> Create Client
+          <div class="card-header-actions">
+            <a asp-action="Create">
+              <input type="hidden" asp-for="Project.@ViewData["Email"]" />
+              <input type="hidden" asp-for="Project.@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="projectForm" asp-action="Create">
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))">
+                  <option value="value">text</option>
+                </select>
+                <span asp-validation-for="Project_team.Project_Id" class="text-danger col-12"></span>
+              </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Employee_Id" class="control-label"></label>
-                <input asp-for="Employee_Id" class="form-control" />
-                <span asp-validation-for="Employee_Id" class="text-danger"></span>
+
+            <div class="form-group row">
+              <div class="input-group col-10">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Project_team.Employee_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
+                  <option value="value">text</option>
+                </select>
+                <span asp-validation-for="Project_team.Employee_Id" class="text-danger col-12"></span>
+              </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Start_Date" class="control-label"></label>
-                <input asp-for="Start_Date" class="form-control" />
-                <span asp-validation-for="Start_Date" class="text-danger"></span>
+
+            <div class="form-group row">
+              <div class="input-group col-5">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <input asp-for="Project_team.Start_Date" class="form-control"/>
+                <span asp-validation-for="Project_team.Start_Date" class="text-danger col-12"></span>
+              </div>
+
+              <div class="input-group col-5">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <input asp-for="Project_team.End_Date" class="form-control" />
+                <span asp-validation-for="Project_team.End_Date" class="text-danger col-12"></span>
+              </div>
             </div>
-            <div class="form-group">
-                <label asp-for="End_Date" class="control-label"></label>
-                <input asp-for="End_Date" class="form-control" />
-                <span asp-validation-for="End_Date" class="text-danger"></span>
+
+            <div class="form-group form-actions text-right col-10">
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
+              <button class="btn btn-sm btn-success" type="submit">Create</button>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div id="toast-container" class="toast-top-center" style="display:none;">
+  <div class="toast toast-info" aria-live="polite">
+    <div class="toast-title">Saved</div>
+    <div class="toast-message">
+      Saved successfully
+    </div>
+  </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

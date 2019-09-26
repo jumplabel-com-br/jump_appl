@@ -6,17 +6,42 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
+using Microsoft.AspNetCore.Hosting;
+using CoreUI.Web.Services;
+using CoreUI.Web.Models.ViewModel;
 
 namespace CoreUI.Web.Controllers
 {
     public class Project_teamController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly EmployeeService _employeeService;
+        private readonly ProjectService _projectService;
+        private readonly HourService _hourService;
+        private readonly AccessLevelService _accessLevelService;
+        private readonly ClientService _clientService;
+        IHostingEnvironment _appEnvironment;
 
-        public Project_teamController(ApplicationDbContext context)
+
+        public Project_teamController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, AccessLevelService accessLevel, ClientService client, IHostingEnvironment env)
         {
             _context = context;
+            _context = context;
+            _projectService = project;
+            _employeeService = employee;
+            _hourService = hour;
+            _accessLevelService = accessLevel;
+            _appEnvironment = env;
+            _clientService = client;
+
         }
+
+        const string SessionEmail = "_Email";
+        const string SessionName = "_Name";
+        const string SessionEmployeeId = "_Id";
+        const string SessionInvalid = "false";
+        const string SessionExpired = "false";
+        Files Files;
 
         // GET: Project_team
         public async Task<IActionResult> Index()
@@ -32,20 +57,27 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var project_team = await _context.Project_team
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var project_team = await _context.Project_team.FindAsync(id);
+            var employee = await _employeeService.FindAllAsync();
+            var project = await _projectService.FindAllAsync();
+            var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
+
             if (project_team == null)
             {
                 return NotFound();
             }
 
-            return View(project_team);
+            return View(viewModel);
         }
 
         // GET: Project_team/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var employee = await _employeeService.FindAllAsync();
+            var project = await _projectService.FindAllAsync();
+            var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee };
+
+            return View(viewModel);
         }
 
         // POST: Project_team/Create
@@ -73,11 +105,16 @@ namespace CoreUI.Web.Controllers
             }
 
             var project_team = await _context.Project_team.FindAsync(id);
+            var employee = await _employeeService.FindAllAsync();
+            var project = await _projectService.FindAllAsync();
+            var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
+
+            
             if (project_team == null)
             {
                 return NotFound();
             }
-            return View(project_team);
+            return View(viewModel);
         }
 
         // POST: Project_team/Edit/5

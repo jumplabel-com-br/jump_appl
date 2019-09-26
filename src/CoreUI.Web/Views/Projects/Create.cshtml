@@ -11,11 +11,11 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Create Project
+          <i class="fa fa-edit"></i> Create Client
           <div class="card-header-actions">
             <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <input type="hidden" asp-for="Project.@ViewData["Email"]" />
+              <input type="hidden" asp-for="Project.@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
           </div>
@@ -29,10 +29,11 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <input asp-for="Project.Project_Name" class="form-control" placeholder="Project Name" />
+                <input asp-for="Project.Project_Name" class="form-control" />
                 <span asp-validation-for="Project.Project_Name" class="text-danger col-12"></span>
               </div>
             </div>
+
             <div class="form-group row">
               <div class="input-group col-10">
                 <div class="input-group-prepend">
@@ -40,29 +41,39 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select asp-for="Project.Client_Id" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" class="form-control">
-                  <option value="" disabled>Client</option>
+                <select class="form-control" asp-items="@(new SelectList(Model.Client, "Id", "Name"))">
+                  <option value="value">text</option>
                 </select>
                 <span asp-validation-for="Project.Client_Id" class="text-danger col-12"></span>
               </div>
             </div>
-            <div class="row">
-              <div class="input-group col-2">
+
+
+            <div class="form-group row">
+              <div class="input-group col-5">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-file-text-o"></i>
+                    <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select asp-for="Project.Active" class="form-control">
-                  <option value="" disabled>Active</option>
+                <input asp-for="Project.Cost_Center_Id" class="form-control" value="0" />
+                <span asp-validation-for="Project.Cost_Center_Id" class="text-danger col-12"></span>
+              </div>
+
+              <div class="input-group col-5">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Project.Active">
+                  <option value="" disabled selected>Active</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
-                <span asp-validation-for="Project.Active" class="text-danger"></span>
+                <span asp-validation-for="Project.Active" class="text-danger col-12"></span>
               </div>
             </div>
-
-            <input type="hidden" asp-for="Project.Cost_Center_Id" value="0" />            
 
             <div class="form-group form-actions text-right col-10">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>

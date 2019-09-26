@@ -44,6 +44,7 @@ namespace CoreUI.Web.Controllers
         const string SessionEmployeeId = "_Id";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
+        Files Files;
 
         // GET: Employees
         public async Task<IActionResult> Index()
@@ -157,6 +158,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            string storage = "\\Employee\\Document\\";
 
             try
             {
@@ -172,7 +174,7 @@ namespace CoreUI.Web.Controllers
                 {
                     try
                     {
-                        ////EnviarArquivo(Document);
+                        Files.EnviarArquivo(Document, empId, storage);
                         _context.Update(employee);
                         await _context.SaveChangesAsync();
                     }
@@ -232,51 +234,6 @@ namespace CoreUI.Web.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employee.Any(e => e.Id == id);
-        }
-
-
-        public async void EnviarArquivo(IFormFile arquivos)
-        {
-            // caminho completo do arquivo na localização temporária
-            var caminhoArquivo = Path.GetTempFileName();
-
-            // processa os arquivo enviados
-            //percorre a lista de arquivos selecionados
-
-                //verifica se existem arquivos 
-                if (arquivos == null || arquivos.Length == 0)
-                {
-                    //retorna a viewdata com erro
-                    ViewData["Erro"] = "Error: Arquivo(s) não selecionado(s)";
-                }
-                // < define a pasta onde vamos salvar os arquivos >
-                string pasta = "Files";
-                // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
-                string nomeArquivo = "Usuario_arquivo_" + DateTime.Now.Millisecond.ToString();
-                //verifica qual o tipo de arquivo : jpg, gif, png, pdf ou tmp
-                if (arquivos.FileName.Contains(".jpg"))
-                    nomeArquivo += ".jpg";
-                else if (arquivos.FileName.Contains(".gif"))
-                    nomeArquivo += ".gif";
-                else if (arquivos.FileName.Contains(".png"))
-                    nomeArquivo += ".png";
-                else if (arquivos.FileName.Contains(".pdf"))
-                    nomeArquivo += ".pdf";
-                else
-                    nomeArquivo += ".tmp";
-                //< obtém o caminho físico da pasta wwwroot >
-                string caminho_WebRoot = _appEnvironment.WebRootPath;
-                // monta o caminho onde vamos salvar o arquivo : 
-                // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos
-                string caminhoDestinoArquivo = caminho_WebRoot + pasta + "\\";
-                // incluir a pasta Recebidos e o nome do arquivo enviado : 
-                // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos\
-                string caminhoDestinoArquivoOriginal = caminhoDestinoArquivo + nomeArquivo;
-                //copia o arquivo para o local de destino original
-                using (var stream = new FileStream(caminhoDestinoArquivoOriginal, FileMode.Create))
-                {
-                    await arquivos.CopyToAsync(stream);
-                }
         }
     }
 }
