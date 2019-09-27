@@ -23,17 +23,30 @@ namespace CoreUI.Web.Services
             _config = config;
         }
 
-        public async Task<List<Project_team>> FindAllAsync()
+        public async Task<List<ListProjectTeam>> FindAllAsync()
         {
 
-            var result = from obj in _context.Project_team select obj;
-            /*
+            //var result = from obj in _context.Project_team select obj;
+
+            var result = from projectTeam in _context.Project_team
+                         join project in _context.Project on projectTeam.Project_Id equals project.Id
+                         join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
+
+                         select
+                         new ListProjectTeam
+                         {
+                             Id = projectTeam.Id,
+                             Employee = employee.Name,
+                             Project = project.Project_Name,
+                             Start = projectTeam.Start_Date,
+                             End = projectTeam.End_Date
+                         };
+
             return await result
-                .Include(x => x.Employee)
-                .Include(x => x.Project)
+                .OrderBy(x => x.Project)
                 .ToListAsync();
-                */
-             return await _context.Project_team.OrderBy(x => x.Id).ToListAsync();
+
+             //return await _context.Project_team.OrderBy(x => x.Id).ToListAsync();
 
         }
     }

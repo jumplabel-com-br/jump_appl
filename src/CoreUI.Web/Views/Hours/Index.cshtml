@@ -27,6 +27,9 @@
                 <input type="search" name="searchDataTable" id="searchDataTable" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0">
               </label>
             </div>
+            <div class="text-right">
+              <label id="sum"></label>
+            </div>
             <table class="table table-responsive-sm table-bordered table-striped table-sm">
               <thead>
                 <tr>
@@ -77,10 +80,10 @@
                     <td>
                       @Html.DisplayFor(modelItem => item.Exit_Time)
                     </td>
-                    <td>
+                    <td class="totalHours">
                       @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
                     </td>
-                    <td id="Activities">
+                    <td class="Activities" title="@Html.DisplayFor(modelItem => item.Activies)">
                       @Html.DisplayFor(modelItem => item.Activies)
                     </td>
                     <td colspan="2">
@@ -118,3 +121,5 @@
     </div>
   </div>
 </div>
+
+<script src="~/js/Hour/Index.js"></script>

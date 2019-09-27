@@ -9,6 +9,9 @@ using CoreUI.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using CoreUI.Web.Services;
 using CoreUI.Web.Models.ViewModel;
+using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace CoreUI.Web.Controllers
 {
@@ -17,22 +20,26 @@ namespace CoreUI.Web.Controllers
         private readonly ApplicationDbContext _context;
         private readonly EmployeeService _employeeService;
         private readonly ProjectService _projectService;
+        private readonly ProjectTeamService _projectTeamService;
         private readonly HourService _hourService;
         private readonly AccessLevelService _accessLevelService;
         private readonly ClientService _clientService;
         IHostingEnvironment _appEnvironment;
+        private readonly IConfiguration _config;
 
 
-        public Project_teamController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, AccessLevelService accessLevel, ClientService client, IHostingEnvironment env)
+        public Project_teamController(ApplicationDbContext context, ProjectService project, ProjectTeamService projectTeam, EmployeeService employee, HourService hour, AccessLevelService accessLevel, ClientService client, IHostingEnvironment env, IConfiguration config)
         {
             _context = context;
             _context = context;
             _projectService = project;
+            _projectTeamService = projectTeam;
             _employeeService = employee;
             _hourService = hour;
             _accessLevelService = accessLevel;
             _appEnvironment = env;
             _clientService = client;
+            _config = config;
 
         }
 
@@ -46,7 +53,10 @@ namespace CoreUI.Web.Controllers
         // GET: Project_team
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Project_team.ToListAsync());
+
+            return View(await _projectTeamService.FindAllAsync());
+            //return View(await _context.Project_team.ToListAsync());
+            //return View(projectTeam);
         }
 
         // GET: Project_team/Details/5

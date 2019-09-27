@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CoreUI.Web.Models.Project_team>
+﻿@model IEnumerable<CoreUI.Web.Models.ListProjectTeam>
 
 @{
   ViewData["Title"] = "Index";
@@ -12,7 +12,7 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-edit"></i> Time Sheet
+            <i class="fa fa-edit"></i> Proejct Team
             <div class="card-header-actions">
               <a asp-action="Create">
                 <input type="hidden" asp-for="@ViewData["Email"]" />
@@ -53,46 +53,16 @@
                 {
                 <tr>
                   <td>
-                    @{
-                      int caseSwitch = item.Project_Id;
-
-                      switch (caseSwitch)
-                      {
-                        case 1:
-                          @Html.DisplayName("Escritório");
-                          break;
-                        case 2:
-                          @Html.DisplayName("Organizar Casamentos");
-                          break;
-                        case 3:
-                          @Html.DisplayName("Sompo Barramento");
-                          break;
-                        case 4:
-                          @Html.DisplayName("Krolon DBM");
-                          break;
-                        case 5:
-                          @Html.DisplayName("Bradesco DCFR");
-                          break;
-                        default:
-                          Console.WriteLine("");
-                          break;
-
-                      }
-                    }
+                    @Html.DisplayFor(modelItem => item.Project)
                   </td>
                   <td>
-                    @{
-                      if (item.Employee_Id == 1)
-                      {
-                        @Html.DisplayName("Matheus")
-                      }
-                    }
+                    @Html.DisplayFor(modelItem => item.Employee)
                   </td>
                   <td>
-                    @Html.DisplayFor(modelItem => item.Start_Date)
+                    @Html.DisplayFor(modelItem => item.Start)
                   </td>
                   <td>
-                    @Html.DisplayFor(modelItem => item.End_Date)
+                    @Html.DisplayFor(modelItem => item.End)
                   </td>
                   <td colspan="2">
                     <div class="row ml-0">
@@ -128,4 +98,6 @@
     </div>
   </div>
 </div>
+<script src="~/js/ProjectTeam/Index.js"></script>
 <script src="~/js/ProjectTeam/Create.js"></script>
+<script src="~/js/ProjectTeam/Delete.js"></script>

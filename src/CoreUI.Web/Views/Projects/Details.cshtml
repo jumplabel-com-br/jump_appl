@@ -11,7 +11,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Create Client
+          <i class="fa fa-edit"></i> Detailt Project
           <div class="card-header-actions">
             <a asp-action="Create">
               <input type="hidden" asp-for="@ViewData["Email"]" />
@@ -29,7 +29,7 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <input asp-for="Project.Project_Name" class="form-control" />
+                <input asp-for="Project.Project_Name" class="form-control" disabled />
                 <span asp-validation-for="Project.Project_Name" class="text-danger col-12"></span>
               </div>
             </div>
@@ -41,8 +41,8 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select class="form-control" asp-items="@(new SelectList(Model.Client, "Id", "Name"))">
-                  <option value="value">text</option>
+                <select class="form-control" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" disabled>
+                  <option value="">Client</option>
                 </select>
                 <span asp-validation-for="Project.Client_Id" class="text-danger col-12"></span>
               </div>
@@ -56,7 +56,7 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <input asp-for="Project.Cost_Center_Id" class="form-control" value="0" />
+                <input asp-for="Project.Cost_Center_Id" class="form-control" value="0" disabled />
                 <span asp-validation-for="Project.Cost_Center_Id" class="text-danger col-12"></span>
               </div>
 
@@ -66,7 +66,7 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select class="form-control" asp-for="Project.Active">
+                <select class="form-control" asp-for="Project.Active" disabled>
                   <option value="" disabled selected>Active</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
@@ -77,7 +77,7 @@
 
             <div class="form-group form-actions text-right col-10">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-              <button class="btn btn-sm btn-success" type="submit">Create</button>
+              <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Project.Id"><i class="fa fa-edit"></i></a>
             </div>
           </form>
         </div>

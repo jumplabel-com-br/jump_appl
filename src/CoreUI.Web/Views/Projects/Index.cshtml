@@ -46,22 +46,31 @@
               <tbody id="tbodyHour">
                 @foreach (var item in Model)
                 {
-                <tr>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Project_Name)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Active)
-                  </td>
+                  <tr>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Project_Name)
+                    </td>
+                    <td>
+                      @{
+                        if (item.Active == 1)
+                        {
+                          @Html.DisplayName("Yes")
+                        }
+                        else
+                        {
+                          @Html.DisplayName("No")
+                        }
+                      }
+                    </td>
 
-                  <td colspan="2">
-                    <div class="row ml-0">
-                      <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
-                      <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                      <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
-                    </div>
-                  </td>
-                </tr>
+                    <td colspan="2">
+                      <div class="row ml-0">
+                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
+                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                        <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
                 }
               </tbody>
             </table>
@@ -90,3 +99,4 @@
 </div>
 
 <script src="~/js/Employee/Delete.js"></script>
+<script src="~/js/Project/Index.js"></script>

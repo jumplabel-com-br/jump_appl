@@ -41,7 +41,7 @@ namespace CoreUI.Web.Models
         [Display(Name = "Activities")]
         public string Activies { get; set; }
 
-        [Display(Name = "Total Activities Hours")]
+        [Display(Name = "Total Hours")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         [Required(ErrorMessage = "{0} preencha este campo")]

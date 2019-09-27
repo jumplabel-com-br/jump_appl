@@ -110,7 +110,7 @@ namespace CoreUI.Web.Controllers
             {
                 return NotFound();
             }
-            return View(project);
+            return View(viewModel);
         }
 
         // POST: Projects/Edit/5

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace CoreUI.Web.Models
     public class Project
     {
         public int Id { get; set; }
+
+        [Display(Name = "Project")]
         public string Project_Name { get; set; }
 
         public int Client_Id { get; set; }

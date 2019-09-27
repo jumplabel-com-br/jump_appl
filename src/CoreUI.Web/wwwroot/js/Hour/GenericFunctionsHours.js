@@ -137,6 +137,11 @@ function HourSubmit() {
         return false;
     }
 
+    if (new Date($('#Hour_Date').val()) > new Date()) {
+        alert('Date field cannot be larger than today');
+        return false;
+    }
+
     if (Arrival_Time > Beginning_Of_The_Break && Beginning_Of_The_Break != '00:00' && Beginning_Of_The_Break != '') {
         alert('Hour between arrival and beginning of the break invalid because arrival is bigger than beginning od the break');
         return false;

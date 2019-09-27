@@ -19,7 +19,21 @@ namespace CoreUI.Web.Services
 
         public async Task<List<Project>> FindAllAsync()
         {
-            return await _context.Project.OrderBy(x => x.Project_Name).ToListAsync();
+            
+            var obj = from project in _context.Project select project;
+            return await obj.OrderBy(x => x.Project_Name).ToListAsync();
+            //return await _context.Project
+            //  .OrderBy(x => x.Project_Name).ToListAsync();
+        }
+
+        public async Task<List<Project>> FindPerEmployeeAsync() 
+        {
+            var obj = from project in _context.Project
+                      join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+
+                      select project;
+
+            return await obj.OrderBy(x => x.Project_Name).ToListAsync();
         }
 
     }

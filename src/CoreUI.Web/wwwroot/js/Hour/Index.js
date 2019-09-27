@@ -2,7 +2,9 @@
 $(document).ready(function () {
     $('#toast-container').hide();
 
-    $('#Activities').html().trim().length > 30 ? $('#Activities').html($('#Activities').html().trim().substr(0, 20) + ' ...') : '';
+    document.querySelectorAll('.Activities').forEach(obj => {
+        obj.innerHTML.trim().length > 30 ? obj.innerHTML = obj.innerHTML.trim().substr(0, 20) + '...' : ''
+    });
 
     $("#searchDataTable").on("keyup", function () {
         var value = $(this).val().toLowerCase();

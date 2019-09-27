@@ -11,7 +11,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Create Client
+          <i class="fa fa-edit"></i> Create Project Team
           <div class="card-header-actions">
             <a asp-action="Create">
               <input type="hidden" asp-for="Project.@ViewData["Email"]" />
@@ -29,8 +29,8 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))">
-                  <option value="value">text</option>
+                <select class="form-control" asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))">
+                  <option value="" disabled selected>Project</option>
                 </select>
                 <span asp-validation-for="Project_team.Project_Id" class="text-danger col-12"></span>
               </div>
@@ -44,7 +44,7 @@
                   </span>
                 </div>
                 <select class="form-control" asp-for="Project_team.Employee_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
-                  <option value="value">text</option>
+                  <option value="" selected disabled>Employee</option>
                 </select>
                 <span asp-validation-for="Project_team.Employee_Id" class="text-danger col-12"></span>
               </div>

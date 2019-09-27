@@ -131,7 +131,7 @@ namespace CoreUI.Web.Controllers
                     return RedirectToAction("Index", "Home", "Index");
                 }
 
-                var projects = await _projectService.FindAllAsync();
+                var projects = await _projectService.FindPerEmployeeAsync();
                 var viewModel = new HourFormViewModel { Projects = projects };
                 return View(viewModel);
             }
@@ -167,7 +167,7 @@ namespace CoreUI.Web.Controllers
 
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
-                    var projects = await _projectService.FindAllAsync();
+                    var projects = await _projectService.FindPerEmployeeAsync();
                     var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
 
                     return View(viewModel);
@@ -219,7 +219,7 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
-                var projects = await _projectService.FindAllAsync();
+                var projects = await _projectService.FindPerEmployeeAsync();
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
 
                 return View(viewModel);
