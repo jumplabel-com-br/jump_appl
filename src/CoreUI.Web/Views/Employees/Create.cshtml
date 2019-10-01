@@ -40,7 +40,7 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <input asp-for="Employee.Name" class="form-control" placeholder="Full Name" />
+                <input asp-for="Employee.Name" class="form-control" placeholder="Nome Completo" />
                 <span asp-validation-for="Employee.Name" class="text-danger col-12"></span>
               </div>
             </div>
@@ -52,7 +52,8 @@
                     <i class="fa fa-file-text"></i>
                   </span>
                 </div>
-                <input type="file" multiple="" asp-for="Employee.Document" class="mt-1 ml-1">  
+                <input type="file" name="Document" id="Document" class="mt-1 ml-1">
+                <input type="hidden" asp-for="Employee.Document" />
                 <span asp-validation-for="Employee.Document" class="text-danger"></span>
               </div>
 
@@ -62,7 +63,7 @@
                     <i class="fa fa-file-text-o"></i>
                   </span>
                 </div>
-                <input asp-for="Employee.Contract_Mode" class="form-control" placeholder="Contract Mode" />
+                <input asp-for="Employee.Contract_Mode" class="form-control" placeholder="Modo de contrato" />
                 <span asp-validation-for="Employee.Contract_Mode" class="text-danger"></span>
               </div>
 
@@ -84,7 +85,7 @@
                     <i class="icon-lock"></i>
                   </span>
                 </div>
-                <input type="password" asp-for="Employee.Password" class="form-control" placeholder="Password" />
+                <input type="password" asp-for="Employee.Password" class="form-control" placeholder="Senha" />
                 <span asp-validation-for="Employee.Password" name="employee_password" id="employee_password" class="text-danger col-12">Password invalid</span>
               </div>
 
@@ -95,7 +96,7 @@
                   </span>
                 </div>
                 <select asp-for="Employee.Appointment" class="form-control">
-                  <option value="">Appointment</option>
+                  <option value="">Compromisso</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -111,7 +112,7 @@
                   </span>
                 </div>
                 <select asp-for="Employee.Access_LevelId" asp-items="@(new SelectList(Model.Access_Level, "Id", "Access_level"))" class="form-control">
-                  <option value="">Access Level</option>
+                  <option value="" disabled selected>Nível de acesso</option>
                 </select>
                 <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
               </div>
@@ -122,21 +123,12 @@
 
 
             <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="EmployeeSubmit();">Create</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="EmployeeSubmit();">Criar</button>
             </div>
           </form>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div id="toast-container" class="toast-top-center" style="display:none;">
-  <div class="toast toast-info" aria-live="polite">
-    <div class="toast-title">Saved</div>
-    <div class="toast-message">
-      Saved successfully
     </div>
   </div>
 </div>
@@ -148,30 +140,7 @@
     display: none;
   }
 </style>
-
-<script>
-  function EmployeeSubmit() {
-
-    $('#employee_salary').hide();
-    $('#employee_appointment').hide();
-    $('#employee_password').hide();
-
-    if ($('#Salary').val() == '') {
-      $('#Salary').focus();
-      $('#employee_salary').show();
-      return;
-    }
-
-    if ($('#Appointment').val() == '') {
-      $('#Appointment').focus();
-      $('#employee_appointment').show();
-      return;
-    }
-
-    $('#toast-container').toggle();
-    $('#EmployeeForm').submit();
-  }
-</script>
+<script src="~/js/Employee/Generic.js"></script>
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -12,7 +12,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-            <i class="fa fa-edit"></i> Time Sheet
+            <i class="fa fa-edit"></i> Lançamento de hora
             <div class="card-header-actions">
               <a asp-action="Create">
                 <input type="hidden" asp-for="@ViewData["Email"]" />
@@ -24,20 +24,20 @@
         <div class="card-body">
           <form id="HoursForm" asp-action="Create">
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
                 <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id)">
-                  <option value="">Choose your Project</option>
+                  <option value="">Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
               </div>
             </div>
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -49,7 +49,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-2 clockpicker">
+              <div class="input-group col-2" title="Hora de entrada">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -59,7 +59,7 @@
                 <span asp-validation-for="Hour.Arrival_Time" name="hour_arrival_time" id="hour_arrival_time" class="text-danger text-danger-span col-12">Arrival time invalid</span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Pausa para o almoço">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -69,7 +69,7 @@
                 <span asp-validation-for="Hour.Beginning_Of_The_Break" name="hour_beginning_of_the_break" id="hour_beginning_of_the_break" class="text-danger text-danger-span col-12">Beginning of the break invalid</span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Volta do almoço">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -79,7 +79,7 @@
                 <span asp-validation-for="Hour.End_Of_The_Break" name="hour_end_of_the_break" id="hour_end_of_the_break" class="text-danger text-danger-span col-12">End of the break invalid</span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Hora de saída">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -89,7 +89,7 @@
                 <span asp-validation-for="Hour.Exit_Time" name="hour_exit_time" id="hour_exit_time" class="text-danger text-danger-span col-12">Stop time invalid</span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Total de horas">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -101,13 +101,13 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Atividades">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-list-ul"></i>
                   </span>
                 </div>
-                <textarea asp-for="Hour.Activies" class="form-control" style="height: 100px;"></textarea>
+                <textarea asp-for="Hour.Activies" class="form-control" style="height: 100px;" placeholder="Atividades"></textarea>
                 <span asp-validation-for="Hour.Activies" name="hour_activies" id="hour_activies" class="text-danger text-danger-span text-danger-span col-12">Activities invalid</span>
               </div>
             </div>
@@ -135,21 +135,12 @@
             <input type="hidden" class="form-control" asp-for="Hour.Employee_Id" value="@ViewBag.Id" />
 
             <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();">Create</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();">Criar</button>
             </div>
           </form>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div id="toast-container" class="toast-top-center" style="display:none;">
-  <div class="toast toast-info" aria-live="polite">
-    <div class="toast-title">Saved</div>
-    <div class="toast-message">
-      Saved successfully
     </div>
   </div>
 </div>

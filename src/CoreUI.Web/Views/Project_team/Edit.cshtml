@@ -11,7 +11,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Edit Project Team
+          <i class="fa fa-edit"></i> Editar equipe do projeto
           <div class="card-header-actions">
             <a asp-action="Create">
               <input type="hidden" asp-for="Project.@ViewData["Email"]" />
@@ -21,51 +21,51 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="projectForm" asp-action="Edit">
+          <form id="projectTeamForm" asp-action="Edit">
             <input type="hidden" asp-for="Project_team.Id" />
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
                 <select asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))" class="form-control">
-                  <option value="" disabled>Project</option>
+                  <option value="" disabled>Projeto</option>
                 </select>
                 <span asp-validation-for="Project_team.Project_Id" class="text-danger col-12"></span>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
                 <select class="form-control" asp-for="Project_team.Employee_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
-                  <option value="" disabled>Employee</option>
+                  <option value="" disabled>Funcionário</option>
                 </select>
                 <span asp-validation-for="Project_team.Employee_Id" class="text-danger col-12"></span>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-5">
+              <div class="input-group col-5" title="Data de início">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user-circle"></i>
+                    <i class="fa fa-calendar"></i>
                   </span>
                 </div>
                 <input asp-for="Project_team.Start_Date" class="form-control" />
                 <span asp-validation-for="Project_team.Start_Date" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-5">
+              <div class="input-group col-5" title="Data de término">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user-circle"></i>
+                    <i class="fa fa-calendar"></i>
                   </span>
                 </div>
                 <input asp-for="Project_team.End_Date" class="form-control" />
@@ -74,8 +74,8 @@
             </div>
 
             <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-              <button class="btn btn-sm btn-success" type="submit">Create</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="projectTeamSubmit();">Salvar</button>
             </div>
           </form>
         </div>
@@ -84,15 +84,7 @@
   </div>
 </div>
 
-<div id="toast-container" class="toast-top-center" style="display:none;">
-  <div class="toast toast-info" aria-live="polite">
-    <div class="toast-title">Saved</div>
-    <div class="toast-message">
-      Saved successfully
-    </div>
-  </div>
-</div>
-
+<script src="~/js/ProjectTeam/Generic.js"></script>
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -12,6 +12,7 @@ using CoreUI.Web.Models.ViewModel;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreUI.Web.Controllers
 {
@@ -48,13 +49,29 @@ namespace CoreUI.Web.Controllers
         const string SessionEmployeeId = "_Id";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
-        Files Files;
+        //Files Files;
 
         // GET: Project_team
         public async Task<IActionResult> Index()
         {
+            GetSessions();
 
-            return View(await _projectTeamService.FindAllAsync());
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                return View(await _projectTeamService.FindAllAsync());
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+
+
             //return View(await _context.Project_team.ToListAsync());
             //return View(projectTeam);
         }
@@ -62,32 +79,66 @@ namespace CoreUI.Web.Controllers
         // GET: Project_team/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            GetSessions();
+
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project_team = await _context.Project_team.FindAsync(id);
+                var employee = await _employeeService.FindAllAsync();
+                var project = await _projectService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
+
+                if (project_team == null)
+                {
+                    return NotFound();
+                }
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
             }
 
-            var project_team = await _context.Project_team.FindAsync(id);
-            var employee = await _employeeService.FindAllAsync();
-            var project = await _projectService.FindAllAsync();
-            var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
 
-            if (project_team == null)
-            {
-                return NotFound();
-            }
-
-            return View(viewModel);
         }
 
         // GET: Project_team/Create
         public async Task<IActionResult> Create()
         {
-            var employee = await _employeeService.FindAllAsync();
-            var project = await _projectService.FindAllAsync();
-            var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee };
+            GetSessions();
 
-            return View(viewModel);
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                var employee = await _employeeService.FindAllAsync();
+                var project = await _projectService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee };
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+
+
         }
 
         // POST: Project_team/Create
@@ -97,34 +148,66 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Project_Id,Employee_Id,Start_Date,End_Date")] Project_team project_team)
         {
-            if (ModelState.IsValid)
+            GetSessions();
+
+            try
             {
-                _context.Add(project_team);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(project_team);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(project_team);
             }
-            return View(project_team);
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+
+
         }
 
         // GET: Project_team/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            var project_team = await _context.Project_team.FindAsync(id);
-            var employee = await _employeeService.FindAllAsync();
-            var project = await _projectService.FindAllAsync();
-            var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
-
-            
-            if (project_team == null)
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project_team = await _context.Project_team.FindAsync(id);
+                var employee = await _employeeService.FindAllAsync();
+                var project = await _projectService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
+
+
+                if (project_team == null)
+                {
+                    return NotFound();
+                }
+                return View(viewModel);
             }
-            return View(viewModel);
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: Project_team/Edit/5
@@ -134,50 +217,84 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Project_Id,Employee_Id,Start_Date,End_Date")] Project_team project_team)
         {
-            if (id != project_team.Id)
+            GetSessions();
+
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (id != project_team.Id)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(project_team);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!Project_teamExists(project_team.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            return RedirectToAction("Error", "Home");
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(project_team);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(project_team);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!Project_teamExists(project_team.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(project_team);
+
         }
 
         // GET: Project_team/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            GetSessions();
+
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project_team = await _context.Project_team
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (project_team == null)
+                {
+                    return NotFound();
+                }
+
+                return View(project_team);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
             }
 
-            var project_team = await _context.Project_team
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (project_team == null)
-            {
-                return NotFound();
-            }
 
-            return View(project_team);
         }
 
         // POST: Project_team/Delete/5
@@ -185,10 +302,39 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var project_team = await _context.Project_team.FindAsync(id);
-            _context.Project_team.Remove(project_team);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            GetSessions();
+
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                var project_team = await _context.Project_team.FindAsync(id);
+                _context.Project_team.Remove(project_team);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+        public void GetSessions()
+        {
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
         }
 
         private bool Project_teamExists(int id)

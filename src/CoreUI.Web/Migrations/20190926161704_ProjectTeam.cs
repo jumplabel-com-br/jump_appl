@@ -24,6 +24,7 @@ namespace CoreUI.Web.Migrations
                     table.PrimaryKey("PK_Project_team", x => x.Id);
                 });
 
+            /*
             migrationBuilder.AddForeignKey(
                 name: "FK_Employee_Access_Level_Access_LevelId",
                 table: "Employee",
@@ -31,13 +32,16 @@ namespace CoreUI.Web.Migrations
                 principalTable: "Access_Level",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+                */
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.DropForeignKey(
                 name: "FK_Employee_Access_Level_Access_LevelId",
                 table: "Employee");
+            */
 
             migrationBuilder.DropTable(
                 name: "Project_team");

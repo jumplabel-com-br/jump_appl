@@ -10,45 +10,43 @@ namespace CoreUI.Web.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Projeto")]
         public string Project { get; set; }
 
-        [Display(Name = "Date")]
+        [Display(Name = "Data")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessage = "{0} requerid")]
         public DateTime Date { get; set; }
 
-        [Display(Name = "Start Time")]
+
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public TimeSpan Start_Time { get; set; }
 
-        [Display(Name = "Stop Time")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public TimeSpan Stop_Time { get; set; }
 
-        [Display(Name = "Start Time")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public TimeSpan Start_Time_2 { get; set; }
 
-        [Display(Name = "Stop Time")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public TimeSpan Stop_Time_2 { get; set; }
 
-        [Display(Name = "Activities")]
+        [Display(Name = "Atividades")]
         public string Activies { get; set; }
 
-        [Display(Name = "Total Hours")]
+        [Display(Name = "Total de horas")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         [Required(ErrorMessage = "{0} preencha este campo")]
         public TimeSpan Total_Activies_Hours { get; set; }
         public string Consultant { get; set; }
 
-        [Display(Name = "Creation Date")]
+        [Display(Name = "Data de Criação")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Creation_Date { get; set; }
@@ -60,27 +58,27 @@ namespace CoreUI.Web.Models
         public int Employee_Id { get; set; }
 
 
-        [Display(Name = "Arrival Time")]
+        [Display(Name = "Hora de entrada")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public DateTime Arrival_Time { get; set; }
 
-        [Display(Name = "Beginnig Of The Break")]
+        [Display(Name = "Pausa para o almoço")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public DateTime Beginning_Of_The_Break { get; set; }
 
-        [Display(Name = "End Of The Break")]
+        [Display(Name = "Volta do almoço")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public DateTime End_Of_The_Break { get; set; }
 
-        [Display(Name = "Exit Time")]
+        [Display(Name = "Hora de saída")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public DateTime Exit_Time { get; set; }
 
-        [Display(Name = "Total Hours In Activity")]
+        [Display(Name = "Total de horas")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public DateTime Total_Hours_In_Activity { get; set; }

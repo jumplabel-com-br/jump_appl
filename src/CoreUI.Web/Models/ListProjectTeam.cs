@@ -9,12 +9,18 @@ namespace CoreUI.Web.Models
     public class ListProjectTeam
     {
         public int Id { get; set; }
+
+        [Display(Name = "Funcionário")]
         public string Employee { get; set; }
+
+        [Display(Name = "Projeto")]
         public string Project { get; set; }
 
+        [Display(Name = "Data de início")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Start { get; set; }
 
+        [Display(Name = "Data de término")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime End { get; set; }
     }

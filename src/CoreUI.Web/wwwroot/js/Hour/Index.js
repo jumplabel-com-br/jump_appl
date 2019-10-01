@@ -7,14 +7,61 @@ $(document).ready(function () {
     });
 
     $("#searchDataTable").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
+        var value = $(this).val();
         $("#tbodyHour tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            SumTotalHours();
         });
     });
+
+    $("#searchMothDataTable").on("change", function () {
+        var value = $(this).val() != '' ? $(this).val() + '/' + new Date().getFullYear() : '';
+        $("#tbodyHour tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            SumTotalHours();
+        });
+    });
+
+    $('#searchMothDataTable').val(new Date().getMonth());
+
+    let value = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
+    $("#tbodyHour tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        SumTotalHours();
+    });
+
+    SumTotalHours();
 });
 
-function fn_showMessageDelete(id) {
-    $('#IdDelete').val(id);
-    $('#toast-container').toggle();
+function SumTotalHours() {
+
+    let hours = 0;
+    let minutes = 0;
+
+
+    document.querySelectorAll("#tbodyHour tr").forEach((teste, item) => {
+        if (teste.style.display == 'none') {
+            document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = 'none'
+        } else {
+            document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = ''
+        }
+    }); 
+
+    document.querySelectorAll('.totalHours').forEach(obj => {
+        if (obj.style.display != 'none') {
+            hours += new Date('1999-01-01 ' + obj.textContent.trim()).getHours();
+            minutes += new Date('1999-01-01 ' + obj.textContent.trim()).getMinutes();
+        }
+    });
+
+    for (var i = minutes; minutes > 60; i++) {
+        hours += 1
+        minutes -= 60
+    }
+
+    hours < 10 ? hours = '0' + hours : '';
+    minutes < 10 ? minutes = '0' + minutes : '';
+
+    $('#TotalOfSumHours').val(hours+':'+minutes)
+
 }

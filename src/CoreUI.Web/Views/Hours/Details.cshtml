@@ -10,7 +10,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Time Sheet
+          <i class="fa fa-edit"></i> Detalhe do lançamento
           <div class="card-header-actions">
             <a asp-action="Create">
               <input type="hidden" asp-for="@ViewData["Email"]" />
@@ -24,7 +24,7 @@
             <input type="hidden" asp-for="Id" />
 
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -48,8 +48,7 @@
             </div>
 
             <div class="form-group row">
-
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Hora de entrada">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -59,7 +58,7 @@
                 <span asp-validation-for="Start_Time" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Pausa para o almoço">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -69,7 +68,7 @@
                 <span asp-validation-for="Stop_Time" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Volta do almoço">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -79,7 +78,7 @@
                 <span asp-validation-for="Start_Time_2" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Hora de saída">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -89,7 +88,7 @@
                 <span asp-validation-for="Stop_Time_2" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Total de horas">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-clock-o"></i>
@@ -101,13 +100,13 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Atividades">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-list-ul"></i>
                   </span>
                 </div>
-                <textarea asp-for="Activies" class="form-control" placeholder="Activities" style="height:100px;" readonly></textarea>
+                <textarea asp-for="Activies" class="form-control" placeholder="Atividades" style="height:100px;" readonly></textarea>
                 <span asp-validation-for="Activies" class="text-danger col-12"></span>
               </div>
             </div>
@@ -119,9 +118,9 @@
             <div class="form-group form-actions text-right">
               <div class="col-10">
                 <form asp-action="Delete">
-                  <button type="submit" class="btn btn-warning" asp-action="Index">Back to list</button>
+                  <button type="submit" class="btn btn-warning" asp-action="Index">Voltar</button>
                   <input type="hidden" asp-for="Id" />
-                  <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                  <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
 
                 </form>
               </div>

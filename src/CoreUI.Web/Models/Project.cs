@@ -10,11 +10,13 @@ namespace CoreUI.Web.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Project")]
+        [Display(Name = "Projeto")]
         public string Project_Name { get; set; }
 
         public int Client_Id { get; set; }
         public long Cost_Center_Id { get; set; }
+        
+        [Display(Name = "Ativo")]
         public int Active { get; set; }
 
         public Project()

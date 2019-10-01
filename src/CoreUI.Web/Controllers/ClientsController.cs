@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreUI.Web.Controllers
 {
@@ -18,34 +19,85 @@ namespace CoreUI.Web.Controllers
             _context = context;
         }
 
+        const string SessionEmail = "_Email";
+        const string SessionName = "_Name";
+        const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
+        const string SessionInvalid = "false";
+        const string SessionExpired = "false";
+
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Client.ToListAsync());
+            GetSessions();
+
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                return View(await _context.Client.ToListAsync());
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            var client = await _context.Client
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
+            try
             {
-                return NotFound();
-            }
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
 
-            return View(client);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var client = await _context.Client
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (client == null)
+                {
+                    return NotFound();
+                }
+
+                return View(client);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: Clients/Create
         public IActionResult Create()
         {
-            return View();
+            GetSessions();
+
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                return View();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         // POST: Clients/Create
@@ -55,29 +107,60 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Client client)
         {
-            if (ModelState.IsValid)
+            GetSessions();
+
+            try
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(client);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(client);
             }
-            return View(client);
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            var client = await _context.Client.FindAsync(id);
-            if (client == null)
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var client = await _context.Client.FindAsync(id);
+                if (client == null)
+                {
+                    return NotFound();
+                }
+                return View(client);
+
             }
-            return View(client);
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: Clients/Edit/5
@@ -87,50 +170,80 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Client client)
         {
-            if (id != client.Id)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (ViewBag.Email == null)
                 {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
+                    return ExpiredSession();
                 }
-                catch (DbUpdateConcurrencyException)
+
+
+                if (id != client.Id)
                 {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(client);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ClientExists(client.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(client);
             }
-            return View(client);
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            var client = await _context.Client
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
+            try
             {
-                return NotFound();
-            }
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
 
-            return View(client);
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var client = await _context.Client
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (client == null)
+                {
+                    return NotFound();
+                }
+
+                return View(client);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: Clients/Delete/5
@@ -138,10 +251,39 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Client.FindAsync(id);
-            _context.Client.Remove(client);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            GetSessions();
+
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                var client = await _context.Client.FindAsync(id);
+                _context.Client.Remove(client);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
+        }
+
+        public void GetSessions()
+        {
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
         }
 
         private bool ClientExists(int id)

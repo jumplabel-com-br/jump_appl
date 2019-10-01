@@ -49,19 +49,13 @@
               </div>
 
               <div class="col-4 text-center">
-                @{
-                  if (ViewBag.AcessLevel == 1 || ViewBag.AcessLevel == 2)
-                  {
-                    <form id="modeAdmin" asp-action="ModeAdmin">
-                      <label class="switch switch-pill switch-label switch-outline-primary-alt" title="Modo Administrador">
-                        <input type="checkbox" class="switch-input" onclick="$('#modeAdmin').submit();$('.modalSpinner').modal('show');">
-                        <span class="switch-slider mt-3" data-checked="On" data-unchecked="Off"></span>
-                      </label>
-                    </form>
-                  }
-                }
+                <form id="modeAdmin" asp-action="Index">
+                  <label class="switch switch-pill switch-label switch-outline-primary-alt" title="Modo Administrador">
+                    <input type="checkbox" class="switch-input" onclick="$('#modeAdmin').submit();$('.modalSpinner').modal('show');" checked>
+                    <span class="switch-slider mt-3" data-checked="On" data-unchecked="Off"></span>
+                  </label>
+                </form>
               </div>
-
 
               <div class="col-4 text-right">
                 <label class="text-left">
@@ -76,7 +70,12 @@
             <table class="table table-responsive-sm table-bordered table-striped table-sm">
               <thead>
                 <tr>
-                  <th>@Html.DisplayNameFor(model => model.Project)</th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Consultant)
+                  </th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Project)
+                  </th>
                   <th>
                     @Html.DisplayNameFor(model => model.Date)
                   </th>
@@ -107,7 +106,12 @@
                 @foreach (var item in Model)
                 {
                   <tr>
-                    <th>@Html.DisplayFor(modelItem => item.Project)</th>
+                    <th>
+                      @Html.DisplayFor(modelItem => item.Consultant)
+                    </th>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Project)
+                    </td>
                     <td class="DatesMonth">
                       @Html.DisplayFor(modelItem => item.Date)
                     </td>

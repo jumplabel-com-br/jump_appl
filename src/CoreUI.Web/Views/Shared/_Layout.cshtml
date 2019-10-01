@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 * CoreUI - Free Bootstrap Admin Template
 * @@version v2.0.0
@@ -16,7 +15,7 @@
   <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
   <meta name="author" content="Łukasz Holeczek">
   <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-  <title>CoreUI Free Bootstrap Admin Template</title>
+  <title>Jump</title>
   <!-- Icons-->
   <link href="~/lib/@@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
   <link href="~/lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
@@ -26,6 +25,7 @@
   <link href="~/css/style.css" rel="stylesheet">
   <link href="~/vendors/pace-progress/css/pace.min.css" rel="stylesheet">
   <link href="~/css/toastr.css" rel="stylesheet" />
+  <link href="~/css/spinkit.min.css" rel="stylesheet" />
 
   <!-- Bootstrap and necessary plugins-->
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -38,7 +38,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-      <img class="navbar-brand-full" src="~/images/brand/logoJump.png" width="89" height="25" alt="CoreUI Logo">
+      <img class="navbar-brand-full" src="~/images/brand/logoJump.png" width="89" height="25" alt="Jump Logo">
       <img class="navbar-brand-minimized" src="~/images/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
     <!--
@@ -51,7 +51,7 @@
         <a class="nav-link biHome" onclick="ActiveLinck()" asp-action="Index">Home</a>
       </li>
       <li class="nav-item px-3">
-        <a class="nav-link biHourCreate" onclick="ActiveLinck()" asp-action="Create">Create</a>
+        <a class="nav-link biHourCreate" onclick="ActiveLinck()" asp-action="Create">Criar</a>
       </li>
       <!--
       <li class="nav-item px-3">
@@ -85,80 +85,70 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <!--
-  <div class="dropdown-header text-center">
-    <strong>Account</strong>
-  </div>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-bell-o"></i> Updates
-    <span class="badge badge-info">42</span>
-  </a>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-envelope-o"></i> Messages
-    <span class="badge badge-success">42</span>
-  </a>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-tasks"></i> Tasks
-    <span class="badge badge-danger">42</span>
-  </a>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-comments"></i> Comments
-    <span class="badge badge-warning">42</span>
-  </a>
-
           <div class="dropdown-header text-center">
-            <strong>Settings</strong>
+            <strong>Account</strong>
           </div>
-          
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-user"></i> Profile
-  </a>
-  -->
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-bell-o"></i> Updates
+            <span class="badge badge-info">42</span>
+          </a>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-envelope-o"></i> Messages
+            <span class="badge badge-success">42</span>
+          </a>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-tasks"></i> Tasks
+            <span class="badge badge-danger">42</span>
+          </a>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-comments"></i> Comments
+            <span class="badge badge-warning">42</span>
+          </a>
 
-          <a class="dropdown-item" asp-controller="Employees" asp-action="Index">
-            <i class="fa fa-users"></i> Employees
+                  <div class="dropdown-header text-center">
+                    <strong>Settings</strong>
+                  </div>
+
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-user"></i> Profile
+          </a>
+          -->
+
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Employees" asp-action="Index">
+            <i class="fa fa-users"></i> Funcionários
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
           <a class="dropdown-item" asp-controller="Hours" asp-action="Index">
-            <i class="fa fa-clock-o"></i> Hours
+            <i class="fa fa-clock-o"></i> Horas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item" asp-controller="Clients" asp-action="Index">
-            <i class="fa fa-user"></i> Client
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Clients" asp-action="Index">
+            <i class="fa fa-user"></i> Clientes
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item" asp-controller="Project_team" asp-action="Index">
-            <i class="fa fa-paste"></i> Project Team
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Project_team" asp-action="Index">
+            <i class="fa fa-paste"></i> Equipes de projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <!--
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-wrench"></i> Settings
-  </a>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-usd"></i> Payments
-    <span class="badge badge-secondary">42</span>
-  </a>
-   -->
-
-          <a class="dropdown-item" asp-controller="Projects">
-            <i class="fa fa-file"></i> Projects
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects">
+            <i class="fa fa-file"></i> Projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
           <!--
-  <div class="divider"></div>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-shield"></i> Lock Account
-  </a>
-  -->
+          <div class="divider"></div>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-shield"></i> Lock Account
+          </a>
+          -->
 
           <form asp-controller="Home" asp-action="Logoff" class="text-center">
             <button class="btn btn-ghost-danger btn-sm" type="submit" value="Logoff">
-              <i class="fa fa-lock"></i> Logout
+              <i class="fa fa-power-off"></i> Sair
             </button>
           </form>
 
@@ -180,6 +170,14 @@
 
   <partial name="_CookieConsentPartial" />
 
+  <div class="modalSpinner modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="sk-wandering-cubes">
+          <div class="sk-cube sk-cube1"></div>
+          <div class="sk-cube sk-cube2"></div>
+        </div>
+    </div>
+  </div>
 
   <div class="app-body">
 
@@ -199,6 +197,32 @@
   <!-- VIEW-SCRIPTS -->
   @RenderSection("Scripts", required: false)
   <!-- /VIEW-SCRIPTS -->
+
+
+  <div id="toast-container-saved" class="toast-top-center" style="display:none;">
+    <div class="toast toast-info" aria-live="polite">
+      <div class="toast-title">Saved</div>
+      <div class="toast-message">
+        Salvo com sucesso
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-top-center" style="display:none;">
+    <div class="toast toast-info" aria-live="polite">
+      <div class="toast-title">Delete</div>
+      <div class="toast-message">
+        Deseja realmente deletar este item?
+        <br><br>
+        <form asp-action="Delete">
+          <input type="hidden" name="Id" id="IdDelete" /> <!--Name is 'Id' because bind between database and programming through of name -->
+          <button type="submit" class="btn btn-success">Sim</button>
+          <button type="button" class="btn btn-danger" onclick="$('#toast-container').toggle();" style="margin-left: 50%">Não</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
   <aside class="aside-menu">
     <ul class="nav nav-tabs" role="tablist">
@@ -263,7 +287,7 @@
               <i class="icon-calendar"></i>  10 - 11pm
             </small>
             <small class="text-muted">
-              <i class="icon-home"></i>  creativeLabs HQ
+              <i class="icon-home"></i>
             </small>
             <div class="avatars-stack mt-2">
               <div class="avatar avatar-xs">
@@ -503,7 +527,7 @@
   <footer class="app-footer">
     <div>
       <a href="https://jumplabel.com.br">Jump Label Solutions</a>
-      <span>&copy; 2019 creative Labs.</span>
+      <span>&copy; 2019.</span>
     </div>
     <div class="ml-auto">
       <span>Powered by</span>
@@ -520,8 +544,10 @@
   <script src="~/js/Hour/GenericFunctionsHours.js"></script>
   <script>
     $(document).ready(function () {
-      ActiveLinck()
+      ActiveLinck();
     });
+    $('.modalSpinner').modal('hide');
+    $('.modalSpinner').hide();
   </script>
 </body>
 </html>

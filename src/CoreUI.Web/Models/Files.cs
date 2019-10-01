@@ -14,10 +14,8 @@ namespace CoreUI.Web.Models
 
         IHostingEnvironment _appEnvironment;
 
-
         public Files(ApplicationDbContext context, IHostingEnvironment env)
         {
-            _context = context;
             _context = context;
             _appEnvironment = env;
 
@@ -32,16 +30,18 @@ namespace CoreUI.Web.Models
             //percorre a lista de arquivos selecionados
 
             //verifica se existem arquivos 
+            /*
             if (Document == null || Document.Length == 0)
             {
                 //retorna a viewdata com erro
                 string Error = "Error: Arquivo(s) não selecionado(s)";
             }
+            */
 
             // < define a pasta onde vamos salvar os arquivos >
             string pasta = "Files";
             // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
-            string nomeArquivo = DateTime.Now.ToString() + "_" + id + "_" + Document.FileName;
+            string nomeArquivo = DateTime.Now.ToString().Replace('/', '-').Replace(':', '&') + "_" + id + "_" + Document.FileName;
             //verifica qual o tipo de arquivo : jpg, gif, png, pdf ou tmp
             if (Document.FileName.Contains(".jpg"))
                 nomeArquivo += ".jpg";

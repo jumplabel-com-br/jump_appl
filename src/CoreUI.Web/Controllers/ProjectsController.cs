@@ -9,6 +9,7 @@ using CoreUI.Web.Models;
 using CoreUI.Web.Services;
 using Microsoft.AspNetCore.Hosting;
 using CoreUI.Web.Models.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreUI.Web.Controllers
 {
@@ -41,41 +42,86 @@ namespace CoreUI.Web.Controllers
         const string SessionEmployeeId = "_Id";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
-        Files Files;
 
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Project.ToListAsync());
+            GetSessions();
+
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                return View(await _context.Project.ToListAsync());
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            GetSessions();
+
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project = await _context.Project.FindAsync(id);
+                var client = await _clientService.FindAllAsync();
+                var viewModel = new ProjectFormViewModel { Client = client, Project = project };
+
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
             }
 
-            var project = await _context.Project.FindAsync(id);
-            var client = await _clientService.FindAllAsync();
-            var viewModel = new ProjectFormViewModel { Client = client, Project = project };
-
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            return View(viewModel);
         }
 
         // GET: Projects/Create
         public async Task<IActionResult> Create()
         {
-            var client = await _clientService.FindAllAsync();
-            var viewModel = new ProjectFormViewModel { Client = client};
+            GetSessions();
 
-            return View(viewModel);
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                var client = await _clientService.FindAllAsync();
+                var viewModel = new ProjectFormViewModel { Client = client };
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: Projects/Create
@@ -85,32 +131,62 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Project_Name,Client_Id,Cost_Center_Id,Active")] Project project)
         {
-            if (ModelState.IsValid)
+            GetSessions();
+
+            try
             {
-                _context.Add(project);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(project);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(project);
             }
-            return View(project);
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: Projects/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            var project = await _context.Project.FindAsync(id);
-            var client = await _clientService.FindAllAsync();
-            var viewModel = new ProjectFormViewModel { Client = client, Project = project };
-
-            if (project == null)
+            try
             {
-                return NotFound();
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project = await _context.Project.FindAsync(id);
+                var client = await _clientService.FindAllAsync();
+                var viewModel = new ProjectFormViewModel { Client = client, Project = project };
+
+                if (project == null)
+                {
+                    return NotFound();
+                }
+                return View(viewModel);
             }
-            return View(viewModel);
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: Projects/Edit/5
@@ -120,50 +196,80 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Project_Name,Client_Id,Cost_Center_Id,Active")] Project project)
         {
-            if (id != project.Id)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (ViewBag.Email == null)
                 {
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
+                    return ExpiredSession();
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if (id != project.Id)
                 {
-                    if (!ProjectExists(project.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(project);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ProjectExists(project.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(project);
             }
-            return View(project);
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: Projects/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            GetSessions();
 
-            var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (project == null)
+            try
             {
-                return NotFound();
-            }
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
 
-            return View(project);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var project = await _context.Project
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                return View(project);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: Projects/Delete/5
@@ -171,11 +277,42 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var project = await _context.Project.FindAsync(id);
-            _context.Project.Remove(project);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            GetSessions();
+
+            try
+            {
+                if (ViewBag.Email == null)
+                {
+                    return ExpiredSession();
+                }
+
+                var project = await _context.Project.FindAsync(id);
+                _context.Project.Remove(project);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
         }
+
+        public void GetSessions()
+        {
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
+        }
+
 
         private bool ProjectExists(int id)
         {

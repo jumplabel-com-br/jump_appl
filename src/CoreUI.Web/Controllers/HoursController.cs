@@ -38,31 +38,29 @@ namespace CoreUI.Web.Controllers
         const string SessionEmail = "_Email";
         const string SessionName = "_Name";
         const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
 
         public async Task<IActionResult> Index()
         {
-           
+
             try
             {
-                ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-                ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-                ViewBag.Name = HttpContext.Session.GetString(SessionName);
+                GetSessions();
                 int empId = ViewBag.Id;
+
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
-                var result = await _hourService.FindAllAsync(ViewBag.Id);
+                var result = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id);
                 return View(result);
 
             }
             catch (Exception)
             {
-
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -77,17 +75,14 @@ namespace CoreUI.Web.Controllers
         // GET: Hours/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            GetSessions();
 
             try
             {
                 int empId = ViewBag.Id;
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
                 if (id == null)
@@ -106,9 +101,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
+                return RedirectToAction("Error", "Home");
             }
 
         }
@@ -117,9 +110,7 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> Create()
         {
 
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            GetSessions();
 
             try
             {
@@ -127,8 +118,7 @@ namespace CoreUI.Web.Controllers
 
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
                 var projects = await _projectService.FindPerEmployeeAsync();
@@ -137,9 +127,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
-
+                return RedirectToAction("Error", "Home");
             }
 
         }
@@ -151,18 +139,14 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Hour hour)
         {
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
-
+            GetSessions();
 
             try
             {
                 int empId = ViewBag.Id;
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
@@ -178,9 +162,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
+                return RedirectToAction("Error", "Home");
             }
 
 
@@ -199,9 +181,7 @@ namespace CoreUI.Web.Controllers
         // GET: Hours/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            GetSessions();
 
             try
             {
@@ -209,8 +189,7 @@ namespace CoreUI.Web.Controllers
 
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
                 if (id == null)
@@ -226,9 +205,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
+                return RedirectToAction("Error", "Home");
             }
 
 
@@ -258,25 +235,21 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Hour hour)
         {
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            GetSessions();
 
             try
             {
                 int empId = ViewBag.Id;
                 if (ViewBag.Email == null)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        _context.Update(hour);
-                        await _context.SaveChangesAsync();
+                        await _hourService.UpdateAsync(hour);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -295,9 +268,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
+                return RedirectToAction("Error", "Home");
             }
 
         }
@@ -309,17 +280,14 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
-            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            GetSessions();
 
             try
             {
                 int empId = ViewBag.Id;
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
-                    HttpContext.Session.SetString(SessionExpired, "true");
-                    return RedirectToAction("Index", "Home", "Index");
+                    return ExpiredSession();
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
@@ -329,11 +297,47 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-
-                HttpContext.Session.SetString(SessionExpired, "true");
-                return RedirectToAction("Index", "Home", "Index");
+                return RedirectToAction("Error", "Home");
             }
 
+        }
+
+        public async Task<IActionResult> ModeAdmin()
+        {
+            try
+            {
+                GetSessions();
+                int empId = ViewBag.Id;
+
+                if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+                {
+                    return ExpiredSession();
+                }
+
+                var result = await _hourService.FindAllAsync();
+                return View("ModeAdmin", result);
+
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+           
+        }
+
+        public void GetSessions()
+        {
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
+
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
         }
 
         private bool HourExists(int id)

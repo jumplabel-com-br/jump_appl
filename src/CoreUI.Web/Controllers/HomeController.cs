@@ -25,6 +25,7 @@ namespace CoreUI.Web.Controllers
         const string SessionEmail = "_Email";
         const string SessionName = "_Name";
         const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
 
@@ -106,6 +107,7 @@ namespace CoreUI.Web.Controllers
 
             int idEmployee = (int)dt.Rows[0]["id"];
             string NameEmployee = dt.Rows[0]["Name"].ToString();
+            int accessLEvel = (int)dt.Rows[0]["Access_LevelId"];
 
             /*
             if (!string.IsNullOrEmpty(idEmployee))
@@ -124,6 +126,7 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetString(SessionEmail, employee.Email);
                 HttpContext.Session.SetInt32(SessionEmployeeId, idEmployee);
                 HttpContext.Session.SetString(SessionName, NameEmployee);
+                HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
             }
 
             return RedirectToAction("Index", "Hours");

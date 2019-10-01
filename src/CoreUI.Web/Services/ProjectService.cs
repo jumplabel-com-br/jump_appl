@@ -30,10 +30,12 @@ namespace CoreUI.Web.Services
         {
             var obj = from project in _context.Project
                       join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+                      where DateTime.Now.Date <= projectTeam.End_Date
 
                       select project;
 
-            return await obj.OrderBy(x => x.Project_Name).ToListAsync();
+            return await obj
+                .OrderBy(x => x.Project_Name).ToListAsync();
         }
 
     }

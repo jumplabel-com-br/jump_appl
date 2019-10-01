@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="EmployeeForm" enctype="multipart/form-data" asp-controller="Employees" asp-action="Edit">
+          <form id="EmployeeForm" enctype="multipart/form-data" asp-action="Edit">
             <input type="hidden" asp-for="Employee.Id" />
             <div class="form-group row">
               <div class="input-group col-10">
@@ -53,7 +53,8 @@
                     <i class="fa fa-file-text"></i>
                   </span>
                 </div>
-                <input type="file" asp-for="Employee.Document" class="mt-1 ml-1">
+                <input type="file" name="Document" class="mt-1 ml-1">
+                <input type="hidden" asp-for="Employee.Document" />
                 <span asp-validation-for="Employee.Document" class="text-danger"></span>
               </div>
 
@@ -68,16 +69,16 @@
               </div>
 
               <!--
-    <div class="input-group col-2">
-      <div class="input-group-prepend">
-        <span class="input-group-text">
-          <i class="fa fa-money"></i>
-        </span>
-      </div>
-      <input asp-for="Salary" class="form-control" placeholder="Salary" />
-      <span asp-validation-for="Salary" name="employee_salary" id="employee_salary" class="text-danger col-12">Salary invalid</span>
-    </div>
-    -->
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-money"></i>
+                  </span>
+                </div>
+                <input asp-for="Salary" class="form-control" placeholder="Salary" />
+                <span asp-validation-for="Salary" name="employee_salary" id="employee_salary" class="text-danger col-12">Salary invalid</span>
+              </div>
+              -->
               <div class="input-group col-2">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -111,8 +112,8 @@
             <input type="hidden" name="file" id="file" />
 
             <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-              <button class="btn btn-sm btn-success" type="button"  onclick="EmployeeSubmit();" id="a">Save</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="EmployeeSubmit();">Salvar</button>
             </div>
           </form>
         </div>
@@ -136,75 +137,7 @@
     }
   </style>
 
-  <script>
-    function EmployeeSubmit() {
-
-      $('#employee_salary').hide();
-      $('#employee_appointment').hide();
-
-      if ($('#Salary').val() == '') {
-        $('#Salary').focus();
-        $('#employee_salary').show();
-        return;
-      }
-
-      if ($('#Appointment').val() == '') {
-        $('#Appointment').focus();
-        $('#employee_appointment').show();
-        return;
-      }
-
-      file = document.querySelector('#file').value;
-      name = document.querySelector('#Employee_Document').files[0].name;
-      type = document.querySelector('#Employee_Document').files[0].type
-
-
-      //download(file, name, type);
-      //return false;
-
-      $('#toast-container').toggle();
-      $('#EmployeeForm').submit();
-    }
-
-    window.onload = function () {
-      //Check the support for the File API support
-      if (window.File && window.FileReader && window.FileList && window.Blob) {
-        var fileSelected = document.querySelector('#Employee_Document');
-        fileSelected.addEventListener('change', function (e) {
-          //Set the extension for the file
-          var fileExtension = /text.*/;
-          //Get the file object
-          var fileTobeRead = fileSelected.files[0];
-          //Check of the extension match
-          if (fileTobeRead.type.match(fileExtension)) {
-            //Initialize the FileReader object to read the 2file
-            var fileReader = new FileReader();
-            fileReader.onload = function (e) {
-              var fileContents = document.querySelector('#file');
-              fileContents.value = fileReader.result;
-            }
-            fileReader.readAsText(fileTobeRead);
-          }
-          else {
-            alert("Por favor selecione arquivo texto");
-          }
-
-        }, false);
-      }
-      else {
-        alert("Arquivo(s) não suportado(s)");
-      }
-    }
-
-    function download(text, name, type) {
-      var a = document.getElementById("a");
-      var file = new Blob([text], { type: type });
-      a.href = URL.createObjectURL(file);
-      a.download = name;
-    }
-
-    
-  </script>
+  <script  src="~/js/Employee/Generic.js"></script>
   @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
   }

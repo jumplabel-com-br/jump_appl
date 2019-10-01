@@ -138,41 +138,41 @@ function HourSubmit() {
     }
 
     if (new Date($('#Hour_Date').val()) > new Date()) {
-        alert('Date field cannot be larger than today');
+        alert('O campo de data não pode ser maior que o dia de hoje');
         return false;
     }
 
     if (Arrival_Time > Beginning_Of_The_Break && Beginning_Of_The_Break != '00:00' && Beginning_Of_The_Break != '') {
-        alert('Hour between arrival and beginning of the break invalid because arrival is bigger than beginning od the break');
+        alert('Hora entre a chegada e o início do intervalo inválida porque a chegada é maior que o início do intervalo');
         return false;
     }
 
     if (Exit_Time < End_Of_The_Break && End_Of_The_Break != '00:00' && End_Of_The_Break != '') {
-        alert('Hour between exit and end of the break invalid because end of the break is bigger than exit');
+        alert('Hora entre a saída e o final do intervalo inválida porque o final do intervalo é maior que a saída');
         return false;
     }
 
     if (Beginning_Of_The_Break != '00:00' && Beginning_Of_The_Break != '' && (End_Of_The_Break == '00:00' || End_Of_The_Break == '')) {
-        alert('If you fiiled in the beginning of the break you must also fill in end of the break');
+        alert('Se você preencheu o início do intervalo, também deve preencher o final do intervalo');
         return false;
     }
 
     if ((Beginning_Of_The_Break == '00:00' || Beginning_Of_The_Break == '') && End_Of_The_Break != '00:00' && End_Of_The_Break != '') {
-        alert('If you fiiled in the end of the break you must also fill in beginning of the break');
+        alert('Se você preencheu o final do intervalo, também deve preencher o início do intervalo');
         return false;
     }
 
     if (Beginning_Of_The_Break > End_Of_The_Break) {
-        alert("Beginning of the break can't be bigger than end of the break");
+        alert('Se você preencheu o final do intervalo, também deve preencher o início do intervalo');
         return false;
     }
 
     if (Arrival_Time > Exit_Time) {
-        alert("Arrival can't be bigger than exit");
+        alert('A chegada não pode ser maior que a saída');
         return false;
     }
 
-    $('#toast-container').toggle();
+    $('#toast-container-saved').toggle();
 
     $('#HoursForm').submit();
 }

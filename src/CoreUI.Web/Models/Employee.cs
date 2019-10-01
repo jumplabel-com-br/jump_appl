@@ -15,16 +15,18 @@ namespace CoreUI.Web.Models
         [Required(ErrorMessage = "{0} requerid")]
         public string Email { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Nome")]
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "{0} invalid")]
         public string Name { get; set; }
 
+        [Display(Name = "Documento")]
         public string Document { get; set; }
 
-        [Display(Name = "Contract Mode")]
+        [Display(Name = "Modo de Contrato")]
         public string Contract_Mode { get; set; }
 
+        [Display(Name = "Ativo")]
         public int Active { get; set; }
 
         /* 
@@ -33,6 +35,8 @@ namespace CoreUI.Web.Models
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double Salary { get; set; }
         */
+
+        [Display(Name = "Compromisso")]
         public int Appointment { get; set; }
 
         [Display(Name = "Password")]

@@ -9,7 +9,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Create Client
+          <i class="fa fa-edit"></i> Criar cliente
           <div class="card-header-actions">
             <a asp-action="Create">
               <input type="hidden" asp-for="@ViewData["Email"]" />
@@ -27,26 +27,17 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <input  asp-for="Name" class="form-control"/>
+                <input  asp-for="Name" class="form-control" placeholder="Nome"/>
                 <span asp-validation-for="Name" class="text-danger col-12"></span>
               </div>
             </div>
             <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Back to list</button>
-              <button class="btn btn-sm btn-success" type="submit">Create</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+              <button class="btn btn-sm btn-success" type="submit" onclick="$('#toast-container-saved').toggle();">Criar</button>
             </div>
           </form>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div id="toast-container" class="toast-top-center" style="display:none;">
-  <div class="toast toast-info" aria-live="polite">
-    <div class="toast-title">Saved</div>
-    <div class="toast-message">
-      Saved successfully
     </div>
   </div>
 </div>
