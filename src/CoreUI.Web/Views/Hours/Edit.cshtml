@@ -29,7 +29,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id)">
+                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control readonly" onchange="TextNameProject(this.id)">
                   <option value="">Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
@@ -42,7 +42,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input asp-for="Hour.Date" class="form-control" onchange="calculaHora();" />
+                <input asp-for="Hour.Date" class="form-control readonly" onchange="calculaHora();" />
                 <span asp-validation-for="Hour.Date" class="text-danger col-12"></span>
               </div>
             </div>
@@ -54,7 +54,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Hour.Arrival_Time" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <input asp-for="Hour.Arrival_Time" class="form-control readonly" onchange="calculaHora(); SetValuesHours();" />
                 <span asp-validation-for="Hour.Arrival_Time" name="hour_arrival_time" id="hour_arrival_time" class="text-danger text-danger-span col-12">Arrival time invalid</span>
               </div>
 
@@ -64,7 +64,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Hour.Beginning_Of_The_Break" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <input asp-for="Hour.Beginning_Of_The_Break" class="form-control readonly" onchange="calculaHora(); SetValuesHours();" />
                 <span asp-validation-for="Hour.Beginning_Of_The_Break" name="hour_beginning_of_the_break" id="hour_beginning_of_the_break" class="text-danger text-danger-span col-12">Beginning of the break invalid</span>
               </div>
 
@@ -74,7 +74,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Hour.End_Of_The_Break" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <input asp-for="Hour.End_Of_The_Break" class="form-control readonly" onchange="calculaHora(); SetValuesHours();" />
                 <span asp-validation-for="Hour.End_Of_The_Break" name="hour_end_of_the_break" id="hour_end_of_the_break" class="text-danger text-danger-span col-12">End of the break invalid</span>
               </div>
 
@@ -84,7 +84,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Hour.Exit_Time" class="form-control" onchange="calculaHora(); SetValuesHours();" />
+                <input asp-for="Hour.Exit_Time" class="form-control readonly" onchange="calculaHora(); SetValuesHours();" />
                 <span asp-validation-for="Hour.Exit_Time" name="hour_exit_time" id="hour_exit_time" class="text-danger text-danger-span col-12">Stop time invalid</span>
               </div>
 
@@ -106,37 +106,29 @@
                     <i class="fa fa-list-ul"></i>
                   </span>
                 </div>
-                <textarea asp-for="Hour.Activies" class="form-control" placeholder="Atividades" style="height:100px;"></textarea>
+                <textarea asp-for="Hour.Activies" class="form-control readonly" placeholder="Atividades" style="height:100px;"></textarea>
                 <span asp-validation-for="Hour.Activies" name="hour_activies" id="hour_activies" class="text-danger text-danger-span col-12">Activities invalid</span>
               </div>
             </div>
 
-            
-                <div class="form-group row">
-                  <div class="input-group col-10" title="Aprovado">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fa fa-list-ul"></i>
-                      </span>
-                    </div>
-                    <select class="form-control" onchange="TextNameProject(this.id)">
-                      <option value="" disabled selected>Aprovação</option>
-                      @{
-                        if (ViewBag.AcessLevel == 1 || ViewBag.AcessLevel == 2)
-                        {
-                          <option value="1">Revisão</option>
-                          <option value="2">Recusado</option>
-                          <option value="3">Aprovado</option>
-                        }
-                      }
-                      <option value="4">Enviar para aprovação</option>
-                    </select>
-                    <span class="text-danger text-danger-span col-12"></span>
-                  </div>
+            <div class="form-group row">
+              <div class="input-group col-10" title="Aprovado">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-list-ul"></i>
+                  </span>
                 </div>
-              
+                <select class="form-control" asp-for="Hour.Approval">
+                  <option value="" disabled selected>Aprovação</option>
+                  <option value="1" class="readonly">Revisão</option>
+                  <option value="2" class="AccessItem">Recusado</option>
+                  <option value="3" class="AccessItem">Aprovado</option>
+                </select>
+                <span class="text-danger text-danger-span col-12"></span>
+              </div>
+            </div>
 
-
+            <input type="hidden" asp-for="Hour.Approver" />
             <input type="hidden" asp-for="Hour.Start_Time" />
             <input type="hidden" asp-for="Hour.Stop_Time" />
             <input type="hidden" asp-for="Hour.Start_Time_2" />
@@ -147,9 +139,10 @@
             <input type="hidden" asp-for="Hour.Id_Project" />
             <input type="hidden" asp-for="Hour.Employee_Id" />
             <input type="hidden" asp-for="Hour.Creation_Date" />
+
             <div class="form-group form-actions text-right">
               <div class="col-10">
-                <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+                <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
                 <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();" asp-route-id="Id">Salvar</button>
               </div>
             </div>
@@ -161,6 +154,7 @@
 </div>
 
 <script src="~/js/Hour/Edit.js"></script>
+
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

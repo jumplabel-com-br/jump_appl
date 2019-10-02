@@ -131,8 +131,8 @@
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
-                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
-                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-search"></i></a>
+                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-edit"></i></a>
                         <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </td>
@@ -154,7 +154,3 @@
 
 <script src="~/js/Hour/Index.js"></script>
 <script src="~/js/Hour/Delete.js"></script>
-<script>
-  let accessLevel = @ViewData["AcessLevel"];
-  accessLevel != 1 && accessLevel != 2 ?  $('.acessAdminGerencia').hide() : '';
-</script>

@@ -110,6 +110,7 @@
                 <span asp-validation-for="Activies" class="text-danger col-12"></span>
               </div>
             </div>
+
             <input type="hidden" asp-for="Project" class="form-control" />
             <input type="hidden" asp-for="Consultant" />
             <input type="hidden" asp-for="Id_Project" />
@@ -117,12 +118,9 @@
             <input type="hidden" asp-for="Creation_Date" />
             <div class="form-group form-actions text-right">
               <div class="col-10">
-                <form asp-action="Delete">
-                  <button type="submit" class="btn btn-warning" asp-action="Index">Voltar</button>
+                  <button type="submit" class="btn btn-warning" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
                   <input type="hidden" asp-for="Id" />
-                  <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
-
-                </form>
+                  <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.Id" onclik="$('.modalSpinner').modal('show')">Editar</a>
               </div>
             </div>
           </form>

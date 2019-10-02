@@ -28,6 +28,7 @@ namespace CoreUI.Web.Controllers
         const string SessionAcessLevel = "_IdAccessLevel";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
+        const string SessionTotalBells = "false";
 
         public HomeController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, IConfiguration config)
         {
@@ -127,6 +128,7 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetInt32(SessionEmployeeId, idEmployee);
                 HttpContext.Session.SetString(SessionName, NameEmployee);
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
+                HttpContext.Session.SetInt32(SessionTotalBells, _hourService.TotalMessagesBell());
             }
 
             return RedirectToAction("Index", "Hours");

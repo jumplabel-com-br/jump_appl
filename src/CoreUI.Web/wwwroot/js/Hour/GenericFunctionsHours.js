@@ -172,6 +172,7 @@ function HourSubmit() {
         return false;
     }
 
+    $('.modalSpinner').modal('show');
     $('#toast-container-saved').toggle();
 
     $('#HoursForm').submit();

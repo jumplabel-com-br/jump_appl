@@ -41,6 +41,8 @@ namespace CoreUI.Web.Services
                              End_Of_The_Break = hour.End_Of_The_Break,
                              Exit_Time = hour.Exit_Time,
                              Total_Hours_In_Activity = hour.Total_Hours_In_Activity,
+                             Approval = hour.Approval,
+                             Approver = hour.Approver
                          };
 
             return await result.OrderBy(x => x.Date).ToListAsync();
@@ -98,6 +100,13 @@ namespace CoreUI.Web.Services
 
                 throw new DbConcurrencyException(e.Message);
             }
+        }
+
+        public int TotalMessagesBell()
+        {
+            return _context.Hour
+                .Where(x => x.Approval == 1)
+                .Sum(x => x.Approval);
         }
     }
 }

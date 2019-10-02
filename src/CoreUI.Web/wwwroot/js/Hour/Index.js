@@ -54,7 +54,7 @@ function SumTotalHours() {
         }
     });
 
-    for (var i = minutes; minutes > 60; i++) {
+    for (var i = minutes; minutes >= 60; i++) {
         hours += 1
         minutes -= 60
     }

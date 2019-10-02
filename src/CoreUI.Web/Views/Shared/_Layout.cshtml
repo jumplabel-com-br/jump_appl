@@ -60,13 +60,14 @@
       -->
     </ul>
     <ul class="nav navbar-nav ml-auto">
-      <!--
+
       <li class="nav-item d-md-down-none">
         <a class="nav-link" href="#">
           <i class="icon-bell"></i>
-          <span class="badge badge-pill badge-danger">5</span>
+          <span class="badge badge-pill badge-danger"></span>
         </a>
       </li>
+      <!--
       <li class="nav-item d-md-down-none">
         <a class="nav-link" href="#">
           <i class="icon-list"></i>
@@ -172,10 +173,10 @@
 
   <div class="modalSpinner modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="sk-wandering-cubes">
-          <div class="sk-cube sk-cube1"></div>
-          <div class="sk-cube sk-cube2"></div>
-        </div>
+      <div class="sk-wandering-cubes">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+      </div>
     </div>
   </div>
 
@@ -216,7 +217,7 @@
         <br><br>
         <form asp-action="Delete">
           <input type="hidden" name="Id" id="IdDelete" /> <!--Name is 'Id' because bind between database and programming through of name -->
-          <button type="submit" class="btn btn-success">Sim</button>
+          <button type="submit" class="btn btn-success" onclick="$('.modalSpinner').modal('show');">Sim</button>
           <button type="button" class="btn btn-danger" onclick="$('#toast-container').toggle();" style="margin-left: 50%">Não</button>
         </form>
       </div>
@@ -543,11 +544,38 @@
   <script src="~/lib/@@coreui/coreui/dist/js/coreui.min.js"></script>
   <script src="~/js/Hour/GenericFunctionsHours.js"></script>
   <script>
-    $(document).ready(function () {
-      ActiveLinck();
-    });
+    ActiveLinck();
+
     $('.modalSpinner').modal('hide');
     $('.modalSpinner').hide();
+
+    let accessLevel = @ViewBag.AcessLevel;
+    let approver = @ViewBag.id;
+    let totalMessagesBell = @ViewBag.TotalMessagesBells;
+    let approval = $('#Hour_Approval').val();
+
+    //verifica de pode se está em revisão
+    if (approval == 1 && accessLevel == 3) {
+      $('.readonly').prop('disabled', true);
+    }
+
+    //ocuta coisas a quem não tem acesso de administrador ou gerencia
+    accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').hide() : '';
+
+    if (accessLevel == 1 || accessLevel == 2) {
+
+      $('#Approver').val(approver);
+      $('.AccessItem').show();
+
+    } else {
+
+      $('#Approver').val('');
+      $('.AccessItem').hide();
+
+    }
+
+    //coloca quantas horas novas tem ao usuário administrador ou gerente
+    $('.badge-pill').html(totalMessagesBell);
   </script>
 </body>
 </html>

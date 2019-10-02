@@ -19,6 +19,7 @@
 
     Document != undefined ? $('#Employee_Document').val(Document.name) : $('#Employee_Document').val('Sem Documento');
 
+    $('.modalSpinner').modal('show');
     $('#toast-container').toggle();
     $('#EmployeeForm').submit();
 }

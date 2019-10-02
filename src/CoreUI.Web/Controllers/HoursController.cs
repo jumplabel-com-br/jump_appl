@@ -41,6 +41,9 @@ namespace CoreUI.Web.Controllers
         const string SessionAcessLevel = "_IdAccessLevel";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
+        const string SessionTotalBells = "false";
+
+
 
         public async Task<IActionResult> Index()
         {
@@ -75,6 +78,7 @@ namespace CoreUI.Web.Controllers
         // GET: Hours/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             GetSessions();
 
             try
@@ -139,6 +143,7 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Hour hour)
         {
+
             GetSessions();
 
             try
@@ -235,6 +240,8 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Hour hour)
         {
+
+
             GetSessions();
 
             try
@@ -280,6 +287,7 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
             GetSessions();
 
             try
@@ -331,7 +339,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
             ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
-
+            ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
         }
 
         public IActionResult ExpiredSession()
