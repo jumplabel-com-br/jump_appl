@@ -47,8 +47,10 @@ namespace CoreUI.Web.Controllers
         const string SessionEmail = "_Email";
         const string SessionName = "_Name";
         const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
+        const string SessionTotalBells = "false";
         //Files Files;
 
         // GET: Project_team
@@ -328,6 +330,8 @@ namespace CoreUI.Web.Controllers
             ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
             ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
+            ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
 
         }
 

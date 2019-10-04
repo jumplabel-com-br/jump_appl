@@ -22,7 +22,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#searchMothDataTable').val(new Date().getMonth());
+    $('#searchMothDataTable').val(new Date().getMonth()+1);
 
     let value = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
     $("#tbodyHour tr").filter(function () {

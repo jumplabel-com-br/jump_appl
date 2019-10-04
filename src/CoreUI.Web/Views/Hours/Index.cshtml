@@ -62,7 +62,6 @@
                 }
               </div>
 
-
               <div class="col-4 text-right">
                 <label class="text-left">
                   Total de Horas
@@ -99,6 +98,9 @@
                     @Html.DisplayNameFor(model => model.Activies)
                   </th>
                   <th>
+                    Aprovação
+                  </th>
+                  <th>
                     Ações
                   </th>
                 </tr>
@@ -129,14 +131,58 @@
                     <td class="Activities" title="@Html.DisplayFor(modelItem => item.Activies)">
                       @Html.DisplayFor(modelItem => item.Activies)
                     </td>
+                    <td>
+                      
+                      <form id="enviarApproval_@item.Id" asp-action="Update">
+                        <input type="hidden" name="Id" value="@item.Id">
+                        <input type="hidden" name="Project" value="@item.Project">
+                        <input type="hidden" name="Date" value="@item.Date">
+                        <input type="hidden" name="Start_Time" value="@item.Start_Time">
+                        <input type="hidden" name="Stop_Time" value="@item.Stop_Time">
+                        <input type="hidden" name="Start_Time_2" value="@item.Start_Time_2">
+                        <input type="hidden" name="Stop_Time_2" value="@item.Stop_Time_2">
+                        <input type="hidden" name="Activies" value="@item.Activies">
+                        <input type="hidden" name="Total_Activies_Hours" value="@item.Total_Activies_Hours">
+                        <input type="hidden" name="Consultant" value="@item.Consultant">
+                        <input type="hidden" name="Creation_Date" value="@item.Creation_Date">
+                        <input type="hidden" name="Id_Project" value="@item.Id_Project">
+                        <input type="hidden" name="Employee_Id" value="@item.Employee_Id">
+                        <input type="hidden" name="Arrival_Time" value="@item.Arrival_Time">
+                        <input type="hidden" name="Beginning_Of_The_Break" value="@item.Beginning_Of_The_Break">
+                        <input type="hidden" name="End_Of_The_Break" value="@item.End_Of_The_Break">
+                        <input type="hidden" name="Exit_Time" value="@item.Exit_Time">
+                        <input type="hidden" name="Total_Hours_In_Activity" value="@item.Total_Hours_In_Activity">
+                        <input type="hidden" name="Approval" id="Approval" value="1" />
+
+                        <div class="custom-control custom-checkbox mr-sm-2 text-center">
+                          @{
+                            if (item.Approval == 1)
+                            {
+                              <input type="checkbox" class="custom-control-input mb-1" id="custom_@item.Id" checked disabled>
+                            }
+                            else
+                            {
+                              <input type="checkbox" class="custom-control-input mb-1" id="custom_@item.Id" onclick="this.checked == true ? $('#enviarApproval_@item.Id').submit() : ''">
+                            }
+                          }
+
+                          <label class="custom-control-label" for="custom_@item.Id"></label>
+                        </div>
+                      </form>
+                    </td>
                     <td colspan="2">
                       <div class="row ml-0">
                         <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-search"></i></a>
                         <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-edit"></i></a>
-                        <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+
+                        @{
+                          if (item.Approval <= 0)
+                          {
+                            <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+                          }
+                        }
                       </div>
                     </td>
-                    <input type="hidden" name="activities" value="@Html.DisplayFor(modelItem => item.Activies)" />
                   </tr>
                 }
               </tbody>

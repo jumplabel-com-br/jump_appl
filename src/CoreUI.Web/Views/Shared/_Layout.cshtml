@@ -61,12 +61,18 @@
     </ul>
     <ul class="nav navbar-nav ml-auto">
 
-      <li class="nav-item d-md-down-none">
+      <li class="nav-item dropdown" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <a class="nav-link" href="#">
           <i class="icon-bell"></i>
-          <span class="badge badge-pill badge-danger"></span>
+          <span class="badge badge-pill badge-danger badge-danger-cont-alerts-bell"></span>
         </a>
+
+
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" aria-labelledby="dropdownMenu" id="dropdownMenuAlerts">
+          
+        </div>
       </li>
+
       <!--
       <li class="nav-item d-md-down-none">
         <a class="nav-link" href="#">
@@ -135,7 +141,7 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index">
             <i class="fa fa-file"></i> Projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
@@ -524,7 +530,7 @@
       </div>
     </div>
   </aside>
-  </div>
+
   <footer class="app-footer">
     <div>
       <a href="https://jumplabel.com.br">Jump Label Solutions</a>
@@ -544,38 +550,10 @@
   <script src="~/lib/@@coreui/coreui/dist/js/coreui.min.js"></script>
   <script src="~/js/Hour/GenericFunctionsHours.js"></script>
   <script>
-    ActiveLinck();
-
-    $('.modalSpinner').modal('hide');
-    $('.modalSpinner').hide();
-
-    let accessLevel = @ViewBag.AcessLevel;
-    let approver = @ViewBag.id;
-    let totalMessagesBell = @ViewBag.TotalMessagesBells;
-    let approval = $('#Hour_Approval').val();
-
-    //verifica de pode se está em revisão
-    if (approval == 1 && accessLevel == 3) {
-      $('.readonly').prop('disabled', true);
-    }
-
-    //ocuta coisas a quem não tem acesso de administrador ou gerencia
-    accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').hide() : '';
-
-    if (accessLevel == 1 || accessLevel == 2) {
-
-      $('#Approver').val(approver);
-      $('.AccessItem').show();
-
-    } else {
-
-      $('#Approver').val('');
-      $('.AccessItem').hide();
-
-    }
-
-    //coloca quantas horas novas tem ao usuário administrador ou gerente
-    $('.badge-pill').html(totalMessagesBell);
+    var accessLevel = @ViewBag.AcessLevel;
+    var approver = @ViewBag.id;
+    var approval = $('#Hour_Approval').val();
   </script>
+  <script src="~/js/_Layout.js"></script>
 </body>
 </html>

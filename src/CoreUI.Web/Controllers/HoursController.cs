@@ -310,6 +310,24 @@ namespace CoreUI.Web.Controllers
 
         }
 
+
+        [HttpPost, ActionName("Update")]
+        public async Task<IActionResult> Update(Hour hour)
+        {
+
+            try
+            {
+                _context.Update(hour);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbConcurrencyException e)
+            {
+
+                throw new DbConcurrencyException(e.Message);
+            }
+        }
+
         public async Task<IActionResult> ModeAdmin()
         {
             try

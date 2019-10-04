@@ -81,6 +81,12 @@ namespace CoreUI.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public async Task<IActionResult> AlertsBell()
+        {
+            
+            return View(_hourService);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ValidLogin([Bind("Email", "Password")] Employee employee)
@@ -128,7 +134,6 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetInt32(SessionEmployeeId, idEmployee);
                 HttpContext.Session.SetString(SessionName, NameEmployee);
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
-                HttpContext.Session.SetInt32(SessionTotalBells, _hourService.TotalMessagesBell());
             }
 
             return RedirectToAction("Index", "Hours");

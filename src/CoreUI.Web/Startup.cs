@@ -75,6 +75,7 @@ namespace CoreUI.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSession();
             app.UseCookiePolicy();
@@ -86,6 +87,11 @@ namespace CoreUI.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name:"teste",
+                    template: "api/[controller]"
+                );
             });
         }
     }

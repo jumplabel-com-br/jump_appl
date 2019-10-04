@@ -101,12 +101,5 @@ namespace CoreUI.Web.Services
                 throw new DbConcurrencyException(e.Message);
             }
         }
-
-        public int TotalMessagesBell()
-        {
-            return _context.Hour
-                .Where(x => x.Approval == 1)
-                .Sum(x => x.Approval);
-        }
     }
 }
