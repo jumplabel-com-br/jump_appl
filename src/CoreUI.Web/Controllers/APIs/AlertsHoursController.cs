@@ -14,6 +14,13 @@ namespace CoreUI.Web.Controllers
     public class AlertsHoursController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        const string SessionEmail = "_Email";
+        const string SessionName = "_Name";
+        const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
+        const string SessionInvalid = "false";
+        const string SessionExpired = "false";
+        const string SessionTotalBells = "false";
 
         public AlertsHoursController(ApplicationDbContext context)
         {
@@ -24,6 +31,17 @@ namespace CoreUI.Web.Controllers
         [HttpGet]
         public IEnumerable<Hour> GetHour()
         {
+            var Email = HttpContext.Session.GetString(SessionEmail);
+            var Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            var Name = HttpContext.Session.GetString(SessionName);
+            var AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
+            var TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
+
+            if (AcessLevel == 3)
+            {
+                return _context.Hour.Where(x => x.Approval == 2 || x.Approval == 3 && x.Employee_Id == Id);
+            }
+
             return _context.Hour.Where(x => x.Approval == 1);
         }
 
@@ -121,5 +139,6 @@ namespace CoreUI.Web.Controllers
         {
             return _context.Hour.Any(e => e.Id == id);
         }
+
     }
 }

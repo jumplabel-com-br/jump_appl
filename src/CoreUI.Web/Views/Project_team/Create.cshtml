@@ -30,7 +30,7 @@
                   </span>
                 </div>
                 <select class="form-control" asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))" title="Projeto">
-                  <option value="" disabled selected>Projeto</option>
+                  <option value="" disabled selected>Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Project_team.Project_Id" class="text-danger col-12"></span>
               </div>
@@ -44,7 +44,7 @@
                   </span>
                 </div>
                 <select class="form-control" asp-for="Project_team.Employee_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
-                  <option value="" selected disabled>Funcionário</option>
+                  <option value="" selected disabled>Selecione o funcionário</option>
                 </select>
                 <span asp-validation-for="Project_team.Employee_Id" class="text-danger col-12"></span>
               </div>

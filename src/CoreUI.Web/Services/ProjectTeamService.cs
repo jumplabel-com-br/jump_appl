@@ -37,7 +37,9 @@ namespace CoreUI.Web.Services
                          {
                              Id = projectTeam.Id,
                              Employee = employee.Name,
+                             EmployeeId = employee.Id,
                              Project = project.Project_Name,
+                             ProjectId = project.Id,
                              Start = projectTeam.Start_Date,
                              End = projectTeam.End_Date
                          };
@@ -46,8 +48,19 @@ namespace CoreUI.Web.Services
                 .OrderBy(x => x.Project)
                 .ToListAsync();
 
-             //return await _context.Project_team.OrderBy(x => x.Id).ToListAsync();
+            //return await _context.Project_team.OrderBy(x => x.Id).ToListAsync();
 
+        }
+
+        public bool FindEndProject(DateTime endProjet)
+        {
+
+            if (_context.Project_team.Count(x => x.End_Date == endProjet) == 1)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

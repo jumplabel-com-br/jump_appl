@@ -124,6 +124,7 @@
               </div>
             </div>
 
+            <input type="hidden" asp-for="Hour.Approval" value="1" />
             <input type="hidden" asp-for="Hour.Start_Time" />
             <input type="hidden" asp-for="Hour.Stop_Time" />
             <input type="hidden" asp-for="Hour.Start_Time_2" />
@@ -145,6 +146,10 @@
   </div>
 </div>
 
+<script>
+  let StartDate = $('#Project_team_Start_Date').val();
+  let EndDate = $('#Project_team_End_Date').val();
+</script>
 <script src="~/js/Hour/Create.js"></script>
 
 @section Scripts {

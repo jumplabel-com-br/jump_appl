@@ -7,17 +7,21 @@ $(document).ready(function () {
     });
 
     $("#searchDataTable").on("keyup", function () {
-        var value = $(this).val();
+        var value = $("#searchDataTable").val();
+        var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
         $("#tbodyHour tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(month) > -1);
             SumTotalHours();
         });
     });
 
+    
     $("#searchMothDataTable").on("change", function () {
-        var value = $(this).val() != '' ? $(this).val() + '/' + new Date().getFullYear() : '';
+        var value = $("#searchDataTable").val();
+        var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
         $("#tbodyHour tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(month) > -1);
+            console.log(value)
             SumTotalHours();
         });
     });

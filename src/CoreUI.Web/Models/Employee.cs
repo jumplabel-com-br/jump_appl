@@ -26,7 +26,7 @@ namespace CoreUI.Web.Models
         [Display(Name = "Modo de Contrato")]
         public string Contract_Mode { get; set; }
 
-        [Display(Name = "Ativo")]
+        [Display(Name = "Status")]
         public int Active { get; set; }
 
         /* 

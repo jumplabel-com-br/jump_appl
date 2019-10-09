@@ -32,10 +32,10 @@
               <thead>
                 <tr>
                   <th>
-                    @Html.DisplayNameFor(model => model.Project)
+                    @Html.DisplayNameFor(model => model.Employee)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Employee)
+                    @Html.DisplayNameFor(model => model.Project)
                   </th>
                   <th>
                     @Html.DisplayNameFor(model => model.Start)
@@ -53,22 +53,22 @@
                 {
                 <tr>
                   <td>
-                    @Html.DisplayFor(modelItem => item.Project)
-                  </td>
-                  <td>
                     @Html.DisplayFor(modelItem => item.Employee)
                   </td>
                   <td>
+                    @Html.DisplayFor(modelItem => item.Project)
+                  </td>
+                  <td id="start_@item.Id">
                     @Html.DisplayFor(modelItem => item.Start)
                   </td>
-                  <td>
+                  <td >
                     @Html.DisplayFor(modelItem => item.End)
                   </td>
                   <td colspan="2">
                     <div class="row ml-0">
                       <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
                       <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                      <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+                      <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id, '@Html.DisplayFor(modelItem => item.Start)', '@Html.DisplayFor(modelItem => item.End)', @item.ProjectId);"><i class="fa fa-trash-o"></i></button>
                     </div>
                   </td>
                 </tr>

@@ -57,7 +57,7 @@ namespace CoreUI.Web.Controllers
                     return ExpiredSession();
                 }
 
-                return View(await _context.Project.ToListAsync());
+                return View(await _projectService.FindAllToListAsync());
             }
             catch (Exception)
             {

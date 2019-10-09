@@ -26,6 +26,7 @@
   <link href="~/vendors/pace-progress/css/pace.min.css" rel="stylesheet">
   <link href="~/css/toastr.css" rel="stylesheet" />
   <link href="~/css/spinkit.min.css" rel="stylesheet" />
+  <link href="~/css/_Layout.css" rel="stylesheet" />
 
   <!-- Bootstrap and necessary plugins-->
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -223,8 +224,15 @@
         <br><br>
         <form asp-action="Delete">
           <input type="hidden" name="Id" id="IdDelete" /> <!--Name is 'Id' because bind between database and programming through of name -->
-          <button type="submit" class="btn btn-success" onclick="$('.modalSpinner').modal('show');">Sim</button>
-          <button type="button" class="btn btn-danger" onclick="$('#toast-container').toggle();" style="margin-left: 50%">Não</button>
+          <button type="submit" class="btn btn-success btn-submit-sim" onclick="$('.modalSpinner').modal('show');">Sim</button>
+          <button type="button" class="btn btn-danger btn-btn-nao" onclick="$('#toast-container').toggle();" style="margin-left: 50%">Não</button>
+        </form>
+      </div>
+      <div class="toast-message toast-message-cancel" style="display: none">
+        Não é possível deletar, pois há horas deste funcionário para este projeto
+        <br><br>
+        <form asp-action="Delete">
+          <button type="button" class="btn btn-sm btn-danger btn-btn-nao" onclick="$('#toast-container').toggle();" style="margin-left: 70%">Cancelar</button>
         </form>
       </div>
     </div>
@@ -552,6 +560,7 @@
   <script>
     var accessLevel = @ViewBag.AcessLevel;
     var approver = @ViewBag.id;
+    var employee = @ViewBag.id;
     var approval = $('#Hour_Approval').val();
   </script>
   <script src="~/js/_Layout.js"></script>

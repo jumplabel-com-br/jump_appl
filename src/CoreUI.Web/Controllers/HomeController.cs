@@ -81,7 +81,7 @@ namespace CoreUI.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> AlertsBell()
+        public IActionResult AlertsBell()
         {
             
             return View(_hourService);
@@ -92,13 +92,12 @@ namespace CoreUI.Web.Controllers
         public IActionResult ValidLogin([Bind("Email", "Password")] Employee employee)
         {
 
-            if (_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password) == 0 && !ModelState.IsValid)
+            if (_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1) == 0 && !ModelState.IsValid)
             {
-
                 return RedirectToAction("Index", "Home", "true");
             }
 
-            string queryString = "SELECT * FROM dev_jump.Employee where email = '" + employee.Email + "'";
+            string queryString = "SELECT * FROM dev_jump.Employee where email = '" + employee.Email + "' and active = 1";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);

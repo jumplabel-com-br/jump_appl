@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="projectForm" asp-action="Edit">
+          <form id="ClientForm" asp-action="Edit">
             <input type="hidden" asp-for="Id"/>
             <div class="form-group row">
               <div class="input-group col-10">
@@ -28,13 +28,13 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <input asp-for="Name" class="form-control"/>
+                <input asp-for="Name" class="form-control" placeholder="Nome  do cliente"/>
                 <span asp-validation-for="Name" class="text-danger col-12"></span>
               </div>
             </div>
             <div class="form-group form-actions text-right col-10">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
-              <button class="btn btn-sm btn-success" type="submit" onclick="$('#toast-container-saved').toggle(); $('.modalSpinner').modal('show')">Salvar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="ClientFormSubmit();">Salvar</button>
             </div>
           </form>
         </div>
@@ -42,6 +42,7 @@
     </div>
   </div>
 </div>
+<script src="~/js/Client/Generic.js"></script>
 
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

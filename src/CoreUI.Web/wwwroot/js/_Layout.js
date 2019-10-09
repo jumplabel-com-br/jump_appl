@@ -1,4 +1,7 @@
-﻿ActiveLinck();
+﻿var arrProjectTeam;
+
+
+ActiveLinck();
 
 $('.modalSpinner').modal('hide');
 $('.modalSpinner').hide();
@@ -51,9 +54,13 @@ function JsonMessagesBell() {
         data: {},
     })
         .done(function (data) {
-            console.log(data);
 
-            $('#dropdownMenuAlerts').html(templateMessagesBell(data));
+
+            if (data.length == 0) {
+                $('.badge-danger-cont-alerts-bell').hide();
+            };
+
+            $('#dropdownMenuAlerts').html(templateMessagesBellForAdmin(data));
             $('.badge-danger-cont-alerts-bell').html(data.length)
         })
         .fail(function () {
@@ -61,25 +68,35 @@ function JsonMessagesBell() {
         });
 }
 
-function templateMessagesBell(model) {
+function templateMessagesBellForAdmin(model) {
     return `
-        <div class="dropdown-header bg-light">
-            <strong>${model.length <= 1 ? `Você tem ${ model.length } notificação` :  `Você tem ${ model.length } notificações`}</strong>
-          </div>
-        
-        <div class="form-control">
-        ${model.map((obj) => {
+	<div class="dropdown-header bg-light">
+	    <strong>${model.length <= 1 ? `Você tem ${model.length} notificação` : `Você tem ${model.length} notificações`}</strong>
+	</div>
+	
+	<div class="form-control">
+	    ${model.map((obj) => {
             let fullDate = obj.date.replace('T00:00:00', '')
             let day = new Date(fullDate).getDate() + 1
             let month = new Date(fullDate).getMonth() + 1
             let year = new Date(fullDate).getFullYear()
 
             return `
-              <span class="cursor-pointer" onclick="wlhAlertBell(${obj.id})" title="Data: ${day + '/' + month + '/' + year}"><i class="fa fa-user"></i> ${obj.consultant.replace('@jumplabel.com.br', '')} enviou uma revisão</span>
-              <br/>`
-    }).join('')}
-      </div>
-      `
+		        <span class="cursor-pointer" onclick="wlhAlertBell(${obj.id})" title="Data: ${day + '/' + month + '/' + year}"><i class="fa fa-user"></i> ${MessageReturn(accessLevel, obj.consultant.replace('@jumplabel.com.br', ''), obj.approval)}</span>
+		    <br/>`
+        }).join('')}
+	</div>
+	`
+}
+
+function MessageReturn(accessLevel, consultant, approval) {
+    if (accessLevel == 3 && approval == 2) {
+        return 'Revisão negada';
+    } else if (accessLevel == 3 && approval == 3) {
+        return 'Revisão Aprovada'
+    } else {
+        return consultant + ` enviou uma revisão`
+    }
 }
 
 function wlhAlertBell(id) {
@@ -91,6 +108,54 @@ function wlhAlertBell(id) {
     } else {
         window.location.href = `/Hours/Edit/${id}`
     }
+}
+
+function searchProjectAndEmployee() {
+    $.ajax({
+        url: '/api/HoursAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+
+            arrProjectTeam = data;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function fn_showMessageDelete(id, start, end, projectId) {
+
+    let wlh = window.location.href.split('/')
+    if (wlh[3] == 'Project_team') {
+
+        searchProjectAndEmployee();
+
+        start = start.split('/')[2] + '-' + start.split('/')[1] + '-' + start.split('/')[0]
+        end = end.split('/')[2] + '-' + end.split('/')[1] + '-' + end.split('/')[0]
+
+        //console.log('start: ', start, ' end: ', end)
+        let count = arrProjectTeam.filter(obj => obj.employee_Id == employee && obj.date.replace('T00:00:00', '') >= start && obj.date.replace('T00:00:00', '') <= end && obj.id_Project == projectId)
+
+        //console.log(count.length)
+
+        if (count.length > 0) {
+            $('.toast-message').hide();
+            $('.toast-message-cancel').show();
+            $('#toast-container').toggle();
+            return false;
+        }
+        
+    }
+
+    $('.toast-message').show();
+    $('.toast-message-cancel').hide();
+    $('#IdDelete').val(id);
+    $('#toast-container').toggle();
 }
 
 JsonMessagesBell();

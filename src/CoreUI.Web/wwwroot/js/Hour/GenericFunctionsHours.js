@@ -1,7 +1,9 @@
-﻿
+﻿var arrDates = [];
+var dateValid;
+
 function TextNameProject(id) {
 
-    let select = document.querySelector('#'+id);
+    let select = document.querySelector('#' + id);
     let option = select.children[select.selectedIndex];
     let texto = option.textContent;
     console.log(texto);
@@ -58,8 +60,6 @@ function calculaHora() {
     }
 
     $('#Hour_Total_Hours_In_Activity').val(hours + ':' + mins);
-
-
 }
 
 function SetValuesHours() {
@@ -75,15 +75,62 @@ function SetValuesHours() {
     $('#Hour_Total_Activies_Hours').val($('#Hour_Total_Hours_In_Activity').val());
 }
 
+function JsonChecksDatesStartAndEnd() {
+
+    let url = '../api/Project_teamAPI/';
+    let wlh = window.location.href.split('/')[4]
+
+    switch (wlh) {
+
+        case 'Create':
+            url = url;
+            break;
+
+        case 'Edit':
+            url = '../../api/Project_teamAPI/';
+            break;
+
+        default:
+            break;
+    }
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            console.log(data);
+
+            arrDates = [];
+            data = data.filter(obj => obj.project_Id == 3 && obj.employee_Id == 1)
+
+            data.forEach(obj => {
+                if ($('#Hour_Date').val() < obj.start_Date || $('#Hour_Date').val() > obj.end_Date) {
+                    dateValid = false;
+                    return false;
+                } else {
+                    dateValid = true;
+                    return true;
+                }
+            });
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
 
 function HourSubmit() {
+
+    JsonChecksDatesStartAndEnd();
 
     let Hour_Date = $('#Hour_Date').val();
     let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');
     let Beginning_Of_The_Break = $('#Hour_Beginning_Of_The_Break').val().replace(':00.000', '');
     let End_Of_The_Break = $('#Hour_End_Of_The_Break').val().replace(':00.000', '');
     let Exit_Time = $('#Hour_Exit_Time').val().replace(':00.000', '');
-
 
     $('#id_project').hide();
     $('#hour_date').hide();
@@ -137,10 +184,12 @@ function HourSubmit() {
         return false;
     }
 
+    /*
     if (new Date($('#Hour_Date').val()) > new Date()) {
         alert('O campo de data não pode ser maior que o dia de hoje');
         return false;
     }
+    */
 
     if (Arrival_Time > Beginning_Of_The_Break && Beginning_Of_The_Break != '00:00' && Beginning_Of_The_Break != '') {
         alert('Hora entre a chegada e o início do intervalo inválida porque a chegada é maior que o início do intervalo');
@@ -172,6 +221,12 @@ function HourSubmit() {
         return false;
     }
 
+
+    if (!dateValid) {
+        alert('O dia lançado para este projedo é inválido, pois a data não é compativel com o tempo do projeto');
+        return false;
+    }
+
     $('.modalSpinner').modal('show');
     $('#toast-container-saved').toggle();
 
@@ -196,11 +251,9 @@ $(document).ready(function () {
 
     SetValuesHours();
 
-    $(document).ready(function () {
-        if (window.matchMedia("(max-width: 300px)").matches) {
-            $('.col-2').addClass('col-8');
-            $('.col-2').addClass('mt-3');
-            $('.col-8').removeClass('col-2');
-        }
-    });
+    if (window.matchMedia("(max-width: 300px)").matches) {
+        $('.col-2').addClass('col-8');
+        $('.col-2').addClass('mt-3');
+        $('.col-8').removeClass('col-2');
+    }
 });

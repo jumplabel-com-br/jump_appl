@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CoreUI.Web.Models.Project>
+﻿@model IEnumerable<CoreUI.Web.Models.List.ListProject>
 
 @{
   ViewData["Title"] = "Index";
@@ -33,10 +33,13 @@
               <thead>
                 <tr>
                   <th>
-                    @Html.DisplayNameFor(model => model.Project_Name)
+                    @Html.DisplayNameFor(model => model.Project)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Active)
+                    @Html.DisplayNameFor(model => model.Client)
+                  </th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Status)
                   </th>
                   <th>
                     Ações
@@ -48,17 +51,20 @@
                 {
                   <tr>
                     <td>
-                      @Html.DisplayFor(modelItem => item.Project_Name)
+                      @Html.DisplayFor(modelItem => item.Project)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Client)
                     </td>
                     <td>
                       @{
-                        if (item.Active == 1)
+                        if (item.Status == "1")
                         {
-                          @Html.DisplayName("Sim")
+                          @Html.DisplayName("Ativo")
                         }
                         else
                         {
-                          @Html.DisplayName("Não")
+                          @Html.DisplayName("Inativo")
                         }
                       }
                     </td>

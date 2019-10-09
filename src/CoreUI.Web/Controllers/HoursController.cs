@@ -23,13 +23,15 @@ namespace CoreUI.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ProjectService _projectService;
+        private readonly ProjectTeamService _projectTeamService;
         private readonly EmployeeService _employeeService;
         private readonly HourService _hourService;
 
-        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour)
+        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam)
         {
             _context = context;
             _projectService = project;
+            _projectTeamService = projectTeam;
             _employeeService = employee;
             _hourService = hour;
         }
@@ -42,8 +44,6 @@ namespace CoreUI.Web.Controllers
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
-
-
 
         public async Task<IActionResult> Index()
         {
@@ -119,13 +119,15 @@ namespace CoreUI.Web.Controllers
             try
             {
                 int empId = ViewBag.Id;
+                int accessLevel = ViewBag.AcessLevel;
 
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
                     return ExpiredSession();
                 }
 
-                var projects = await _projectService.FindPerEmployeeAsync();
+                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                //var projectsTeam = await _projectTeamService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Projects = projects };
                 return View(viewModel);
             }
@@ -149,6 +151,8 @@ namespace CoreUI.Web.Controllers
             try
             {
                 int empId = ViewBag.Id;
+                int accessLevel = ViewBag.AcessLevel;
+
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
                     return ExpiredSession();
@@ -156,7 +160,7 @@ namespace CoreUI.Web.Controllers
 
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
-                    var projects = await _projectService.FindPerEmployeeAsync();
+                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                     var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
 
                     return View(viewModel);
@@ -191,6 +195,7 @@ namespace CoreUI.Web.Controllers
             try
             {
                 int empId = ViewBag.Id;
+                var accessLevel = ViewBag.AcessLevel;
 
                 if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
                 {
@@ -203,7 +208,7 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
-                var projects = await _projectService.FindPerEmployeeAsync();
+                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
 
                 return View(viewModel);

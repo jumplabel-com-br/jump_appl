@@ -47,52 +47,6 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-4" title="Document">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-file-text"></i>
-                  </span>
-                </div>
-                <input type="file" name="Document" class="mt-1 ml-1">
-                <input type="hidden" asp-for="Employee.Document" />
-                <span asp-validation-for="Employee.Document" class="text-danger"></span>
-              </div>
-
-              <div class="input-group col-2">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-file-text-o"></i>
-                  </span>
-                </div>
-                <input asp-for="Employee.Contract_Mode" class="form-control" placeholder="Contract Mode" />
-                <span asp-validation-for="Employee.Contract_Mode" class="text-danger"></span>
-              </div>
-
-              <!--
-              <div class="input-group col-2">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-money"></i>
-                  </span>
-                </div>
-                <input asp-for="Salary" class="form-control" placeholder="Salary" />
-                <span asp-validation-for="Salary" name="employee_salary" id="employee_salary" class="text-danger col-12">Salary invalid</span>
-              </div>
-              -->
-              <div class="input-group col-2">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-address-book-o"></i>
-                  </span>
-                </div>
-                <select asp-for="Employee.Appointment" class="form-control">
-                  <option value="" disabled>Appointment</option>
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
-                </select>
-                <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
-              </div>
-
               <div class="input-group col-2">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -104,11 +58,40 @@
                 </select>
                 <span asp-validation-for="Employee.Access_LevelId" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
               </div>
+
+              <div class="input-group col-2" title="Modo de contrato">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Employee.Contract_Mode" class="form-control">
+                  <option value="" disabled >Selecione a forma de contrato</option>
+                  <option value="1">CLT</option>
+                  <option value="2">CLT Flex</option>
+                  <option value="3">PJ</option>
+                </select>
+                <span asp-validation-for="Employee.Contract_Mode" class="text-danger"></span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-address-book-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Employee.Appointment" class="form-control" disabled>
+                  <option value="">Compromisso</option>
+                  <option selected value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+                <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
+              </div>
             </div>
 
+            <input type="hidden" asp-for="Employee.Password" class="form-control" placeholder="Senha" />
             <input type="hidden" asp-for="Employee.Change_Password" class="form-control" placeholder="Change Password" value="0" />
             <input type="hidden" asp-for="Employee.Active" class="form-control" placeholder="Active" value="1" />
-            <input type="hidden" asp-for="Employee.Password" class="form-control" />
             <input type="hidden" name="file" id="file" />
 
             <div class="form-group form-actions text-right col-10">
@@ -137,7 +120,7 @@
     }
   </style>
 
-  <script  src="~/js/Employee/Generic.js"></script>
+  <script src="~/js/Employee/Generic.js"></script>
   @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
   }

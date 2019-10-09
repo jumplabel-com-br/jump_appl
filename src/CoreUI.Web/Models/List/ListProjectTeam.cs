@@ -12,9 +12,11 @@ namespace CoreUI.Web.Models
 
         [Display(Name = "Funcionário")]
         public string Employee { get; set; }
+        public int EmployeeId { get; set; }
 
         [Display(Name = "Projeto")]
         public string Project { get; set; }
+        public int ProjectId { get; set; }
 
         [Display(Name = "Data de início")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
