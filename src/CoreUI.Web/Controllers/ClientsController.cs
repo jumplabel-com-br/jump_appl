@@ -32,14 +32,17 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
-                return View(await _context.Client.ToListAsync());
+                return View(await _context.Client
+                    .OrderBy(x => x.Name)
+                    .ToListAsync());
             }
             catch (Exception)
             {
@@ -53,13 +56,13 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -85,13 +88,13 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 return View();
             }
             catch (Exception)
@@ -110,13 +113,13 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (ModelState.IsValid)
                 {
                     _context.Add(client);
@@ -137,14 +140,13 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
-
                 if (id == null)
                 {
                     return NotFound();
@@ -173,14 +175,13 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
-
                 if (id != client.Id)
                 {
                     return NotFound();
@@ -219,14 +220,13 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
-
                 if (id == null)
                 {
                     return NotFound();
@@ -253,14 +253,14 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             GetSessions();
+            
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
 
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 var client = await _context.Client.FindAsync(id);
                 _context.Client.Remove(client);
                 await _context.SaveChangesAsync();

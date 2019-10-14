@@ -1,4 +1,5 @@
 ﻿using CoreUI.Web.Models;
+using CoreUI.Web.Models.List;
 using CoreUI.Web.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,10 +19,15 @@ namespace CoreUI.Web.Services
             _context = context;
         }
 
-        public async Task<List<Hour>> FindAllAsync()
+        public async Task<List<ListHour>> FindAllAsync()
         {
             var result = from hour in _context.Hour
-                         select new Hour
+                         join projects in _context.Project on hour.Id_Project equals projects.Id
+                         join clients in _context.Client on projects.Client_Id equals clients.Id
+                         orderby hour.Date ascending
+                         orderby clients.Name ascending
+
+                         select new ListHour
                          {
                              Id = hour.Id,
                              Project = hour.Project,
@@ -42,18 +48,54 @@ namespace CoreUI.Web.Services
                              Exit_Time = hour.Exit_Time,
                              Total_Hours_In_Activity = hour.Total_Hours_In_Activity,
                              Approval = hour.Approval,
-                             Approver = hour.Approver
+                             Approver = hour.Approver,
+                             Client = clients.Name
                          };
 
-            return await result.OrderBy(x => x.Date).ToListAsync();
+            return await result
+                //.OrderBy(x => x.Client)
+                //.OrderBy(x => x.Project)
+                .OrderBy(x => x.Consultant)
+                .OrderBy(x => x.Date)
+                .ToListAsync();
 
         }
 
-        public async Task<List<Hour>> FindAllPerEmployeeAsync(dynamic employeeId)
+        public async Task<List<ListHour>> FindAllPerEmployeeAsync(dynamic employeeId)
         {
             int employee = employeeId;
 
-            return await _context.Hour.Where(x => x.Employee_Id == employee).OrderBy(x => x.Date).ToListAsync();
+            var result = from hours in _context.Hour
+                         join projects in _context.Project on hours.Id_Project equals projects.Id
+                         join clients in _context.Client on projects.Client_Id equals clients.Id
+                         where hours.Employee_Id == employee
+
+                         select new ListHour
+                         {
+                             Id = hours.Id,
+                             Project = hours.Project,
+                             Date = hours.Date,
+                             Start_Time = hours.Start_Time,
+                             Stop_Time = hours.Stop_Time,
+                             Start_Time_2 = hours.Start_Time_2,
+                             Stop_Time_2 = hours.Stop_Time_2,
+                             Activies = hours.Activies,
+                             Total_Activies_Hours = hours.Total_Activies_Hours,
+                             Consultant = hours.Consultant,
+                             Creation_Date = hours.Creation_Date,
+                             Id_Project = hours.Id_Project,
+                             Employee_Id = hours.Employee_Id,
+                             Arrival_Time = hours.Arrival_Time,
+                             Beginning_Of_The_Break = hours.Beginning_Of_The_Break,
+                             End_Of_The_Break = hours.End_Of_The_Break,
+                             Exit_Time = hours.Exit_Time,
+                             Total_Hours_In_Activity = hours.Total_Hours_In_Activity,
+                             Approval = hours.Approval,
+                             Approver = hours.Approver,
+                             Client = clients.Name
+                         };
+
+            return await result.OrderBy(x => x.Date).ToListAsync();
 
         }
 

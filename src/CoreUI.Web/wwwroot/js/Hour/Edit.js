@@ -21,4 +21,10 @@
 $(document).ready(function () {
     fn_responsive();
     $('#toast-container').hide();
+
+    let wlh = window.location.href.split('/')[4]
+
+    if (wlh == "ModeAdmin") {
+        $('#backToList').attr('formaction', '/Hours/ModeAdmin')
+    }
 });

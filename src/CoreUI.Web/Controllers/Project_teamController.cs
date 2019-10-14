@@ -58,13 +58,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 return View(await _projectTeamService.FindAllAsync());
             }
             catch (Exception)
@@ -83,13 +84,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -98,7 +100,8 @@ namespace CoreUI.Web.Controllers
                 var project_team = await _context.Project_team.FindAsync(id);
                 var employee = await _employeeService.FindAllAsync();
                 var project = await _projectService.FindAllAsync();
-                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
+                var client = await _clientService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client, Project_team = project_team };
 
                 if (project_team == null)
                 {
@@ -121,16 +124,18 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 var employee = await _employeeService.FindAllAsync();
                 var project = await _projectService.FindAllAsync();
-                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee };
+                var client = await _clientService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client };
 
                 return View(viewModel);
             }
@@ -148,17 +153,18 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Project_Id,Employee_Id,Start_Date,End_Date")] Project_team project_team)
+        public async Task<IActionResult> Create(Project_team project_team)
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (ModelState.IsValid)
                 {
                     _context.Add(project_team);
@@ -181,13 +187,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -196,8 +203,8 @@ namespace CoreUI.Web.Controllers
                 var project_team = await _context.Project_team.FindAsync(id);
                 var employee = await _employeeService.FindAllAsync();
                 var project = await _projectService.FindAllAsync();
-                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team };
-
+                var client = await _clientService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team, Client = client };
 
                 if (project_team == null)
                 {
@@ -221,13 +228,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id != project_team.Id)
                 {
                     return NotFound();
@@ -269,13 +277,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -306,13 +315,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 var project_team = await _context.Project_team.FindAsync(id);
                 _context.Project_team.Remove(project_team);
                 await _context.SaveChangesAsync();

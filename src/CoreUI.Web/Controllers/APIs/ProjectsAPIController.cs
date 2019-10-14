@@ -11,56 +11,56 @@ namespace CoreUI.Web.Controllers.APIs
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HoursAPIController : ControllerBase
+    public class ProjectsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public HoursAPIController(ApplicationDbContext context)
+        public ProjectsAPIController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/HoursAPI
+        // GET: api/ProjectsAPI
         [HttpGet]
-        public IEnumerable<Hour> GetHour()
+        public IEnumerable<Project> GetProject()
         {
-            return _context.Hour.OrderBy(x => x.Start_Time);
+            return _context.Project.OrderBy(x => x.Project_Name);
         }
 
-        // GET: api/HoursAPI/5
+        // GET: api/ProjectsAPI/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetHour([FromRoute] int id)
+        public async Task<IActionResult> GetProject([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hour = await _context.Hour.FindAsync(id);
+            var project = await _context.Project.FindAsync(id);
 
-            if (hour == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return Ok(hour);
+            return Ok(project);
         }
 
-        // PUT: api/HoursAPI/5
+        // PUT: api/ProjectsAPI/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHour([FromRoute] int id, [FromBody] Hour hour)
+        public async Task<IActionResult> PutProject([FromRoute] int id, [FromBody] Project project)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != hour.Id)
+            if (id != project.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hour).State = EntityState.Modified;
+            _context.Entry(project).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace CoreUI.Web.Controllers.APIs
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HourExists(id))
+                if (!ProjectExists(id))
                 {
                     return NotFound();
                 }
@@ -81,45 +81,45 @@ namespace CoreUI.Web.Controllers.APIs
             return NoContent();
         }
 
-        // POST: api/HoursAPI
+        // POST: api/ProjectsAPI
         [HttpPost]
-        public async Task<IActionResult> PostHour([FromBody] Hour hour)
+        public async Task<IActionResult> PostProject([FromBody] Project project)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Hour.Add(hour);
+            _context.Project.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHour", new { id = hour.Id }, hour);
+            return CreatedAtAction("GetProject", new { id = project.Id }, project);
         }
 
-        // DELETE: api/HoursAPI/5
+        // DELETE: api/ProjectsAPI/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHour([FromRoute] int id)
+        public async Task<IActionResult> DeleteProject([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hour = await _context.Hour.FindAsync(id);
-            if (hour == null)
+            var project = await _context.Project.FindAsync(id);
+            if (project == null)
             {
                 return NotFound();
             }
 
-            _context.Hour.Remove(hour);
+            _context.Project.Remove(project);
             await _context.SaveChangesAsync();
 
-            return Ok(hour);
+            return Ok(project);
         }
 
-        private bool HourExists(int id)
+        private bool ProjectExists(int id)
         {
-            return _context.Hour.Any(e => e.Id == id);
+            return _context.Project.Any(e => e.Id == id);
         }
     }
 }

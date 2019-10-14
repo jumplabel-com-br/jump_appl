@@ -27,9 +27,12 @@
   <link href="~/css/toastr.css" rel="stylesheet" />
   <link href="~/css/spinkit.min.css" rel="stylesheet" />
   <link href="~/css/_Layout.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 
   <!-- Bootstrap and necessary plugins-->
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"></script>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
@@ -70,7 +73,7 @@
 
 
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" aria-labelledby="dropdownMenu" id="dropdownMenuAlerts">
-          
+
         </div>
       </li>
 
@@ -92,44 +95,9 @@
           <i class="avatar fa fa-user mt-3"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <!--
-          <div class="dropdown-header text-center">
-            <strong>Account</strong>
-          </div>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-bell-o"></i> Updates
-            <span class="badge badge-info">42</span>
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-envelope-o"></i> Messages
-            <span class="badge badge-success">42</span>
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-tasks"></i> Tasks
-            <span class="badge badge-danger">42</span>
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-comments"></i> Comments
-            <span class="badge badge-warning">42</span>
-          </a>
 
-                  <div class="dropdown-header text-center">
-                    <strong>Settings</strong>
-                  </div>
-
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-user"></i> Profile
-          </a>
-          -->
-
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Employees" asp-action="Index">
-            <i class="fa fa-users"></i> Funcionários
-            <!--<span class="badge badge-primary">1</span>-->
-          </a>
-
-          <a class="dropdown-item" asp-controller="Hours" asp-action="Index">
-            <i class="fa fa-clock-o"></i> Horas
-            <!--<span class="badge badge-primary">1</span>-->
+          <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index">
+            <i class="fa fa-check-circle-o"></i> Aprovação
           </a>
 
           <a class="dropdown-item acessAdminGerencia" asp-controller="Clients" asp-action="Index">
@@ -142,17 +110,26 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Employees" asp-action="Index">
+            <i class="fa fa-users"></i> Funcionários
+            <!--<span class="badge badge-primary">1</span>-->
+          </a>
+
+          <a class="dropdown-item" asp-controller="Hours" asp-action="Index">
+            <i class="fa fa-clock-o"></i> Horas
+            <!--<span class="badge badge-primary">1</span>-->
+          </a>
+
           <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index">
             <i class="fa fa-file"></i> Projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
-
           <!--
-          <div class="divider"></div>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-shield"></i> Lock Account
-          </a>
-          -->
+  <div class="divider"></div>
+  <a class="dropdown-item" href="#">
+    <i class="fa fa-shield"></i> Lock Account
+  </a>
+  -->
 
           <form asp-controller="Home" asp-action="Logoff" class="text-center">
             <button class="btn btn-ghost-danger btn-sm" type="submit" value="Logoff">
@@ -187,6 +164,38 @@
     </div>
   </div>
 
+  <div id="toast-container-saved" class="toast-top-center" style="display:none;">
+    <div class="toast toast-info" aria-live="polite">
+      <div class="toast-title">Saved</div>
+      <div class="toast-message">
+        Salvo com sucesso
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-top-center" style="display:none;">
+    <div class="toast toast-info" aria-live="polite">
+      <div class="toast-title" style="margin-top: 3%">Informação</div>
+      <div class="toast-message">
+        Deseja realmente deletar este item?
+        <br><br>
+        <form asp-action="Delete">
+          <input type="hidden" name="Id" id="IdDelete" /> <!--Name is 'Id' because bind between database and programming through of name -->
+          <button type="submit" class="btn btn-success btn-submit-sim" onclick="$('.modalSpinner').modal('show');">Sim</button>
+          <button type="button" class="btn btn-danger btn-btn-nao" onclick="$('#toast-container').toggle();" style="margin-left: 50%">Não</button>
+        </form>
+      </div>
+      <div class="toast-message toast-message-cancel" style="display: none">
+        <span class="message-error-delete">Não é possível deletar, pois há horas deste funcionário para este projeto</span>
+        <br><br>
+        <form class="row">
+          <button type="button" class="btn btn-success btn-submit-confirm" onclick="UpdateStatusSubmit()" style="display: none">Sim</button>
+          <button type="button" class="btn btn-sm btn-danger btn-btn-nao btn-btn-cancel" onclick="$('#toast-container').toggle();" style="margin-left: 70%">Cancelar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div class="app-body">
 
     <!-- VIEW-STYLES -->
@@ -205,38 +214,6 @@
   <!-- VIEW-SCRIPTS -->
   @RenderSection("Scripts", required: false)
   <!-- /VIEW-SCRIPTS -->
-
-
-  <div id="toast-container-saved" class="toast-top-center" style="display:none;">
-    <div class="toast toast-info" aria-live="polite">
-      <div class="toast-title">Saved</div>
-      <div class="toast-message">
-        Salvo com sucesso
-      </div>
-    </div>
-  </div>
-
-  <div id="toast-container" class="toast-top-center" style="display:none;">
-    <div class="toast toast-info" aria-live="polite">
-      <div class="toast-title">Delete</div>
-      <div class="toast-message">
-        Deseja realmente deletar este item?
-        <br><br>
-        <form asp-action="Delete">
-          <input type="hidden" name="Id" id="IdDelete" /> <!--Name is 'Id' because bind between database and programming through of name -->
-          <button type="submit" class="btn btn-success btn-submit-sim" onclick="$('.modalSpinner').modal('show');">Sim</button>
-          <button type="button" class="btn btn-danger btn-btn-nao" onclick="$('#toast-container').toggle();" style="margin-left: 50%">Não</button>
-        </form>
-      </div>
-      <div class="toast-message toast-message-cancel" style="display: none">
-        Não é possível deletar, pois há horas deste funcionário para este projeto
-        <br><br>
-        <form asp-action="Delete">
-          <button type="button" class="btn btn-sm btn-danger btn-btn-nao" onclick="$('#toast-container').toggle();" style="margin-left: 70%">Cancelar</button>
-        </form>
-      </div>
-    </div>
-  </div>
 
 
   <aside class="aside-menu">

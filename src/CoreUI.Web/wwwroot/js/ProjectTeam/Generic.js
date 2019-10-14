@@ -1,7 +1,40 @@
 ﻿var arrDates = [];
 var arrProjectTeam;
+var arrClients;
+var arrHours;
+var arrFilterClients;
+var wlh = window.location.href.split('/')[4]
 
-function searchProjectAndEmployee() {
+function FilterProjectPerClient() {
+    $.ajax({
+        url: '/api/ProjectsAPI',
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+
+            $('#listClients').val().length > 0 ? arrFilterClients = data.filter(obj => obj.client_Id == $('#listClients').val()) : arrFilterClients = data;
+            $('#Project_team_Project_Id').html(listProjects(arrFilterClients))
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function listProjects(model) {
+    return `
+    <option value="">Selecione...</option>
+    ${model.map(obj => {
+        return `
+            <option value="${obj.id}">${obj.project_Name}</option>
+        `
+    })}
+    `
+}
+
+function searchHours() {
     $.ajax({
         url: '/api/HoursAPI',
         type: 'GET',
@@ -12,7 +45,7 @@ function searchProjectAndEmployee() {
         .done(function (data) {
             //console.log(data);
 
-            arrProjectTeam = data;
+            arrHours = data;
         })
         .fail(function () {
             console.log("error");
@@ -52,10 +85,10 @@ function JsonChecksDatesStartAndEndProjectTeam() {
 
             if (data.length > 0) {
                 data.forEach(obj => {
-                    Id = obj.id;
-                    employee_Id = obj.employee_Id;
-                    start_Date = obj.start_Date;
-                    end_Date = obj.end_Date;
+                    let Id = obj.id;
+                    let employee_Id = obj.employee_Id;
+                    let start_Date = obj.start_Date;
+                    let end_Date = obj.end_Date;
 
                     arrDates.push({
                         Id,
@@ -95,16 +128,59 @@ function disabledInput(employee, start, end, projectId) {
     }
 }
 
-disabledInput($('#Project_team_Employee_Id').val(), $('#Project_team_Start_Date').val(), $('#Project_team_End_Date').val(), $('#Project_team_Project_Id').val());
+//disabledInput($('#Project_team_Employee_Id').val(), $('#Project_team_Start_Date').val(), $('#Project_team_End_Date').val(), $('#Project_team_Project_Id').val());
+
+function filterClient() {
+    $.ajax({
+        url: '/api/ProjectsAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+
+            arrClients = data;
+
+            arrClients = arrClients.filter(obj => obj.id == $('#Project_team_Project_Id').val());
+
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
 
 function projectTeamSubmit(start, end) {
+    JsonChecksDatesStartAndEndProjectTeam();
+    
 
+    let employeeId = employee;
     let start_Date = $('#Project_team_Start_Date').val();
     let end_Date = $('#Project_team_End_Date').val();
-    let employeeId = arrDates[0].employee_Id;
-    let count = arrDates.filter(obj => obj.employee_Id == employeeId && obj.start_Date.replace('T00:00:00', '') >= start_Date && obj.end_Date.replace('T00:00:00', '') == end_Date)
+    let count = arrDates.filter(obj => obj.employee_Id == employeeId && obj.start_Date.replace('T00:00:00', '') >= start_Date && obj.end_Date.replace('T00:00:00', '') == end_Date && obj.Id == $('#Project_team_Id').val())
 
-    console.log(count)
+    if (start_Date == '0000-00-00') {
+        alert('Formtato da data de inicio é inválido')
+        return false;
+    }
+
+    if (end_Date == '0000-00-00') {
+        alert('Formtato da data de fim é inválido')
+        return false;
+    }
+
+    if ($('#Project_team_Start_Date').val() > hoursStart) {
+        alert('A alteração não pode ser feita, pois há horas deste funcionário com a data maior que a data de início');
+        return false;
+    }
+
+    if ($('#Project_team_End_Date').val() < hoursEnd) {
+        alert('A alteração não pode ser feita, pois há horas deste funcionário com a data maior que a data de fim');
+        return false;
+    }
+    
     if (count.length > 0) {
         alert('O funcionário ja tem um projeto deste tipo entre estas datas');
         return false;
@@ -128,3 +204,11 @@ function projectTeamSubmit(start, end) {
     $('#projectTeamForm').submit();
 
 }
+
+if (wlh == 'Edit') {
+    searchHours();
+    let hours = arrHours.filter(obj => obj.employee_Id == $('#Project_team_Employee_Id').val() && obj.date.replace('T00:00:00', '') >= $('#Project_team_Start_Date').val() && obj.date.replace('T00:00:00', '') <= $('#Project_team_End_Date').val() && obj.id_Project == $('#Project_team_Project_Id').val())
+    var hoursStart = hours[0].date.replace('T00:00:00', '')
+    var hoursEnd = hours[hours.length - 1].date.replace('T00:00:00', '')
+}
+

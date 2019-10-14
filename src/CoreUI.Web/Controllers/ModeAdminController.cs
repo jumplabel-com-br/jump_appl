@@ -6,20 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
-using CoreUI.Web.Models.ViewModel;
-using CoreUI.Web.Services;
 using Microsoft.AspNetCore.Http;
-using System.Data.SqlClient;
-using System.Data;
-using MySql.Data.MySqlClient;
-using System.Dynamic;
 using System.Diagnostics;
+using MySql.Data.MySqlClient;
 using CoreUI.Web.Services.Exceptions;
+using CoreUI.Web.Models.ViewModel;
 using Microsoft.Extensions.Configuration;
+using CoreUI.Web.Services;
 
 namespace CoreUI.Web.Controllers
 {
-    public class HoursController : Controller
+    public class ModeAdminController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly ProjectService _projectService;
@@ -28,7 +25,7 @@ namespace CoreUI.Web.Controllers
         private readonly HourService _hourService;
         private readonly IConfiguration _config;
 
-        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, IConfiguration config)
+        public ModeAdminController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, IConfiguration config)
         {
             _context = context;
             _projectService = project;
@@ -57,10 +54,9 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-
             try
             {
-                var result = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id);
+                var result = await _hourService.FindAllAsync();
                 return View(result);
 
             }
@@ -84,7 +80,6 @@ namespace CoreUI.Web.Controllers
             GetSessions();
 
             int empId = ViewBag.Id;
-
             if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
             {
                 return ExpiredSession();
@@ -92,7 +87,6 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-
                 if (id == null)
                 {
                     return NotFound();
@@ -128,12 +122,12 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-
             try
             {
                 var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var employees = await _employeeService.FindAllAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Projects = projects };
+                var viewModel = new HourFormViewModel { Projects = projects, Employees = employees};
                 return View(viewModel);
             }
             catch (Exception)
@@ -161,12 +155,14 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
+
             try
             {
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
                     var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+                    var employees = await _employeeService.FindAllAsync();
+                    var viewModel = new HourFormViewModel { Projects = projects, Employees = employees };
 
                     return View(viewModel);
                 }
@@ -197,7 +193,6 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
-
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
 
@@ -205,6 +200,7 @@ namespace CoreUI.Web.Controllers
             {
                 return ExpiredSession();
             }
+
 
             try
             {
@@ -215,7 +211,8 @@ namespace CoreUI.Web.Controllers
 
                 var hour = await _context.Hour.FindAsync(id);
                 var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+                var employees = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees };
 
                 return View(viewModel);
             }
@@ -327,7 +324,6 @@ namespace CoreUI.Web.Controllers
         [HttpPost, ActionName("Update")]
         public async Task<IActionResult> Update(Hour hour)
         {
-
             GetSessions();
 
             int empId = ViewBag.Id;
@@ -335,6 +331,7 @@ namespace CoreUI.Web.Controllers
             {
                 return ExpiredSession();
             }
+
 
             try
             {
@@ -370,7 +367,7 @@ namespace CoreUI.Web.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-           
+
         }
 
         public async Task<IActionResult> UpdateStatus(int status, string ids)
@@ -383,8 +380,7 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-
-            string queryString = "update dev_jump.Hour set Approval = '"+status+"' where Id in ("+ids+")";
+            string queryString = "update dev_jump.Hour set Approval = '" + status + "' where Id in (" + ids + ")";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);
@@ -394,7 +390,7 @@ namespace CoreUI.Web.Controllers
             command.ExecuteNonQuery();
             connection.Close();
 
-            return RedirectToAction(nameof(ModeAdmin));
+            return RedirectToAction(nameof(Index));
         }
 
         public void GetSessions()

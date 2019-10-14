@@ -37,7 +37,7 @@ namespace CoreUI.Web.Services
                 var obj = from project in _context.Project
                           join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
                           join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
-                          where DateTime.Now.Date >= projectTeam.Start_Date && DateTime.Now.Date <= projectTeam.End_Date && employee.Id == employeeId
+                          where employee.Id == employeeId
 
                           select project;
 

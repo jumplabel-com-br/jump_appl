@@ -144,6 +144,11 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Logoff()
         {
+            HttpContext.Session.Remove(SessionEmail);
+            HttpContext.Session.Remove(SessionEmployeeId);
+            HttpContext.Session.Remove(SessionName);
+            HttpContext.Session.Remove(SessionAcessLevel);
+            HttpContext.Session.Remove(SessionTotalBells);
             HttpContext.Session.Remove(SessionEmployeeId);
             return RedirectToAction("Index", "Home");
 

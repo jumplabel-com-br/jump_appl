@@ -52,13 +52,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
+         
                 var result = await _employeeService.FindAllAsync();
                 return View(result);
             }
@@ -66,7 +67,7 @@ namespace CoreUI.Web.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-           
+
         }
 
         // GET: Employees/Details/5
@@ -98,6 +99,11 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
                 var accessLevel = await _accessLevelService.FindAllAsync();
@@ -118,9 +124,14 @@ namespace CoreUI.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Name,Document,Contract_Mode,Active,Salary,Appointment,Password,Change_Password,Access_LevelId")] Employee employee, IFormFile Document)
+        public async Task<IActionResult> Create([Bind("Id,Email,Name,Document,Contract_Mode,Active,Appointment,Password,Change_Password,Access_LevelId")] Employee employee, IFormFile Document)
         {
             GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
 
             try
             {
@@ -128,12 +139,7 @@ namespace CoreUI.Web.Controllers
                 {
                     int empId = ViewBag.Id;
 
-                    if (ViewBag.Email == null)
-                    {
-                        return ExpiredSession();
-                    }
-
-                    EnviarArquivo(Document, empId, storage);
+                    //EnviarArquivo(Document, empId, storage);
 
                     _context.Add(employee);
                     await _context.SaveChangesAsync();
@@ -146,7 +152,7 @@ namespace CoreUI.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            
+
 
         }
 
@@ -155,14 +161,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
                 int empId = ViewBag.Id;
-
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
 
                 if (id == null)
                 {
@@ -186,28 +192,28 @@ namespace CoreUI.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Name,Document,Contract_Mode,Active,Salary,Appointment,Password,Change_Password,Access_LevelId")] Employee employee, IFormFile Document)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Name,Document,Contract_Mode,Active,Appointment,Password,Change_Password,Access_LevelId")] Employee employee, IFormFile Document)
         {
 
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             try
             {
                 int empId = ViewBag.Id;
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
 
                 if (ModelState.IsValid)
                 {
-                    
-                    EnviarArquivo(Document, empId, storage);
+
+                    //EnviarArquivo(Document, empId, storage);
                     _context.Update(employee);
-                    
+
                     await _context.SaveChangesAsync();
-                    
+
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -244,6 +250,14 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             var employee = await _context.Employee.FindAsync(id);
             _context.Employee.Remove(employee);
             await _context.SaveChangesAsync();
@@ -281,7 +295,16 @@ namespace CoreUI.Web.Controllers
             string pasta = "Files";
             // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
             //string nomeArquivo = DateTime.Now.ToString().Replace('/','-').Replace(':', '&').Replace(" ", "") + "_" + id + "_" + Document.FileName;
-            string nomeArquivo = Document.FileName;
+            string nomeArquivo;
+            if (Document.FileName != "" && Document.FileName != null)
+            {
+                nomeArquivo = Document.FileName;
+            }
+            else
+            {
+                nomeArquivo = "Sem Documento";
+            }
+
 
             //< obtém o caminho físico da pasta wwwroot >
             string caminho_WebRoot = _appEnvironment.WebRootPath;

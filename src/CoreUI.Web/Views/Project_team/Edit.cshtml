@@ -23,6 +23,20 @@
         <div class="card-body">
           <form id="projectTeamForm" asp-action="Edit">
             <input type="hidden" asp-for="Project_team.Id" />
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Cliente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" name="listClients" id="listClients" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" onchange="FilterProjectPerClient()">
+                  <option value="" selected>Selecione o cliente</option>
+                </select>
+              </div>
+            </div>
+
             <div class="form-group row">
               <div class="input-group col-10" title="Projeto">
                 <div class="input-group-prepend">

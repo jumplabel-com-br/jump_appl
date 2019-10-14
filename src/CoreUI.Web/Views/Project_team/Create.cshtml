@@ -23,6 +23,19 @@
         <div class="card-body">
           <form id="projectTeamForm" asp-action="Create">
             <div class="form-group row">
+              <div class="input-group col-10" title="Cliente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" name="listClients" id="listClients" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" onchange="FilterProjectPerClient()">
+                  <option value="" selected>Selecione o cliente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
               <div class="input-group col-10">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -57,7 +70,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input asp-for="Project_team.Start_Date" class="form-control" title="Data de início"/>
+                <input asp-for="Project_team.Start_Date" class="form-control" title="Data de início" />
                 <span asp-validation-for="Project_team.Start_Date" class="text-danger col-12"></span>
               </div>
 
@@ -67,7 +80,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input asp-for="Project_team.End_Date" class="form-control" title="Data de término"/>
+                <input asp-for="Project_team.End_Date" class="form-control" title="Data de término" />
                 <span asp-validation-for="Project_team.End_Date" class="text-danger col-12"></span>
               </div>
             </div>

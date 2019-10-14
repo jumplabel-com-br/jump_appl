@@ -50,6 +50,25 @@
               <div class="input-group col-2">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
+                    <i class="icon-lock"></i>
+                  </span>
+                </div>
+                <input type="password" name="pswd" id="pswd" class="form-control" placeholder="Senha" />
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="icon-lock"></i>
+                  </span>
+                </div>
+                <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="Confirmar Senha" value=""/>
+                <span class="text-danger col-12"></span>
+              </div>
+
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
                     <i class="fa fa-address-book-o"></i>
                   </span>
                 </div>
@@ -66,10 +85,10 @@
                   </span>
                 </div>
                 <select asp-for="Employee.Contract_Mode" class="form-control">
-                  <option value="" disabled >Selecione a forma de contrato</option>
-                  <option value="1">CLT</option>
-                  <option value="2">CLT Flex</option>
-                  <option value="3">PJ</option>
+                  <option value="" disabled>Forma de contrato</option>
+                  <option value="CLT">CLT</option>
+                  <option value="CLT Flex">CLT Flex</option>
+                  <option value="PJ">PJ</option>
                 </select>
                 <span asp-validation-for="Employee.Contract_Mode" class="text-danger"></span>
               </div>
@@ -80,18 +99,33 @@
                     <i class="fa fa-address-book-o"></i>
                   </span>
                 </div>
-                <select asp-for="Employee.Appointment" class="form-control" disabled>
+                <select asp-for="Employee.Appointment" class="form-control">
                   <option value="">Compromisso</option>
-                  <option selected value="1">Yes</option>
-                  <option value="0">No</option>
+                  <option selected value="1">Sim</option>
+                  <option value="0">Não</option>
                 </select>
                 <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
               </div>
             </div>
 
+            <div class="row">
+              <div class="input-group col-4" title="Status">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-check"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Employee.Active">
+                  <option value="" disabled>Status</option>
+                  <option value="1">Sim</option>
+                  <option value="0">Não</option>
+                </select>
+              </div>
+            </div>
+
+            <input type="hidden" asp-for="Employee.Document" />
             <input type="hidden" asp-for="Employee.Password" class="form-control" placeholder="Senha" />
             <input type="hidden" asp-for="Employee.Change_Password" class="form-control" placeholder="Change Password" value="0" />
-            <input type="hidden" asp-for="Employee.Active" class="form-control" placeholder="Active" value="1" />
             <input type="hidden" name="file" id="file" />
 
             <div class="form-group form-actions text-right col-10">

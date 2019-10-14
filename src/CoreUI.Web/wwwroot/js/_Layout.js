@@ -1,4 +1,6 @@
 ﻿var arrProjectTeam;
+var arrClient;
+var arrProject;
 
 
 ActiveLinck();
@@ -8,7 +10,7 @@ $('.modalSpinner').hide();
 
 //verifica de pode se está em revisão
 if (approval != null) {
-    if (approval == 1 && accessLevel == 3) {
+    if (approval > 1 && accessLevel == 3) {
         $('.readonly').prop('disabled', true);
     }
 }
@@ -120,7 +122,6 @@ function searchProjectAndEmployee() {
     })
         .done(function (data) {
             //console.log(data);
-
             arrProjectTeam = data;
         })
         .fail(function () {
@@ -128,28 +129,123 @@ function searchProjectAndEmployee() {
         });
 }
 
-function fn_showMessageDelete(id, start, end, projectId) {
+function searchClientPerProject() {
+    $.ajax({
+        url: '/api/ProjectsAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+
+            arrClient = data;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function searchProjects() {
+    $.ajax({
+        url: '/api/HoursAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+
+            arrProject = data;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function searchProjectTeamPerProject() {
+    $.ajax({
+        url: '/api/Project_teamAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+            arrProjectTeam = data;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function fn_showMessageDelete(id, param1, param2, pram3, param4) {
 
     let wlh = window.location.href.split('/')
     if (wlh[3] == 'Project_team') {
 
         searchProjectAndEmployee();
 
-        start = start.split('/')[2] + '-' + start.split('/')[1] + '-' + start.split('/')[0]
-        end = end.split('/')[2] + '-' + end.split('/')[1] + '-' + end.split('/')[0]
+        param1 = param1.split('/')[2] + '-' + param1.split('/')[1] + '-' + param1.split('/')[0]
+        param2 = param2.split('/')[2] + '-' + param2.split('/')[1] + '-' + param2.split('/')[0]
 
-        //console.log('start: ', start, ' end: ', end)
-        let count = arrProjectTeam.filter(obj => obj.employee_Id == employee && obj.date.replace('T00:00:00', '') >= start && obj.date.replace('T00:00:00', '') <= end && obj.id_Project == projectId)
-
+        //console.log('param1: ', param1, ' param2: ', param2)
+        let count = arrProjectTeam.filter(obj => obj.employee_Id == param4 && obj.date.replace('T00:00:00', '') >= param1 && obj.date.replace('T00:00:00', '') <= param2 && obj.id_Project == pram3)
+        console.log(count)
         //console.log(count.length)
 
         if (count.length > 0) {
             $('.toast-message').hide();
+            $('.message-error-delete').html('Não é possível deletar, pois há horas deste funcionário para este projeto')
             $('.toast-message-cancel').show();
             $('#toast-container').toggle();
             return false;
         }
-        
+
+
+    }
+
+    if (wlh[3] == 'Clients') {
+        searchClientPerProject();
+
+        let count = arrClient.filter(obj => obj.client_Id == id && obj.active == 1)
+
+        if (count.length > 0) {
+            $('.toast-message').hide();
+            $('.message-error-delete').html('Não é possível deletar, pois há projetos deste cliente para um funcionário')
+            $('.toast-message-cancel').show();
+            $('#toast-container').toggle();
+            return false;
+        }
+    }
+
+
+    if(wlh[3] == 'Projects') {
+        searchProjects();
+        searchProjectTeamPerProject();
+
+        let count = arrProject.filter(obj => obj.id_Project == id)
+        let countProjectTeam = arrProjectTeam.filter(obj => obj.project_Id == id)
+
+
+        if (count.length > 0) {
+            $('.toast-message').hide();
+            $('.message-error-delete').html('Não é possível deletar, pois há horas lançadas com este projeto')
+            $('.toast-message-cancel').show();
+            $('#toast-container').toggle();
+            return false;
+        }
+
+        if (countProjectTeam.length  > 0) {
+            $('.toast-message').hide();
+            $('.message-error-delete').html('Não é possível deletar, pois há equipes lançadas com este projeto')
+            $('.toast-message-cancel').show();
+            $('#toast-container').toggle();
+            return false;
+        }
     }
 
     $('.toast-message').show();

@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using CoreUI.Web.Services.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 
-namespace CoreUI.Web.Models
+namespace CoreUI.Web.Models.List
 {
-    public class Hour
+    public class ListHour
     {
         public int Id { get; set; }
 
@@ -91,35 +85,8 @@ namespace CoreUI.Web.Models
 
         public int Approval { get; set; }
         public int Approver { get; set; }
-        
-        private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _config;
 
-        public Hour()
-        {
-
-        }
-
-        public Hour(int id, string project, DateTime date, TimeSpan start_Time, TimeSpan stop_Time, TimeSpan start_Time_2, TimeSpan stop_Time_2, string activies, TimeSpan total_Activies_Hours, string consultant, DateTime creation_Date, int id_Project, int employee_Id, DateTime arrival_Time, DateTime beginning_Of_The_Break, DateTime end_Of_The_Break, DateTime exit_Time, DateTime total_hours_in_activity)
-        {
-            Id = id;
-            Project = project;
-            Date = date;
-            Start_Time = start_Time;
-            Stop_Time = stop_Time;
-            Start_Time_2 = start_Time_2;
-            Stop_Time_2 = stop_Time_2;
-            Activies = activies;
-            Total_Activies_Hours = total_Activies_Hours;
-            Consultant = consultant;
-            Creation_Date = creation_Date;
-            Id_Project = id_Project;
-            Employee_Id = employee_Id;
-            Arrival_Time = arrival_Time;
-            Beginning_Of_The_Break = beginning_Of_The_Break;
-            End_Of_The_Break = end_Of_The_Break;
-            Exit_Time = exit_Time;
-            Total_Hours_In_Activity = total_hours_in_activity;
-        }
+        [Display(Name = "Cliente")]
+        public string Client { get; set; }
     }
 }

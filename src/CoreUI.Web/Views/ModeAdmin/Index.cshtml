@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CoreUI.Web.Models.Hour>
+﻿@model IEnumerable<CoreUI.Web.Models.List.ListHour>
 
 @{
   ViewData["Title"] = "Index";
@@ -22,7 +22,7 @@
           </div>
           <div class="card-body">
             <div class="row ml-0">
-              <div id="DataTables_Table_0_filter" class="dataTables_filter">
+              <div id="DataTables_Table_0_filter" class="dataTables_filter col-8">
                 <label>
                   Pesquisar:
                   <input type="search" name="searchDataTable" id="searchDataTable" class="form-control" placeholder="" aria-controls="DataTables_Table_0">
@@ -82,7 +82,7 @@
               </div>
               -->
 
-              <div class="col-6 text-right">
+              <div class="col-4 text-right">
                 <label class="text-left">
                   Total de Horas
                   <input class="form-control" id="TotalOfSumHours" disabled />
@@ -92,17 +92,26 @@
             <div class="text-right">
               <label id="sum"></label>
             </div>
-            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+            <table id="example" class="table table-responsive-sm table-bordered  table-sm">
               <thead>
                 <tr>
                   <th>
-                    @Html.DisplayNameFor(model => model.Consultant)
+                    #
+                  </th>
+                  <th>
+                    Aprovação
+                  </th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                  </th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Client)
                   </th>
                   <th>
                     @Html.DisplayNameFor(model => model.Project)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Date)
+                    @Html.DisplayNameFor(model => model.Consultant)
                   </th>
                   <th>
                     @Html.DisplayNameFor(model => model.Arrival_Time)
@@ -120,15 +129,6 @@
                     @Html.DisplayNameFor(model => model.Total_Hours_In_Activity)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Activies)
-                  </th>
-                  <th>
-                    Aprovação
-                  </th>
-                  <th>
-                    Ação de status
-                  </th>
-                  <th>
                     Ações
                   </th>
                 </tr>
@@ -136,74 +136,74 @@
               <tbody id="tbodyHour">
                 @foreach (var item in Model)
                 {
-                  <tr>
-                    <th>
-                      @Html.DisplayFor(modelItem => item.Consultant)
-                    </th>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Project)
-                    </td>
-                    <td class="DatesMonth">
-                      @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Arrival_Time)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Beginning_Of_The_Break)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.End_Of_The_Break)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Exit_Time)
-                    </td>
-                    <td class="totalHours">
-                      @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
-                    </td>
-                    <td class="Activities" title="@Html.DisplayFor(modelItem => item.Activies)">
-                      @Html.DisplayFor(modelItem => item.Activies)
-                    </td>
-                    <td>
+                <tr>
+                  <td>
+                    <input type="checkbox" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
+                  </td>
+                  <td>
 
-                      @{
-                        switch (item.Approval)
-                        {
-                          case 1:
-                            @Html.DisplayName("Aguadando");
-                            break;
+                    @{
+                      switch (item.Approval)
+                      {
+                        case 1:
+                          @Html.DisplayName("Aguadando");
+                          break;
 
-                          case 2:
-                            @Html.DisplayName("Revisar");
-                            break;
+                        case 2:
+                          @Html.DisplayName("Revisar");
+                          break;
 
-                          case 3:
-                            @Html.DisplayName("Reprovado");
-                            break;
+                        case 3:
+                          @Html.DisplayName("Reprovado");
+                          break;
 
-                          case 4:
-                            @Html.DisplayName("Aprovado");
-                            break;
+                        case 4:
+                          @Html.DisplayName("Aprovado");
+                          break;
 
-                          default:
-                            @Html.DisplayName("Sem status");
-                            break;
-                        }
-
+                        default:
+                          @Html.DisplayName("Sem status");
+                          break;
                       }
-                    </td>
-                    <td>
-                      <input type="checkbox" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
-                    </td>
-                    <td colspan="2">
-                      <div class="row ml-0">
-                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
-                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                        <a><i></i></a>
-                        <!--button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
-                      </div>
-                    </td>
-                  </tr>
+
+                    }
+                  </td>
+                  <td class="DatesMonth">
+                    @Html.DisplayFor(modelItem => item.Date)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Client)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Project)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Consultant)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Arrival_Time)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Beginning_Of_The_Break)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.End_Of_The_Break)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Exit_Time)
+                  </td>
+                  <th class="totalHours">
+                    @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
+                  </th>
+                  <td colspan="2">
+                    <div class="row ml-0">
+                      <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
+                      <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                      <a><i></i></a>
+                      <!--button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
+                    </div>
+                  </td>
+                </tr>
                 }
               </tbody>
             </table>
@@ -220,7 +220,7 @@
                   </select>
                 </div>
                 <div class="col-2">
-                  <button type="button" class="btn btn-ghost-primary" onclick="confirmUpdateStatus()">Aplicar</button>
+                  <button type="button" class="btn btn-primary" onclick="confirmUpdateStatus()">Aplicar</button>
                 </div>
               </div>
             </form>

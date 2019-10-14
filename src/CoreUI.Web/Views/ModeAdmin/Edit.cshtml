@@ -22,6 +22,19 @@
         <div class="card-body">
           <form id="HoursForm" asp-action="Edit">
             <input type="hidden" asp-for="Hour.Id" />
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Funcionário">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control">
+                  <option value="">Selecione o funcionário</option>
+                </select>
+              </div>
+            </div>
             <div class="form-group row">
               <div class="input-group col-10" title="Projeto">
                 <div class="input-group-prepend">
@@ -138,14 +151,12 @@
             <input type="hidden" asp-for="Hour.Project" class="form-control" />
             <input type="hidden" asp-for="Hour.Consultant" />
             <input type="hidden" asp-for="Hour.Id_Project" />
-            <input type="hidden" asp-for="Hour.Employee_Id" />
             <input type="hidden" asp-for="Hour.Creation_Date" />
 
             <div class="form-group form-actions text-right">
               <div class="col-10">
                 <button class="btn btn-sm btn-warning" type="submit" name="backToList" id="backToList" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
                 <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();" asp-route-id="Id">Salvar</button>
-                <!--<button class="btn btn-sm btn-primary" type="button" onclick="createHour();" asp-route-id="Id">Criar</button>-->
               </div>
             </div>
           </form>

@@ -78,7 +78,7 @@
                 <select asp-for="Employee.Access_LevelId" asp-items="@(new SelectList(Model.Access_Level, "Id", "Access_level"))" class="form-control">
                   <option value="" disabled selected>Nível de acesso</option>
                 </select>
-                <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
+                <span asp-validation-for="Employee.Access_LevelId" name="employee_accessLevel" id="employee_accessLevel" class="text-danger col-12"></span>
               </div>
 
               <div class="input-group col-2" title="Modo de contrato">
@@ -88,10 +88,10 @@
                   </span>
                 </div>
                 <select asp-for="Employee.Contract_Mode" class="form-control">
-                  <option value="" disabled selected>Selecione a forma de contrato</option>
-                  <option value="1">CLT</option>
-                  <option value="2">CLT Flex</option>
-                  <option value="3">PJ</option>
+                  <option value="" disabled selected>Forma de contrato</option>
+                  <option value="CLT">CLT</option>
+                  <option value="CLT Flex">CLT Flex</option>
+                  <option value="PJ">PJ</option>
                 </select>
                 <span asp-validation-for="Employee.Contract_Mode" class="text-danger"></span>
               </div>
@@ -114,16 +114,31 @@
                     <i class="fa fa-address-book-o"></i>
                   </span>
                 </div>
-                <select asp-for="Employee.Appointment" class="form-control" disabled>
-                  <option value="">Compromisso</option>
-                  <option selected value="1">Yes</option>
-                  <option value="0">No</option>
+                <select asp-for="Employee.Appointment" class="form-control">
+                  <option value="" disabled>Compromisso</option>
+                  <option selected value="1">Sim</option>
+                  <option value="0">Não</option>
                 </select>
                 <span asp-validation-for="Employee.Appointment" name="employee_appointment" id="employee_appointment" class="text-danger col-12">Appointment invalid</span>
               </div>
             </div>
 
             <div class="row">
+
+              <div class="input-group col-4" title="Status">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-check"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Employee.Active">
+                  <option value="" disabled>Status</option>
+                  <option value="1">Sim</option>
+                  <option value="0">Não</option>
+                </select>
+              </div>
+
+
               <div class="input-group col-4" title="Document">
                 <div class="input-group-prepend">
                   <span class="input-group-text">

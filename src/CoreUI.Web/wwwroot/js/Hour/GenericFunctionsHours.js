@@ -1,5 +1,57 @@
 ﻿var arrDates = [];
+var arrHours = [];
+var arrProjects = [];
+var arrProjectTeam = [];
 var dateValid;
+var existingDate;
+var wlh = window.location.href.split('/')[4];
+
+function FilterPRojectPerEmployee() {
+    $.ajax({
+        url: '/api/ProjectsAPI',
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            arrProjects = [];
+            arrProjects = data;
+            arrProjects = arrProjects.filter((obj,item) => obj.id)
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function FilterProjectTeamPerEmployee() {
+    $.ajax({
+        url: '/api/Project_teamAPI',
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            arrProjectTeam = [];
+            data.forEach((obj, item) => {
+                if (obj.employee_Id == $('#Hour_Employee_Id').val()) {
+                    Id = data[item].project_Id
+                    arrProjectTeam.push(Id)
+                }
+            })
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function SelectProject(model) {
+    return `
+    ${model.map(obj => {
+        return `
+        <option value="${obj.project_Id}">
+    `}).join('')}
+    `
+}
 
 function TextNameProject(id) {
 
@@ -105,15 +157,14 @@ function JsonChecksDatesStartAndEnd() {
             console.log(data);
 
             arrDates = [];
-            data = data.filter(obj => obj.project_Id == 3 && obj.employee_Id == 1)
+            arrDates = data;
+            data = data.filter(obj => obj.project_Id == $('#Hour_Id_Project').val() && obj.employee_Id == employee)
 
             data.forEach(obj => {
-                if ($('#Hour_Date').val() < obj.start_Date || $('#Hour_Date').val() > obj.end_Date) {
+                if ($('#Hour_Date').val() < obj.start_Date.replace('T00:00:00', '') || $('#Hour_Date').val() > obj.end_Date.replace('T00:00:00', '') && obj.employee_Id == employee) {
                     dateValid = false;
-                    return false;
                 } else {
                     dateValid = true;
-                    return true;
                 }
             });
         })
@@ -122,9 +173,56 @@ function JsonChecksDatesStartAndEnd() {
         });
 }
 
+function searchProjectsPerEmployee() {
+    $.ajax({
+        url: '../../api/HoursAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            console.log(data);
+            arrHours = data;
+
+            data.filter(obj =>
+                obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.arrival_Time.replace(':00', '').split('T')[1] &&
+                $('#Hour_Exit_Time').val().replace('.000', '') <= obj.exit_Time.replace(':00', '').split('T')[1]
+                )
+
+            data.filter(obj =>
+                obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                $('#Hour_Id').val() != obj.id &&
+                (
+                    $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                    $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.arrival_Time.split('T')[1] &&
+                    $('#Hour_Exit_Time').val().replace('.000', '') <= obj.exit_Time.split('T')[1]
+                ) ||
+                $('#Hour_Id').val() != obj.id &&
+                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') <= obj.exit_Time.split('T')[1] &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.start_Time.split('T')[1] &&
+                obj.employee_Id == $('#Hour_Employee_Id').val()).length > 0 ? existingDate = false : existingDate = true;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function createHour() {
+    if (wlh == 'Edit') {
+        $('#HoursForm').attr("action", "Create");
+    }
+
+    HourSubmit();
+}
+
 function HourSubmit() {
 
     JsonChecksDatesStartAndEnd();
+    searchProjectsPerEmployee();
 
     let Hour_Date = $('#Hour_Date').val();
     let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');
@@ -222,8 +320,13 @@ function HourSubmit() {
     }
 
 
-    if (!dateValid) {
+    if (dateValid == false) {
         alert('O dia lançado para este projedo é inválido, pois a data não é compativel com o tempo do projeto');
+        return false;
+    }
+
+    if (existingDate == false) {
+        alert('Já existe horas lançadas para este dia entre estes horários');
         return false;
     }
 

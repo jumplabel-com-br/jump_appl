@@ -1,7 +1,21 @@
 ﻿function EmployeeSubmit() {
 
+    let wlh = window.location.href.split('/')[4]
+
     $('#employee_salary').hide();
     $('#employee_appointment').hide();
+
+    if ($('#Employee_Email').val() == '') {
+        alert('Preencher o campo de email');;
+        $('#Employee_Email').focus();
+        return false;
+    }
+
+    if ($('#Employee_Name').val() == '') {
+        alert('Preencher o campo de nome');;
+        $('#Employee_Name').focus();
+        return false;
+    }
 
     if ($('#Salary').val() == '') {
         $('#Salary').focus();
@@ -9,24 +23,54 @@
         return;
     }
 
-    if ($('#Appointment').val() == '') {
-        $('#Appointment').focus();
+    if ($('#Employee_Appointment').val() == '') {
+        $('#Employee_Appointment').focus();
         $('#employee_appointment').show();
         return;
     }
 
-    if ($('#Employee_Password').val() != $('#ConfirmPassword').val()) {
+    if ($('#Employee_Password').val() == '' && wlh == 'Create') {
+        alert('Preencher o campo de senha');
+        $('#Employee_Password').focus();
+        return false;
+    }
+
+    if ($('#Employee_Access_LevelId').val() == '' || $('#Employee_Access_LevelId').val() == null) {
+        alert('Preencher o nivel de acesso');
+        $('#Employee_Access_LevelId').focus();
+        return false;
+    }
+
+    if ($('#Employee_Contract_Mode').val() == '' || $('#Employee_Contract_Mode').val() == null) {
+        alert('Preencher o modo de contrato');
+        $('#Employee_Contract_Mode').focus();
+        return false;
+    }
+    
+    if ($('#Employee_Password').val() != $('#ConfirmPassword').val() && wlh == 'Create') {
         alert('As senhas não conhecidem');
         $('#Employee_Password').focus();
         return false;
     }
 
-    let Document = $('input[name="Document"]').prop('files')[0];
+    if (wlh == 'Edit' && $('#pswd').val() != $('#ConfirmPassword').val()) {
+        alert('As senhas não conhecidem');
+        $('#Employee_Password').focus();
+        return false;
+    }
 
-    Document != undefined ? $('#Employee_Document').val(Document.name) : $('#Employee_Document').val('Sem Documento');
+    if (wlh == 'Edit' && $('#pswd').val() != null && $('#pswd').val() != '') {
+        $('#Employee_Password').val($('#pswd').val());
+    }
+
+    if ($('input[name="Document"]').length > 0){
+        let Document = $('input[name="Document"]').prop('files')[0];
+
+        Document != undefined ? $('#Employee_Document').val(Document.name) : $('#Employee_Document').val('Sem Documento');
+    }
 
     $('.modalSpinner').modal('show');
-    $('#toast-container').toggle();
+    $('#toast-container-saved').toggle();
     $('#EmployeeForm').submit();
 }
 
@@ -39,3 +83,5 @@ if (window.matchMedia("(max-width: 300px)").matches) {
 
     //$('.col-4 div').remove('div')
 }
+$('#ConfirmPassword').val('')
+

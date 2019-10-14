@@ -1,0 +1,109 @@
+﻿@model CoreUI.Web.Models.Hour
+
+@{
+  ViewData["Title"] = "Delete";
+}
+
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-edit"></i> Time Sheet
+      <div class="card-header-actions">
+        <a asp-action="Create">
+          <input type="hidden" asp-for="@ViewData["Email"]" />
+          <input type="hidden" asp-for="@ViewData["Password"]" />
+          <i class="fa fa-plus"></i>
+        </a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Are you sure you want to delete this?</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+              <thead>
+                <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" style="width: 235px;">@Html.DisplayNameFor(model => model.Project)</th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Date)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Start_Time)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Stop_Time)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Start_Time_2)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Stop_Time_2)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Activies)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Total_Activies_Hours)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Consultant)
+                  </th>
+                  <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 201px;">
+                    @Html.DisplayNameFor(model => model.Creation_Date)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" class="odd">
+                  <th class="sorting_1">@Html.DisplayFor(model => model.Project)</th>
+                  <td>
+                    @Html.DisplayFor(model => model.Date)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Start_Time)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Stop_Time)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Start_Time_2)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Stop_Time_2)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Activies)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Total_Activies_Hours)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Consultant)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(model => model.Creation_Date)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 text-right">
+            <form id="HoursDelete" asp-action="Delete">
+              <button type="submit" class="btn btn-sm btn-warning" asp-action="Index">Back to list</button>
+              <input type="hidden" asp-for="Id" />
+              <button type="button" class="btn btn-sm btn-danger" onclick="DeleteSubmit();">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

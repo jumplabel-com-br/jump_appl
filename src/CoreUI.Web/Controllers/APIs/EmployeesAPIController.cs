@@ -11,56 +11,56 @@ namespace CoreUI.Web.Controllers.APIs
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HoursAPIController : ControllerBase
+    public class EmployeesAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public HoursAPIController(ApplicationDbContext context)
+        public EmployeesAPIController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/HoursAPI
+        // GET: api/EmployeesAPI
         [HttpGet]
-        public IEnumerable<Hour> GetHour()
+        public IEnumerable<Employee> GetEmployee()
         {
-            return _context.Hour.OrderBy(x => x.Start_Time);
+            return _context.Employee.OrderBy(x => x.Email).Distinct();
         }
 
-        // GET: api/HoursAPI/5
+        // GET: api/EmployeesAPI/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetHour([FromRoute] int id)
+        public async Task<IActionResult> GetEmployee([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hour = await _context.Hour.FindAsync(id);
+            var employee = await _context.Employee.FindAsync(id);
 
-            if (hour == null)
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return Ok(hour);
+            return Ok(employee);
         }
 
-        // PUT: api/HoursAPI/5
+        // PUT: api/EmployeesAPI/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHour([FromRoute] int id, [FromBody] Hour hour)
+        public async Task<IActionResult> PutEmployee([FromRoute] int id, [FromBody] Employee employee)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != hour.Id)
+            if (id != employee.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hour).State = EntityState.Modified;
+            _context.Entry(employee).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace CoreUI.Web.Controllers.APIs
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HourExists(id))
+                if (!EmployeeExists(id))
                 {
                     return NotFound();
                 }
@@ -81,45 +81,45 @@ namespace CoreUI.Web.Controllers.APIs
             return NoContent();
         }
 
-        // POST: api/HoursAPI
+        // POST: api/EmployeesAPI
         [HttpPost]
-        public async Task<IActionResult> PostHour([FromBody] Hour hour)
+        public async Task<IActionResult> PostEmployee([FromBody] Employee employee)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Hour.Add(hour);
+            _context.Employee.Add(employee);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHour", new { id = hour.Id }, hour);
+            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
         }
 
-        // DELETE: api/HoursAPI/5
+        // DELETE: api/EmployeesAPI/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHour([FromRoute] int id)
+        public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hour = await _context.Hour.FindAsync(id);
-            if (hour == null)
+            var employee = await _context.Employee.FindAsync(id);
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            _context.Hour.Remove(hour);
+            _context.Employee.Remove(employee);
             await _context.SaveChangesAsync();
 
-            return Ok(hour);
+            return Ok(employee);
         }
 
-        private bool HourExists(int id)
+        private bool EmployeeExists(int id)
         {
-            return _context.Hour.Any(e => e.Id == id);
+            return _context.Employee.Any(e => e.Id == id);
         }
     }
 }

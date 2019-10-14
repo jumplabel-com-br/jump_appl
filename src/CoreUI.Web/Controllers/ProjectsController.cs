@@ -50,13 +50,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 return View(await _projectService.FindAllToListAsync());
             }
             catch (Exception)
@@ -71,13 +72,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -107,13 +109,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 var client = await _clientService.FindAllAsync();
                 var viewModel = new ProjectFormViewModel { Client = client };
 
@@ -135,13 +138,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (ModelState.IsValid)
                 {
                     _context.Add(project);
@@ -162,13 +166,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -200,13 +205,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id != project.Id)
                 {
                     return NotFound();
@@ -245,14 +251,14 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             GetSessions();
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
 
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 if (id == null)
                 {
                     return NotFound();
@@ -281,13 +287,14 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
             try
             {
-                if (ViewBag.Email == null)
-                {
-                    return ExpiredSession();
-                }
-
                 var project = await _context.Project.FindAsync(id);
                 _context.Project.Remove(project);
                 await _context.SaveChangesAsync();

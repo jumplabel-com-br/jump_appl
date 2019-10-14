@@ -11,56 +11,56 @@ namespace CoreUI.Web.Controllers.APIs
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HoursAPIController : ControllerBase
+    public class ClientsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public HoursAPIController(ApplicationDbContext context)
+        public ClientsAPIController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/HoursAPI
+        // GET: api/ClientsAPI
         [HttpGet]
-        public IEnumerable<Hour> GetHour()
+        public IEnumerable<Client> GetClient()
         {
-            return _context.Hour.OrderBy(x => x.Start_Time);
+            return _context.Client.Distinct();
         }
 
-        // GET: api/HoursAPI/5
+        // GET: api/ClientsAPI/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetHour([FromRoute] int id)
+        public async Task<IActionResult> GetClient([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hour = await _context.Hour.FindAsync(id);
+            var client = await _context.Client.FindAsync(id);
 
-            if (hour == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return Ok(hour);
+            return Ok(client);
         }
 
-        // PUT: api/HoursAPI/5
+        // PUT: api/ClientsAPI/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHour([FromRoute] int id, [FromBody] Hour hour)
+        public async Task<IActionResult> PutClient([FromRoute] int id, [FromBody] Client client)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != hour.Id)
+            if (id != client.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hour).State = EntityState.Modified;
+            _context.Entry(client).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace CoreUI.Web.Controllers.APIs
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HourExists(id))
+                if (!ClientExists(id))
                 {
                     return NotFound();
                 }
@@ -81,45 +81,45 @@ namespace CoreUI.Web.Controllers.APIs
             return NoContent();
         }
 
-        // POST: api/HoursAPI
+        // POST: api/ClientsAPI
         [HttpPost]
-        public async Task<IActionResult> PostHour([FromBody] Hour hour)
+        public async Task<IActionResult> PostClient([FromBody] Client client)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Hour.Add(hour);
+            _context.Client.Add(client);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHour", new { id = hour.Id }, hour);
+            return CreatedAtAction("GetClient", new { id = client.Id }, client);
         }
 
-        // DELETE: api/HoursAPI/5
+        // DELETE: api/ClientsAPI/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHour([FromRoute] int id)
+        public async Task<IActionResult> DeleteClient([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hour = await _context.Hour.FindAsync(id);
-            if (hour == null)
+            var client = await _context.Client.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            _context.Hour.Remove(hour);
+            _context.Client.Remove(client);
             await _context.SaveChangesAsync();
 
-            return Ok(hour);
+            return Ok(client);
         }
 
-        private bool HourExists(int id)
+        private bool ClientExists(int id)
         {
-            return _context.Hour.Any(e => e.Id == id);
+            return _context.Client.Any(e => e.Id == id);
         }
     }
 }
