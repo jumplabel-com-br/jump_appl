@@ -1,5 +1,19 @@
-﻿var employees = [];
-var clients; 
+﻿function FilterClients() {
+
+    $.ajax({
+        url: '/api/ClientsAPI',
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            console.log("success");
+            $('#choose_clients').html(CreateFilterClients(data));
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
 
 function FilterEmployees() {
 
@@ -13,24 +27,6 @@ function FilterEmployees() {
             console.log("success");
             employees = data;
             $('#choose_employees').html(CreateFilterEmployees(data));
-        })
-        .fail(function () {
-            console.log("error");
-        });
-}
-
-function FilterClients() {
-
-    $.ajax({
-        url: '/api/ClientsAPI',
-        type: 'GET',
-        dataType: 'json',
-        data: {},
-    })
-        .done(function (data) {
-            console.log("success");
-            clients = data;
-            $('#choose_clients').html(CreateFilterClients(data));
         })
         .fail(function () {
             console.log("error");
@@ -54,6 +50,15 @@ function FilterProjects() {
             console.log("error");
         });
 }
+
+function CreateFilterClients(model) {
+    return `
+       <option value="">Selecione...</option>
+       ${model.map((obj) => {
+           return `<option value="${obj.name}"> ${obj.name} </option>`
+    }).join('')}`
+}
+
 
 function CreateFilterEmployees(model) {
     return `
@@ -82,7 +87,7 @@ function CreateFilterProjects(model) {
 $(document).ready(function () {
     FilterEmployees();
     FilterProjects();
-    //FilterClients();
+    FilterClients();
 
     $('#toast-container').hide();
 
@@ -93,30 +98,33 @@ $(document).ready(function () {
     $("#searchDataTable").on("keyup", function () {
         var value = $("#searchDataTable").val();
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
-        var employee = $("#choose_employees").val();
+        var employee = $("#choose_employees").val().toLowerCase();
+        var client = $("#choose_clients").val().toLowerCase();
         var project = $("#choose_projects").val().toLowerCase();
         $("#tbodyHour tr").filter(function () {
             $(this).toggle(
                 $(this).text().toLowerCase().indexOf(value) > -1 &&
                 $(this).text().toLowerCase().indexOf(month) > -1 &&
                 $(this).text().toLowerCase().indexOf(employee) > -1 &&
+                $(this).text().toLowerCase().indexOf(client) > -1 &&
                 $(this).text().toLowerCase().indexOf(project) > -1);
-            console.log(value)
             SumTotalHours();
         });
     });
 
 
-    $("#searchMothDataTable, #choose_employees, #choose_projects").on("change", function () {
+    $("#searchMothDataTable, #choose_employees, #choose_projects, #choose_clients").on("change", function () {
         var value = $("#searchDataTable").val();
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
-        var employee = $("#choose_employees").val();
+        var employee = $("#choose_employees").val().toLowerCase();
+        var client = $("#choose_clients").val().toLowerCase();
         var project = $("#choose_projects").val().toLowerCase();
         $("#tbodyHour tr").filter(function () {
             $(this).toggle(
                 $(this).text().toLowerCase().indexOf(value) > -1 &&
                 $(this).text().toLowerCase().indexOf(month) > -1 &&
                 $(this).text().toLowerCase().indexOf(employee) > -1 &&
+                $(this).text().toLowerCase().indexOf(client) > -1 &&
                 $(this).text().toLowerCase().indexOf(project) > -1);
             SumTotalHours();
         });
@@ -134,33 +142,29 @@ $(document).ready(function () {
 
     $('input[type="checkbox"]').css({ marginLeft: "40%", marginTop: "30%" })
 
+    $('.paginate_button').on("click", function () {
+        $("#choose_employees").val('');
+        $("#choose_clients").val('');
+        $("#choose_projects").val('');
+    });
+
     $('#example').DataTable({
-        "sEmptyTable": "Nenhum registro encontrado",
-        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sInfoThousands": ".",
-        "sLengthMenu": "_MENU_ resultados por página",
-        "sLoadingRecords": "Carregando...",
-        "sProcessing": "Processando...",
-        "sZeroRecords": "Nenhum registro encontrado",
-        "sSearch": "Pesquisar",
-        "oPaginate": {
-            "sNext": "Próximo",
-            "sPrevious": "Anterior",
-            "sFirst": "Primeiro",
-            "sLast": "Último"
-        },
-        "oAria": {
-            "sSortAscending": ": Ordenar colunas de forma ascendente",
-            "sSortDescending": ": Ordenar colunas de forma descendente"
-        },
-        "select": {
-            "rows": {
-                "_": "Selecionado %d linhas",
-                "0": "Nenhuma linha selecionada",
-                "1": "Selecionado 1 linha"
+        "bJQueryUI": true,
+        "oLanguage": {
+            "sProcessing": "Processando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "Não foram encontrados resultados",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+            "sInfoFiltered": "",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Primeiro",
+                "sPrevious": "Anterior",
+                "sNext": "Seguinte",
+                "sLast": "Último"
             }
         }
     });

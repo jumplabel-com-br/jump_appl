@@ -24,7 +24,7 @@ namespace CoreUI.Web.Controllers.APIs
         [HttpGet]
         public IEnumerable<Project> GetProject()
         {
-            return _context.Project.OrderBy(x => x.Project_Name);
+            return _context.Project.OrderBy(x => x.Project_Name).Distinct();
         }
 
         // GET: api/ProjectsAPI/5

@@ -1,9 +1,37 @@
-﻿function EmployeeSubmit() {
+﻿var arrEmail = [];
+var emailValid;
+
+function SearchEmailValid() {
+    $.ajax({
+        url: '/api/EmployeesAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            arrEmail = data;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function EmployeeSubmit() {
+    SearchEmailValid();
 
     let wlh = window.location.href.split('/')[4]
 
     $('#employee_salary').hide();
     $('#employee_appointment').hide();
+
+    arrEmail.filter(obj => obj.email == $('#Employee_Email').val()).length > 0 ? emailValid = false : emailValid = true;
+
+    if (emailValid == false) {
+        alert('Este email já foi cadastrado');
+        $('#Employee_Email').focus();
+        return false;
+    }
 
     if ($('#Employee_Email').val() == '') {
         alert('Preencher o campo de email');;

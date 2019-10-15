@@ -6,7 +6,7 @@ var dateValid;
 var existingDate;
 var wlh = window.location.href.split('/')[4];
 
-function FilterPRojectPerEmployee() {
+function FilterProjectPerEmployee() {
     $.ajax({
         url: '/api/ProjectsAPI',
         type: 'GET',
@@ -16,7 +16,9 @@ function FilterPRojectPerEmployee() {
         .done(function (data) {
             arrProjects = [];
             arrProjects = data;
-            arrProjects = arrProjects.filter((obj,item) => obj.id)
+            arrProjects = arrProjects.filter((obj, item) => obj.id == arrProjectTeam[item]);
+
+            $('#Hour_Id_Project').html(SelectProject(arrProjects))
         })
         .fail(function () {
             console.log("error");
@@ -32,12 +34,15 @@ function FilterProjectTeamPerEmployee() {
     })
         .done(function (data) {
             arrProjectTeam = [];
-            data.forEach((obj, item) => {
-                if (obj.employee_Id == $('#Hour_Employee_Id').val()) {
-                    Id = data[item].project_Id
-                    arrProjectTeam.push(Id)
-                }
-            })
+
+            if (data.length > 0) {
+                data.forEach(obj => 
+                    arrProjectTeam.push(obj.id)
+                    )
+            }
+
+            FilterProjectPerEmployee();
+
         })
         .fail(function () {
             console.log("error");
@@ -46,9 +51,10 @@ function FilterProjectTeamPerEmployee() {
 
 function SelectProject(model) {
     return `
+        <option value="">Selecione o projeto</option>
     ${model.map(obj => {
         return `
-        <option value="${obj.project_Id}">
+        <option value="${obj.id}"> ${obj.project_Name} </option>
     `}).join('')}
     `
 }
@@ -185,13 +191,34 @@ function searchProjectsPerEmployee() {
             console.log(data);
             arrHours = data;
 
+
             data.filter(obj =>
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
-                $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.arrival_Time.replace(':00', '').split('T')[1] &&
-                $('#Hour_Exit_Time').val().replace('.000', '') <= obj.exit_Time.replace(':00', '').split('T')[1]
-                )
+                $('#Hour_Arrival_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1] &&
+                $('#Hour_Exit_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
+            ).length > 0
 
+            ||
+
+            data.filter(obj =>
+                obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') < obj.arrival_Time.replace(':00', '').split('T')[1] &&
+                $('#Hour_Exit_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
+                && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
+            ).length > 0
+
+            ||
+
+            data.filter(obj =>
+                obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
+                && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
+            ).length > 0 ?  existingDate = false : existingDate = true; 
+
+            /*
             data.filter(obj =>
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Id').val() != obj.id &&
@@ -205,6 +232,7 @@ function searchProjectsPerEmployee() {
                 $('#Hour_Arrival_Time').val().replace('.000', '') <= obj.exit_Time.split('T')[1] &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.start_Time.split('T')[1] &&
                 obj.employee_Id == $('#Hour_Employee_Id').val()).length > 0 ? existingDate = false : existingDate = true;
+            */
         })
         .fail(function () {
             console.log("error");
@@ -223,6 +251,7 @@ function HourSubmit() {
 
     JsonChecksDatesStartAndEnd();
     searchProjectsPerEmployee();
+    SearchEmailValid();
 
     let Hour_Date = $('#Hour_Date').val();
     let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');

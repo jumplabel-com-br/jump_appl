@@ -24,7 +24,7 @@ namespace CoreUI.Web.Controllers.APIs
         [HttpGet]
         public IEnumerable<Client> GetClient()
         {
-            return _context.Client.Distinct();
+            return _context.Client.OrderBy(x => x.Name).Distinct();
         }
 
         // GET: api/ClientsAPI/5

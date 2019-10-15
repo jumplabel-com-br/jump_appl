@@ -47,9 +47,8 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> Index()
         {
             GetSessions();
-            int empId = ViewBag.Id;
 
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -79,8 +78,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -114,16 +112,18 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            int empId = ViewBag.Id;
-            int accessLevel = ViewBag.AcessLevel;
+            
 
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
 
             try
             {
+                int empId = ViewBag.Id;
+                int accessLevel = ViewBag.AcessLevel;
+
                 var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                 var employees = await _employeeService.FindAllAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
@@ -147,10 +147,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            int empId = ViewBag.Id;
-            int accessLevel = ViewBag.AcessLevel;
-
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -158,6 +155,9 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                int empId = ViewBag.Id;
+                int accessLevel = ViewBag.AcessLevel;
+
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
                     var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
@@ -193,10 +193,7 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
-            int empId = ViewBag.Id;
-            var accessLevel = ViewBag.AcessLevel;
-
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -204,6 +201,9 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                int empId = ViewBag.Id;
+                var accessLevel = ViewBag.AcessLevel;
+
                 if (id == null)
                 {
                     return NotFound();
@@ -252,7 +252,6 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            int empId = ViewBag.Id;
             if (ViewBag.Email == null)
             {
                 return ExpiredSession();
@@ -299,8 +298,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -326,8 +324,7 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
-            int empId = ViewBag.Id;
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -349,9 +346,8 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> ModeAdmin()
         {
             GetSessions();
-            int empId = ViewBag.Id;
 
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -373,9 +369,8 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> UpdateStatus(int status, string ids)
         {
             GetSessions();
-            int empId = ViewBag.Id;
 
-            if (ViewBag.Email == null || _context.Employee.Count(emp => emp.Id == empId) == 0)
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }

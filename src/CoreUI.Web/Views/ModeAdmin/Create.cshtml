@@ -30,7 +30,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control">
+                <select asp-for="Hour.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control" onchange="FilterProjectTeamPerEmployee()">
                   <option value="">Selecione o funcionário</option>
                 </select>
               </div>
