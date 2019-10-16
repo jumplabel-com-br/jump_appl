@@ -144,8 +144,10 @@
             <input type="hidden" asp-for="Hour.Stop_Time_2" />
             <input type="hidden" asp-for="Hour.Total_Activies_Hours" />
             <input type="hidden" asp-for="Hour.Creation_Date" class="form-control" value="@DateTime.Now" />
-            <input type="hidden" class="form-control" asp-for="Hour.Project" />
-            <input type="hidden" class="form-control" asp-for="Project_team.Project_Id" />
+            <input type="hidden" asp-for="Hour.Project" />
+            <input type="hidden" asp-for="Project_team.Project_Id" />
+            <input type="hidden" asp-for="Hour.Register" value="@ViewBag.Id"/>
+            <input type="hidden" asp-for="Hour.Approver_Update" value="@ViewBag.Id" />
             <!--<input type="hidden" class="form-control" asp-for="Hour.Employee_Id" value="@@ViewBag.Id" />-->
 
             <div class="form-group form-actions text-right col-10">

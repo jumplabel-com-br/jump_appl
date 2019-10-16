@@ -1,4 +1,22 @@
-﻿function FilterClients() {
+﻿function checkedAll() {
+
+    document.querySelectorAll('.trCount').forEach((obj, item) => {
+
+        if (document.querySelector('#' + obj.id).style.display != 'none') {
+            //console.log(document.querySelector('#' + obj.id + ' .checkedItem').checked)
+            if (document.querySelector('#' + obj.id + ' .checkedItem').checked) {
+                document.querySelector('#' + obj.id + ' .checkedItem').checked = false;
+                //console.log(1)
+            } else {
+                document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
+                //console.log(2)
+            }
+        }
+        //document.querySelector('#' + obj.id).style.display != 'none' ? document.querySelector('#' + obj.id + ' .checkedItem').checked = true : document.querySelector('#' + obj.id + ' .checkedItem').checked = false
+    });
+}
+
+function FilterClients() {
 
     $.ajax({
         url: '/api/ClientsAPI',
@@ -140,36 +158,13 @@ $(document).ready(function () {
 
     SumTotalHours();
 
-    $('input[type="checkbox"]').css({ marginLeft: "40%", marginTop: "30%" })
+    $('.checkedItem').css({ marginLeft: "40%", marginTop: "30%" })
 
     $('.paginate_button').on("click", function () {
         $("#choose_employees").val('');
         $("#choose_clients").val('');
         $("#choose_projects").val('');
     });
-
-    $('#example').DataTable({
-        "bJQueryUI": true,
-        "oLanguage": {
-            "sProcessing": "Processando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "Não foram encontrados resultados",
-            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
-            "sInfoFiltered": "",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "oPaginate": {
-                "sFirst": "Primeiro",
-                "sPrevious": "Anterior",
-                "sNext": "Seguinte",
-                "sLast": "Último"
-            }
-        }
-    });
-
-    $('#example_filter').hide();
 });
 
 function SumTotalHours() {

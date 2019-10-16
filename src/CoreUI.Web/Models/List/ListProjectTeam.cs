@@ -10,6 +10,9 @@ namespace CoreUI.Web.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Cliente")]
+        public string Client { get; set; }
+
         [Display(Name = "Funcionário")]
         public string Employee { get; set; }
         public int EmployeeId { get; set; }

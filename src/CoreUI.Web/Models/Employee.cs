@@ -36,7 +36,7 @@ namespace CoreUI.Web.Models
         public double Salary { get; set; }
         */
 
-        [Display(Name = "Compromisso")]
+        [Display(Name = "Apontamento")]
         public int Appointment { get; set; }
 
         [Display(Name = "Password")]

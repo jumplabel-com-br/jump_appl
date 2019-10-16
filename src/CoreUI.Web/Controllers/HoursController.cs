@@ -50,7 +50,6 @@ namespace CoreUI.Web.Controllers
         public async Task<IActionResult> Index()
         {
             GetSessions();
-            int empId = ViewBag.Id;
 
             if (ViewBag.Email == null )
             {
@@ -60,6 +59,7 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                int empId = ViewBag.Id;
                 var result = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id);
                 return View(result);
 
@@ -82,8 +82,6 @@ namespace CoreUI.Web.Controllers
         {
 
             GetSessions();
-
-            int empId = ViewBag.Id;
 
             if (ViewBag.Email == null )
             {
@@ -379,16 +377,21 @@ namespace CoreUI.Web.Controllers
 
 
             string queryString = "update dev_jump.Hour set Approval = '"+status+"' where Id in ("+ids+")";
-            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
-            MySqlConnection connection = new MySqlConnection(connString);
-            MySqlCommand command = new MySqlCommand(queryString, connection);
+            ExecuteQuery(queryString);
+
+            return RedirectToAction(nameof(ModeAdmin));
+        }
+
+        public void ExecuteQuery(string query)
+        {
+            string conn = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+            MySqlConnection connection = new MySqlConnection(conn);
+            MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataAdapter da = new MySqlDataAdapter();
             connection.Open();
             command.ExecuteNonQuery();
             connection.Close();
-
-            return RedirectToAction(nameof(ModeAdmin));
         }
 
         public void GetSessions()

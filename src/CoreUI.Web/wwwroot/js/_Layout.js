@@ -1,7 +1,7 @@
 ﻿var arrProjectTeam;
 var arrClient;
 var arrProject;
-
+var wlhs = window.location.href.split('/')
 
 ActiveLinck();
 
@@ -9,26 +9,27 @@ $('.modalSpinner').modal('hide');
 $('.modalSpinner').hide();
 
 //verifica de pode se está em revisão
-if (approval != null) {
-    if (approval > 1 && accessLevel == 3) {
-        $('.readonly').prop('disabled', true);
+if (wlhs[4] != 'ChangePassword') {
+    if (approval != null) {
+        if (approval > 1 && accessLevel == 3) {
+            $('.readonly').prop('disabled', true);
+        }
     }
-}
 
+    //ocuta coisas a quem não tem acesso de administrador ou gerencia
+    accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').hide() : '';
 
-//ocuta coisas a quem não tem acesso de administrador ou gerencia
-accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').hide() : '';
+    if (accessLevel == 1 || accessLevel == 2) {
 
-if (accessLevel == 1 || accessLevel == 2) {
+        $('#Approver').val(approver);
+        $('.AccessItem').show();
 
-    $('#Approver').val(approver);
-    $('.AccessItem').show();
+    } else {
 
-} else {
+        $('#Approver').val('');
+        $('.AccessItem').hide();
 
-    $('#Approver').val('');
-    $('.AccessItem').hide();
-
+    }
 }
 
 
@@ -78,15 +79,15 @@ function templateMessagesBellForAdmin(model) {
 	
 	<div class="form-control">
 	    ${model.map((obj) => {
-            let fullDate = obj.date.replace('T00:00:00', '')
-            let day = new Date(fullDate).getDate() + 1
-            let month = new Date(fullDate).getMonth() + 1
-            let year = new Date(fullDate).getFullYear()
+        let fullDate = obj.date.replace('T00:00:00', '')
+        let day = new Date(fullDate).getDate() + 1
+        let month = new Date(fullDate).getMonth() + 1
+        let year = new Date(fullDate).getFullYear()
 
-            return `
+        return `
 		        <span class="cursor-pointer" onclick="wlhAlertBell(${obj.id})" title="Data: ${day + '/' + month + '/' + year}"><i class="fa fa-user"></i> ${MessageReturn(accessLevel, obj.consultant.replace('@jumplabel.com.br', ''), obj.approval)}</span>
 		    <br/>`
-        }).join('')}
+    }).join('')}
 	</div>
 	`
 }
@@ -223,7 +224,7 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
     }
 
 
-    if(wlh[3] == 'Projects') {
+    if (wlh[3] == 'Projects') {
         searchProjects();
         searchProjectTeamPerProject();
 
@@ -239,7 +240,7 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
             return false;
         }
 
-        if (countProjectTeam.length  > 0) {
+        if (countProjectTeam.length > 0) {
             $('.toast-message').hide();
             $('.message-error-delete').html('Não é possível deletar, pois há equipes lançadas com este projeto')
             $('.toast-message-cancel').show();
@@ -254,4 +255,56 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
     $('#toast-container').toggle();
 }
 
-JsonMessagesBell();
+
+if ($('table').length > 0) {
+
+
+    $('table').DataTable({
+        "bJQueryUI": true,
+        "bPaginate": false,
+        "bFilter": false,
+        "info": false,
+        "oLanguage": {
+            "sProcessing": "Processando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "Não foram encontrados resultados",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+            "sInfoFiltered": "",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Primeiro",
+                "sPrevious": "Anterior",
+                "sNext": "Seguinte",
+                "sLast": "Último"
+            }
+        }
+    });
+
+    //$('#example_info').html('')
+    //$('#DataTables_Table_0_info').html('')
+
+    /*
+    $('.sorting').on("click", function () {
+        removeSorting();
+    });
+
+    function removeSorting() {
+        document.querySelectorAll('table thead th')[document.querySelectorAll('table thead th').length - 1].classList.remove('sorting')
+        if (document.querySelectorAll('table thead th')[0].classList[0] == "custom-checkbox") {
+            document.querySelectorAll('table thead th')[0].classList.remove('sorting')
+            document.querySelectorAll('table thead th')[0].classList.remove('sorting_asc')
+            document.querySelectorAll('table thead th')[0].setAttribute('aria-disabled', true)
+        }
+    }
+
+    removeSorting
+    */
+
+}
+
+if (wlhs[4] != 'ChangePassword') {
+    JsonMessagesBell();
+}

@@ -87,6 +87,37 @@ namespace CoreUI.Web.Controllers
             return View(_hourService);
         }
 
+        public IActionResult ChangePassword()
+        {
+            GetSessions();
+            return View();
+        }
+
+        public IActionResult UpdatePassword(string email,string password)
+        {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+            string queryString = "update dev_jump.Employee set password = '" + password + "', change_password = 0 where Email = '" + email + "'";
+            ExecuteQuery(queryString);
+            return RedirectToAction("Index", "Hours");
+        }
+
+        public void ExecuteQuery(string query)
+        {
+            string conn = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+            MySqlConnection connection = new MySqlConnection(conn);
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ValidLogin([Bind("Email", "Password")] Employee employee)
@@ -135,6 +166,12 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
             }
 
+            if (_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1 && emp.Change_Password == 1) == 1)
+            {
+                ViewData["Email"] = employee.Email;
+                return RedirectToAction(nameof(ChangePassword));
+            }
+
             return RedirectToAction("Index", "Hours");
 
         }
@@ -152,6 +189,23 @@ namespace CoreUI.Web.Controllers
             HttpContext.Session.Remove(SessionEmployeeId);
             return RedirectToAction("Index", "Home");
 
+        }
+
+        public void GetSessions()
+        {
+
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
+            ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
+
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
         }
 
     }

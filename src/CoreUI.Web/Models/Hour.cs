@@ -91,7 +91,9 @@ namespace CoreUI.Web.Models
 
         public int Approval { get; set; }
         public int Approver { get; set; }
-        
+        public int Approver_Update { get; set; }
+        public int Register { get; set; }
+
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _config;
 

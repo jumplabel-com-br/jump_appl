@@ -38,9 +38,6 @@
                     @Html.DisplayNameFor(model => model.Name)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Document)
-                  </th>
-                  <th>
                     @Html.DisplayNameFor(model => model.Contract_Mode)
                   </th>
                   <th>
@@ -63,9 +60,6 @@
                     </td>
                     <td>
                       @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                      <a href="~/Files/Employee/Document/@Html.DisplayFor(modelItem => item.Document)" download>@Html.DisplayFor(modelItem => item.Document)</a>
                     </td>
                     <td>
                       @Html.DisplayFor(modelItem => item.Contract_Mode)

@@ -33,10 +33,10 @@
               <thead>
                 <tr>
                   <th>
-                    @Html.DisplayNameFor(model => model.Project)
+                    @Html.DisplayNameFor(model => model.Client)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Client)
+                    @Html.DisplayNameFor(model => model.Project)
                   </th>
                   <th>
                     @Html.DisplayNameFor(model => model.Status)
@@ -49,34 +49,34 @@
               <tbody id="tbodyHour">
                 @foreach (var item in Model)
                 {
-                  <tr>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Project)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Client)
-                    </td>
-                    <td>
-                      @{
-                        if (item.Status == "1")
-                        {
-                          @Html.DisplayName("Ativo")
-                        }
-                        else
-                        {
-                          @Html.DisplayName("Inativo")
-                        }
+                <tr>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Client)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Project)
+                  </td>
+                  <td>
+                    @{
+                      if (item.Status == "1")
+                      {
+                      @Html.DisplayName("Ativo")
                       }
-                    </td>
+                      else
+                      {
+                      @Html.DisplayName("Inativo")
+                      }
+                    }
+                  </td>
 
-                    <td colspan="2">
-                      <div class="row ml-0">
-                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
-                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                        <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </td>
-                  </tr>
+                  <td colspan="2">
+                    <div class="row ml-0">
+                      <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
+                      <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                      <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </td>
+                </tr>
                 }
               </tbody>
             </table>

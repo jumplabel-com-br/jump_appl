@@ -193,6 +193,7 @@ function searchProjectsPerEmployee() {
 
 
             data.filter(obj =>
+                obj.id != $('#Hour_Id').val() &&
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1] &&
@@ -202,6 +203,7 @@ function searchProjectsPerEmployee() {
             ||
 
             data.filter(obj =>
+                obj.id != $('#Hour_Id').val() &&
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') < obj.arrival_Time.replace(':00', '').split('T')[1] &&
@@ -212,6 +214,7 @@ function searchProjectsPerEmployee() {
             ||
 
             data.filter(obj =>
+                obj.id != $('#Hour_Id').val() &&
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
@@ -251,7 +254,6 @@ function HourSubmit() {
 
     JsonChecksDatesStartAndEnd();
     searchProjectsPerEmployee();
-    SearchEmailValid();
 
     let Hour_Date = $('#Hour_Date').val();
     let Arrival_Time = $('#Hour_Arrival_Time').val().replace(':00.000', '');

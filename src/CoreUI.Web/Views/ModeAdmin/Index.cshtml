@@ -55,27 +55,27 @@
                 </label>
 
                 <label>
-                  Funcionário:
-                  <select name="choose_employees" id="choose_employees" class="form-control">
-                    <option value="">Selecione...</option>
-                  </select>
-                </label>
-
-                <label>
                   Projeto:
                   <select name="choose_projects" id="choose_projects" class="form-control">
                     <option value="">Selecione...</option>
                   </select>
                 </label>
 
-                <!--
                 <label>
-                  Client:
-                  <select name="choose_clients" id="choose_clients" class="form-control">
+                  Funcionário:
+                  <select name="choose_employees" id="choose_employees" class="form-control">
                     <option value="">Selecione...</option>
                   </select>
                 </label>
-                -->
+
+                <!--
+  <label>
+    Client:
+    <select name="choose_clients" id="choose_clients" class="form-control">
+      <option value="">Selecione...</option>
+    </select>
+  </label>
+  -->
               </div>
 
               <!--
@@ -102,10 +102,10 @@
             <table id="example" class="table table-responsive-sm table-bordered  table-sm">
               <thead>
                 <tr>
-                  <th>
-                    #
+                  <th class="custom-checkbox">
+                    <input type="checkbox" class="btn btn-primary" name="checkedAll" id="checkedAll" onclick="checkedAll()">
                   </th>
-                  <th>
+                  <th name="aprovacao">
                     Aprovação
                   </th>
                   <th>
@@ -143,9 +143,9 @@
               <tbody id="tbodyHour">
                 @foreach (var item in Model)
                 {
-                <tr>
+                <tr class="trCount" id="tr_@item.Id">
                   <td>
-                    <input type="checkbox" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
+                    <input type="checkbox" class="checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
                   </td>
                   <td>
 
@@ -153,7 +153,7 @@
                       switch (item.Approval)
                       {
                         case 1:
-                          @Html.DisplayName("Aguadando");
+                          @Html.DisplayName("Aguardando");
                           break;
 
                         case 2:
@@ -215,15 +215,15 @@
               </tbody>
             </table>
             <form id="UpdateStatus" asp-action="UpdateStatus">
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-2">
                   <input type="hidden" name="ids" id="ids" value="" />
                   <select class="form-control" name="status" id="status">
                     <option value="">Selecione...</option>
                     <option value="1">Aguardando</option>
-                    <option value="2">Revisar</option>
-                    <option value="3">Reprovado</option>
                     <option value="4">Aprovado</option>
+                    <option value="3">Reprovado</option>
+                    <option value="2">Revisar</option>
                   </select>
                 </div>
                 <div class="col-2">

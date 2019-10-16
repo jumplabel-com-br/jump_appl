@@ -375,7 +375,8 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            string queryString = "update dev_jump.Hour set Approval = '" + status + "' where Id in (" + ids + ")";
+            int id = ViewBag.Id;
+            string queryString = "update dev_jump.Hour set Approver = " + id + ", Approval = '" + status + "' where Id in (" + ids + ")";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);

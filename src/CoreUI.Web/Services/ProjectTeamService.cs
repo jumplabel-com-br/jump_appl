@@ -31,11 +31,13 @@ namespace CoreUI.Web.Services
             var result = from projectTeam in _context.Project_team
                          join project in _context.Project on projectTeam.Project_Id equals project.Id
                          join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
+                         join client in _context.Client on project.Client_Id equals client.Id
 
                          select
                          new ListProjectTeam
                          {
                              Id = projectTeam.Id,
+                             Client = client.Name,
                              Employee = employee.Name,
                              EmployeeId = employee.Id,
                              Project = project.Project_Name,
@@ -45,6 +47,7 @@ namespace CoreUI.Web.Services
                          };
 
             return await result
+                .OrderBy(x => x.Client)
                 .OrderBy(x => x.Project)
                 .ToListAsync();
 

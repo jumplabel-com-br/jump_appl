@@ -152,6 +152,8 @@
             <input type="hidden" asp-for="Hour.Consultant" />
             <input type="hidden" asp-for="Hour.Id_Project" />
             <input type="hidden" asp-for="Hour.Creation_Date" />
+            <input type="hidden" asp-for="Hour.Register" value="@ViewBag.Id" />
+            <input type="hidden" asp-for="Hour.Approver_Update" value="@ViewBag.Id" />
 
             <div class="form-group form-actions text-right">
               <div class="col-10">
