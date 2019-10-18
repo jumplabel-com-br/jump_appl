@@ -44,7 +44,7 @@ namespace CoreUI.Web.Models
 
         public string Password { get; set; }
 
-        [Display(Name = "Change Password")]
+        [Display(Name = "Alterar senha")]
         public int Change_Password { get; set; }
 
         public Access_Level Access_Level { get; set; }

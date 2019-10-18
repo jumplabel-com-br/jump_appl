@@ -121,11 +121,23 @@
                   <option value="0">Não</option>
                 </select>
               </div>
+
+              <div class="input-group col-4" title="Alterar senha">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-edit"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Employee.Change_Password">
+                  <option value="" disabled>Alterar senha</option>
+                  <option value="1">Sim</option>
+                  <option value="0">Não</option>
+                </select>
+              </div>
             </div>
 
             <input type="hidden" asp-for="Employee.Document" />
             <input type="hidden" asp-for="Employee.Password" class="form-control" placeholder="Senha" />
-            <input type="hidden" asp-for="Employee.Change_Password" class="form-control" placeholder="Change Password" value="0" />
             <input type="hidden" name="file" id="file" />
 
             <div class="form-group form-actions text-right col-10">

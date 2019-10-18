@@ -39,10 +39,16 @@ namespace CoreUI.Web.Controllers
 
             if (AcessLevel == 3)
             {
-                return _context.Hour.Where(x => x.Approval == 2 || x.Approval == 3 && x.Employee_Id == Id);
+                return _context.Hour
+                    .Where(x => x.Approval == 2 || x.Approval == 3 || x.Approval == 4 && x.Employee_Id == Id);
             }
 
-            return _context.Hour.Where(x => x.Approval == 1);
+            return _context.Hour
+                .Where(x => x.Approval == 1)
+                .OrderBy(x => x.Consultant)
+                .GroupBy(x => x.Consultant)
+                .Select(x => x.First())
+                .ToList();
         }
 
         // GET: api/AlertsHours/5

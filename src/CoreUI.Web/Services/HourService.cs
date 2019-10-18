@@ -24,6 +24,7 @@ namespace CoreUI.Web.Services
             var result = from hour in _context.Hour
                          join projects in _context.Project on hour.Id_Project equals projects.Id
                          join clients in _context.Client on projects.Client_Id equals clients.Id
+                         join employees in _context.Employee on hour.Employee_Id equals employees.Id
                          orderby hour.Date ascending
                          orderby clients.Name ascending
 
@@ -38,7 +39,7 @@ namespace CoreUI.Web.Services
                              Stop_Time_2 = hour.Stop_Time_2,
                              Activies = hour.Activies,
                              Total_Activies_Hours = hour.Total_Activies_Hours,
-                             Consultant = hour.Consultant.Replace("@jumplabel.com.br", ""),
+                             Consultant = employees.Email.Replace("@jumplabel.com.br", ""),
                              Creation_Date = hour.Creation_Date,
                              Id_Project = hour.Id_Project,
                              Employee_Id = hour.Employee_Id,

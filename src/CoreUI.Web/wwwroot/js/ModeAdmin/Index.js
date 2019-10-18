@@ -16,6 +16,10 @@
     });
 }
 
+var clientes = [];
+var employees = [];
+var projects = [];
+
 function FilterClients() {
 
     $.ajax({
@@ -26,7 +30,8 @@ function FilterClients() {
     })
         .done(function (data) {
             console.log("success");
-            $('#choose_clients').html(CreateFilterClients(data));
+            clientes = data;
+            //$('#choose_clients').html(CreateFilterClients(data));
         })
         .fail(function () {
             console.log("error");
@@ -44,7 +49,7 @@ function FilterEmployees() {
         .done(function (data) {
             console.log("success");
             employees = data;
-            $('#choose_employees').html(CreateFilterEmployees(data));
+            //$('#choose_employees').html(CreateFilterEmployees(data));
         })
         .fail(function () {
             console.log("error");
@@ -62,7 +67,7 @@ function FilterProjects() {
         .done(function (data) {
             console.log("success");
             projects = data;
-            $('#choose_projects').html(CreateFilterProjects(data));
+            //$('#choose_projects').html(CreateFilterProjects(data));
         })
         .fail(function () {
             console.log("error");
@@ -113,6 +118,8 @@ $(document).ready(function () {
         obj.innerHTML.trim().length > 30 ? obj.innerHTML = obj.innerHTML.trim().substr(0, 20) + '...' : ''
     });
 
+
+    
     $("#searchDataTable").on("keyup", function () {
         var value = $("#searchDataTable").val();
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
@@ -131,12 +138,54 @@ $(document).ready(function () {
     });
 
 
+    function AtualizaComboAno() {
+        for (i = 1990; i <= new Date().getFullYear(); i++) {
+            arrAno.push({ 'ano': i })
+        }
+
+        $('#searchYearDataTable').html(arrAno.map(obj => {
+            return `
+            <option ${obj.ano == new Date().getFullYear() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
+            
+        `
+        })
+        )
+    }
+    AtualizaComboAno();
+    $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
+        var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
+        $('table').DataTable().search(month).draw();
+        $('table tbdoy tr').length > 0 ?  SumTotalHours() : '';
+    });
+
+    var month = new Date().getMonth() + 1 + '/' + new Date().getFullYear();
+    $("#searchMothDataTable").val(new Date().getMonth() + 1 )
+    $('table').DataTable().search(month).draw();
+    SumTotalHours();
+
+    /*
+    $('#choose_employees').on('change', function () {
+        var employee = $("#choose_employees").val().toLowerCase();
+        $('table').DataTable().search(employee).draw();
+    });
+
+    $('#choose_clients').on('change', function () {
+        var client = $("#choose_clients").val().toLowerCase();
+        $('table').DataTable().search(client).draw();
+    });
+
+    $('#choose_projects').on('change', function () {
+        var project = $("#choose_projects").val().toLowerCase();
+        $('table').DataTable().search(project).draw();
+    });
+
     $("#searchMothDataTable, #choose_employees, #choose_projects, #choose_clients").on("change", function () {
         var value = $("#searchDataTable").val();
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
         var employee = $("#choose_employees").val().toLowerCase();
         var client = $("#choose_clients").val().toLowerCase();
         var project = $("#choose_projects").val().toLowerCase();
+
         $("#tbodyHour tr").filter(function () {
             $(this).toggle(
                 $(this).text().toLowerCase().indexOf(value) > -1 &&
@@ -155,8 +204,8 @@ $(document).ready(function () {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         SumTotalHours();
     });
-
-    SumTotalHours();
+        SumTotalHours();
+    */
 
     $('.checkedItem').css({ marginLeft: "40%", marginTop: "30%" })
 

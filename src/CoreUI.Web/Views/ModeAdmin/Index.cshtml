@@ -23,10 +23,13 @@
           <div class="card-body">
             <div class="row ml-0">
               <div id="DataTables_Table_0_filter" class="dataTables_filter col-8">
+                
+                <!--
                 <label>
                   Pesquisar:
                   <input type="search" name="searchDataTable" id="searchDataTable" class="form-control" placeholder="" aria-controls="DataTables_Table_0">
                 </label>
+                -->
 
                 <label>
                   Mês:
@@ -48,6 +51,14 @@
                 </label>
 
                 <label>
+                  Ano:
+                  <select  name="searchYearDataTable" id="searchYearDataTable" class="form-control">
+                    <option value=""></option>
+                  </select>
+                </label>
+
+                <!--
+                <label>
                   Cliente:
                   <select name="choose_clients" id="choose_clients" class="form-control">
                     <option value="">Selecione...</option>
@@ -67,15 +78,16 @@
                     <option value="">Selecione...</option>
                   </select>
                 </label>
+                -->
 
                 <!--
-  <label>
-    Client:
-    <select name="choose_clients" id="choose_clients" class="form-control">
-      <option value="">Selecione...</option>
-    </select>
-  </label>
-  -->
+                <label>
+                  Client:
+                  <select name="choose_clients" id="choose_clients" class="form-control">
+                    <option value="">Selecione...</option>
+                  </select>
+                </label>
+                -->
               </div>
 
               <!--
@@ -99,121 +111,123 @@
             <div class="text-right">
               <label id="sum"></label>
             </div>
-            <table id="example" class="table table-responsive-sm table-bordered  table-sm">
-              <thead>
-                <tr>
-                  <th class="custom-checkbox">
-                    <input type="checkbox" class="btn btn-primary" name="checkedAll" id="checkedAll" onclick="checkedAll()">
-                  </th>
-                  <th name="aprovacao">
-                    Aprovação
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Client)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Project)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Consultant)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Arrival_Time)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Beginning_Of_The_Break)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.End_Of_The_Break)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Exit_Time)
-                  </th>
-                  <th>
-                    @Html.DisplayNameFor(model => model.Total_Hours_In_Activity)
-                  </th>
-                  <th>
-                    Ações
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="tbodyHour">
-                @foreach (var item in Model)
-                {
-                <tr class="trCount" id="tr_@item.Id">
-                  <td>
-                    <input type="checkbox" class="checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
-                  </td>
-                  <td>
+            <div id="exportExcel">
+              <table id="example" class="table table-responsive-sm table-bordered  table-sm">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" class="btn btn-primary" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : $('.checkedItem').prop('checked',false)">
+                    </th>
+                    <th name="aprovacao">
+                      Aprovação
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Client)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Project)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Consultant)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Arrival_Time)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Beginning_Of_The_Break)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.End_Of_The_Break)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Exit_Time)
+                    </th>
+                    <th>
+                      @Html.DisplayNameFor(model => model.Total_Hours_In_Activity)
+                    </th>
+                    <th>
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyHour">
+                  @foreach (var item in Model)
+                  {
+                    <tr class="trCount" id="tr_@item.Id">
+                      <td>
+                        <input type="checkbox" class="checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
+                      </td>
+                      <td>
 
-                    @{
-                      switch (item.Approval)
-                      {
-                        case 1:
-                          @Html.DisplayName("Aguardando");
-                          break;
+                        @{
+                          switch (item.Approval)
+                          {
+                            case 1:
+                              @Html.DisplayName("Aguardando");
+                              break;
 
-                        case 2:
-                          @Html.DisplayName("Revisar");
-                          break;
+                            case 2:
+                              @Html.DisplayName("Revisar");
+                              break;
 
-                        case 3:
-                          @Html.DisplayName("Reprovado");
-                          break;
+                            case 3:
+                              @Html.DisplayName("Reprovado");
+                              break;
 
-                        case 4:
-                          @Html.DisplayName("Aprovado");
-                          break;
+                            case 4:
+                              @Html.DisplayName("Aprovado");
+                              break;
 
-                        default:
-                          @Html.DisplayName("Sem status");
-                          break;
-                      }
+                            default:
+                              @Html.DisplayName("Sem status");
+                              break;
+                          }
 
-                    }
-                  </td>
-                  <td class="DatesMonth">
-                    @Html.DisplayFor(modelItem => item.Date)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Client)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Project)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Consultant)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Arrival_Time)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Beginning_Of_The_Break)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.End_Of_The_Break)
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => item.Exit_Time)
-                  </td>
-                  <th class="totalHours">
-                    @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
-                  </th>
-                  <td colspan="2">
-                    <div class="row ml-0">
-                      <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
-                      <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                      <a><i></i></a>
-                      <!--button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
-                    </div>
-                  </td>
-                </tr>
-                }
-              </tbody>
-            </table>
+                        }
+                      </td>
+                      <td class="DatesMonth">
+                        @Html.DisplayFor(modelItem => item.Date)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Client)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Project)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Consultant)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Arrival_Time)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Beginning_Of_The_Break)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.End_Of_The_Break)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Exit_Time)
+                      </td>
+                      <th class="totalHours">
+                        @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
+                      </th>
+                      <td colspan="2">
+                        <div class="row ml-0">
+                          <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
+                          <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                          <a><i></i></a>
+                          <!--button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
             <form id="UpdateStatus" asp-action="UpdateStatus">
               <div class="row mt-3">
                 <div class="col-2">

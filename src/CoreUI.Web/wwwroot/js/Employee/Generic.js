@@ -27,7 +27,7 @@ function EmployeeSubmit() {
 
     arrEmail.filter(obj => obj.email == $('#Employee_Email').val()).length > 0 ? emailValid = false : emailValid = true;
 
-    if (emailValid == false) {
+    if (emailValid == false && wlh == 'Create') {
         alert('Este email já foi cadastrado');
         $('#Employee_Email').focus();
         return false;

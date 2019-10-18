@@ -6,31 +6,52 @@ $(document).ready(function () {
         obj.innerHTML.trim().length > 30 ? obj.innerHTML = obj.innerHTML.trim().substr(0, 20) + '...' : ''
     });
 
+
     $("#searchDataTable").on("keyup", function () {
         var value = $("#searchDataTable").val();
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
         $("#tbodyHour tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(month) > -1);
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(value) > -1 &&
+                $(this).text().toLowerCase().indexOf(month) > -1);
             SumTotalHours();
         });
     });
 
+
+    function AtualizaComboAno() {
+        for (i = 1990; i <= new Date().getFullYear(); i++) {
+            arrAno.push({ 'ano': i })
+        }
+
+        $('#searchYearDataTable').html(arrAno.map(obj => {
+            return `
+            <option ${obj.ano == new Date().getFullYear() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
+            
+        `
+        })
+        )
+    }
+
+    AtualizaComboAno();
     
-    $("#searchMothDataTable").on("change", function () {
-        var value = $("#searchDataTable").val();
-        var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
+    $("#searchMothDataTable, #searchYearDataTable").on("change", function () {
+        //var value = $("#searchDataTable").val();
+        var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
         $("#tbodyHour tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase().indexOf(month) > -1);
-            console.log(value)
+            $(this).toggle(
+                //$(this).text().toLowerCase().indexOf(value) > -1 &&
+                $(this).text().toLowerCase().indexOf(month) > -1);
             SumTotalHours();
         });
     });
 
     $('#searchMothDataTable').val(new Date().getMonth()+1);
 
-    let value = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
+    let value = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
     $("#tbodyHour tr").filter(function () {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        $(this).toggle(
+            $(this).text().toLowerCase().indexOf(value) > -1);
         SumTotalHours();
     });
 

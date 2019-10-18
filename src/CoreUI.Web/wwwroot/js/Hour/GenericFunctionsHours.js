@@ -4,6 +4,7 @@ var arrProjects = [];
 var arrProjectTeam = [];
 var dateValid;
 var existingDate;
+var horasInvalida;
 var wlh = window.location.href.split('/')[4];
 
 function FilterProjectPerEmployee() {
@@ -17,6 +18,7 @@ function FilterProjectPerEmployee() {
             arrProjects = [];
             arrProjects = data;
             arrProjects = arrProjects.filter((obj, item) => obj.id == arrProjectTeam[item]);
+
 
             $('#Hour_Id_Project').html(SelectProject(arrProjects))
         })
@@ -173,6 +175,8 @@ function JsonChecksDatesStartAndEnd() {
                     dateValid = true;
                 }
             });
+
+            arrDates.filter(obj => obj.employee_Id == $('#Hour_Employee_Id').val() && obj.project_Id == $('#Hour_Id_Project').val()).length == 0 ? horasInvalida = false : horasInvalida = true;
         })
         .fail(function () {
             console.log("error");
@@ -242,9 +246,10 @@ function searchProjectsPerEmployee() {
         });
 }
 
-function createHour() {
+function CopySubmit() {
     if (wlh == 'Edit') {
-        $('#HoursForm').attr("action", "Create");
+        $('#HoursForm').attr("action", "/Hours/Create");
+        $('#HoursForm #Hour_Id').remove();
     }
 
     HourSubmit();
@@ -358,6 +363,11 @@ function HourSubmit() {
 
     if (existingDate == false) {
         alert('Já existe horas lançadas para este dia entre estes horários');
+        return false;
+    }
+
+    if (horasInvalida == false && accessLevel != 3) {
+        alert('Não há este tipo de projeto para você');
         return false;
     }
 
