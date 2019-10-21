@@ -90,20 +90,9 @@ function FilterHoursPerEmployee(consultant, id) {
     }
 
     $('#choose_employees').val(consultant);
-    var value = $("#searchDataTable").val();
-    var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + new Date().getFullYear() : '';
-    var employee = $("#choose_employees").val().toLowerCase();
-    var client = $("#choose_clients").val().toLowerCase();
-    var project = $("#choose_projects").val().toLowerCase();
-    $("#tbodyHour tr").filter(function () {
-        $(this).toggle(
-            $(this).text().toLowerCase().indexOf(value) > -1 &&
-            $(this).text().toLowerCase().indexOf(month) > -1 &&
-            $(this).text().toLowerCase().indexOf(employee) > -1 &&
-            $(this).text().toLowerCase().indexOf(client) > -1 &&
-            $(this).text().toLowerCase().indexOf(project) > -1);
-        SumTotalHours();
-    });
+    $('table').DataTable().search(consultant).draw()
+
+   
 }
 
 function MessageReturn(accessLevel, consultant, approval) {
@@ -342,24 +331,6 @@ if ($('table').length > 0) {
                         });
                     }
                 });
-                /*
-                $('#example thead tr th').each(function (i) {
-                    if (i == 1 || i == 3 || i == 4 || i == 5) {
-                        var title = $(this).text();
-                        $(this).html(`<input type="text" class="form-control ${nameClass(i)}" id="${nameClass(i)}" placeholder="${NameSelect(i)}" />`);
-
-                        $('input', this).on('keyup change', function () {
-                            if ($('#example').DataTable().column(i).search() !== this.value) {
-                                $('#example')
-                                    .DataTable()
-                                    .column(i)
-                                    .search(this.value)
-                                    .draw();
-                            }
-                        });
-                    }
-                });
-                */
             },
 
             "bJQueryUI": true,
@@ -371,7 +342,7 @@ if ($('table').length > 0) {
             buttons: [
                 {
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<i class="fa fa-file-excel-o"></i>',
                     exportOptions: {
                         // Aqui você inclui o índice da coluna
                         // Sabendo que os índices começam com 0
@@ -379,7 +350,7 @@ if ($('table').length > 0) {
                     }
                 }, {
                     extend: 'pdf',
-                    text: 'PDF',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
                     exportOptions: {
                         // Exporta as colunas
                         columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -387,7 +358,7 @@ if ($('table').length > 0) {
                 },
                 {
                     extend: 'print',
-                    text: 'Imprimir',
+                    text: '<i class="fa fa-print"></i>',
                     exportOptions: {
                         // Exporta as colunas
                         columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -421,34 +392,26 @@ if ($('table').length > 0) {
         });
 
         $('#example thead tr').clone(true).appendTo('#example thead');
-        $('#example thead tr:eq(0) th')[0].innerHTML = '#'
-        $('#example thead tr:eq(0) th')[1].innerHTML = 'Aprovação'
-        $('#example thead tr:eq(0) th')[3].innerHTML = 'Cliente'
-        $('#example thead tr:eq(0) th')[4].innerHTML = 'Projeto'
-        $('#example thead tr:eq(0) th')[5].innerHTML = 'Funcionário'
+        $('#example thead tr:eq(0) th')[0].innerHTML = '#';
+        $('#example thead tr:eq(0) th')[1].innerHTML = 'Aprovação';
+        $('#example thead tr:eq(0) th')[3].innerHTML = 'Cliente';
+        $('#example thead tr:eq(0) th')[4].innerHTML = 'Projeto';
+        $('#example thead tr:eq(0) th')[5].innerHTML = 'Funcionário';
 
+        for (var i = 0; i <= 11; i++) {
+            if (i == 2 || i >= 6) {
+                $('#example thead tr:eq(1) th')[i].innerHTML = '';
+            }
 
-        $('#example thead tr:eq(1) th')[2].innerHTML = ''
-        $('#example thead tr:eq(1) th')[6].innerHTML = ''
-        $('#example thead tr:eq(1) th')[7].innerHTML = ''
-        $('#example thead tr:eq(1) th')[8].innerHTML = ''
-        $('#example thead tr:eq(1) th')[9].innerHTML = ''
-        $('#example thead tr:eq(1) th')[10].innerHTML = ''
-        $('#example thead tr:eq(1) th')[11].innerHTML = ''
+            $('#example thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
+            $('#example thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
+        }
 
-        $('#example thead tr:eq(1) th:eq(0)').removeClass('sorting_asc')
-        $('#example thead tr:eq(1) th:eq(1)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(2)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(3)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(4)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(5)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(6)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(7)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(8)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(9)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(10)').removeClass('sorting')
-        $('#example thead tr:eq(1) th:eq(11)').removeClass('sorting')
-
+        $('.buttons-excel, .buttons-pdf, .buttons-print').addClass('btn btn-lg');
+        $('.buttons-excel').addClass('btn-ghost-success');
+        $('.buttons-pdf').addClass('btn-ghost-danger');
+        $('.buttons-print').addClass('btn-ghost-info');
+        $('input[type="search"]').addClass('form-control')
 
     } else {
         $('table').DataTable({

@@ -151,10 +151,13 @@ $(document).ready(function () {
         })
         )
     }
+
     AtualizaComboAno();
+
     $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
         $('table').DataTable().search(month).draw();
+        $('#choose_clients, #choose_projects, #choose_employees').val('')
         $('table tbdoy tr').length > 0 ?  SumTotalHours() : '';
     });
 
