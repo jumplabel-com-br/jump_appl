@@ -311,7 +311,7 @@ if ($('table').length > 0) {
                 this.api().columns().every(function (d, j) {
                     var column = this;
                     if (d == 1 || d == 3 || d == 4 || d == 5) {
-                        var select = $(`<select class="form-control ${nameClass(d)}" id="${nameClass(d)}"><option value="" disabled selected> ${NameSelect(d)}</option></select>`)
+                        var select = $(`<select class="form-control ${nameClass(d)}" id="${nameClass(d)}"><option value=""> ${NameSelect(d)}</option></select>`)
                             .appendTo($(column.header()).empty())
                             .on('change', function () {
                                 var val = $.fn.dataTable.util.escapeRegex(
@@ -407,11 +407,21 @@ if ($('table').length > 0) {
             $('#example thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
         }
 
+
         $('.buttons-excel, .buttons-pdf, .buttons-print').addClass('btn btn-lg');
-        $('.buttons-excel').addClass('btn-ghost-success');
-        $('.buttons-pdf').addClass('btn-ghost-danger');
-        $('.buttons-print').addClass('btn-ghost-info');
-        $('input[type="search"]').addClass('form-control')
+        $('.buttons-excel').addClass('btn-success');
+        $('.buttons-pdf').addClass('btn-danger');
+        $('.buttons-print').addClass('btn-primary');
+        $('input[type="search"]').addClass('form-control');
+
+        $('.buttons-excel').attr('title', 'Baixar excel');
+        $('.buttons-pdf').attr('title', 'Baixar PDF');
+        $('.buttons-print').attr('title', 'Imprimir');
+
+
+        $('input[type="search"]').on('keyup', function () {
+            SumTotalHours();
+        });
 
     } else {
         $('table').DataTable({
@@ -441,37 +451,18 @@ if ($('table').length > 0) {
                 }
             }
         });
-    }
 
-    //$('#example_info').html('')
-    //$('#DataTables_Table_0_info').html('')
+        $('input[type="search"]').addClass('form-control');
 
-    /*
-    $('.sorting').on("click", function () {
-        removeSorting();
-    });
-
-    function removeSorting() {
-        document.querySelectorAll('table thead th')[document.querySelectorAll('table thead th').length - 1].classList.remove('sorting')
-        if (document.querySelectorAll('table thead th')[0].classList[0] == "custom-checkbox") {
-            document.querySelectorAll('table thead th')[0].classList.remove('sorting')
-            document.querySelectorAll('table thead th')[0].classList.remove('sorting_asc')
-            document.querySelectorAll('table thead th')[0].setAttribute('aria-disabled', true)
+        if (wlhs[3] == 'Hours') {
+            $('input[type="search"]').on('keyup', function () {
+                SumTotalHours();
+            });
         }
     }
-
-    removeSorting
-    */
 
 }
 
 if (wlhs[4] != 'ChangePassword') {
     JsonMessagesBell();
 }
-
-/*
-function exportExcel() {
-    var html = document.querySelector('#exportExcel').outerHTML;
-    window.open('data:application/vnd.ms-excel, ' + encodeURIComponent(html));
-}
-*/''

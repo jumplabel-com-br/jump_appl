@@ -34,7 +34,7 @@
                 <label>
                   Mês:
                   <select name="searchMothDataTable" id="searchMothDataTable" class="form-control">
-                    <option value="">Mês</option>
+                    <option value="">Todos</option>
                     <option value="1">Jan</option>
                     <option value="2">Fev</option>
                     <option value="3">Mar</option>
@@ -158,7 +158,7 @@
                   {
                     <tr class="trCount" id="tr_@item.Id">
                       <td>
-                        <input type="checkbox" class="checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
+                        <input type="checkbox" class="checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  :  document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '')" />
                       </td>
                       <td>
 

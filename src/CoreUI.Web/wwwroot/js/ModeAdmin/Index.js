@@ -8,8 +8,9 @@
                 document.querySelector('#' + obj.id + ' .checkedItem').checked = false;
                 //console.log(1)
             } else {
+                document.querySelector('#ids').value += obj.id.replace('tr_','')+','
                 document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
-                //console.log(2)
+                //console.log(document.querySelector('#ids').value += obj.id.replace('tr_', '')+',')
             }
         }
         //document.querySelector('#' + obj.id).style.display != 'none' ? document.querySelector('#' + obj.id + ' .checkedItem').checked = true : document.querySelector('#' + obj.id + ' .checkedItem').checked = false
@@ -143,13 +144,13 @@ $(document).ready(function () {
             arrAno.push({ 'ano': i })
         }
 
-        $('#searchYearDataTable').html(arrAno.map(obj => {
-            return `
+        $('#searchYearDataTable').html(
+            `<option value="">Todos</option>
+            ${arrAno.map(obj => {
+                return `
             <option ${obj.ano == new Date().getFullYear() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
-            
-        `
-        })
-        )
+            `
+            }).join('')}`)
     }
 
     AtualizaComboAno();

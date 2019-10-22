@@ -18,7 +18,8 @@ namespace CoreUI.Web.Models
         public DbSet<Project> Project { get; set; }
         public DbSet<Access_Level> Access_Level { get; set; }
         public DbSet<Client> Client { get; set; }
-        public DbSet<CoreUI.Web.Models.Project_team> Project_team { get; set; }
+        public DbSet<Project_team> Project_team { get; set; }
+        public DbSet<Outlays> Outlays { get; set; }
 
 
     }

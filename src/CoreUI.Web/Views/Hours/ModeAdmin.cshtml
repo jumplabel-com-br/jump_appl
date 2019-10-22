@@ -193,7 +193,7 @@
                       }
                     </td>
                     <td>
-                      <input type="checkbox" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value -= @item.Id+','" />
+                      <input type="checkbox" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  : document.querySelector('#ids').value.replace(@item.Id+',', '')" />
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">

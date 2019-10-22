@@ -24,7 +24,7 @@
     <PackageReference Include="AWSSDK.S3" Version="3.3.104.31" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" PrivateAssets="All" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.0" />
     <PackageReference Include="WebUI" Version="1.0.6.1" />
   </ItemGroup>
@@ -32,6 +32,36 @@
 
   <ItemGroup>
     <Folder Include="Views\CoreUI\" />
+    <Folder Include="wwwroot\Files\Outlays\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\.gitignore" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\.jshintrc" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\.ruby-version" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\.travis.yml" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\CHANGELOG.md" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\CONTRIBUTING.md" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\deploy.rb" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\dist\jquery.mask.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\dist\jquery.mask.min.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\docker-compose.yml" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\Dockerfile" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\Gruntfile.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\LICENSE" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\package.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\README.md" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\src\jquery.mask.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\jquery.mask.test.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\qunit.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\sinon-1.10.3.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\sinon-qunit-1.0.0.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\sinon-qunit.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\zepto\data.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\zepto\event.js" />
+    <None Include="wwwroot\js\jQuery-Mask-Plugin\test\zepto\zepto.min.js" />
   </ItemGroup>
 
 

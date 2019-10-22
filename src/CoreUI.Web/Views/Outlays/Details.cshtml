@@ -1,0 +1,128 @@
+﻿@model CoreUI.Web.Models.ViewModel.OutlaysFormViewModel
+
+@{
+  ViewData["Title"] = "Create";
+}
+
+
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> Lançamento de despesas
+          <div class="card-header-actions">
+            <a asp-action="Create">
+              <input type="hidden" asp-for="@ViewData["Email"]" />
+              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <form enctype="multipart/form-data" id="OutlaysForm" asp-action="Edit">
+            <input type="hidden" asp-for="Outlays.Id" />
+            <div class="form-group row">
+              <div class="input-group col-10" title="Cliente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select disabled asp-for="Outlays.Client_Id" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control">
+                  <option value="">Selecione o cliente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Projeto">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select disabled asp-for="Outlays.Project_Id" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control">
+                  <option value="">Selecione o projeto</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-5" title="Data">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <input disabled asp-for="Outlays.Date" class="form-control" placeholder="Data" />
+              </div>
+
+              <div class="input-group col-5" title="Número da nota">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-pencil"></i>
+                  </span>
+                </div>
+                <input disabled asp-for="Outlays.NoteNumber" class="form-control" placeholder="Número da nota" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-group col-5" title="Valor da nota">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-usd"></i>
+                  </span>
+                </div>
+                <input disabled asp-for="Outlays.NoteValue" class="form-control" placeholder="Valor da nota" />
+              </div>
+
+              <div class="input-group col-5" title="Arquivo">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file"></i>
+                  </span>
+                </div>
+                <!--<input type="file" name="Document" id="Document" class="mt-1 ml-1"/>-->
+                <input disabled type="text" asp-for="Outlays.File" class="form-control" />
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="input-group col-10" title="Descrição">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-list"></i>
+                  </span>
+                </div>
+                <textarea disabled asp-for="Outlays.Description" class="form-control" placeholder="Descrição"></textarea>
+              </div>
+            </div>
+
+            <!--
+            <div class="form-group row">
+              <div class="input-group col-10" title="Projeto">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select asp-for="Outlays.Employee_Id" asp-items="@@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control" >
+                  <option value="">Selecione o projeto</option>
+                </select>
+              </div>
+            </div>
+            -->
+            <input type="hidden" asp-for="Outlays.Employee_Id" value="@ViewBag.Id" />
+            <div class="form-group form-actions text-right col-10">
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="~/js/Outlays/Generic.js"></script>

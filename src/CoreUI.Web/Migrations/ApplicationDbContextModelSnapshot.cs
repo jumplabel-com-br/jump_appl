@@ -126,6 +126,32 @@ namespace CoreUI.Web.Migrations
                     b.ToTable("Hour");
                 });
 
+            modelBuilder.Entity("CoreUI.Web.Models.Outlays", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Client_Id");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("Employee_Id");
+
+                    b.Property<string>("File");
+
+                    b.Property<string>("NoteNumber");
+
+                    b.Property<double>("NoteValue");
+
+                    b.Property<int>("Project_Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Outlays");
+                });
+
             modelBuilder.Entity("CoreUI.Web.Models.Project", b =>
                 {
                     b.Property<int>("Id")

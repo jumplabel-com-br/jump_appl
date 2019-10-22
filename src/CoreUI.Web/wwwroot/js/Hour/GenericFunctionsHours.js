@@ -288,7 +288,7 @@ function HourSubmit() {
         return false;
     }
 
-    if ($('#Hour_Arrival_Time').val() == '' || $('#Hour_Arrival_Time').val().replace(':00.000', '') == '00:00') {
+    if ($('#Hour_Arrival_Time').val() == ''/* || $('#Hour_Arrival_Time').val().replace(':00.000', '') == '00:00'*/) {
         $('#hour_arrival_time').show();
         $('#Hour_Arrival_Time').focus();
         return false;

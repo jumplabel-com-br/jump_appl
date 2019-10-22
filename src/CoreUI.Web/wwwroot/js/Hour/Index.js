@@ -24,21 +24,28 @@ $(document).ready(function () {
             arrAno.push({ 'ano': i })
         }
 
-        $('#searchYearDataTable').html(arrAno.map(obj => {
-            return `
+        $('#searchYearDataTable').html(
+            `<option value="">Todos</option>
+            ${arrAno.map(obj => {
+                return `
             <option ${obj.ano == new Date().getFullYear() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
-            
-        `
-        })
-        )
+            `
+            }).join('')}`)
     }
 
     AtualizaComboAno();
 
     $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
-        var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
+        var month = $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val();
+
+        if ($('#searchMothDataTable').val().length == 0 && $('#searchYearDataTable').val().length == 0) {
+            month = '';
+        } else if ($('#searchMothDataTable').val().length == 0 && $('#searchYearDataTable').val().length >= 1) {
+            month = '/' + $('#searchYearDataTable').val();
+        }
+
         $('table').DataTable().search(month).draw();
-        $('table tbdoy tr').length > 0 ? SumTotalHours() : '';
+        $('table tbody tr td').text() != "Não foram encontrados resultados" ? SumTotalHours() : $('#TotalOfSumHours').val('');
     });
 
     var month = new Date().getMonth() + 1 + '/' + new Date().getFullYear();
@@ -48,6 +55,11 @@ $(document).ready(function () {
 });
 
 function SumTotalHours() {
+
+    if ($('table tbody tr td').text() == "Não foram encontrados resultados" ) {
+        $('#TotalOfSumHours').val('');
+        return false;
+    }
 
     let hours = 0;
     let minutes = 0;

@@ -124,7 +124,7 @@ namespace CoreUI.Web.Controllers
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
 
-                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projects = await _projectService.FindAllAsync();
                 var employees = await _employeeService.FindAllAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Projects = projects, Employees = employees};

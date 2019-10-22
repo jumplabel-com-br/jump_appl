@@ -13,7 +13,7 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Create Employee
           <div class="card-header-actions">
-            <a asp-controller="UploadFiles" asp-action="Create">
+            <a asp-action="Create">
               <input type="hidden" asp-for="Employee.@ViewData["Email"]" />
               <input type="hidden" asp-for="Employee.@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
@@ -21,9 +21,9 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="EmployeeForm" asp-action="Create">
+          <form enctype="multipart/form-data" id="EmployeeForm" asp-action="Create">
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Email">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-envelope"></i>
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-10" title="Nome">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -46,9 +46,7 @@
             </div>
 
             <div class="form-group row">
-
-
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Senha">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="icon-lock"></i>
@@ -58,7 +56,7 @@
                 <span asp-validation-for="Employee.Password" name="employee_password" id="employee_password" class="text-danger col-12">Password invalid</span>
               </div>
 
-              <div class="input-group col-2">
+              <div class="input-group col-2" title="Confirmar senha">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="icon-lock"></i>
@@ -70,7 +68,7 @@
 
 
               <div class="input-group col-2">
-                <div class="input-group-prepend">
+                <div class="input-group-prepend" title="Nível de acesso">
                   <span class="input-group-text">
                     <i class="fa fa-address-book-o"></i>
                   </span>
@@ -109,7 +107,7 @@
   -->
 
               <div class="input-group col-2">
-                <div class="input-group-prepend">
+                <div class="input-group-prepend" title="Apontamento">
                   <span class="input-group-text">
                     <i class="fa fa-address-book-o"></i>
                   </span>
@@ -139,7 +137,7 @@
               </div>
 
 
-              <div class="input-group col-4" title="Document">
+              <div class="input-group col-4">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-file-text"></i>

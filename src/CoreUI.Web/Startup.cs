@@ -59,6 +59,7 @@ namespace CoreUI.Web
             services.AddScoped<AccessLevelService>();
             services.AddScoped<ClientService>();
             services.AddScoped<ProjectTeamService>();
+            services.AddScoped<OutlaysService>();
 
         }
 

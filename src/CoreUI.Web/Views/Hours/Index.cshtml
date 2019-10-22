@@ -33,7 +33,7 @@
                 <label>
                   Mês:
                   <select name="searchMothDataTable" id="searchMothDataTable" class="form-control">
-                    <option value="">Mês</option>
+                    <option value="">Todos</option>
                     <option value="1">Jan</option>
                     <option value="2">Fev</option>
                     <option value="3">Mar</option>
@@ -164,11 +164,11 @@
                     <td colspan="2">
                       <div class="row ml-0">
                         <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-search"></i></a>
-                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-edit"></i></a>
 
                         @{
                           if (item.Approval <= 1)
                           {
+                            <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-edit"></i></a>
                             <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                           }
                         }

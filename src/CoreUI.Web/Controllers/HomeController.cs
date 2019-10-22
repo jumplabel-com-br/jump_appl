@@ -26,6 +26,7 @@ namespace CoreUI.Web.Controllers
         const string SessionName = "_Name";
         const string SessionEmployeeId = "_Id";
         const string SessionAcessLevel = "_IdAccessLevel";
+        const string SessionChangePassword = "_ChangePassword";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
@@ -90,10 +91,11 @@ namespace CoreUI.Web.Controllers
         public IActionResult ChangePassword()
         {
             GetSessions();
+
             return View();
         }
 
-        public IActionResult UpdatePassword(string email,string password)
+        public IActionResult UpdatePassword(string email,string password, string currentPassword)
         {
             GetSessions();
 
@@ -103,6 +105,7 @@ namespace CoreUI.Web.Controllers
             }
 
             string queryString = "update dev_jump.Employee set password = '" + password + "', change_password = 0 where Email = '" + email + "'";
+
             ExecuteQuery(queryString);
             return RedirectToAction("Index", "Hours");
         }
@@ -145,6 +148,7 @@ namespace CoreUI.Web.Controllers
             int idEmployee = (int)dt.Rows[0]["id"];
             string NameEmployee = dt.Rows[0]["Name"].ToString();
             int accessLEvel = (int)dt.Rows[0]["Access_LevelId"];
+            int changePassword = (sbyte)dt.Rows[0]["Change_Password"];
 
             /*
             if (!string.IsNullOrEmpty(idEmployee))
@@ -164,6 +168,7 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetInt32(SessionEmployeeId, idEmployee);
                 HttpContext.Session.SetString(SessionName, NameEmployee);
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
+                HttpContext.Session.SetInt32(SessionChangePassword, changePassword);
             }
 
             if (_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1 && emp.Change_Password == 1) == 1)
@@ -199,7 +204,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
             ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
             ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
-
+            ViewBag.ChangePassword = HttpContext.Session.GetInt32(SessionChangePassword);
         }
 
         public IActionResult ExpiredSession()

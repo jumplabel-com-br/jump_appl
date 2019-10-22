@@ -139,7 +139,7 @@ namespace CoreUI.Web.Controllers
                 {
                     int empId = ViewBag.Id;
 
-                    //EnviarArquivo(Document, empId, storage);
+                    EnviarArquivo(Document, empId, storage);
 
                     _context.Add(employee);
                     await _context.SaveChangesAsync();

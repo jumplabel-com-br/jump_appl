@@ -96,7 +96,10 @@ namespace CoreUI.Web.Services
                              Client = clients.Name
                          };
 
-            return await result.OrderBy(x => x.Date).ToListAsync();
+            return await result
+                .OrderBy(x => x.Date)
+                .OrderBy(x => x.Arrival_Time)
+                .ToListAsync();
 
         }
 

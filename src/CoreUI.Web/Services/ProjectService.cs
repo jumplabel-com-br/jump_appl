@@ -32,9 +32,8 @@ namespace CoreUI.Web.Services
 
         public async Task<List<Project>> FindPerEmployeeAsync(int employeeId, int accessLevel)
         {
-            if (accessLevel == 3)
-            {
-                var obj = from project in _context.Project
+            
+                var result = from project in _context.Project
                           join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
                           join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
                           where employee.Id == employeeId
@@ -42,13 +41,11 @@ namespace CoreUI.Web.Services
                           select project;
 
 
-                return await obj
+                return await result
                     .OrderBy(x => x.Project_Name)
                     .Distinct()
                     .ToListAsync();
-            }
-
-
+            /*
             var result = from project in _context.Project
                          join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
                          join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
@@ -59,7 +56,7 @@ namespace CoreUI.Web.Services
             return await result
                 .OrderBy(x => x.Project_Name)
                 .Distinct()
-                .ToListAsync();
+                .ToListAsync();*/
 
         }
 

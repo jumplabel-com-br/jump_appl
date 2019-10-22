@@ -46,7 +46,7 @@
             <div class="card-body">
               <form asp-action="ValidLogin">
                 <h1>Login</h1>
-                <p class="text-muted">Sign In to your account</p>
+                <p class="text-muted">Faça o login com a sua conta</p>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -54,6 +54,7 @@
                     </span>
                   </div>
                   <input asp-for="Employee.Email" class="form-control" placeholder="Username" />
+                  <span class="text-danger"></span>
                 </div>
                 <div class="input-group mb-4">
                   <div class="input-group-prepend">
@@ -74,6 +75,12 @@
                   }
                 }
 
+                <div class="row UserOrPasswordInvalid" style="display: none;">
+                  <div class="col-12">
+                    <span class="text-danger">Usuário ou senha inválidos</span>
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="col-6">
                     <button type="submit" class="btn btn-primary px-4" value="ValidLogin" onclick="$('.modalSpinner').modal('show')">Login</button>
@@ -88,11 +95,11 @@
           <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
             <div class="card-body text-center">
               <div>
-                <h2>Sign up</h2>
+                <h2>Cadastre-se</h2>
                 <p>
-                  To create your account click the button below.
+                  Para criar seu usuário clique no botão abaixo
                 </p>
-                  <button type="button" class="btn btn-primary active mt-3">Register Now!</button>
+                  <button type="button" class="btn btn-primary active mt-3">Cadastre-se agora!</button>
               </div>
             </div>
           </div>
@@ -108,5 +115,6 @@
   <script src="~/lib/pace-progress/pace.min.js"></script>
   <script src="~/lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
   <script src="~/lib/@@coreui/coreui/dist/js/coreui.min.js"></script>
+  <script src="~/js/Home/Index.js"></script>
 </body>
 </html>

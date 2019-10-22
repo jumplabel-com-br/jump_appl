@@ -50,6 +50,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
           integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
           crossorigin="anonymous"></script>
+  <script src="~/js/jQuery-Mask-Plugin/dist/jquery.mask.js"></script>
+  <script src="~/js/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
+  <script src="~/js/jQuery-Mask-Plugin/src/jquery.mask.js"></script>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
@@ -112,6 +115,9 @@
           <i class="avatar fa fa-user mt-3"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" asp-controller="Home" asp-action="ChangePassword">
+            <i class="fa fa-edit"></i> Alterar senha
+          </a>
 
           <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index">
             <i class="fa fa-check-circle-o"></i> Aprovação
@@ -119,6 +125,11 @@
 
           <a class="dropdown-item acessAdminGerencia" asp-controller="Clients" asp-action="Index">
             <i class="fa fa-user"></i> Clientes
+            <!--<span class="badge badge-primary">1</span>-->
+          </a>
+
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Outlays" asp-action="Index">
+            <i class="fa fa-money"></i> Despesas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
