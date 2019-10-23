@@ -94,9 +94,6 @@ namespace CoreUI.Web.Models
         public int Approver_Update { get; set; }
         public int Register { get; set; }
 
-        private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _config;
-
         public Hour()
         {
 

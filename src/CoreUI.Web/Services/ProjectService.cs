@@ -25,6 +25,7 @@ namespace CoreUI.Web.Services
             return await obj
                 .Where(x => x.Project_Name != "" && x.Project_Name != null)
                 .OrderBy(x => x.Project_Name)
+                .Distinct()
                 .ToListAsync();
             //return await _context.Project
             //  .OrderBy(x => x.Project_Name).ToListAsync();

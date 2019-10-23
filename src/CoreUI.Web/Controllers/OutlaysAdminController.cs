@@ -11,10 +11,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using CoreUI.Web.Models.ViewModel;
 using System.IO;
+using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace CoreUI.Web.Controllers
 {
-    public class OutlaysController : Controller
+    public class OutlaysAdminController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly EmployeeService _employeeService;
@@ -24,8 +26,9 @@ namespace CoreUI.Web.Controllers
         private readonly ClientService _clienteService;
         private readonly OutlaysService _outlaysService;
         IHostingEnvironment _appEnvironment;
+        private readonly IConfiguration _config;
 
-        public OutlaysController(ApplicationDbContext context, EmployeeService employeeService, ProjectService projectService, HourService hourService, AccessLevelService accessLevelService, ClientService clientService ,OutlaysService outlaysService, IHostingEnvironment appEnvironment)
+        public OutlaysAdminController(ApplicationDbContext context, EmployeeService employeeService, ProjectService projectService, HourService hourService, AccessLevelService accessLevelService, ClientService clientService, OutlaysService outlaysService, IHostingEnvironment appEnvironment, IConfiguration config)
         {
             _context = context;
             _employeeService = employeeService;
@@ -35,6 +38,7 @@ namespace CoreUI.Web.Controllers
             _clienteService = clientService;
             _outlaysService = outlaysService;
             _appEnvironment = appEnvironment;
+            _config = config;
 
         }
 
@@ -57,7 +61,7 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var ViewModel = await _outlaysService.FindPerEmployee(ViewBag.Id);
+            var ViewModel = await _outlaysService.FindAllAsync();
 
             return View(ViewModel);
         }
@@ -79,11 +83,11 @@ namespace CoreUI.Web.Controllers
 
             var outlays = await _context.Outlays
                 .FirstOrDefaultAsync(m => m.Id == id);
-            //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var employees = await _employeeService.FindAllAsync();
+            var projects = await _projectService.FindAllAsync();
             var clients = await _clienteService.FindAllAsync();
 
-            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };
+            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees, Outlays = outlays };
 
             if (outlays == null)
             {
@@ -102,11 +106,11 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var employees = await _employeeService.FindAllAsync();
+            var projects = await _projectService.FindAllAsync();
             var clients = await _clienteService.FindAllAsync();
 
-            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects };
+            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees };
             return View(ViewModel);
         }
 
@@ -126,7 +130,7 @@ namespace CoreUI.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                EnviarArquivo(Document, ViewBag.Id ,storage);
+                EnviarArquivo(Document, ViewBag.Id, storage);
                 _context.Add(outlays);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -150,12 +154,12 @@ namespace CoreUI.Web.Controllers
             }
 
             var outlays = await _context.Outlays.FindAsync(id);
-            //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var employees = await _employeeService.FindAllAsync();
+            var projects = await _projectService.FindAllAsync();
             var clients = await _clienteService.FindAllAsync();
 
-            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };
-            
+            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees, Outlays = outlays };
+
             if (outlays == null)
             {
                 return NotFound();
@@ -241,6 +245,28 @@ namespace CoreUI.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> UpdateStatus(int status, string ids)
+        {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+            int id = ViewBag.Id;
+            string queryString = "update dev_jump.Outlays set Status = '" + status + "' where Id in (" + ids + ")";
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+
+            MySqlConnection connection = new MySqlConnection(connString);
+            MySqlCommand command = new MySqlCommand(queryString, connection);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            return RedirectToAction(nameof(Index));
+        }
         public void GetSessions()
         {
 

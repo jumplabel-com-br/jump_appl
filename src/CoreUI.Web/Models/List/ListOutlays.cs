@@ -36,5 +36,7 @@ namespace CoreUI.Web.Models.List
 
         [Display(Name = "Arquivo")]
         public string File { get; set; }
+
+        public int Status { get; set; }
     }
 }

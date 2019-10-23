@@ -21,21 +21,21 @@
         </div>
         <div class="card-body">
           <form enctype="multipart/form-data" id="OutlaysForm" asp-action="Create">
-            <!--
+
             <div class="form-group row">
-              <div class="input-group col-10" title="Cliente">
+              <div class="input-group col-10" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Outlays.Client_Id" asp-items="@@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control" >
-                  <option value="">Selecione o cliente</option>
+                <select asp-for="Outlays.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control" onchange="Project()">
+                  <option value="">Selecione o funcionário</option>
                 </select>
-                <span asp-validation-for="Outlays.Client_Id" name="id_client" id="id_client" class="text-danger text-danger-span  col-12">Cliente Inválido</span>
+                <span asp-validation-for="Outlays.Employee_Id" name="id_employee" id="id_employee" class="text-danger text-danger-span  col-12">Funcionário invalido</span>
               </div>
             </div>
-            -->
+
             <div class="form-group row">
               <div class="input-group col-10" title="Projeto">
                 <div class="input-group-prepend">
@@ -43,10 +43,24 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Outlays.Project_Id" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" >
+                <select asp-for="Outlays.Project_Id" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="Client()">
                   <option value="">Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Outlays.Project_Id" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Projeto invalido</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Cliente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select asp-for="Outlays.Client_Id" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control" disabled>
+                  <option value="">Selecione o cliente</option>
+                </select>
+                <span asp-validation-for="Outlays.Client_Id" name="id_client" id="id_client" class="text-danger text-danger-span  col-12">Cliente Inválido</span>
               </div>
             </div>
 
@@ -89,7 +103,7 @@
                     <i class="fa fa-file"></i>
                   </span>
                 </div>
-                <input type="file" name="Document" id="Document" class="mt-1 ml-1"/>
+                <input type="file" name="Document" id="Document" class="mt-1 ml-1" />
                 <input type="hidden" asp-for="Outlays.File" class="form-control" />
                 <span asp-validation-for="Outlays.File" name="outlays_file" id="outlays_file" class="text-danger text-danger-span  col-12">Arquivo inválido</span>
               </div>
@@ -122,8 +136,7 @@
     </div>
   </div>
   -->
-            <input type="hidden" asp-for="Outlays.Client_Id" />
-            <input type="hidden" asp-for="Outlays.Employee_Id" value="@ViewBag.Id" />
+
             <input type="hidden" asp-for="Outlays.Status" value="1" />
             <div class="form-group form-actions text-right col-10 mt-3">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>

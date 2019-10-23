@@ -27,6 +27,7 @@ namespace CoreUI.Web.Models
         [Display(Name = "Descrição")]
         public string Description { get; set; }
         public string File { get; set; }
+        public int Status { get; set; }
 
     }
 }

@@ -116,7 +116,10 @@
                 <thead>
                   <tr>
                     <th>
-                      <input type="checkbox" class="btn btn-primary" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : $('.checkedItem').prop('checked',false)">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : $('.checkedItem').prop('checked',false)">
+                        <label class="custom-control-label mb-3 ml-2" for="checkedAll"></label>
+                      </div>
                     </th>
                     <th name="aprovacao">
                       Aprovação
@@ -158,7 +161,10 @@
                   {
                     <tr class="trCount" id="tr_@item.Id">
                       <td>
-                        <input type="checkbox" class="checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  :  document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '')" />
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="btn btn-primary custom-control-input checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  :  document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '')" />
+                          <label class="custom-control-label mb-3 ml-3 mt-1" for="checkedItem_@item.Id"></label>
+                        </div>
                       </td>
                       <td>
 
