@@ -2,11 +2,15 @@
 var arrHours = [];
 var arrProjects = [];
 var arrProjectTeam = [];
+var arrEmployees = [];
+
+var data;
 var dateValid;
 var existingDate;
 var horasInvalida;
 var wlh = window.location.href.split('/')[4];
 
+/*
 function FilterProjectPerEmployee() {
     $.ajax({
         url: '/api/ProjectsAPI',
@@ -49,16 +53,104 @@ function FilterProjectTeamPerEmployee() {
         .fail(function () {
             console.log("error");
         });
+}*/
+
+
+function ReturnAjax(url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (datas) {
+            //console.log("success");
+            data = datas;
+        })
+        .fail(function () {
+            console.log("error");
+        });
 }
 
+function Client() {
+    ReturnAjax('/api/ProjectsAPI');
+    //console.log(data);
+    let value = data.filter(obj => obj.id == $('#Hour_Id_Project').val())[0].client_Id;
+    $('#Client_Id').val(value)
+}
+
+function Project() {
+    let arr = [];
+
+    ReturnAjax('/api/Project_teamAPI');
+    arrProjectTeam = data;
+
+    ReturnAjax('/api/ProjectsAPI');
+    arrProjects = data;
+
+    arr = arrProjectTeam.concat(arrProjects)
+    arr = arr.filter(obj => obj.client_Id == $('#Client_Id').val());
+    $('#Hour_Id_Project').html(SelectProject(arr))
+}
+
+function Employee() {
+    let arr = [];
+    let count = [];
+    var employees = []
+    arrProjectTeam;
+
+    ReturnAjax('/api/EmployeesAPI');
+    arrEmployees = data;
+
+    arr = arrProjectTeam.concat(arrProjects)
+    arr.filter(obj => obj.project_Id == $('#Hour_Id_Project').val())
+
+    for (var i = 0; i < arr.filter(obj => obj.project_Id == $('#Hour_Id_Project').val()).length; i++) {
+        count.push(arr.filter(obj => obj.project_Id == $('#Hour_Id_Project').val())[i].employee_Id)
+    }
+
+    for (var i = 0; i < count.length; i++) {
+        if (arrEmployees.filter(obj => obj.id == count[i]).length > 0) {
+            employees.push({ 'id': arrEmployees.filter(obj => obj.id == count[i])[0].id, 'name': arrEmployees.filter(obj => obj.id == count[i])[0].name });
+        }
+
+    }
+
+    $('#Hour_Employee_Id').html(SelectEmployee(employees))
+}
+
+
+
 function SelectProject(model) {
-    return `
-        <option value="">Selecione o projeto</option>
-    ${model.map(obj => {
+
+    if (model.length == 0) {
+        return `<option value="">Sem projeto para este cliente</option>`
+    }
+    else {
         return `
-        <option value="${obj.id}"> ${obj.project_Name} </option>
-    `}).join('')}
-    `
+        <option value="">Selecione o projeto</option>
+        ${model.map(obj => {
+            return `
+            <option value="${obj.id}"> ${obj.project_Name} </option>
+        `}).join('')}
+        `
+    }
+}
+
+function SelectEmployee(model) {
+    if (model.length == 0) {
+        return `<option value="">Sem funcionário para este projeto</option>`
+    }
+    else {
+        return `
+        <option value="">Selecione o funcionário</option>
+        ${model.map(obj => {
+            return `
+            <option value="${obj.id}"> ${obj.name} </option>
+        `}).join('')}
+        `
+    }
 }
 
 function TextNameProject(id) {
@@ -390,8 +482,9 @@ function ActiveLinck() {
 }
 
 $(document).ready(function () {
-    let wlp = window.location.pathname.split('/')[2];
-    wlp == 'Create' || wlp == 'Edit' ? $('.text-danger-span').hide() : '';
+    let wlp = window.location.pathname.split('/');
+    wlp[2] == 'Create' || wlp[2] == 'Edit' ? $('.text-danger-span').hide() : '';
+    (wlp[2] == 'Edit' || wlp[2] == 'Details') && (wlp[1] == 'ModeAdmin') ? Client() : '';
 
     SetValuesHours();
 

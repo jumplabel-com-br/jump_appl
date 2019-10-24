@@ -423,7 +423,122 @@ if ($('table').length > 0) {
             SumTotalHours();
         });
 
-    } else {
+    } else if (wlhs[3] == "OutlaysAdmin") {
+        $('table').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function (d, j) {
+                    var column = this;
+                    if (d == 1 || d == 2 || d == 3 || d == 4) {
+                        var select = $(`<select class="form-control"><option value=""> Selecione</option></select>`)
+                            .appendTo($(column.header()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+
+                        column.data().unique().sort().each(function (d, j) {
+                            //console.log(j);
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    }
+                });
+            },
+
+            "bJQueryUI": true,
+            "bPaginate": false,
+            "bFilter": true,
+            "info": false,
+            dom: 'Bfrtip',
+            colReorder: true,
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    exportOptions: {
+                        // Aqui você inclui o índice da coluna
+                        // Sabendo que os índices começam com 0
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                }, {
+                    extend: 'pdf',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
+                    exportOptions: {
+                        // Exporta as colunas
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    exportOptions: {
+                        // Exporta as colunas
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "sorting_asc": false, "targets": 0 },
+                { "orderable": false, "targets": 10 },
+            ],
+
+            "oLanguage": {
+                "sProcessing": "Processando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "Não foram encontrados resultados",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+                "sInfoFiltered": "",
+                "sInfoPostFix": "",
+                "sSearch": "Pesquisar:",
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst": "Primeiro",
+                    "sPrevious": "Anterior",
+                    "sNext": "Seguinte",
+                    "sLast": "Último"
+                }
+            }
+        });
+
+		
+        $('table thead tr').clone(true).appendTo('table thead');
+        
+        $('table thead tr:eq(0) th')[0].innerHTML = '#';
+        $('table thead tr:eq(0) th')[1].innerHTML = 'Status';
+        $('table thead tr:eq(0) th')[2].innerHTML = 'Cliente';
+        $('table thead tr:eq(0) th')[3].innerHTML = 'Projeto';
+        $('table thead tr:eq(0) th')[4].innerHTML = 'Funcionário';
+
+        for (var i = 0; i <= 10; i++) {
+            if (i >= 4) {
+                $('table thead tr:eq(1) th')[i].innerHTML = '';
+            }
+
+            $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
+            $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
+        }
+        
+
+
+        $('.buttons-excel, .buttons-pdf, .buttons-print').addClass('btn btn-lg');
+        $('.buttons-excel').addClass('btn-success');
+        $('.buttons-pdf').addClass('btn-danger');
+        $('.buttons-print').addClass('btn-primary');
+        $('input[type="search"]').addClass('form-control');
+
+        $('.buttons-excel').attr('title', 'Baixar excel');
+        $('.buttons-pdf').attr('title', 'Baixar PDF');
+        $('.buttons-print').attr('title', 'Imprimir');
+    }
+    else {
         $('table').DataTable({
             "bJQueryUI": true,
             "bPaginate": false,

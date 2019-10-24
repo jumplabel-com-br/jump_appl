@@ -23,15 +23,16 @@
         </div>
         <div class="card-body">
           <form id="HoursForm" asp-action="Create">
+
             <div class="form-group row">
-              <div class="input-group col-10" title="Funcionário">
+              <div class="input-group col-10" title="Cliente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control" onchange="FilterProjectTeamPerEmployee()">
-                  <option value="">Selecione o funcionário</option>
+                <select id="Client_Id" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control"  onchange="Project()">
+                  <option value="">Selecione o cliente</option>
                 </select>
               </div>
             </div>
@@ -43,12 +44,26 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id)">
+                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id); Employee()">
                   <option value="">Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
               </div>
             </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Funcionário">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control">
+                  <option value="">Selecione o funcionário</option>
+                </select>
+              </div>
+            </div>
+
             <div class="form-group row">
               <div class="input-group col-10" title="Data">
                 <div class="input-group-prepend">
@@ -146,7 +161,7 @@
             <input type="hidden" asp-for="Hour.Creation_Date" class="form-control" value="@DateTime.Now" />
             <input type="hidden" asp-for="Hour.Project" />
             <input type="hidden" asp-for="Project_team.Project_Id" />
-            <input type="hidden" asp-for="Hour.Register" value="@ViewBag.Id"/>
+            <input type="hidden" asp-for="Hour.Register" value="@ViewBag.Id" />
             <input type="hidden" asp-for="Hour.Approver_Update" value="@ViewBag.Id" />
             <!--<input type="hidden" class="form-control" asp-for="Hour.Employee_Id" value="@@ViewBag.Id" />-->
 

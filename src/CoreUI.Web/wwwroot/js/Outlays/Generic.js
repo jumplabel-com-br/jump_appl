@@ -2,25 +2,26 @@
 var data;
 var arrProjectTeam = [];
 var arrProjects = [];
+var arrEmployees = [];
 
 function ReturnAjax(url) {
-$.ajax({
-    url: url,
-    type: 'GET',
-    async: false,
-    dataType: 'json',
-    data: {},
-})
-    .done(function (datas) {
-        //console.log("success");
-        data = datas;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
     })
-    .fail(function () {
-        console.log("error");
-    });
+        .done(function (datas) {
+            //console.log("success");
+            data = datas;
+        })
+        .fail(function () {
+            console.log("error");
+        });
 }
 
-function Client() {
+function Clients() {
     ReturnAjax('/api/ProjectsAPI');
     //console.log(data);
     let value = data.filter(obj => obj.id == $('#Outlays_Project_Id').val())[0].client_Id;
@@ -28,19 +29,76 @@ function Client() {
 }
 
 function Project() {
-    ReturnAjax('/api/ProjectsFilter');
-    $('#Outlays_Project_Id').html(SelectProject(data))
+    let arr = [];
+
+    ReturnAjax('/api/Project_teamAPI');
+    arrProjectTeam = data;
+
+    ReturnAjax('/api/ProjectsAPI');
+    arrProjects = data;
+
+    arr = arrProjectTeam.concat(arrProjects)
+    arr = arr.filter(obj => obj.client_Id == $('#Outlays_Client_Id').val());
+    $('#Outlays_Project_Id').html(SelectProject(arr))
+}
+
+function Employee() {
+    let arr = [];
+    let count = [];
+    var employees = []
+    arrProjectTeam;
+
+    ReturnAjax('/api/EmployeesAPI');
+    arrEmployees = data;
+
+    arr = arrProjectTeam.concat(arrProjects)
+    arr.filter(obj => obj.project_Id == $('#Outlays_Project_Id').val())
+
+    for (var i = 0; i < arr.filter(obj => obj.project_Id == $('#Outlays_Project_Id').val()).length; i++) {
+        count.push(arr.filter(obj => obj.project_Id == $('#Outlays_Project_Id').val())[i].employee_Id)
+    }
+
+    for (var i = 0; i < count.length; i++) {
+        if (arrEmployees.filter(obj => obj.id == count[i]).length > 0) {
+            employees.push({ 'id': arrEmployees.filter(obj => obj.id == count[i])[0].id, 'name': arrEmployees.filter(obj => obj.id == count[i])[0].name });
+        }
+        
+    }
+
+    $('#Outlays_Employee_Id').html(SelectEmployee(employees))
 }
 
 
+
 function SelectProject(model) {
-    return `
-        <option value="">Selecione o projeto</option>
-    ${model.map(obj => {
+
+    if (model.length == 0) {
+        return `<option value="">Sem projeto para este cliente</option>`
+    }
+    else {
         return `
-        <option value="${obj.id}"> ${obj.project_Name} </option>
-    `}).join('')}
-    `
+        <option value="">Selecione o projeto</option>
+        ${model.map(obj => {
+            return `
+            <option value="${obj.id}"> ${obj.project_Name} </option>
+        `}).join('')}
+        `
+    }
+}
+
+function SelectEmployee(model) {
+    if (model.length == 0) {
+        return `<option value="">Sem funcionário para este projeto</option>`
+    }
+    else {
+        return `
+        <option value="">Selecione o funcionário</option>
+        ${model.map(obj => {
+            return `
+            <option value="${obj.id}"> ${obj.name} </option>
+        `}).join('')}
+        `
+    }
 }
 
 function OutlaysSubmit() {
@@ -52,7 +110,25 @@ function OutlaysSubmit() {
     $('#outlays_file').hide();
     $('#outlays_description').hide();
 
-    if ($('#Outlays_Client_Id').val().length == 0) {
+    let document = $('#Document').prop("files")[0]
+
+    if (
+        document != undefined &&
+        document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' &&
+        document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' &&
+        document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' &&
+        document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
+        alert('O tipo de documento só pode ser PNG, JPG ou PDF');
+        return false;
+    }
+
+    if (document != undefined && $('#Document').prop("files")[0].size > 10000) {
+        alert('O tamanho do arquivo deve ser de no máximo 1MB');
+        return false;
+    }
+
+
+    if ($('#Outlays_Client_Id').val().length == 0 && wlhs[3] == 'OutlaysAdmin') {
         $('#id_client').show();
         $('#Outlays_Client_Id').focus();
         return false;

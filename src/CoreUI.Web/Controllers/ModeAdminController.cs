@@ -23,15 +23,17 @@ namespace CoreUI.Web.Controllers
         private readonly ProjectTeamService _projectTeamService;
         private readonly EmployeeService _employeeService;
         private readonly HourService _hourService;
+        private readonly ClientService _clientService;
         private readonly IConfiguration _config;
 
-        public ModeAdminController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, IConfiguration config)
+        public ModeAdminController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, ClientService client, IConfiguration config)
         {
             _context = context;
             _projectService = project;
             _projectTeamService = projectTeam;
             _employeeService = employee;
             _hourService = hour;
+            _clientService = client;
             _config = config;
         }
 
@@ -73,7 +75,7 @@ namespace CoreUI.Web.Controllers
         }*/
 
         // GET: Hours/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int Employee_Id)
         {
 
             GetSessions();
@@ -85,19 +87,21 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                int empId = Employee_Id;
+                var accessLevel = ViewBag.AcessLevel;
+
                 if (id == null)
                 {
                     return NotFound();
                 }
 
-                var hour = await _context.Hour
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (hour == null)
-                {
-                    return NotFound();
-                }
+                var hour = await _context.Hour.FindAsync(id);
+                var clients = await _clientService.FindAllAsync();
+                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var employees = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
 
-                return View(hour);
+                return View(viewModel);
             }
             catch (Exception)
             {
@@ -124,10 +128,11 @@ namespace CoreUI.Web.Controllers
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
 
+                var clients = await _clientService.FindAllAsync();
                 var projects = await _projectService.FindAllAsync();
                 var employees = await _employeeService.FindAllAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Projects = projects, Employees = employees};
+                var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients};
                 return View(viewModel);
             }
             catch (Exception)
@@ -160,9 +165,10 @@ namespace CoreUI.Web.Controllers
 
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
+                    var clients = await _clientService.FindAllAsync();
                     var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                     var employees = await _employeeService.FindAllAsync();
-                    var viewModel = new HourFormViewModel { Projects = projects, Employees = employees };
+                    var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients };
 
                     return View(viewModel);
                 }
@@ -189,7 +195,7 @@ namespace CoreUI.Web.Controllers
 
 
         // GET: Hours/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int Employee_Id)
         {
             GetSessions();
 
@@ -201,7 +207,7 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-                int empId = ViewBag.Id;
+                int empId = Employee_Id;
                 var accessLevel = ViewBag.AcessLevel;
 
                 if (id == null)
@@ -210,9 +216,10 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
+                var clients = await _clientService.FindAllAsync();
                 var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                 var employees = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees };
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
 
                 return View(viewModel);
             }

@@ -25,6 +25,23 @@ function EmployeeSubmit() {
     $('#employee_salary').hide();
     $('#employee_appointment').hide();
 
+    let document = $('#Document').prop("files")[0]
+
+    if (
+        document != undefined &&
+        document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' ||
+        document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' ||
+        document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' ||
+        document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
+        alert('O tipo de documento só pode ser PNG, JPG ou PDF');
+        return false;
+    }
+
+    if (document != undefined && $('#Document').prop("files")[0].size > 10000) {
+        alert('O tamanho do arquivo deve ser de no máximo 1MB');
+        return false;
+    }
+
     arrEmail.filter(obj => obj.email == $('#Employee_Email').val()).length > 0 ? emailValid = false : emailValid = true;
 
     if (emailValid == false && wlh == 'Create') {

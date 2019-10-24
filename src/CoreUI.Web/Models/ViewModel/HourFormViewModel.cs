@@ -9,9 +9,11 @@ namespace CoreUI.Web.Models.ViewModel
     {
         public Hour Hour { get; set; }
         //public Employee Employee { get; set; }
-        public ICollection<Project> Projects { get; set; }
         public Project_team Project_team { get; set; }
         public Employee Employee { get; set; }
+
+        public ICollection<Client> Clients { get; set; }
+        public ICollection<Project> Projects { get; set; }
         public ICollection<Employee> Employees { get; set; }
 
     }

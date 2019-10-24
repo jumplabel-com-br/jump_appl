@@ -21,6 +21,7 @@
         </div>
         <div class="card-body">
           <form enctype="multipart/form-data" id="OutlaysForm" asp-action="Create">
+            <input type="hidden" asp-for="Outlays.Client_Id"/>
             <!--
             <div class="form-group row">
               <div class="input-group col-10" title="Cliente">
@@ -43,7 +44,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Outlays.Project_Id" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" >
+                <select asp-for="Outlays.Project_Id" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="Clients()">
                   <option value="">Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Outlays.Project_Id" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Projeto invalido</span>

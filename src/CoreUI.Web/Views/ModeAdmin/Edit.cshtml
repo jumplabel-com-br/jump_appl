@@ -24,6 +24,33 @@
             <input type="hidden" asp-for="Hour.Id" />
 
             <div class="form-group row">
+              <div class="input-group col-10" title="Cliente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select id="Client_Id" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control" onchange="Project()">
+                  <option value="">Selecione o cliente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Projeto">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id); Employee()">
+                  <option value="">Selecione o projeto</option>
+                </select>
+                <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
               <div class="input-group col-10" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -35,19 +62,7 @@
                 </select>
               </div>
             </div>
-            <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-user"></i>
-                  </span>
-                </div>
-                <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control readonly" onchange="TextNameProject(this.id)">
-                  <option value="">Selecione o projeto</option>
-                </select>
-                <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
-              </div>
-            </div>
+
             <div class="form-group row">
               <div class="input-group col-10" title="Data">
                 <div class="input-group-prepend">
