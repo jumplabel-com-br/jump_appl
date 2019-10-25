@@ -101,6 +101,11 @@ function SelectEmployee(model) {
     }
 }
 
+function sizeFile(size) {
+    var i = Math.floor(Math.log(size) / Math.log(1024));
+    return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+}
+
 function OutlaysSubmit() {
     $('#id_client').hide();
     $('#id_project').hide();
@@ -112,6 +117,15 @@ function OutlaysSubmit() {
 
     let document = $('#Document').prop("files")[0]
 
+    if (sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
+        alert('O arquivo não pode ser maior que 1 MB')
+    }
+
+    if (document != undefined && sizeFile($('#Document').prop("files")[0].size) != "1 MB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
+        alert('O tamanho do arquivo deve ser de no máximo 1MB');
+        return false;
+    }
+
     if (
         document != undefined &&
         document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' &&
@@ -119,11 +133,6 @@ function OutlaysSubmit() {
         document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' &&
         document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
         alert('O tipo de documento só pode ser PNG, JPG ou PDF');
-        return false;
-    }
-
-    if (document != undefined && $('#Document').prop("files")[0].size > 10000) {
-        alert('O tamanho do arquivo deve ser de no máximo 1MB');
         return false;
     }
 

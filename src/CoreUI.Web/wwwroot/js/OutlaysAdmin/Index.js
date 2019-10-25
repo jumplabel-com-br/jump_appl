@@ -1,4 +1,11 @@
-﻿function checkedAll() {
+﻿var sum = 0;
+
+$('.table tbody tr').each((item) => {
+    sum += parseFloat($(`table tbody tr:eq(${item}) td:eq(7)`).text().trim().replace('R$ ', ''))
+});
+
+
+function checkedAll() {
 
     document.querySelectorAll('.trCount').forEach((obj, item) => {
 

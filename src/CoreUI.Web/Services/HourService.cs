@@ -58,6 +58,7 @@ namespace CoreUI.Web.Services
                 //.OrderBy(x => x.Project)
                 .OrderBy(x => x.Consultant)
                 .OrderBy(x => x.Date)
+                .OrderBy(x => x.Arrival_Time)
                 .ToListAsync();
 
         }

@@ -18,7 +18,7 @@ if (wlhs[4] != 'ChangePassword') {
     }
 
     //ocuta coisas a quem não tem acesso de administrador ou gerencia
-    accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').hide() : '';
+    accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').remove() : '';
 
     if (accessLevel == 1 || accessLevel == 2) {
 
