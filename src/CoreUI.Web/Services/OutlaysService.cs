@@ -72,7 +72,8 @@ namespace CoreUI.Web.Services
                              NoteNumber = outlays.NoteNumber,
                              NoteValue = outlays.NoteValue,
                              Description = outlays.Description,
-                             File = outlays.File
+                             File = outlays.File,
+                             Status = outlays.Status
                          };
 
             return await result

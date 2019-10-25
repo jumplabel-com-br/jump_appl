@@ -81,7 +81,7 @@ function templateMessagesBellForAdmin(model) {
 
 function FilterHoursPerEmployee(consultant, id) {
     if (wlhs[3] != 'ModeAdmin' && accessLevel != 3) {
-        alert('Acesse Aprovação para verificar as horas do usuário')
+        alert('Acesse Aprovação de horas para verificar as horas do usuário')
         return false;
     }
 

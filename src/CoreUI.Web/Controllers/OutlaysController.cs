@@ -168,7 +168,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Employee_Id,Project_Id,Client_Id,Date,NoteNumber,NoteValue,Description,File,Status")] Outlays outlays)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Employee_Id,Project_Id,Client_Id,Date,NoteNumber,NoteValue,Description,File,Status")] Outlays outlays, IFormFile Document)
         {
             GetSessions();
 
@@ -186,6 +186,7 @@ namespace CoreUI.Web.Controllers
             {
                 try
                 {
+                    EnviarArquivo(Document, ViewBag.Id, storage);
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
                 }
