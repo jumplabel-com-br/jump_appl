@@ -117,7 +117,7 @@
                   <tr>
                     <th>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : $('.checkedItem').prop('checked',false)">
+                        <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : notCheckedAll()">
                         <label class="custom-control-label mb-3 ml-2" for="checkedAll"></label>
                       </div>
                     </th>
@@ -224,9 +224,9 @@
                       <td colspan="2">
                         <div class="row ml-0">
                             <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" asp-route-Employee_id="@item.Employee_Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
-                            <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id" asp-route-Employee_id="@item.Employee_Id"><i class="fa fa-edit"></i></a>
+                            <!--<a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" asp-route-Employee_id="@@item.Employee_Id"><i class="fa fa-edit"></i></a>
                           <a><i></i></a>
-                          <!--button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
+                          button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
                         </div>
                       </td>
                     </tr>
@@ -243,7 +243,6 @@
                     <option value="1">Aguardando</option>
                     <option value="4">Aprovado</option>
                     <option value="3">Reprovado</option>
-                    <option value="2">Revisar</option>
                   </select>
                 </div>
                 <div class="col-2">

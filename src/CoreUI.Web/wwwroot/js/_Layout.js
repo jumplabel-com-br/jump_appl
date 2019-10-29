@@ -91,8 +91,8 @@ function FilterHoursPerEmployee(consultant, id) {
 
     $('#choose_employees').val(consultant);
     $('table').DataTable().search(consultant).draw()
-
-   
+    $('table').DataTable().search('')
+    $('input[type="search"]').val('')
 }
 
 function MessageReturn(accessLevel, consultant, approval) {

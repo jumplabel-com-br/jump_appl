@@ -274,7 +274,15 @@ namespace CoreUI.Web.Controllers
             string nomeArquivo;
             if (Document.FileName != "" && Document.FileName != null)
             {
-                nomeArquivo = Document.FileName;
+                nomeArquivo = Document
+                    .FileName
+                    .Replace(" ", "")
+                    .Replace("&", "")
+                    .Replace("@", "")
+                    .Replace("#", "")
+                    .Replace("$", "")
+                    .Replace("%", "")
+                    .Replace("*", "");
             }
             else
             {

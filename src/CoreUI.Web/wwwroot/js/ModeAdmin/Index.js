@@ -1,21 +1,21 @@
 ﻿function checkedAll() {
 
     document.querySelectorAll('.trCount').forEach((obj, item) => {
-
-        if (document.querySelector('#' + obj.id).style.display != 'none') {
-            //console.log(document.querySelector('#' + obj.id + ' .checkedItem').checked)
-            if (document.querySelector('#' + obj.id + ' .checkedItem').checked) {
-                document.querySelector('#' + obj.id + ' .checkedItem').checked = false;
-                //console.log(1)
-            } else {
-                document.querySelector('#ids').value += obj.id.replace('tr_','')+','
-                document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
-                //console.log(document.querySelector('#ids').value += obj.id.replace('tr_', '')+',')
-            }
-        }
-        //document.querySelector('#' + obj.id).style.display != 'none' ? document.querySelector('#' + obj.id + ' .checkedItem').checked = true : document.querySelector('#' + obj.id + ' .checkedItem').checked = false
+        document.querySelector('#ids').value += obj.id.replace('tr_', '') + ','
+        document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
     });
 }
+
+function notCheckedAll() {
+
+    document.querySelectorAll('.trCount').forEach((obj, item) => {
+        id = obj.id.replace('tr_', '');
+        document.querySelector('#ids').value = document.querySelector('#ids').value.replace(id+',', '')
+        document.querySelector('#' + obj.id + ' .checkedItem').checked = false;
+    });
+}
+
+
 
 var clientes = [];
 var employees = [];

@@ -64,7 +64,7 @@
                 <tr>
                   <th>
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : $('.checkedItem').prop('checked',false)">
+                      <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : notCheckedAll()">
                       <label class="custom-control-label mb-3 ml-2" for="checkedAll"></label>
                     </div>
                   </th>
@@ -117,7 +117,7 @@
                             break;
 
                           case 2:
-                            @Html.DisplayName("Revisar");
+                            @Html.DisplayName("Efetuado");
                             break;
 
                           case 3:
@@ -181,8 +181,8 @@
                   <option value="">Selecione...</option>
                   <option value="1">Aguardando</option>
                   <option value="4">Aprovado</option>
+                  <option value="2">Efetuado</option>
                   <option value="3">Reprovado</option>
-                  <option value="2">Revisar</option>
                 </select>
               </div>
               <div class="col-2">

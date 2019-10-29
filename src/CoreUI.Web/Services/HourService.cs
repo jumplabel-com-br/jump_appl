@@ -25,8 +25,7 @@ namespace CoreUI.Web.Services
                          join projects in _context.Project on hour.Id_Project equals projects.Id
                          join clients in _context.Client on projects.Client_Id equals clients.Id
                          join employees in _context.Employee on hour.Employee_Id equals employees.Id
-                         orderby hour.Date ascending
-                         orderby clients.Name ascending
+                         orderby hour.Start_Time ascending
 
                          select new ListHour
                          {
@@ -56,9 +55,9 @@ namespace CoreUI.Web.Services
             return await result
                 //.OrderBy(x => x.Client)
                 //.OrderBy(x => x.Project)
-                .OrderBy(x => x.Consultant)
+                //.OrderBy(x => x.Consultant)
                 .OrderBy(x => x.Date)
-                .OrderBy(x => x.Arrival_Time)
+                //.OrderBy(x => x.Start_Time)
                 .ToListAsync();
 
         }
@@ -71,6 +70,8 @@ namespace CoreUI.Web.Services
                          join projects in _context.Project on hours.Id_Project equals projects.Id
                          join clients in _context.Client on projects.Client_Id equals clients.Id
                          where hours.Employee_Id == employee
+                         orderby hours.Start_Time ascending
+                         //orderby hours.Start_Time ascending
 
                          select new ListHour
                          {
@@ -99,7 +100,7 @@ namespace CoreUI.Web.Services
 
             return await result
                 .OrderBy(x => x.Date)
-                .OrderBy(x => x.Arrival_Time)
+                //.OrderBy(x => x.Arrival_Time)
                 .ToListAsync();
 
         }

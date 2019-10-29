@@ -25,23 +25,6 @@ function EmployeeSubmit() {
     $('#employee_salary').hide();
     $('#employee_appointment').hide();
 
-    let document = $('#Document').prop("files")[0]
-
-    if (
-        document != undefined &&
-        document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' ||
-        document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' ||
-        document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' ||
-        document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
-        alert('O tipo de documento só pode ser PNG, JPG ou PDF');
-        return false;
-    }
-
-    if (document != undefined && $('#Document').prop("files")[0].size > 10000) {
-        alert('O tamanho do arquivo deve ser de no máximo 1MB');
-        return false;
-    }
-
     arrEmail.filter(obj => obj.email == $('#Employee_Email').val()).length > 0 ? emailValid = false : emailValid = true;
 
     if (emailValid == false && wlh == 'Create') {
@@ -107,13 +90,31 @@ function EmployeeSubmit() {
     if (wlh == 'Edit' && $('#pswd').val() != null && $('#pswd').val() != '') {
         $('#Employee_Password').val($('#pswd').val());
     }
+    /*
 
-    if ($('input[name="Document"]').length > 0){
-        let Document = $('input[name="Document"]').prop('files')[0];
+    if ($('#Document').val().length > 0) {
+        let Document = $('#Document').prop('files')[0];
 
-        Document != undefined ? $('#Employee_Document').val(Document.name) : $('#Employee_Document').val('Sem Documento');
+        if (
+            document != undefined &&
+            Document.name.substr(Document.name.length - 3).toLowerCase() != 'pdf' ||
+            Document.name.substr(Document.name.length - 3).toLowerCase() != 'jpg' ||
+            Document.name.substr(Document.name.length - 3).toLowerCase() != 'jpeg' ||
+            Document.name.substr(Document.name.length - 3).toLowerCase() != 'png') {
+            alert('O tipo de documento só pode ser PNG, JPG ou PDF');
+            return false;
+        }
+
+        if (Document != undefined && $('#Document').prop("files")[0].size > 10000) {
+            alert('O tamanho do arquivo deve ser de no máximo 1MB');
+            return false;
+        }
+
+        value = Document.name.replace(/[ |&|$|#|@|%|*]/g, '');
+
+        Document != undefined ? $('#Employee_Document').val($('#Outlays_File').val(value)) : $('#Employee_Document').val('Sem Documento');
     }
-
+    */
     $('.modalSpinner').modal('show');
     $('#toast-container-saved').toggle();
     $('#EmployeeForm').submit();

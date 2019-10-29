@@ -28,7 +28,7 @@ function Clients() {
     $('#Outlays_Client_Id').val(value)
 }
 
-function Project() {
+function Projects() {
     let arr = [];
 
     ReturnAjax('/api/Project_teamAPI');
@@ -42,7 +42,7 @@ function Project() {
     $('#Outlays_Project_Id').html(SelectProject(arr))
 }
 
-function Employee() {
+function Employees() {
     let arr = [];
     let count = [];
     var employees = []
@@ -115,28 +115,6 @@ function OutlaysSubmit() {
     $('#outlays_file').hide();
     $('#outlays_description').hide();
 
-    let document = $('#Document').prop("files")[0]
-
-    if (sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
-        alert('O arquivo não pode ser maior que 1 MB')
-    }
-
-    if (document != undefined && sizeFile($('#Document').prop("files")[0].size) != "1 MB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
-        alert('O tamanho do arquivo deve ser de no máximo 1MB');
-        return false;
-    }
-
-    if (
-        document != undefined &&
-        document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' &&
-        document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' &&
-        document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' &&
-        document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
-        alert('O tipo de documento só pode ser PNG, JPG ou PDF');
-        return false;
-    }
-
-
     if ($('#Outlays_Client_Id').val().length == 0 && wlhs[3] == 'OutlaysAdmin') {
         $('#id_client').show();
         $('#Outlays_Client_Id').focus();
@@ -185,7 +163,35 @@ function OutlaysSubmit() {
         return false;
     }
 
-    $('#Outlays_File').val($('#Document').val().split('\\')[2]);
+    $('#Outlays_File').val('Sem Document');
+
+    if ($('#Document').val().length > 0) {
+        let document = $('#Document').prop("files")[0]
+
+        if (sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
+            alert('O arquivo não pode ser maior que 1 MB')
+        }
+
+        if (document != undefined && sizeFile($('#Document').prop("files")[0].size) != "1 MB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
+            alert('O tamanho do arquivo deve ser de no máximo 1MB');
+            return false;
+        }
+
+        if (
+            document != undefined &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
+            alert('O tipo de documento só pode ser PNG, JPG ou PDF');
+            return false;
+        }
+
+        value = document.name.replace(/[ |&|$|#|@|%|*]/g, '');
+        $('#Outlays_File').val(value);
+    }
+
+   
 
     $('#toast-container-saved').toggle();
     $('#OutlaysForm').submit();

@@ -139,7 +139,7 @@ namespace CoreUI.Web.Controllers
                 {
                     int empId = ViewBag.Id;
 
-                    EnviarArquivo(Document, empId, storage);
+                    //EnviarArquivo(Document, empId, storage);
 
                     _context.Add(employee);
                     await _context.SaveChangesAsync();
@@ -298,7 +298,14 @@ namespace CoreUI.Web.Controllers
             string nomeArquivo;
             if (Document.FileName != "" && Document.FileName != null)
             {
-                nomeArquivo = Document.FileName;
+                nomeArquivo = Document.FileName
+                    .Replace(" ", "")
+                    .Replace("&", "")
+                    .Replace("@", "")
+                    .Replace("#", "")
+                    .Replace("$", "")
+                    .Replace("%", "")
+                    .Replace("*", "");
             }
             else
             {
