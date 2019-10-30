@@ -383,14 +383,14 @@ namespace CoreUI.Web.Controllers
             return RedirectToAction(nameof(ModeAdmin));
         }
 
-        public void ExecuteQuery(string query)
+        public async void ExecuteQuery(string query)
         {
             string conn = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
             MySqlConnection connection = new MySqlConnection(conn);
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataAdapter da = new MySqlDataAdapter();
-            connection.Open();
-            command.ExecuteNonQuery();
+            await connection.OpenAsync();
+            await command.ExecuteNonQueryAsync();
             connection.Close();
         }
 

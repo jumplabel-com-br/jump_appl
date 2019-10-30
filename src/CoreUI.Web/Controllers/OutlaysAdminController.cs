@@ -262,8 +262,8 @@ namespace CoreUI.Web.Controllers
             MySqlConnection connection = new MySqlConnection(connString);
             MySqlCommand command = new MySqlCommand(queryString, connection);
             MySqlDataAdapter da = new MySqlDataAdapter();
-            connection.Open();
-            command.ExecuteNonQuery();
+            await connection.OpenAsync();
+            await command.ExecuteNonQueryAsync();
             connection.Close();
 
             return RedirectToAction(nameof(Index));

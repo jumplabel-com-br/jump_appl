@@ -62,14 +62,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-      <img class="navbar-brand-full" src="/images/brand/logo---fundo-transp.png" alt="Jump Logo" >
+      <img class="navbar-brand-full" src="/images/brand/logo---fundo-transp.png" alt="Jump Logo">
       <img class="navbar-brand-minimized" src="~/images/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
     <!--
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <ul class="nav navbar-nav d-md-down-none">
       <li class="nav-item px-3">
         <a class="nav-link biHome" onclick="ActiveLinck()" asp-action="Index">Home</a>
@@ -78,14 +78,14 @@
         <a class="nav-link biHourCreate" onclick="ActiveLinck()" asp-action="Create">Criar</a>
       </li>
       -->
-      <!--
-      <li class="nav-item px-3">
-        <a class="nav-link" href="#">Settings</a>
-      </li>
-      -->
+    <!--
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#">Settings</a>
+    </li>
+    -->
     </ul>
     <ul class="nav navbar-nav ml-auto">
-
+      <!--
       <li class="nav-item dropdown" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <a class="nav-link" href="#">
           <i class="icon-bell"></i>
@@ -97,6 +97,7 @@
 
         </div>
       </li>
+      -->
 
       <!--
       <li class="nav-item d-md-down-none">
@@ -158,11 +159,11 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
           <!--
-  <div class="divider"></div>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-shield"></i> Lock Account
-  </a>
-  -->
+          <div class="divider"></div>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-shield"></i> Lock Account
+          </a>
+          -->
 
           <form asp-controller="Home" asp-action="Logoff" class="text-center">
             <button class="btn btn-ghost-danger btn-sm" type="submit" value="Logoff">
@@ -560,6 +561,11 @@
     </div>
   </footer>
   <!-- Bootstrap and necessary plugins-->
+
+  <input type="hidden" name="accessLevel" id="accessLevel" value="@ViewBag.AcessLevel" />
+  <input type="hidden" name="approver" id="approver" value=" @ViewBag.id" />
+  <input type="hidden" name="employee" id="employee" value=" @ViewBag.id" />
+  <input type="hidden" name="accessLevel" id="accessLevel" value="@ViewBag.AcessLevel" />
 
   <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>

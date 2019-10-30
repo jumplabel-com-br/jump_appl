@@ -578,6 +578,8 @@ if ($('table').length > 0) {
 
 }
 
+/*
 if (wlhs[4] != 'ChangePassword') {
     JsonMessagesBell();
 }
+*/
