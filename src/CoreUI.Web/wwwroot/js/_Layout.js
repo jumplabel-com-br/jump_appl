@@ -305,10 +305,10 @@ function nameClass(id) {
 if ($('table').length > 0) {
     var initComplete = function () {
         if (wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin") {
-            this.api().columns().every(function (d, j) {
+            this.api().columns().every(function (id, j) {
                 var column = this;
-                if ((wlhs[3] == "ModeAdmin" && (d == 1 || d == 3 || d == 4 || d == 5)) || (wlhs[3] == "OutlaysAdmin" && (d == 1 || d == 2 || d == 3 || d == 4))) {
-                    var select = $(`<select class="form-control ${wlhs[3] == "ModeAdmin" ? nameClass(d) : ''}" id="${wlhs[3] == "ModeAdmin" ? nameClass(d) : ''}"><option value=""> ${wlhs[3] == "ModeAdmin" ? NameSelect(d) : 'Selecione'}</option></select>`)
+                if ((wlhs[3] == "ModeAdmin" && (id == 1 || id == 3 || id == 4 || id == 5)) || (wlhs[3] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
+                    var select = $(`<select class="form-control ${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}" id="${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${wlhs[3] == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -322,9 +322,9 @@ if ($('table').length > 0) {
                         });
 
 
-                    column.data().unique().sort().each(function (d, j) {
+                    column.data().unique().sort().each(function (value, j) {
                         //console.log(j);
-                        select.append('<option value="' + d + '">' + d + '</option>')
+                        select.append('<option value="' + value + '">' + value + '</option>')
                     });
                 }
             });
@@ -345,21 +345,20 @@ if ($('table').length > 0) {
         { "orderable": false, "targets": 10 },
     ]
 
-    var columns = function () {
-        if (wlhs[3] == "ModeAdmin") {
-            columnsModeAdmin;
-        } else if (wlhs[3] == "OutlaysAdmin") {
-            columnsOutlaysAdmin
-        }
-    }
+    var columns;
 
-    var columnDefs = function () {
         if (wlhs[3] == "ModeAdmin") {
-            columnDefsModeAdmin;
+            columns = columnsModeAdmin;
         } else if (wlhs[3] == "OutlaysAdmin") {
-            columnDefsOutlaysAdmin
+            columns = columnsOutlaysAdmin
         }
-    }
+
+    var columnDefs;
+        if (wlhs[3] == "ModeAdmin") {
+            columnDefs = columnDefsModeAdmin;
+        } else if (wlhs[3] == "OutlaysAdmin") {
+            columnDefs = columnDefsOutlaysAdmin
+        }
 
     function arrFor() {
         if (wlhs[3] == "ModeAdmin") {
