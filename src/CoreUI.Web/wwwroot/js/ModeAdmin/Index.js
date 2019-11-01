@@ -227,10 +227,13 @@ function SumTotalHours() {
 
 
     document.querySelectorAll("#tbodyHour tr").forEach((teste, item) => {
-        if (teste.style.display == 'none') {
-            document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = 'none'
-        } else {
-            document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = ''
+        if (document.querySelectorAll('#tbodyHour tr .totalHours').length > 0) {
+
+            if (teste.style.display == 'none') {
+                document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = 'none'
+            } else {
+                document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = ''
+            }
         }
     });
 

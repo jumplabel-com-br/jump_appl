@@ -66,7 +66,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
         }
 
@@ -107,7 +107,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
 
         }
@@ -135,7 +135,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
 
         }
@@ -172,7 +172,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
 
 
@@ -205,7 +205,7 @@ namespace CoreUI.Web.Controllers
 
                 if (id == null)
                 {
-                    return NotFound();
+                    return RedirectToAction(nameof(Error), new { message = "Hora não encontrada, informar o suporte" });
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
@@ -216,7 +216,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
 
 
@@ -270,20 +270,21 @@ namespace CoreUI.Web.Controllers
                     {
                         if (!HourExists(hour.Id))
                         {
-                            return NotFound();
+                            return RedirectToAction(nameof(Error), new { message = "Hora não encontrada para a edição, informar ao suporte" });
                         }
                         else
                         {
                             throw;
                         }
                     }
+
                     return RedirectToAction(nameof(Index));
                 }
                 return View(hour);
             }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
 
         }
@@ -311,9 +312,14 @@ namespace CoreUI.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Hours", "Index");
             }
+            catch (DbConcurrencyException e)
+            {
+
+                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de deletar" });
+            }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, tentar novamente e avisar o suporte" });
             }
 
         }
@@ -339,7 +345,7 @@ namespace CoreUI.Web.Controllers
             catch (DbConcurrencyException e)
             {
 
-                throw new DbConcurrencyException(e.Message);
+                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de salvar"});
             }
         }
 
@@ -359,16 +365,26 @@ namespace CoreUI.Web.Controllers
                 return View("ModeAdmin", result);
 
             }
+            catch (DbConcurrencyException e)
+            {
+
+                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de update" });
+            }
             catch (Exception)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = "Erro não definido, tentar novamente e avisar o suporte" });
             }
            
         }
 
-        public async Task<IActionResult> UpdateStatus(int status, string ids)
+        public IActionResult UpdateStatus(int status, string ids)
         {
             GetSessions();
+
+            if (status == null || status == 0 || ids == "")
+            {
+                return RedirectToAction(nameof(Error));
+            }
 
             if (ViewBag.Email == null )
             {
