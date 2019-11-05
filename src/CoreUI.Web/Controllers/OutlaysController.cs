@@ -126,7 +126,8 @@ namespace CoreUI.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                EnviarArquivo(Document, ViewBag.Id ,storage);
+                int outlaysId = _context.Outlays.Count() + 1;
+                EnviarArquivo(Document, outlaysId, ViewBag.Id ,storage);
                 _context.Add(outlays);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -186,7 +187,7 @@ namespace CoreUI.Web.Controllers
             {
                 try
                 {
-                    EnviarArquivo(Document, ViewBag.Id, storage);
+                    EnviarArquivo(Document, id, ViewBag.Id, storage);
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
                 }
@@ -264,7 +265,7 @@ namespace CoreUI.Web.Controllers
             return _context.Outlays.Any(e => e.Id == id);
         }
 
-        public async void EnviarArquivo(IFormFile Document, int id, string storage)
+        public async void EnviarArquivo(IFormFile Document, int nameId, int id, string storage)
         {
 
             // < define a pasta onde vamos salvar os arquivos >
@@ -274,7 +275,8 @@ namespace CoreUI.Web.Controllers
             string nomeArquivo;
             if (Document.FileName != "" && Document.FileName != null)
             {
-                nomeArquivo = Document
+                nomeArquivo = nameId+"_";
+                nomeArquivo += Document
                     .FileName
                     .Replace(" ", "")
                     .Replace("&", "")
@@ -289,7 +291,7 @@ namespace CoreUI.Web.Controllers
                 nomeArquivo = "Sem Documento";
             }
 
-
+           
             //< obtém o caminho físico da pasta wwwroot >
             string caminho_WebRoot = _appEnvironment.WebRootPath;
             // monta o caminho onde vamos salvar o arquivo : 
