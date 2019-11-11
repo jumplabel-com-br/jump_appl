@@ -36,6 +36,33 @@
             </div>
 
             <div class="form-group row">
+              <div class="input-group col-10" title="Descrição">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide()" disabled>
+                  <option value="">Selecione</option>
+                  <option value="1">Dia útil</option>
+                  <option value="2">Férias</option>
+                  <option value="3">Licença</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Atestado/Declaração">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <a href="~/Files/Hour/@Model.Id-@Model.File" download="" class="ml-2 mt-1">@Model.File</a>
+              </div>
+            </div>
+
+            <div class="form-group row">
               <div class="input-group col-10" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">

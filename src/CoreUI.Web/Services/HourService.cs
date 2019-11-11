@@ -95,7 +95,8 @@ namespace CoreUI.Web.Services
                              Total_Hours_In_Activity = hours.Total_Hours_In_Activity,
                              Approval = hours.Approval,
                              Approver = hours.Approver,
-                             Client = clients.Name
+                             Client = clients.Name,
+                             Description = hours.Description
                          };
 
             return await result

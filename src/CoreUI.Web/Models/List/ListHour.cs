@@ -88,5 +88,8 @@ namespace CoreUI.Web.Models.List
 
         [Display(Name = "Cliente")]
         public string Client { get; set; }
+
+        [Display(Name = "Atividade")]
+        public int Description { get; set; }
     }
 }

@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="Views\CoreUI\" />
+    <Folder Include="wwwroot\Files\Hour\" />
     <Folder Include="wwwroot\Files\Outlays\" />
   </ItemGroup>
 

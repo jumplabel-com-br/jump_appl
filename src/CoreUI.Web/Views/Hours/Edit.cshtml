@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="HoursForm" asp-action="Edit">
+          <form id="HoursForm" enctype="multipart/form-data" asp-action="Edit">
             <input type="hidden" asp-for="Hour.Id" />
             <div class="form-group row">
               <div class="input-group col-10" title="Projeto">
@@ -35,6 +35,37 @@
                 <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Project invalid</span>
               </div>
             </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Descrição">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide()">
+                  <option value="">Selecione</option>
+                  <option value="1">Dia útil</option>
+                  <option value="2">Férias</option>
+                  <option value="3">Licença</option>
+                </select>
+                <span asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12">Descrição inválida</span>
+              </div>
+            </div>
+
+            <div class="form-group row divDocument" style="display:none">
+              <div class="input-group col-10" title="Atestado/Declaração">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <input type="file" name="Document" id="Document" class="ml-2" />
+                <input type="hidden" asp-for="Hour.File" />
+                <span name="document_hour" id="document_hour" class="text-danger text-danger-span  col-12">Documento inválido</span>
+              </div>
+            </div>
+
             <div class="form-group row">
               <div class="input-group col-10" title="Data">
                 <div class="input-group-prepend">

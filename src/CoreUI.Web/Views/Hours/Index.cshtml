@@ -79,6 +79,9 @@
                     @Html.DisplayNameFor(model => model.Date)
                   </th>
                   <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                  </th>
+                  <th>
                     @Html.DisplayNameFor(model => model.Arrival_Time)
                   </th>
                   <th>
@@ -93,9 +96,11 @@
                   <th>
                     @Html.DisplayNameFor(model => model.Total_Hours_In_Activity)
                   </th>
+                  <!--
                   <th>
-                    @Html.DisplayNameFor(model => model.Activies)
+                    @@Html.DisplayNameFor(model => model.Activies)
                   </th>
+                  -->
                   <th>
                     Status
                   </th>
@@ -119,6 +124,25 @@
                     @Html.DisplayFor(modelItem => item.Date)
                   </td>
                   <td>
+                    @{
+                      switch (item.Description)
+                      {
+                        case 1:
+                          @Html.DisplayName("Dia útil");
+                          break;
+
+                        case 2:
+                          @Html.DisplayName("Férias");
+                          break;
+
+                        case 3:
+                          @Html.DisplayName("Licença");
+                          break;
+                      }
+
+                    }
+                  </td>
+                  <td>
                     @Html.DisplayFor(modelItem => item.Arrival_Time)
                   </td>
                   <td>
@@ -133,9 +157,11 @@
                   <td class="totalHours">
                     @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
                   </td>
-                  <td class="Activities" title="@Html.DisplayFor(modelItem => item.Activies)">
-                    @Html.DisplayFor(modelItem => item.Activies)
+                  <!--
+                  <td class="Activities" title="@@Html.DisplayFor(modelItem => item.Activies)">
+                    @@Html.DisplayFor(modelItem => item.Activies)
                   </td>
+                  -->
                   <td>
                     @{
                       switch (item.Approval)

@@ -23,7 +23,7 @@
           <div class="card-body">
             <div class="row ml-0">
               <div id="DataTables_Table_0_filter" class="dataTables_filter col-8">
-                
+
                 <!--
                 <label>
                   Pesquisar:
@@ -52,7 +52,7 @@
 
                 <label>
                   Ano:
-                  <select  name="searchYearDataTable" id="searchYearDataTable" class="form-control">
+                  <select name="searchYearDataTable" id="searchYearDataTable" class="form-control">
                     <option value=""></option>
                   </select>
                 </label>
@@ -79,7 +79,6 @@
                   </select>
                 </label>
                 -->
-
                 <!--
                 <label>
                   Client:
@@ -223,8 +222,8 @@
                       </th>
                       <td colspan="2">
                         <div class="row ml-0">
-                            <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" asp-route-Employee_id="@item.Employee_Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
-                            <!--<a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" asp-route-Employee_id="@@item.Employee_Id"><i class="fa fa-edit"></i></a>
+                          <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" asp-route-Employee_id="@item.Employee_Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
+                          <!--<a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" asp-route-Employee_id="@@item.Employee_Id"><i class="fa fa-edit"></i></a>
                           <a><i></i></a>
                           button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
                         </div>
@@ -232,6 +231,27 @@
                     </tr>
                   }
                 </tbody>
+                <!--
+                <tfoot>
+                  <tr>
+                    <th colspan="12">
+                      <div class="row">
+                          <div class="col-6">
+                            ____________________________
+                            <br />
+                            Assinatura Gestor Jump
+                          </div>
+
+                          <div class="col-6">
+                            ____________________________
+                            <br />
+                            Assinatura Gestor Jump
+                          </div>
+                      </div>
+                    </th>
+                  </tr>
+                </tfoot>
+                -->
               </table>
             </div>
             <form id="UpdateStatus" asp-action="UpdateStatus">

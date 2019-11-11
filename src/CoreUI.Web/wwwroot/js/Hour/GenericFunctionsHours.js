@@ -315,9 +315,21 @@ function searchProjectsPerEmployee() {
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
                 && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
-            ).length > 0 ?  existingDate = false : existingDate = true; 
+            ).length > 0 
 
-            /*
+            ||
+
+            data.filter(obj =>
+                obj.id != $('#Hour_Id').val() &&
+                obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') == obj.start_Time.replace(':00', '') &&
+                $('#Hour_Exit_Time').val().replace('.000', '') == obj.stop_Time_2.replace(':00', '') &&
+                $('#Hour_Description').val() == '3'
+
+            ).length > 0 ? existingDate = false : existingDate = true; 
+
+            
             data.filter(obj =>
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Id').val() != obj.id &&
@@ -331,7 +343,7 @@ function searchProjectsPerEmployee() {
                 $('#Hour_Arrival_Time').val().replace('.000', '') <= obj.exit_Time.split('T')[1] &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.start_Time.split('T')[1] &&
                 obj.employee_Id == $('#Hour_Employee_Id').val()).length > 0 ? existingDate = false : existingDate = true;
-            */
+            
         })
         .fail(function () {
             console.log("error");
@@ -345,6 +357,11 @@ function CopySubmit() {
     }
 
     HourSubmit();
+}
+
+function sizeFile(size) {
+    var i = Math.floor(Math.log(size) / Math.log(1024));
+    return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
 }
 
 function HourSubmit() {
@@ -398,7 +415,7 @@ function HourSubmit() {
         return false;
     }
 
-    if ($('#Hour_Exit_Time').val() == '' || $('#Hour_Exit_Time').val().replace(':00.000', '') == '00:00') {
+    if ($('#Hour_Exit_Time').val() == '' || $('#Hour_Exit_Time').val().replace(':00.000', '') == '00:00' && $('#Hour_Description').val() != '3') {
         $('#hour_exit_time').show();
         $('#Hour_Exit_Time').focus();
         return false;
@@ -463,6 +480,44 @@ function HourSubmit() {
         return false;
     }
 
+    $('#Hour_File').val('Sem Documento');
+
+    if ($('#Document').val().length > 0) {
+        let document = $('#Document').prop("files")[0]
+
+        if (sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
+            alert('O arquivo não pode ser maior que 1 MB')
+        }
+
+        if (document != undefined && sizeFile($('#Document').prop("files")[0].size) != "1 MB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "kB" && sizeFile($('#Document').prop("files")[0].size).substr(sizeFile($('#Document').prop("files")[0].size).length - 2) != "MB") {
+            alert('O tamanho do arquivo deve ser de no máximo 1MB');
+            return false;
+        }
+
+        if (
+            document != undefined &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' &&
+            document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
+            alert('O tipo de documento só pode ser PNG, JPG ou PDF');
+            return false;
+        }
+
+        value = document.name.replace(/[ |&|$|#|@|%|*]/g, '');
+        $('#Hour_File').val(value);
+    }
+
+    if ($('#Hour_Description').val() == '3' && $('#Document').val().length == 0 && wlh != "Edit") {
+        alert('Anexo de documento é obrigatório');
+        return false;
+    }
+
+    if ($('#Hour_Description').val() == '') {
+        alert('A descrição de dia útil/ férias/ licença é obrigatório');
+        return false;
+    }
+
     $('.modalSpinner').modal('show');
     $('#toast-container-saved').toggle();
 
@@ -482,6 +537,10 @@ function ActiveLinck() {
 }
 
 $(document).ready(function () {
+
+    $('#Hour_Description').val() == 3 ? $('.divDocument').show() : $('.divDocument').hide()
+
+
     let wlp = window.location.pathname.split('/');
     wlp[2] == 'Create' || wlp[2] == 'Edit' ? $('.text-danger-span').hide() : '';
     (wlp[2] == 'Edit' || wlp[2] == 'Details') && (wlp[1] == 'ModeAdmin') ? Client() : '';

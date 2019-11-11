@@ -126,8 +126,16 @@ namespace CoreUI.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                int outlaysId = _context.Outlays.Count() + 1;
-                EnviarArquivo(Document, outlaysId, ViewBag.Id ,storage);
+                if (Document != null)
+                {
+                    int outlaysId = (from result in _context.Outlays
+                              orderby result.Id descending
+                              select result).First().Id + 1;
+
+
+                    EnviarArquivo(Document, outlaysId, ViewBag.Id, storage);
+                }
+
                 _context.Add(outlays);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

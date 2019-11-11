@@ -94,6 +94,9 @@ namespace CoreUI.Web.Models
         public int Approver_Update { get; set; }
         public int Register { get; set; }
 
+        public int Description { get; set; }
+        public string File { get; set; }
+
         public Hour()
         {
 
