@@ -157,7 +157,7 @@
                       @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                      <a href="~/Files/Outlays/@Html.DisplayFor(modelItem => item.File)" download="">@Html.DisplayFor(modelItem => item.File)</a>
+                      <a href="~/Files/Outlays/@Html.DisplayFor(modelItem => item.Id)-@Html.DisplayFor(modelItem => item.File)" download="">@Html.DisplayFor(modelItem => item.File)</a>
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
@@ -171,17 +171,6 @@
                   </tr>
                 }
               </tbody>
-              <tfoot>
-                <tr class="text-center">
-                  <th></th>
-                  <th></th>
-                  <th class="ml-1 text-left">
-                    <div class="row form-group">
-                      <div class="col">Consultor: Jaime Aparecido Pereira da Silva Junior</div>
-                    </div>
-                  </th>
-                </tr>
-              </tfoot>
             </table>
           </div>
           <form id="UpdateStatus" asp-action="UpdateStatus">

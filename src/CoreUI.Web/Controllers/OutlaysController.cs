@@ -283,7 +283,7 @@ namespace CoreUI.Web.Controllers
             string nomeArquivo;
             if (Document.FileName != "" && Document.FileName != null)
             {
-                nomeArquivo = nameId+"_";
+                nomeArquivo = nameId+"-";
                 nomeArquivo += Document
                     .FileName
                     .Replace(" ", "")
