@@ -43,7 +43,7 @@
                     <i class="fa fa-calendar-check-o"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValCharge(this.value)">
+                <select asp-for="Hour.Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValBilling(this.value)">
                   <option value="">Selecione</option>
                   <option value="1">Dia útil</option>
                   <option value="2">Férias</option>
@@ -142,7 +142,7 @@
               </div>
             </div>
 
-            <input type="hidden" asp-for="Hour.Charge" />
+            <input type="hidden" asp-for="Hour.Billing" />
             <input type="hidden" asp-for="Hour.Approval" />
             <input type="hidden" asp-for="Hour.Approver" />
             <input type="hidden" asp-for="Hour.Start_Time" />

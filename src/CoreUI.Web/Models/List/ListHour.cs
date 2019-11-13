@@ -91,6 +91,6 @@ namespace CoreUI.Web.Models.List
 
         [Display(Name = "Atividade")]
         public int Description { get; set; }
-        public int Charge { get; set; }
+        public int Billing { get; set; }
     }
 }

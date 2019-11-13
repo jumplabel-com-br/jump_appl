@@ -203,12 +203,12 @@
       <div class="toast-message">
         Salvo com sucesso
       </div>
-      <div class="div-form-saved" style="display: none">
+      <div class="div-form-saved mt-3" style="display: none">
         <form id="form-saved">
           <input type="hidden" name="id" id="id" />
-          <input type="hidden" name="charge" id="charge" />
-          <button type="button" class="btn btn-success btn-submit-sim-saved" onclick="$('.modalSpinner').modal('show');$('#toast-container-saved').toggle();UpdateChargeExecute($('#form-saved #id').val(),$('#form-saved #charge').val())">Sim</button>
-          <button type="button" class="btn btn-danger btn-btn-nao-saved" onclick="$('#toast-container-saved').toggle();" style="margin-left: 50%">Não</button>
+          <input type="hidden" name="billing" id="billing" />
+          <button type="button" class="btn btn-success btn-submit-sim-saved" onclick="$('.modalSpinner').modal('show');$('#toast-container-saved').toggle();UpdateBillingExecute($('#form-saved #id').val(),$('#form-saved #billing').val())">Sim</button>
+          <button type="button" class="btn btn-danger btn-btn-nao-saved" onclick="$('#toast-container-saved').toggle(); NotUpdateBilling('checkedItemCobranca_'+$('#form-saved #id').val(), $('#form-saved #billing').val());" style="margin-left: 50%">Não</button>
         </form>
       </div>
     </div>

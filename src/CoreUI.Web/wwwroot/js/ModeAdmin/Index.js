@@ -108,22 +108,24 @@ function CreateFilterProjects(model) {
     }).join('')}`
 }
 
-function UpdateCharge(id, charge) {
+function UpdateBilling(id, billing) {
     $('.toast-message:eq(0)').html('Deseja fazer está cobrança ?')
     $('#form-saved #id').val(id);
-    $('#form-saved #charge').val(charge);
+    $('#form-saved #billing').val(billing);
     $('#toast-container-saved, .div-form-saved').show();
 }
 
-function UpdateChargeExecute(id, charge) {
-    console.log('id:', id);
-    console.log('charge:', charge);
+function NotUpdateBilling(id, billing) {
+    billing == 0 ? $('#' + id).prop("checked", false) : $('#' + id).prop("checked", true);
+}
 
+function UpdateBillingExecute(id, billing) {
+   
     $.ajax({
-        url: '/ModeAdmin/UpdateCharge',
+        url: '/ModeAdmin/UpdateBilling',
         type: 'POST',
         dataType: '',
-        data: { id, charge },
+        data: { id, billing},
     })
         .done(function () {
             console.log("success1");

@@ -51,7 +51,7 @@ namespace CoreUI.Web.Services
                              Approver = hour.Approver,
                              Client = clients.Name,
                              Description = hour.Description,
-                             Charge = hour.Charge
+                             Billing = hour.Billing
                          };
 
             return await result
@@ -59,7 +59,7 @@ namespace CoreUI.Web.Services
                 //.OrderBy(x => x.Project)
                 //.OrderBy(x => x.Consultant)
                 .OrderBy(x => x.Date)
-                //.OrderBy(x => x.Start_Time)
+                //.OrderBy(x b=> x.Start_Time)
                 .ToListAsync();
 
         }
@@ -99,7 +99,7 @@ namespace CoreUI.Web.Services
                              Approver = hours.Approver,
                              Client = clients.Name,
                              Description = hours.Description,
-                             Charge = hours.Charge
+                             Billing = hours.Billing
                          };
 
             return await result

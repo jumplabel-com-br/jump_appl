@@ -96,7 +96,7 @@ namespace CoreUI.Web.Models
 
         public int Description { get; set; }
         public string File { get; set; }
-        public int Charge { get; set; }
+        public int Billing { get; set; }
 
         public Hour()
         {

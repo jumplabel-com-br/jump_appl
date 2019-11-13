@@ -393,7 +393,7 @@ namespace CoreUI.Web.Controllers
 
         }
 
-        public async void UpdateCharge(int id, int charge)
+        public async void UpdateBilling(int id, int billing)
         {
             GetSessions();
 
@@ -402,17 +402,17 @@ namespace CoreUI.Web.Controllers
                 ExpiredSession();
             }
 
-            if (charge == 0)
+            if (billing == 0)
             {
-                charge = 1;
+                billing = 1;
             }
             else
             {
-                charge = 0;
+                billing = 0;
             }
 
 
-            string queryString = "update Hour set Charge = "+charge+" where Id = " + id + "";
+            string queryString = "update Hour set Billing = " + billing + " where Id = " + id + "";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);
