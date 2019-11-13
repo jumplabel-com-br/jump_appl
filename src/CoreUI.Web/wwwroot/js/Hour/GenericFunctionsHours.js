@@ -163,6 +163,10 @@ function TextNameProject(id) {
     document.querySelector('#Hour_Project').value = texto;
 }
 
+function setValCharge(val) {
+    val == '3' ? $('#Hour_Charge').val(0) : $('#Hour_Charge').val(1);
+}
+
 
 function calculaHora() {
 

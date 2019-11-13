@@ -13,6 +13,8 @@ using CoreUI.Web.Services.Exceptions;
 using CoreUI.Web.Models.ViewModel;
 using Microsoft.Extensions.Configuration;
 using CoreUI.Web.Services;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CoreUI.Web.Controllers
 {
@@ -25,8 +27,9 @@ namespace CoreUI.Web.Controllers
         private readonly HourService _hourService;
         private readonly ClientService _clientService;
         private readonly IConfiguration _config;
+        IHostingEnvironment _appEnvironment;
 
-        public ModeAdminController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, ClientService client, IConfiguration config)
+        public ModeAdminController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, ClientService client, IConfiguration config, IHostingEnvironment env)
         {
             _context = context;
             _projectService = project;
@@ -35,6 +38,7 @@ namespace CoreUI.Web.Controllers
             _hourService = hour;
             _clientService = client;
             _config = config;
+            _appEnvironment = env;
         }
 
 
@@ -45,6 +49,7 @@ namespace CoreUI.Web.Controllers
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
+        const string storage = "Hour\\";
 
         public async Task<IActionResult> Index()
         {
@@ -147,7 +152,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Hour hour)
+        public async Task<IActionResult> Create(Hour hour, IFormFile Document)
         {
 
             GetSessions();
@@ -171,6 +176,16 @@ namespace CoreUI.Web.Controllers
                     var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients };
 
                     return View(viewModel);
+                }
+
+                if (Document != null)
+                {
+                    int id = (from result in _context.Hour
+                              orderby result.Id descending
+                              select result).First().Id + 1;
+
+
+                    EnviarArquivo(Document, id, storage);
                 }
 
                 await _hourService.InsertAsync(hour);
@@ -253,7 +268,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Hour hour)
+        public async Task<IActionResult> Edit(Hour hour, IFormFile Document)
         {
 
 
@@ -271,6 +286,11 @@ namespace CoreUI.Web.Controllers
                 {
                     try
                     {
+                        if (Document != null)
+                        {
+                            EnviarArquivo(Document, hour.Id, storage);
+                        }
+
                         await _hourService.UpdateAsync(hour);
                     }
                     catch (DbUpdateConcurrencyException)
@@ -373,6 +393,36 @@ namespace CoreUI.Web.Controllers
 
         }
 
+        public async void UpdateCharge(int id, int charge)
+        {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                ExpiredSession();
+            }
+
+            if (charge == 0)
+            {
+                charge = 1;
+            }
+            else
+            {
+                charge = 0;
+            }
+
+
+            string queryString = "update Hour set Charge = "+charge+" where Id = " + id + "";
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+
+            MySqlConnection connection = new MySqlConnection(connString);
+            MySqlCommand command = new MySqlCommand(queryString, connection);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            await connection.OpenAsync();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
         public async Task<IActionResult> UpdateStatus(int status, string ids)
         {
             GetSessions();
@@ -383,7 +433,7 @@ namespace CoreUI.Web.Controllers
             }
 
             int id = ViewBag.Id;
-            string queryString = "update dev_jump.Hour set Approver = " + id + ", Approval = '" + status + "' where Id in (" + ids + ")";
+            string queryString = "update Hour set Approver = " + id + ", Approval = '" + status + "' where Id in (" + ids + ")";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);
@@ -425,6 +475,48 @@ namespace CoreUI.Web.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async void EnviarArquivo(IFormFile Document, dynamic nameId, string storage)
+        {
+
+            // < define a pasta onde vamos salvar os arquivos >
+            string pasta = "Files";
+            // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
+            //string nomeArquivo = DateTime.Now.ToString().Replace('/','-').Replace(':', '&').Replace(" ", "") + "_" + id + "_" + Document.FileName;
+            string nomeArquivo;
+            if (Document.FileName != "" && Document.FileName != null)
+            {
+                nomeArquivo = nameId + "-";
+                nomeArquivo += Document
+                    .FileName
+                    .Replace(" ", "")
+                    .Replace("&", "")
+                    .Replace("@", "")
+                    .Replace("#", "")
+                    .Replace("$", "")
+                    .Replace("%", "")
+                    .Replace("*", "");
+            }
+            else
+            {
+                nomeArquivo = "Sem Documento";
+            }
+
+
+            //< obtém o caminho físico da pasta wwwroot >
+            string caminho_WebRoot = _appEnvironment.WebRootPath;
+            // monta o caminho onde vamos salvar o arquivo : 
+            // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos
+            string caminhoDestinoArquivo = caminho_WebRoot + "\\" + pasta + "\\";
+            // incluir a pasta Recebidos e o nome do arquivo enviado : 
+            // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos\
+            string caminhoDestinoArquivoOriginal = caminhoDestinoArquivo + storage + nomeArquivo;
+            //copia o arquivo para o local de destino original
+            using (var stream = new FileStream(caminhoDestinoArquivoOriginal, FileMode.Create))
+            {
+                await Document.CopyToAsync(stream);
+            }
         }
     }
 }

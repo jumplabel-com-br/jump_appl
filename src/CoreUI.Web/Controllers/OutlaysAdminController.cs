@@ -265,7 +265,7 @@ namespace CoreUI.Web.Controllers
             }
 
             int id = ViewBag.Id;
-            string queryString = "update dev_jump.Outlays set Status = '" + status + "' where Id in (" + ids + ")";
+            string queryString = "update Outlays set Status = '" + status + "' where Id in (" + ids + ")";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);

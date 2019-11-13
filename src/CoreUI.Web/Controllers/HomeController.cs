@@ -104,7 +104,7 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            string queryString = "update dev_jump.Employee set password = '" + password + "', change_password = 0 where Email = '" + email + "'";
+            string queryString = "update Employee set password = '" + password + "', change_password = 0 where Email = '" + email + "'";
 
             ExecuteQuery(queryString);
             return RedirectToAction("Index", "Hours");
@@ -131,7 +131,7 @@ namespace CoreUI.Web.Controllers
                 return RedirectToAction("Index", "Home", "true");
             }
 
-            string queryString = "SELECT * FROM dev_jump.Employee where email = '" + employee.Email + "' and active = 1";
+            string queryString = "SELECT * FROM Employee where email = '" + employee.Email + "' and active = 1";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);

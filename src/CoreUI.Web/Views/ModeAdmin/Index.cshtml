@@ -124,6 +124,9 @@
                       Aprovação
                     </th>
                     <th>
+                      Cobrança
+                    </th>
+                    <th>
                       @Html.DisplayNameFor(model => model.Date)
                     </th>
                     <th>
@@ -161,9 +164,19 @@
                     <tr class="trCount" id="tr_@item.Id">
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="btn btn-primary custom-control-input checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  :  document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '')" />
+                          <input type="checkbox" class="btn btn-primary custom-control-input checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+',' : document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '');" />
                           <label class="custom-control-label mb-3 ml-3 mt-1" for="checkedItem_@item.Id"></label>
                         </div>
+                      </td>
+                      <td>
+                        <form asp-action="UpdateCharge">
+                          <input type="hidden" name="id" id="id" value="@item.Id" />
+                          <input type="hidden" name="charge" id="charge" value="@item.Charge" />
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="btn btn-primary custom-control-input checkedItemCobranca checkedDescription_@item.Charge" name="checkedItemCobranca" id="checkedItemCobranca_@item.Id" onclick="UpdateCharge(@item.Id,@item.Charge);"/>
+                            <label class="custom-control-label mb-3 ml-3 mt-1" for="checkedItemCobranca_@item.Id"></label>
+                          </div>
+                        </form>
                       </td>
                       <td>
 
@@ -225,33 +238,12 @@
                           <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" asp-route-Employee_id="@item.Employee_Id" onclick="$('.modalSpinner').modal('show')"><i class="fa fa-search"></i></a>
                           <!--<a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" asp-route-Employee_id="@@item.Employee_Id"><i class="fa fa-edit"></i></a>
                           <a><i></i></a>
-                          button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
+                          <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
                         </div>
                       </td>
                     </tr>
                   }
                 </tbody>
-                <!--
-                <tfoot>
-                  <tr>
-                    <th colspan="12">
-                      <div class="row">
-                          <div class="col-6">
-                            ____________________________
-                            <br />
-                            Assinatura Gestor Jump
-                          </div>
-
-                          <div class="col-6">
-                            ____________________________
-                            <br />
-                            Assinatura Gestor Jump
-                          </div>
-                      </div>
-                    </th>
-                  </tr>
-                </tfoot>
-                -->
               </table>
             </div>
             <form id="UpdateStatus" asp-action="UpdateStatus">

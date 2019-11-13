@@ -98,7 +98,6 @@
         </div>
       </li>
       -->
-
       <!--
       <li class="nav-item d-md-down-none">
         <a class="nav-link" href="#">
@@ -203,6 +202,14 @@
       <div class="toast-title">Saved</div>
       <div class="toast-message">
         Salvo com sucesso
+      </div>
+      <div class="div-form-saved" style="display: none">
+        <form id="form-saved">
+          <input type="hidden" name="id" id="id" />
+          <input type="hidden" name="charge" id="charge" />
+          <button type="button" class="btn btn-success btn-submit-sim-saved" onclick="$('.modalSpinner').modal('show');$('#toast-container-saved').toggle();UpdateChargeExecute($('#form-saved #id').val(),$('#form-saved #charge').val())">Sim</button>
+          <button type="button" class="btn btn-danger btn-btn-nao-saved" onclick="$('#toast-container-saved').toggle();" style="margin-left: 50%">Não</button>
+        </form>
       </div>
     </div>
   </div>

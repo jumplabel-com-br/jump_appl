@@ -108,12 +108,45 @@ function CreateFilterProjects(model) {
     }).join('')}`
 }
 
+function UpdateCharge(id, charge) {
+    $('.toast-message:eq(0)').html('Deseja fazer está cobrança ?')
+    $('#form-saved #id').val(id);
+    $('#form-saved #charge').val(charge);
+    $('#toast-container-saved, .div-form-saved').show();
+}
+
+function UpdateChargeExecute(id, charge) {
+    console.log('id:', id);
+    console.log('charge:', charge);
+
+    $.ajax({
+        url: '/ModeAdmin/UpdateCharge',
+        type: 'POST',
+        dataType: '',
+        data: { id, charge },
+    })
+        .done(function () {
+            console.log("success1");
+            $('.div-form-saved').hide();
+            $('.toast-message:eq(0)').html('Ação executa com exito');
+            $('#toast-container-saved').show();
+            setTimeout(function () { $('.modalSpinner').modal('hide');; $('#toast-container-saved').hide()}, 1000)
+
+        })
+        .fail(function () {
+            console.log("error");
+        });
+
+}
+
 $(document).ready(function () {
     FilterEmployees();
     FilterProjects();
     FilterClients();
 
     $('#toast-container').hide();
+
+    $('.checkedDescription_1').attr('checked', true);
 
     document.querySelectorAll('.Activities').forEach(obj => {
         obj.innerHTML.trim().length > 30 ? obj.innerHTML = obj.innerHTML.trim().substr(0, 20) + '...' : ''

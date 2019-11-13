@@ -411,7 +411,7 @@ namespace CoreUI.Web.Controllers
             }
 
 
-            string queryString = "update dev_jump.Hour set Approval = '"+status+"' where Id in ("+ids+")";
+            string queryString = "update Hour set Approval = '"+status+"' where Id in ("+ids+")";
 
             ExecuteQuery(queryString);
 

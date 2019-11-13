@@ -207,19 +207,19 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
 
 function NameSelect(id) {
     switch (id) {
-        case 1:
+        case 2:
             return 'Status';
             break;
 
-        case 3:
+        case 4:
             return 'Cliente';
             break;
 
-        case 4:
+        case 5:
             return 'Projeto';
             break;
 
-        case 5:
+        case 6:
             return 'Funcionário';
             break;
         default:
@@ -229,15 +229,15 @@ function NameSelect(id) {
 
 function nameClass(id) {
     switch (id) {
-        case 3:
+        case 4:
             return 'choose_clients';
             break;
 
-        case 4:
+        case 5:
             return 'choose_projects';
             break;
 
-        case 5:
+        case 6:
             return 'choose_employees';
             break;
 
@@ -251,7 +251,8 @@ if ($('table').length > 0) {
         if (wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin") {
             this.api().columns().every(function (id, j) {
                 var column = this;
-                if ((wlhs[3] == "ModeAdmin" && (id == 1 || id == 3 || id == 4 || id == 5)) || (wlhs[3] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
+                console.log(id)
+                if ((wlhs[3] == "ModeAdmin" && (id == 2 || id == 4 || id == 5 || id == 6)) || (wlhs[3] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
                     var select = $(`<select class="form-control ${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}" id="${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${wlhs[3] == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
@@ -275,7 +276,7 @@ if ($('table').length > 0) {
         }
     };
 
-    columnsModeAdmin = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+    columnsModeAdmin = [3, 4, 5, 6, 7, 8, 9, 10, 11];
     columnsOutlaysAdmin = [2, 3, 4, 5, 6, 7, 8]
 
     columnDefsModeAdmin = [
@@ -305,8 +306,8 @@ if ($('table').length > 0) {
 
     function arrFor() {
         if (wlhs[3] == "ModeAdmin") {
-            for (var i = 0; i <= 11; i++) {
-                if (i == 2 || i >= 6) {
+            for (var i = 0; i <= 12; i++) {
+                if (i == 1 || i == 3 || i >= 7) {
                     $('#example thead tr:eq(1) th')[i].innerHTML = '';
                 }
 
@@ -433,9 +434,9 @@ if ($('table').length > 0) {
         $('table thead tr').clone(true).appendTo('table thead');
 
         if (wlhs[3] == "ModeAdmin") {
-            var names = ['#', 'Aprovação', 'Data', 'Cliente', 'Projeto', 'Funcionário']
+            var names = ['Aprovação', 'Cobrança', 'Status', 'Data', 'Cliente', 'Projeto', 'Funcionário']
 
-            for (var i = 0; i < 6; i++) {
+            for (var i = 0; i < 7; i++) {
                 $(`table thead tr:eq(0) th`)[i].innerHTML = names[i];
             }
         }

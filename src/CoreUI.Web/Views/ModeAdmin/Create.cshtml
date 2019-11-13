@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="HoursForm" asp-action="Create">
+          <form id="HoursForm" asp-action="Create" enctype="multipart/form-data">
 
             <div class="form-group row">
               <div class="input-group col-10" title="Cliente">
@@ -31,7 +31,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select id="Client_Id" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control"  onchange="Project()">
+                <select id="Client_Id" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control" onchange="Project()">
                   <option value="">Selecione o cliente</option>
                 </select>
               </div>
@@ -61,6 +61,36 @@
                 <select asp-for="Hour.Employee_Id" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control">
                   <option value="">Selecione o funcionário</option>
                 </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Descrição">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValCharge(this.value)">
+                  <option value="">Selecione</option>
+                  <option selected value="1">Dia útil</option>
+                  <option value="2">Férias</option>
+                  <option value="3">Licença</option>
+                </select>
+                <span asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12">Descrição inválida</span>
+              </div>
+            </div>
+
+            <div class="form-group row divDocument" style="display:none">
+              <div class="input-group col-10" title="Atestado/Declaração">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <input type="file" name="Document" id="Document" class="ml-2" />
+                <input type="hidden" asp-for="Hour.File" />
+                <span name="document_hour" id="document_hour" class="text-danger text-danger-span  col-12">Documento inválido</span>
               </div>
             </div>
 
@@ -152,6 +182,7 @@
               </div>
             </div>
 
+            <input type="hidden" asp-for="Hour.Charge" value="1" />
             <input type="hidden" asp-for="Hour.Approval" value="1" />
             <input type="hidden" asp-for="Hour.Start_Time" />
             <input type="hidden" asp-for="Hour.Stop_Time" />
