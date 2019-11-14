@@ -216,6 +216,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
             ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
             ViewBag.ChangePassword = HttpContext.Session.GetInt32(SessionChangePassword);
+            ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
         }
 
         public IActionResult ExpiredSession()
