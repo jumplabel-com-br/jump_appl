@@ -474,6 +474,8 @@ if ($('table').length > 0) {
 
 }
 
+$('.imgLogo').attr('src', $('#ImgLogo').val())
+
 /*
 if (wlhs[4] != 'ChangePassword') {
     JsonMessagesBell();

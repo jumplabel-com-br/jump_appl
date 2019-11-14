@@ -21,6 +21,7 @@ namespace CoreUI.Web.Services
 
         public async Task<List<ListHour>> FindAllAsync()
         {
+
             var result = from hour in _context.Hour
                          join projects in _context.Project on hour.Id_Project equals projects.Id
                          join clients in _context.Client on projects.Client_Id equals clients.Id

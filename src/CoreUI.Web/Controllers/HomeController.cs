@@ -30,6 +30,7 @@ namespace CoreUI.Web.Controllers
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
+        const string SessionImgLogo = "false";
 
         public HomeController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, IConfiguration config)
         {
@@ -164,11 +165,21 @@ namespace CoreUI.Web.Controllers
             if (ViewBag.Email == null)
             {
 
+                string ambiente = _config.GetValue<string>("Ambiente:ambiente");
+                string img = "/images/brand/logo---fundo-transp.png";
+
+                if (ambiente == "development")
+                {
+                    img = "/images/brand/GrinchLogoJump2.png";
+                }
+
                 HttpContext.Session.SetString(SessionEmail, employee.Email);
                 HttpContext.Session.SetInt32(SessionEmployeeId, idEmployee);
                 HttpContext.Session.SetString(SessionName, NameEmployee);
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
                 HttpContext.Session.SetInt32(SessionChangePassword, changePassword);
+                HttpContext.Session.SetString(SessionImgLogo, img);
+                
             }
 
             if (_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1 && emp.Change_Password == 1) == 1)

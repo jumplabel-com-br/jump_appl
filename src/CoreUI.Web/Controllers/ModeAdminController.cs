@@ -49,6 +49,7 @@ namespace CoreUI.Web.Controllers
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
+        const string SessionImgLogo = "false";
         const string storage = "Hour\\";
 
         public async Task<IActionResult> Index()
@@ -66,8 +67,9 @@ namespace CoreUI.Web.Controllers
                 return View(result);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -453,6 +455,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
             ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
             ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
+            ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
         }
 
         public IActionResult ExpiredSession()
