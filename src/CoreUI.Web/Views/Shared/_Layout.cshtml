@@ -61,10 +61,10 @@
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">
+    <section class="navbar-brand">
       <img class="navbar-brand-full imgLogo" alt="Jump Logo" src="/images/brand/GrinchLogoJump2.png">
       <img class="navbar-brand-minimized" src="~/images/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
-    </a>
+    </section>
     <!--
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
       <span class="navbar-toggler-icon"></span>
@@ -77,13 +77,11 @@
       <li class="nav-item px-3">
         <a class="nav-link biHourCreate" onclick="ActiveLinck()" asp-action="Create">Criar</a>
       </li>
-      -->
-    <!--
-    <li class="nav-item px-3">
-      <a class="nav-link" href="#">Settings</a>
-    </li>
-    -->
+      <li class="nav-item px-3">
+        <a class="nav-link" href="#">Settings</a>
+      </li>
     </ul>
+    -->
     <ul class="nav navbar-nav ml-auto">
       <!--
       <li class="nav-item dropdown" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -116,44 +114,44 @@
           <i class="avatar fa fa-user mt-3"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" asp-controller="Home" asp-action="ChangePassword">
+          <a class="dropdown-item" asp-controller="Home" asp-action="ChangePassword" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-edit"></i> Alterar senha
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="OutlaysAdmin" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="OutlaysAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-check-circle-o"></i> Aprovação de despesas
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-check-circle-o"></i> Aprovação de horas
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Clients" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Clients" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-user"></i> Clientes
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Outlays" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Outlays" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-money"></i> Despesas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Project_team" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Project_team" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-paste"></i> Equipes de projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Employees" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Employees" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-users"></i> Funcionários
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item" asp-controller="Hours" asp-action="Index">
+          <a class="dropdown-item" asp-controller="Hours" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-clock-o"></i> Horas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-file"></i> Projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>

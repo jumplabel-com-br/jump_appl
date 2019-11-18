@@ -46,6 +46,16 @@ namespace CoreUI.Web.Controllers
 
         public IActionResult Index()
         {
+            string ambiente = _config.GetValue<string>("Ambiente:ambiente");
+            string img = "/images/brand/logo---fundo-transp.png";
+
+            if (ambiente == "development")
+            {
+                img = "/images/brand/GrinchLogoJump2.png";
+            }
+            HttpContext.Session.SetString(SessionImgLogo, img);
+
+            ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
             ViewBag.Invalid = HttpContext.Session.GetString(SessionInvalid);
             ViewBag.Experid = HttpContext.Session.GetString(SessionExpired);
 

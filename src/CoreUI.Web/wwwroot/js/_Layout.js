@@ -251,7 +251,7 @@ if ($('table').length > 0) {
         if (wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin") {
             this.api().columns().every(function (id, j) {
                 var column = this;
-                console.log(id)
+                //console.log(id)
                 if ((wlhs[3] == "ModeAdmin" && (id == 2 || id == 4 || id == 5 || id == 6)) || (wlhs[3] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
                     var select = $(`<select class="form-control ${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}" id="${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${wlhs[3] == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
                         .appendTo($(column.header()).empty())
@@ -326,7 +326,6 @@ if ($('table').length > 0) {
         }
     }
 
-
     var buttons = wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin" ?
         [
             {
@@ -395,7 +394,7 @@ if ($('table').length > 0) {
                     columns
                 },
                 customize: function (win) {
-                    $(win.document.body).find('table thead tr').css({ "background-color": "#EF8223", "color": "#fff" });
+                    $(win.document.body).find('table').addClass('compact').css({ "background-color" : "#EF8223", "color" : "#fff"});
                 }
             }
         ] : [];
@@ -470,7 +469,7 @@ if ($('table').length > 0) {
     });
 
     $('table thead tr:eq(0)').css({ "background-color": "#EF8223", "color": "#fff" })
-    $('table thead tr:eq(0) th').css({ "border-color": "#010101" })
+    $('table thead tr:eq(0) th').css({ "border-color": "#010101", "width": "60px" })
 
 }
 
