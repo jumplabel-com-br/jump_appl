@@ -28,16 +28,18 @@ namespace CoreUI.Web.Controllers
         private readonly ProjectTeamService _projectTeamService;
         private readonly EmployeeService _employeeService;
         private readonly HourService _hourService;
+        private readonly Files _files;
         private readonly IConfiguration _config;
         IHostingEnvironment _appEnvironment;
 
-        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, IConfiguration config, IHostingEnvironment env)
+        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, Files files, IConfiguration config, IHostingEnvironment env)
         {
             _context = context;
             _projectService = project;
             _projectTeamService = projectTeam;
             _employeeService = employee;
             _hourService = hour;
+            _files = files;
             _config = config;
             _appEnvironment = env;
         }
@@ -178,9 +180,9 @@ namespace CoreUI.Web.Controllers
                     int id = (from result in _context.Hour 
                              orderby result.Id descending
                              select result).First().Id + 1;
-                    
 
-                    EnviarArquivo(Document, id, storage);
+
+                    _files.EnviarArquivo(Document, id, storage);
                 }
                
                 await _hourService.InsertAsync(hour);
@@ -282,7 +284,7 @@ namespace CoreUI.Web.Controllers
                     {
                         if (Document != null)
                         {
-                            EnviarArquivo(Document, hour.Id, storage);
+                            _files.EnviarArquivo(Document, hour.Id, storage);
                         }
                         await _hourService.UpdateAsync(hour);
                     }
@@ -461,48 +463,6 @@ namespace CoreUI.Web.Controllers
             };
 
             return View(viewModel);
-        }
-
-        public async void EnviarArquivo(IFormFile Document, dynamic nameId, string storage)
-        {
-
-            // < define a pasta onde vamos salvar os arquivos >
-            string pasta = "Files";
-            // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
-            //string nomeArquivo = DateTime.Now.ToString().Replace('/','-').Replace(':', '&').Replace(" ", "") + "_" + id + "_" + Document.FileName;
-            string nomeArquivo;
-            if (Document.FileName != "" && Document.FileName != null)
-            {
-                nomeArquivo = nameId + "-";
-                nomeArquivo += Document
-                    .FileName
-                    .Replace(" ", "")
-                    .Replace("&", "")
-                    .Replace("@", "")
-                    .Replace("#", "")
-                    .Replace("$", "")
-                    .Replace("%", "")
-                    .Replace("*", "");
-            }
-            else
-            {
-                nomeArquivo = "Sem Documento";
-            }
-
-
-            //< obtém o caminho físico da pasta wwwroot >
-            string caminho_WebRoot = _appEnvironment.WebRootPath;
-            // monta o caminho onde vamos salvar o arquivo : 
-            // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos
-            string caminhoDestinoArquivo = caminho_WebRoot + "\\" + pasta + "\\";
-            // incluir a pasta Recebidos e o nome do arquivo enviado : 
-            // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos\
-            string caminhoDestinoArquivoOriginal = caminhoDestinoArquivo + storage + nomeArquivo;
-            //copia o arquivo para o local de destino original
-            using (var stream = new FileStream(caminhoDestinoArquivoOriginal, FileMode.Create))
-            {
-                await Document.CopyToAsync(stream);
-            }
         }
     }
 }

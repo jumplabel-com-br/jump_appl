@@ -21,38 +21,33 @@ namespace CoreUI.Web.Models
 
         }
 
-        public async void EnviarArquivo(IFormFile Document, int id, string storage)
+        public async void EnviarArquivo(IFormFile Document, int nameId, string storage)
         {
-            // caminho completo do arquivo na localização temporária
-            var caminhoArquivo = Path.GetTempFileName();
-
-            // processa os arquivo enviados
-            //percorre a lista de arquivos selecionados
-
-            //verifica se existem arquivos 
-            /*
-            if (Document == null || Document.Length == 0)
-            {
-                //retorna a viewdata com erro
-                string Error = "Error: Arquivo(s) não selecionado(s)";
-            }
-            */
 
             // < define a pasta onde vamos salvar os arquivos >
             string pasta = "Files";
             // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
-            string nomeArquivo = DateTime.Now.ToString().Replace('/', '-').Replace(':', '&') + "_" + id + "_" + Document.FileName;
-            //verifica qual o tipo de arquivo : jpg, gif, png, pdf ou tmp
-            if (Document.FileName.Contains(".jpg"))
-                nomeArquivo += ".jpg";
-            else if (Document.FileName.Contains(".gif"))
-                nomeArquivo += ".gif";
-            else if (Document.FileName.Contains(".png"))
-                nomeArquivo += ".png";
-            else if (Document.FileName.Contains(".pdf"))
-                nomeArquivo += ".pdf";
+            //string nomeArquivo = DateTime.Now.ToString().Replace('/','-').Replace(':', '&').Replace(" ", "") + "_" + id + "_" + Document.FileName;
+            string nomeArquivo;
+            if (Document.FileName != "" && Document.FileName != null)
+            {
+                nomeArquivo = nameId + "-";
+                nomeArquivo += Document
+                    .FileName
+                    .Replace(" ", "")
+                    .Replace("&", "")
+                    .Replace("@", "")
+                    .Replace("#", "")
+                    .Replace("$", "")
+                    .Replace("%", "")
+                    .Replace("*", "");
+            }
             else
-                nomeArquivo += ".tmp";
+            {
+                nomeArquivo = "Sem Documento";
+            }
+
+
             //< obtém o caminho físico da pasta wwwroot >
             string caminho_WebRoot = _appEnvironment.WebRootPath;
             // monta o caminho onde vamos salvar o arquivo : 

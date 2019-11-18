@@ -61,6 +61,8 @@ namespace CoreUI.Web
             services.AddScoped<ProjectTeamService>();
             services.AddScoped<OutlaysService>();
 
+            services.AddScoped<Files>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

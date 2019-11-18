@@ -348,6 +348,7 @@ if ($('table').length > 0) {
                 customize: function (doc) {
                     doc.content[1].table.body[0].forEach(function (h) {
                         h.fillColor = '#EF8223';
+                        console.log(h);
                     });
 
                     doc.content.splice(0, 0, {

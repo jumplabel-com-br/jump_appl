@@ -23,9 +23,10 @@ namespace CoreUI.Web.Controllers
         private readonly AccessLevelService _accessLevelService;
         private readonly ClientService _clienteService;
         private readonly OutlaysService _outlaysService;
+        private readonly Files _files;
         IHostingEnvironment _appEnvironment;
 
-        public OutlaysController(ApplicationDbContext context, EmployeeService employeeService, ProjectService projectService, HourService hourService, AccessLevelService accessLevelService, ClientService clientService ,OutlaysService outlaysService, IHostingEnvironment appEnvironment)
+        public OutlaysController(ApplicationDbContext context, EmployeeService employeeService, ProjectService projectService, HourService hourService, AccessLevelService accessLevelService, ClientService clientService ,OutlaysService outlaysService, Files files, IHostingEnvironment appEnvironment)
         {
             _context = context;
             _employeeService = employeeService;
@@ -34,6 +35,7 @@ namespace CoreUI.Web.Controllers
             _accessLevelService = accessLevelService;
             _clienteService = clientService;
             _outlaysService = outlaysService;
+            _files = files;
             _appEnvironment = appEnvironment;
 
         }
@@ -134,7 +136,7 @@ namespace CoreUI.Web.Controllers
                               select result).First().Id + 1;
 
 
-                    EnviarArquivo(Document, outlaysId, ViewBag.Id, storage);
+                    _files.EnviarArquivo(Document, outlaysId, storage);
                 }
 
                 _context.Add(outlays);
@@ -196,7 +198,7 @@ namespace CoreUI.Web.Controllers
             {
                 try
                 {
-                    EnviarArquivo(Document, id, ViewBag.Id, storage);
+                    _files.EnviarArquivo(Document, id, storage);
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
                 }
@@ -273,48 +275,6 @@ namespace CoreUI.Web.Controllers
         private bool OutlaysExists(int id)
         {
             return _context.Outlays.Any(e => e.Id == id);
-        }
-
-        public async void EnviarArquivo(IFormFile Document, int nameId, int id, string storage)
-        {
-
-            // < define a pasta onde vamos salvar os arquivos >
-            string pasta = "Files";
-            // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
-            //string nomeArquivo = DateTime.Now.ToString().Replace('/','-').Replace(':', '&').Replace(" ", "") + "_" + id + "_" + Document.FileName;
-            string nomeArquivo;
-            if (Document.FileName != "" && Document.FileName != null)
-            {
-                nomeArquivo = nameId+"-";
-                nomeArquivo += Document
-                    .FileName
-                    .Replace(" ", "")
-                    .Replace("&", "")
-                    .Replace("@", "")
-                    .Replace("#", "")
-                    .Replace("$", "")
-                    .Replace("%", "")
-                    .Replace("*", "");
-            }
-            else
-            {
-                nomeArquivo = "Sem Documento";
-            }
-
-           
-            //< obtém o caminho físico da pasta wwwroot >
-            string caminho_WebRoot = _appEnvironment.WebRootPath;
-            // monta o caminho onde vamos salvar o arquivo : 
-            // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos
-            string caminhoDestinoArquivo = caminho_WebRoot + "\\" + pasta + "\\";
-            // incluir a pasta Recebidos e o nome do arquivo enviado : 
-            // ~\wwwroot\Arquivos\Arquivos_Usuario\Recebidos\
-            string caminhoDestinoArquivoOriginal = caminhoDestinoArquivo + storage + nomeArquivo;
-            //copia o arquivo para o local de destino original
-            using (var stream = new FileStream(caminhoDestinoArquivoOriginal, FileMode.Create))
-            {
-                await Document.CopyToAsync(stream);
-            }
         }
     }
 }
