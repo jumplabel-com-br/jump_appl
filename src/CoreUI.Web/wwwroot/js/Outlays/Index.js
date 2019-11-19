@@ -26,3 +26,5 @@ $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
             $(this).text().toLowerCase().indexOf(month + '/' + year) > -1);
     });
 });
+
+$('.notesValues').mask('000.000.000.000.000,00', { reverse: true });
