@@ -191,8 +191,8 @@ function OutlaysSubmit() {
         $('#Outlays_File').val(value);
     }
     
-    //let noteValue = $('#Outlays_NoteValue').val().replace(/[,]/g, '.');
-    //$('#Outlays_NoteValue').val(noteValue);
+    let noteValue = $('#Outlays_NoteValue').val().replace(/[,|.]/g, '');
+    $('#Outlays_NoteValue').val(noteValue);
 
     $('#toast-container-saved').toggle();
     $('#OutlaysForm').submit();

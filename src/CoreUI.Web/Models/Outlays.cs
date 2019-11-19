@@ -22,7 +22,7 @@ namespace CoreUI.Web.Models
         public string NoteNumber { get; set; }
 
         [Display(Name = "Valor da Nota")]
-        [DisplayFormat(DataFormatString = "{0:F2}")]
+        //[DisplayFormat(DataFormatString = "{0:F2}")]
         public double NoteValue { get; set; }
 
         [Display(Name = "Descrição")]
