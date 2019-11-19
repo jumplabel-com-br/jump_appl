@@ -163,7 +163,7 @@ function OutlaysSubmit() {
         return false;
     }
 
-    $('#Outlays_File').val('Sem Document');
+    $('#Outlays_File').val() == "" ? $('#Outlays_File').val('Sem Document') : '';
 
     if ($('#Document').val().length > 0) {
         let document = $('#Document').prop("files")[0]

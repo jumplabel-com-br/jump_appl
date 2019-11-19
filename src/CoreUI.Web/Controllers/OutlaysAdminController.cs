@@ -202,7 +202,11 @@ namespace CoreUI.Web.Controllers
             {
                 try
                 {
-                    _files.EnviarArquivo(Document, id, storage);
+                    if (Document != null)
+                    {
+                        _files.EnviarArquivo(Document, id, storage);
+                    }
+
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
                 }
