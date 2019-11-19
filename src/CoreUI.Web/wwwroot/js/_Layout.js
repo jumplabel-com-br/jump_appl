@@ -395,7 +395,16 @@ if ($('table').length > 0) {
                     columns
                 },
                 customize: function (win) {
-                    $(win.document.body).find('table').addClass('compact').css({ "background-color" : "#EF8223", "color" : "#fff"});
+                    var wlo = window.location.origin;
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            '<img src="'+wlo+'/images/brand/logo---fundo-transp.png" style="position:absolute; top:-100px; left:0;" />'
+                        );
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
                 }
             }
         ] : [];
