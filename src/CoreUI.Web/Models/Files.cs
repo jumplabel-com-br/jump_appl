@@ -21,14 +21,14 @@ namespace CoreUI.Web.Models
 
         }
 
-        public async void EnviarArquivo(IFormFile Document, int nameId, string storage)
+        public async void EnviarArquivo(IFormFile Document, string nomeArquivo, string storage)
         {
 
             // < define a pasta onde vamos salvar os arquivos >
             string pasta = "Files";
             // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
             //string nomeArquivo = DateTime.Now.ToString().Replace('/','-').Replace(':', '&').Replace(" ", "") + "_" + id + "_" + Document.FileName;
-            string nomeArquivo;
+            /*string nomeArquivo;
             if (Document.FileName != "" && Document.FileName != null)
             {
                 nomeArquivo = nameId + "-";
@@ -45,7 +45,7 @@ namespace CoreUI.Web.Models
             else
             {
                 nomeArquivo = "Sem Documento";
-            }
+            }*/
 
 
             //< obtém o caminho físico da pasta wwwroot >
@@ -60,6 +60,7 @@ namespace CoreUI.Web.Models
             using (var stream = new FileStream(caminhoDestinoArquivoOriginal, FileMode.Create))
             {
                 await Document.CopyToAsync(stream);
+                //return nomeArquivo;
             }
         }
     }

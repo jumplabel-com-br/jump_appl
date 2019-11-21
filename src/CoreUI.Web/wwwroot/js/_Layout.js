@@ -31,6 +31,20 @@ if (wlhs[4] != 'ChangePassword') {
     }
 }
 
+function renameElement($element, newElement) {
+
+    $element.wrap("<" + newElement + ">");
+    $newElement = $element.parent();
+
+    //Copying Attributes
+    $.each($element.prop('attributes'), function () {
+        $newElement.attr(this.name, this.value);
+    });
+
+    $element.contents().unwrap();
+
+    return $newElement;
+}
 
 function JsonMessagesBell() {
 
@@ -248,12 +262,12 @@ function nameClass(id) {
 
 if ($('table').length > 0) {
     var initComplete = function () {
-        if (wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin") {
+        if (wlhs[wlhs.length - 1] == "ModeAdmin" || wlhs[wlhs.length - 1] == "OutlaysAdmin") {
             this.api().columns().every(function (id, j) {
                 var column = this;
                 //console.log(id)
-                if ((wlhs[3] == "ModeAdmin" && (id == 2 || id == 4 || id == 5 || id == 6)) || (wlhs[3] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
-                    var select = $(`<select class="form-control ${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}" id="${wlhs[3] == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${wlhs[3] == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
+                if ((wlhs[wlhs.length - 1] == "ModeAdmin" && (id == 2 || id == 4 || id == 5 || id == 6)) || (wlhs[wlhs.length - 1] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
+                    var select = $(`<select class="form-control ${wlhs[wlhs.length - 1] == "ModeAdmin" ? nameClass(id) : ''}" id="${wlhs[wlhs.length - 1] == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${wlhs[wlhs.length - 1] == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -263,7 +277,7 @@ if ($('table').length > 0) {
                             column
                                 .search(val ? '^' + val + '$' : '', true, false)
                                 .draw();
-                            wlhs[3] == "ModeAdmin" ? SumTotalHours() : '';
+                            wlhs[wlhs.length - 1] == "ModeAdmin" ? SumTotalHours() : '';
                         });
 
 
@@ -438,11 +452,11 @@ if ($('table').length > 0) {
         }
     });
 
-    if (wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin") {
+    if (wlhs[wlhs.length - 1].replace('#', '') == "ModeAdmin" || wlhs[wlhs.length - 1].replace('#', '') == "OutlaysAdmin") {
 
         $('table thead tr').clone(true).appendTo('table thead');
 
-        if (wlhs[3] == "ModeAdmin") {
+        if (wlhs[wlhs.length - 1] == "ModeAdmin") {
             var names = ['Aprovação', 'Cobrança', 'Status', 'Data', 'Cliente', 'Projeto', 'Funcionário']
 
             for (var i = 0; i < 7; i++) {
@@ -450,7 +464,7 @@ if ($('table').length > 0) {
             }
         }
 
-        if (wlhs[3] == "OutlaysAdmin") {
+        if (wlhs[wlhs.length - 1] == "OutlaysAdmin") {
             var names = ['#', 'Status', 'Cliente', 'Projeto', 'Funcionário']
 
             for (var i = 0; i < 5; i++) {
@@ -469,6 +483,9 @@ if ($('table').length > 0) {
         $('.buttons-excel').attr('title', 'Baixar excel');
         $('.buttons-pdf').attr('title', 'Baixar PDF');
         $('.buttons-print').attr('title', 'Imprimir');
+
+        renameElement($('table thead tr:eq(1) th'), 'td');
+        $('table thead tr:eq(1) td th').remove()
     }
 
     $('input[type="search"]').addClass('form-control');

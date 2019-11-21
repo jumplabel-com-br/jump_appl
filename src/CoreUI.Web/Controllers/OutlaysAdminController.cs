@@ -13,6 +13,8 @@ using CoreUI.Web.Models.ViewModel;
 using System.IO;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
+using CoreUI.Web.Services.Exceptions;
 
 namespace CoreUI.Web.Controllers
 {
@@ -52,7 +54,7 @@ namespace CoreUI.Web.Controllers
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
         const string SessionImgLogo = "false";
-        public string storage = "\\Outlays\\";
+        public string storage = "Outlays\\";
 
         // GET: Outlays
         public async Task<IActionResult> Index()
@@ -131,21 +133,67 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                if (Document != null)
+                if (ModelState.IsValid && Document != null)
                 {
-                    int outlaysId = (from result in _context.Outlays
-                                     orderby result.Id descending
-                                     select result).First().Id + 1;
+                    outlays.File = string.Empty;
+                    string nomeArquivo = string.Empty;
+
+                    _context.Add(outlays);
+                    await _context.SaveChangesAsync();
 
 
-                    _files.EnviarArquivo(Document, outlaysId, storage);
+                    int employeeId = ViewBag.Id;
+
+                    var lastId = (from result in _context.Outlays
+                                  where result.Employee_Id == employeeId
+                                  orderby result.Id descending
+                                  select result).FirstOrDefault();
+
+                    if (lastId != null)
+                    {
+                        int outlaysId = lastId.Id;
+                        nomeArquivo = string.Concat(outlaysId, "-", Document.FileName);
+                        _files.EnviarArquivo(Document, nomeArquivo, storage);
+                    }
+
+                    outlays.File = nomeArquivo;
+
+                    _context.Update(outlays);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                if (!OutlaysExists(outlays.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Error), new { message = e.Message });
+                }
+            }
 
-                _context.Add(outlays);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            catch (DbConcurrencyException e)
+            {
+
+                if (!OutlaysExists(outlays.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Error), new { message = e.Message });
+                }
+            }
+
+            catch (Exception e)
+            {
+
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
             return View(outlays);
         }
@@ -204,13 +252,14 @@ namespace CoreUI.Web.Controllers
                 {
                     if (Document != null)
                     {
-                        _files.EnviarArquivo(Document, id, storage);
+                        string nomeArquivo = string.Concat(id, "-", Document.FileName);
+                        _files.EnviarArquivo(Document, nomeArquivo, storage);
                     }
 
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!OutlaysExists(outlays.Id))
                     {
@@ -218,8 +267,27 @@ namespace CoreUI.Web.Controllers
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction(nameof(Error), new { message = e.Message });
                     }
+                }
+
+                catch (DbConcurrencyException e)
+                {
+
+                    if (!OutlaysExists(outlays.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Error), new { message = e.Message });
+                    }
+                }
+
+                catch (Exception e)
+                {
+
+                    return RedirectToAction(nameof(Error), new { message = e.Message });
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -306,5 +374,17 @@ namespace CoreUI.Web.Controllers
         {
             return _context.Outlays.Any(e => e.Id == id);
         }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
+        }
+
     }
 }

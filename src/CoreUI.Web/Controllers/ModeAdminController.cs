@@ -188,8 +188,9 @@ namespace CoreUI.Web.Controllers
                               orderby result.Id descending
                               select result).First().Id + 1;
 
+                    string nomeArquivo = string.Concat(id ,"-", Document.FileName);
 
-                    _files.EnviarArquivo(Document, id, storage);
+                    _files.EnviarArquivo(Document, nomeArquivo, storage);
                 }
 
                 await _hourService.InsertAsync(hour);
@@ -292,7 +293,8 @@ namespace CoreUI.Web.Controllers
                     {
                         if (Document != null)
                         {
-                            _files.EnviarArquivo(Document, hour.Id, storage);
+                            string nomeArquivo = string.Concat(hour.Id, "-", Document.FileName);
+                            _files.EnviarArquivo(Document, nomeArquivo, storage);
                         }
 
                         await _hourService.UpdateAsync(hour);

@@ -63,12 +63,6 @@
               <thead>
                 <tr>
                   <th>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : notCheckedAll()">
-                      <label class="custom-control-label mb-3 ml-2" for="checkedAll"></label>
-                    </div>
-                  </th>
-                  <th>
                     @Html.DisplayNameFor(model => model.Status)
                   </th>
                   <th>
@@ -102,12 +96,6 @@
                 @foreach (var item in Model)
                 {
                   <tr>
-                    <td class="trCount" id="tr_@item.Id">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="btn btn-primary custom-control-input checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  :  document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '')" />
-                        <label class="custom-control-label mb-3 ml-3 mt-1" for="checkedItem_@item.Id"></label>
-                      </div>
-                    </td>
                     <td>
                       @{
                         switch (item.Status)

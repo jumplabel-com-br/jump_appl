@@ -59,7 +59,7 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -91,7 +91,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -158,7 +158,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -175,24 +175,39 @@ namespace CoreUI.Web.Controllers
                     return View(viewModel);
                 }
 
-                if (Document != null)
+                if (ModelState.IsValid && Document != null)
                 {
-                    int id = (from result in _context.Hour 
-                             orderby result.Id descending
-                             select result).First().Id + 1;
+                    hour.File = string.Empty;
+                    string nomeArquivo = string.Empty;
 
+                    await _hourService.InsertAsync(hour);
+                    await _context.SaveChangesAsync();
 
-                    _files.EnviarArquivo(Document, id, storage);
+                    var lastId = (from result in _context.Outlays
+                                  where result.Employee_Id == empId
+                                  orderby result.Id descending
+                                  select result).FirstOrDefault();
+
+                    if (lastId != null)
+                    {
+                        int outlaysId = lastId.Id;
+                        nomeArquivo = string.Concat(outlaysId, "-" ,Document.FileName);
+                        _files.EnviarArquivo(Document, nomeArquivo, storage);
+                    }
+
+                    hour.File = nomeArquivo;
+
+                    _context.Update(hour);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-               
-                await _hourService.InsertAsync(hour);
-                return RedirectToAction(nameof(Index));
             }
             catch (Exception)
             {
                 return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
 
+            return View(hour);
 
             /*
             if (ModelState.IsValid)
@@ -211,7 +226,7 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -284,7 +299,8 @@ namespace CoreUI.Web.Controllers
                     {
                         if (Document != null)
                         {
-                            _files.EnviarArquivo(Document, hour.Id, storage);
+                            string nomeArquivo = string.Concat(hour.Id ,"-",Document.FileName);
+                            _files.EnviarArquivo(Document, nomeArquivo, storage);
                         }
                         await _hourService.UpdateAsync(hour);
                     }
@@ -321,7 +337,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -353,7 +369,7 @@ namespace CoreUI.Web.Controllers
 
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -367,7 +383,7 @@ namespace CoreUI.Web.Controllers
             catch (DbConcurrencyException e)
             {
 
-                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de salvar"});
+                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de salvar" });
             }
         }
 
@@ -375,7 +391,7 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
@@ -396,7 +412,7 @@ namespace CoreUI.Web.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Erro não definido, tentar novamente e avisar o suporte" });
             }
-           
+
         }
 
         public IActionResult UpdateStatus(int status, string ids)
@@ -408,13 +424,13 @@ namespace CoreUI.Web.Controllers
                 return RedirectToAction(nameof(Error));
             }
 
-            if (ViewBag.Email == null )
+            if (ViewBag.Email == null)
             {
                 return ExpiredSession();
             }
 
 
-            string queryString = "update Hour set Approval = '"+status+"' where Id in ("+ids+")";
+            string queryString = "update Hour set Approval = '" + status + "' where Id in (" + ids + ")";
 
             ExecuteQuery(queryString);
 
@@ -440,7 +456,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
             ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
             ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
-            
+
         }
 
         public IActionResult ExpiredSession()
