@@ -17,6 +17,7 @@ if (wlhs[4] != 'ChangePassword') {
 
     //ocuta coisas a quem não tem acesso de administrador ou gerencia
     accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').remove() : '';
+    accessLevel != 4 ? $('.acessAdminReports').remove() : '';
 
     if (accessLevel == 1 || accessLevel == 2) {
 
@@ -259,15 +260,21 @@ function nameClass(id) {
             return '';
     }
 }
-
 if ($('table').length > 0) {
+    var lastWlhs = wlhs[wlhs.length - 1];
+    var Wlhs = wlhs[3];
+
     var initComplete = function () {
-        if (wlhs[wlhs.length - 1] == "ModeAdmin" || wlhs[wlhs.length - 1] == "OutlaysAdmin") {
+        if (Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports") {
             this.api().columns().every(function (id, j) {
                 var column = this;
                 //console.log(id)
-                if ((wlhs[wlhs.length - 1] == "ModeAdmin" && (id == 2 || id == 4 || id == 5 || id == 6)) || (wlhs[wlhs.length - 1] == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
-                    var select = $(`<select class="form-control ${wlhs[wlhs.length - 1] == "ModeAdmin" ? nameClass(id) : ''}" id="${wlhs[wlhs.length - 1] == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${wlhs[wlhs.length - 1] == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
+                if (
+                    (Wlhs == "ModeAdmin" && (id == 2 || id == 4 || id == 5 || id == 6)) ||
+                    (Wlhs == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4)) ||
+                    (Wlhs == "Reports" && lastWlhs == "ModeAdmin" && (id == 0 || id == 2 || id == 3 || id == 4)) ||
+                    (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
+                    var select = $(`<select class="form-control ${Wlhs == "ModeAdmin" ? nameClass(id) : ''}" id="${Wlhs == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${Wlhs == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -277,7 +284,8 @@ if ($('table').length > 0) {
                             column
                                 .search(val ? '^' + val + '$' : '', true, false)
                                 .draw();
-                            wlhs[wlhs.length - 1] == "ModeAdmin" ? SumTotalHours() : '';
+                            lastWlhs == "ModeAdmin" ? SumTotalHours() : '';
+                            lastWlhs == "ModeAdmin" ? $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val()) : '';
                         });
 
 
@@ -291,7 +299,9 @@ if ($('table').length > 0) {
     };
 
     columnsModeAdmin = [3, 4, 5, 6, 7, 8, 9, 10, 11];
-    columnsOutlaysAdmin = [2, 3, 4, 5, 6, 7, 8]
+    columnsOutlaysAdmin = [2, 3, 4, 5, 6, 7, 8];
+    columnsReportsModeAdmin = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    columnsReportsOutlaysAdmin = [1, 2, 3, 4, 5, 6, 7];
 
     columnDefsModeAdmin = [
         { "orderable": false, "targets": 0 },
@@ -308,18 +318,24 @@ if ($('table').length > 0) {
     var columns;
     var columnDefs;
 
-    if (wlhs[3] == "ModeAdmin") {
+    if (Wlhs == "ModeAdmin") {
         columns = columnsModeAdmin;
         columnDefs = columnDefsModeAdmin;
 
-    } else if (wlhs[3] == "OutlaysAdmin") {
+    } else if (Wlhs == "OutlaysAdmin") {
         columns = columnsOutlaysAdmin;
         columnDefs = columnDefsOutlaysAdmin;
+
+    } else if (Wlhs == "Reports" && lastWlhs == "ModeAdmin") {
+        columns = columnsReportsModeAdmin;
+
+    } else if (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin") {
+        columns = columnsOutlaysAdmin;
     }
 
 
     function arrFor() {
-        if (wlhs[3] == "ModeAdmin") {
+        if (Wlhs == "ModeAdmin") {
             for (var i = 0; i <= 12; i++) {
                 if (i == 1 || i == 3 || i >= 7) {
                     $('#example thead tr:eq(1) th')[i].innerHTML = '';
@@ -328,7 +344,7 @@ if ($('table').length > 0) {
                 $('#example thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
                 $('#example thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
             }
-        } else if (wlhs[3] == "OutlaysAdmin") {
+        } else if (Wlhs == "OutlaysAdmin" || (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin")) {
             for (var i = 0; i <= 10; i++) {
                 if (i >= 4) {
                     $('table thead tr:eq(1) th')[i].innerHTML = '';
@@ -337,10 +353,28 @@ if ($('table').length > 0) {
                 $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
                 $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
             }
-        }
+        } else if (Wlhs == "Reports" && lastWlhs == "ModeAdmin") {
+            for (var i = 0; i <= 10; i++) {
+                if (i > 4 || i == 1) {
+                    $('table thead tr:eq(1) th')[i].innerHTML = '';
+                }
+
+                $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
+                $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
+            }
+        } /*else if (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin") {
+            for (var i = 0; i <= 9; i++) {
+                if (i > 3) {
+                    $('table thead tr:eq(1) th')[i].innerHTML = '';
+                }
+
+                $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
+                $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
+            }
+        }*/
     }
 
-    var buttons = wlhs[3] == "ModeAdmin" || wlhs[3] == "OutlaysAdmin" ?
+    var buttons = Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports" ?
         [
             {
                 extend: 'excelHtml5',
@@ -383,15 +417,18 @@ if ($('table').length > 0) {
                         });
                     }
 
-                    docContentSplice(3, 0, 0, 30, 0, 0, 'left', 200, 100, '______________________________');
-                    docContentSplice(4, 0, 0, 3, 0, 0, 'left', 200, 100, 'Assinatura Gestor Jump Label');
-                    docContentSplice(5, 0, 0, 3, 0, 0, 'left', 200, 100, 'Nome:');
-                    docContentSplice(6, 0, 0, 3, 0, 0, 'left', 200, 100, 'CPF:');
 
+                    docContentSplice(3, 0, 0, 50, 0, 0, 'left', 200, 100, '______________________________                                                                                          ______________________________');
+                    docContentSplice(4, 0, 0, 3, 0, 0, 'left', 200, 100, 'Assinatura Gestor Jump Label                                                                                           Assinatura Consultor');
+                    docContentSplice(5, 0, 0, 3, 0, 0, 'left', 200, 100, 'Nome:                                                                                                                                     Nome:');
+                    docContentSplice(6, 0, 0, 3, 0, 0, 'left', 200, 100, 'CPF:                                                                                                                                        CPF:');
+
+                    /*
                     docContentSplice(7, 0, 0, 30, 0, 0, 'left', 200, 100, '______________________________');
                     docContentSplice(8, 0, 0, 3, 0, 0, 'left', 200, 100, 'Assinatura Consultor');
                     docContentSplice(9, 0, 0, 3, 0, 0, 'left', 200, 100, 'Nome:');
                     docContentSplice(10, 0, 0, 3, 0, 0, 'left', 200, 100, 'CPF:');
+                    */
                 },
 
                 exportOptions: {
@@ -412,13 +449,44 @@ if ($('table').length > 0) {
                     var wlo = window.location.origin;
                     $(win.document.body)
                         .css('font-size', '10pt')
-                        .prepend(
-                            '<img src="'+wlo+'/images/brand/logo---fundo-transp.png" style="position:absolute; top:-100px; left:0;" />'
-                        );
+                        .prepend(`
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="${wlo}/images/brand/logo---fundo-transp.png" style="width: 450px; height: 234px;"  />
+                                    </div>
+                                </div>
+                        `);
 
                     $(win.document.body).find('table')
                         .addClass('compact')
                         .css('font-size', 'inherit');
+
+                    $(win.document.body).append(`
+                    <div class="container" style="margin-top: 5%">
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <span>______________________________</span>
+                            </div>
+                            <div class="col-6 text-ridht">
+                                <span>______________________________</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row col-2">Assinatura</div>
+                                <div class="row col-2">CPF:</div>
+                                <div class="row col-2">Nome</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row col-2">Assinatura</div>
+                                <div class="row col-2">CPF:</div>
+                                <div class="row col-2">Nome</div>
+                            </div>
+                        </div>
+                    </div>`)
                 }
             }
         ] : [];
@@ -452,19 +520,29 @@ if ($('table').length > 0) {
         }
     });
 
-    if (wlhs[wlhs.length - 1].replace('#', '') == "ModeAdmin" || wlhs[wlhs.length - 1].replace('#', '') == "OutlaysAdmin") {
+    if (Wlhs.replace('#', '') == "ModeAdmin" || Wlhs.replace('#', '') == "OutlaysAdmin" || Wlhs.replace('#', '') == "Reports") {
 
         $('table thead tr').clone(true).appendTo('table thead');
 
-        if (wlhs[wlhs.length - 1] == "ModeAdmin") {
+        if (Wlhs == "ModeAdmin") {
             var names = ['Aprovação', 'Cobrança', 'Status', 'Data', 'Cliente', 'Projeto', 'Funcionário']
 
             for (var i = 0; i < 7; i++) {
                 $(`table thead tr:eq(0) th`)[i].innerHTML = names[i];
             }
-        }
+        } else if (Wlhs == "OutlaysAdmin") {
+            var names = ['#', 'Status', 'Cliente', 'Projeto', 'Funcionário']
 
-        if (wlhs[wlhs.length - 1] == "OutlaysAdmin") {
+            for (var i = 0; i < 5; i++) {
+                $(`table thead tr:eq(0) th`)[i].innerHTML = names[i];
+            }
+        } else if (Wlhs == "Reports" && lastWlhs == "ModeAdmin") {
+            var names = ['Status', 'Data', 'Cliente', 'Projeto', 'Funcionário']
+
+            for (var i = 0; i < 5; i++) {
+                $(`table thead tr:eq(0) th`)[i].innerHTML = names[i];
+            }
+        } else if (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin") {
             var names = ['#', 'Status', 'Cliente', 'Projeto', 'Funcionário']
 
             for (var i = 0; i < 5; i++) {
@@ -492,14 +570,14 @@ if ($('table').length > 0) {
 
 
     $('input[type="search"]').on('keyup', function () {
-        wlhs[3] == 'Hours' || wlhs[3] == "ModeAdmin" ? SumTotalHours() : '';
+        Wlhs == 'Hours' || Wlhs == "ModeAdmin" ? SumTotalHours() : '';
+        Wlhs == "ModeAdmin" ? $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val()) : '';
     });
 
     $('table thead tr:eq(0)').css({ "background-color": "#EF8223", "color": "#fff" })
     $('table thead tr:eq(0) th').css({ "border-color": "#010101", "width": "60px" })
-
+    Wlhs == "ModeAdmin" ? $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val()) : '';
 }
-
 $('.imgLogo').attr('src', $('#ImgLogo').val())
 
 /*

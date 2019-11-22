@@ -98,7 +98,14 @@
                   </span>
                 </div>
                 <!--<input type="file" name="Document" id="Document" class="mt-1 ml-1"/>-->
-                <a href="~/Files/Hour/@Model.Outlays.Id-@Model.Outlays.File" download="" class="ml-2 mt-1">@Model.Outlays.File</a>
+                @if (@Model.Outlays.File != "Sem Documento")
+                {
+                  <a href="~/Files/Hour/@Model.Outlays.File" download="" class="ml-2 mt-1">@Model.Outlays.File</a>
+                }
+                else
+                {
+                  <a class="ml-2 mt-1">@Model.Outlays.File</a>
+                }
               </div>
             </div>
 

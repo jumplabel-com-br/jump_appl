@@ -85,7 +85,14 @@
                     <i class="fa fa-file-text-o"></i>
                   </span>
                 </div>
-                <a href="~/Files/Hour/@Model.Hour.Id-@Model.Hour.File" download="" class="ml-2 mt-1">@Model.Hour.File</a>
+                @if (@Model.Hour.File != "Sem Documento")
+                {
+                  <a href="~/Files/Hour/@Model.Hour.File" download="" class="ml-2 mt-1">@Model.Hour.File</a>
+                }
+                else
+                {
+                  <a class="ml-2 mt-1">@Model.Hour.File</a>
+                }
               </div>
             </div>
 

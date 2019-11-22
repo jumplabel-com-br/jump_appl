@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreUI.Web.Models;
+using CoreUI.Web.Models.ViewModel;
 using CoreUI.Web.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace CoreUI.Web.Controllers
 {
@@ -72,6 +75,93 @@ namespace CoreUI.Web.Controllers
             var ViewModel = await _outlaysService.FindAllAsync();
 
             return View(ViewModel);
+        }
+
+        public async Task<IActionResult> DetailsModeAdmin(int? id, int Employee_Id)
+        {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+            try
+            {
+                int empId = Employee_Id;
+                var accessLevel = ViewBag.AcessLevel;
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var hour = await _context.Hour.FindAsync(id);
+                var clients = await _clientService.FindAllAsync();
+                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var employees = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
+
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+        }
+
+        public async Task<IActionResult> DetailsOutlaysAdmin(int? id)
+        {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var outlays = await _context.Outlays
+                .FirstOrDefaultAsync(m => m.Id == id);
+            var employees = await _employeeService.FindAllAsync();
+            var projects = await _projectService.FindAllAsync();
+            var clients = await _clientService.FindAllAsync();
+
+            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees, Outlays = outlays };
+
+            if (outlays == null)
+            {
+                return NotFound();
+            }
+            return View(ViewModel);
+        }
+
+        public async Task<IActionResult> UpdateStatus(int status, string ids)
+        {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+            int id = ViewBag.Id;
+            string queryString = "update Outlays set Status = '" + status + "' where Id in (" + ids + ")";
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+
+            MySqlConnection connection = new MySqlConnection(connString);
+            MySqlCommand command = new MySqlCommand(queryString, connection);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            await connection.OpenAsync();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+
+            return RedirectToAction(nameof(OutlaysAdmin));
         }
 
         public void GetSessions()

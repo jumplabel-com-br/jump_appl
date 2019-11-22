@@ -8,8 +8,10 @@ $('.table tbody tr').each((item) => {
 function checkedAll() {
 
     document.querySelectorAll('.trCount').forEach((obj, item) => {
-        document.querySelector('#ids').value += obj.id.replace('tr_', '') + ','
-        document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
+        if (document.querySelector('#' + obj.id + ' .checkedItem') != null) {
+            document.querySelector('#ids').value += obj.id.replace('tr_', '') + ',';
+            document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
+        }
     });
 }
 
@@ -18,7 +20,7 @@ function notCheckedAll() {
     document.querySelectorAll('.trCount').forEach((obj, item) => {
         id = obj.id.replace('tr_', '');
         document.querySelector('#ids').value = document.querySelector('#ids').value.replace(id + ',', '')
-        document.querySelector('#' + obj.id + ' .checkedItem').checked = false;
+        document.querySelector('#' + obj.id + ' .checkedItem') != null ? document.querySelector('#' + obj.id + ' .checkedItem').checked = false : '';
     });
 }
 
@@ -67,5 +69,5 @@ function UpdateStatusSubmit() {
 
 $('.notesValues').each(function () {
     this.textContent.length > 2 ? $('.notesValues').mask('000.000.000.000.000,00', { reverse: true }) : '';
-    this.textContent.substr(0, 1) == ',' ? this.textContent = this.textContent.replace(',', '') : '';
+    this.textContent.substr(0, 1) == ',' || this.textContent.substr(0, 1) == '.'? this.textContent = this.textContent.replace(/,|./, '') : '';
 })

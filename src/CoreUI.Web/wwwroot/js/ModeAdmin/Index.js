@@ -1,8 +1,10 @@
 ﻿function checkedAll() {
 
     document.querySelectorAll('.trCount').forEach((obj, item) => {
-        document.querySelector('#ids').value += obj.id.replace('tr_', '') + ','
-        document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
+        if (document.querySelector('#' + obj.id + ' .checkedItem') != null) {
+            document.querySelector('#ids').value += obj.id.replace('tr_', '') + ',';
+            document.querySelector('#' + obj.id + ' .checkedItem').checked = true;
+        }
     });
 }
 
@@ -11,7 +13,7 @@ function notCheckedAll() {
     document.querySelectorAll('.trCount').forEach((obj, item) => {
         id = obj.id.replace('tr_', '');
         document.querySelector('#ids').value = document.querySelector('#ids').value.replace(id+',', '')
-        document.querySelector('#' + obj.id + ' .checkedItem').checked = false;
+        document.querySelector('#' + obj.id + ' .checkedItem') != null ? document.querySelector('#' + obj.id + ' .checkedItem').checked = false : '';
     });
 }
 

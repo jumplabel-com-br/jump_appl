@@ -23,11 +23,11 @@
             <div class="row">
               <div id="DataTables_Table_0_filter" class="dataTables_filter col-4">
                 <!--
-        <label>
-          Pesquisar:
-          <input type="search" name="searchDataTable" id="searchDataTable" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0">
-        </label>
-        -->
+                <label>
+                  Pesquisar:
+                  <input type="search" name="searchDataTable" id="searchDataTable" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0">
+                </label>
+                -->
 
                 <label>
                   Mês:
@@ -63,6 +63,12 @@
               <thead>
                 <tr>
                   <th>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="btn btn-primary custom-control-input" name="checkedAll" id="checkedAll" onclick="this.checked == true ? checkedAll() : notCheckedAll()">
+                      <label class="custom-control-label mb-3 ml-2" for="checkedAll"></label>
+                    </div>
+                  </th>
+                  <th>
                     @Html.DisplayNameFor(model => model.Status)
                   </th>
                   <th>
@@ -95,7 +101,18 @@
               <tbody id="tbodyHour">
                 @foreach (var item in Model)
                 {
+
                   <tr>
+                    <td class="trCount" id="tr_@item.Id">
+                      @{ if (item.Status == 4)
+                        {
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="btn btn-primary custom-control-input checkedItem" name="checkedItem" id="checkedItem_@item.Id" onclick="this.checked == true ? document.querySelector('#ids').value += @item.Id+','  :  document.querySelector('#ids').value = document.querySelector('#ids').value.replace('@item.Id,', '')" />
+                            <label class="custom-control-label mb-3 ml-3 mt-1" for="checkedItem_@item.Id"></label>
+                          </div>
+                        }
+                      }
+                    </td>
                     <td>
                       @{
                         switch (item.Status)
@@ -167,10 +184,7 @@
                 <input type="hidden" name="ids" id="ids" value="" />
                 <select class="form-control" name="status" id="status">
                   <option value="">Selecione...</option>
-                  <option value="1">Aguardando</option>
-                  <option value="4">Aprovado</option>
                   <option value="2">Efetuado</option>
-                  <option value="3">Reprovado</option>
                 </select>
               </div>
               <div class="col-2">
