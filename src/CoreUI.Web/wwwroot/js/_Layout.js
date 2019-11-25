@@ -346,7 +346,7 @@ if ($('table').length > 0) {
             }
         } else if (Wlhs == "OutlaysAdmin" || (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin")) {
             for (var i = 0; i <= 10; i++) {
-                if (i >= 4) {
+                if (i > 4) {
                     $('table thead tr:eq(1) th')[i].innerHTML = '';
                 }
 
@@ -459,7 +459,7 @@ if ($('table').length > 0) {
 
                     $(win.document.body).find('table')
                         .addClass('compact')
-                        .css('font-size', 'inherit');
+                        .css({ 'font-size': 'inherit'});
 
                     $(win.document.body).append(`
                     <div class="container" style="margin-top: 5%">
@@ -576,7 +576,6 @@ if ($('table').length > 0) {
 
     $('table thead tr:eq(0)').css({ "background-color": "#EF8223", "color": "#fff" })
     $('table thead tr:eq(0) th').css({ "border-color": "#010101", "width": "60px" })
-    Wlhs == "ModeAdmin" ? $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val()) : '';
 }
 $('.imgLogo').attr('src', $('#ImgLogo').val())
 

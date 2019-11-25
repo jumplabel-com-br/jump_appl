@@ -38,6 +38,7 @@ namespace CoreUI.Web.Services
                          {
                              Id = projectTeam.Id,
                              Client = client.Name,
+                             ClientId = client.Id,
                              Employee = employee.Name,
                              EmployeeId = employee.Id,
                              Project = project.Project_Name,

@@ -81,7 +81,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Project_team/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? cliente, int? projeto, int? funcionario)
         {
             GetSessions();
 
@@ -99,9 +99,9 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var project_team = await _context.Project_team.FindAsync(id);
-                var employee = await _employeeService.FindAllAsync();
-                var project = await _projectService.FindAllAsync();
-                var client = await _clientService.FindAllAsync();
+                var employee = await _employeeService.FindEmployeeAsync(funcionario);
+                var project = await _projectService.FindProjectAsync(projeto);
+                var client = await _clientService.FindClientAsync(cliente);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client, Project_team = project_team };
 
                 if (project_team == null)
@@ -184,7 +184,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Project_team/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? cliente, int? projeto, int? funcionario)
         {
             GetSessions();
 
@@ -202,9 +202,9 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var project_team = await _context.Project_team.FindAsync(id);
-                var employee = await _employeeService.FindAllAsync();
-                var project = await _projectService.FindAllAsync();
-                var client = await _clientService.FindAllAsync();
+                var employee = await _employeeService.FindEmployeeAsync(funcionario);
+                var project = await _projectService.FindProjectAsync(projeto);
+                var client = await _clientService.FindClientAsync(cliente);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team, Client = client };
 
                 if (project_team == null)

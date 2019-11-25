@@ -14,7 +14,6 @@ function FilterProjectPerClient() {
     })
         .done(function (data) {
             //console.log(data);
-
             $('#listClients').val().length > 0 ? arrFilterClients = data.filter(obj => obj.client_Id == $('#listClients').val()) : arrFilterClients = data;
             $('#Project_team_Project_Id').html(listProjects(arrFilterClients))
         })
@@ -142,8 +141,8 @@ function filterClient() {
             //console.log(data);
 
             arrClients = data;
-
             arrClients = arrClients.filter(obj => obj.id == $('#Project_team_Project_Id').val());
+            arrClients.length > 0 ? $('#listClients').val(arrClients[0].client_Id) : '';
 
         })
         .fail(function () {
@@ -208,7 +207,8 @@ function projectTeamSubmit(start, end) {
 if (wlh == 'Edit') {
     searchHours();
     let hours = arrHours.filter(obj => obj.employee_Id == $('#Project_team_Employee_Id').val() && obj.date.replace('T00:00:00', '') >= $('#Project_team_Start_Date').val() && obj.date.replace('T00:00:00', '') <= $('#Project_team_End_Date').val() && obj.id_Project == $('#Project_team_Project_Id').val())
-    var hoursStart = hours[0].date.replace('T00:00:00', '')
-    var hoursEnd = hours[hours.length - 1].date.replace('T00:00:00', '')
+    var hoursStart = hours.length > 0 ? hours[0].date.replace('T00:00:00', '') : '';
+    var hoursEnd = hours.length > 0 ? hours[hours.length - 1].date.replace('T00:00:00', '') : '';
+    //filterClient();
 }
 

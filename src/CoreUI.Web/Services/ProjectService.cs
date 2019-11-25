@@ -23,9 +23,20 @@ namespace CoreUI.Web.Services
 
             var obj = from project in _context.Project select project;
             return await obj
-                .Where(x => x.Project_Name != "" && x.Project_Name != null)
+                .Where(x => x.Project_Name != "" && x.Project_Name != null && x.Active == 1)
                 .OrderBy(x => x.Project_Name)
                 .Distinct()
+                .ToListAsync();
+            //return await _context.Project
+            //  .OrderBy(x => x.Project_Name).ToListAsync();
+        }
+
+        public async Task<List<Project>> FindProjectAsync(int? id)
+        {
+
+            var obj = from project in _context.Project select project;
+            return await obj
+                .Where(x => x.Id == id && x.Active == 1)
                 .ToListAsync();
             //return await _context.Project
             //  .OrderBy(x => x.Project_Name).ToListAsync();

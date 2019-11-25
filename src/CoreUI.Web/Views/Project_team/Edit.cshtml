@@ -32,7 +32,7 @@
                   </span>
                 </div>
                 <select class="form-control" name="listClients" id="listClients" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" onchange="FilterProjectPerClient()">
-                  <option value="" selected>Selecione o cliente</option>
+                  <!--<option value="" selected>Selecione o cliente</option>-->
                 </select>
               </div>
             </div>

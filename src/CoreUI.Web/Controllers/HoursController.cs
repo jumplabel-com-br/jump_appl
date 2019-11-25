@@ -175,7 +175,7 @@ namespace CoreUI.Web.Controllers
                     return View(viewModel);
                 }
 
-                if (ModelState.IsValid && Document != null)
+                if (ModelState.IsValid)
                 {
                     hour.File = string.Empty;
                     string nomeArquivo = string.Empty;
@@ -183,22 +183,27 @@ namespace CoreUI.Web.Controllers
                     await _hourService.InsertAsync(hour);
                     await _context.SaveChangesAsync();
 
-                    var lastId = (from result in _context.Outlays
-                                  where result.Employee_Id == empId
-                                  orderby result.Id descending
-                                  select result).FirstOrDefault();
-
-                    if (lastId != null)
+                    if (Document != null)
                     {
-                        int outlaysId = lastId.Id;
-                        nomeArquivo = string.Concat(outlaysId, "-" ,Document.FileName);
-                        _files.EnviarArquivo(Document, nomeArquivo, storage);
+                        var lastId = (from result in _context.Outlays
+                                      where result.Employee_Id == empId
+                                      orderby result.Id descending
+                                      select result).FirstOrDefault();
+
+                        if (lastId != null)
+                        {
+                            int outlaysId = lastId.Id;
+                            nomeArquivo = string.Concat(outlaysId, "-", Document.FileName);
+                            _files.EnviarArquivo(Document, nomeArquivo, storage);
+                        }
+
+                        hour.File = nomeArquivo;
+
+                        _context.Update(hour);
+                        await _context.SaveChangesAsync();
                     }
 
-                    hour.File = nomeArquivo;
-
-                    _context.Update(hour);
-                    await _context.SaveChangesAsync();
+                    
                     return RedirectToAction(nameof(Index));
                 }
             }

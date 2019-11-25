@@ -29,5 +29,5 @@ $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
 
 $('.notesValues').each(function () {
     this.textContent.length > 2 ? $('.notesValues').mask('000.000.000.000.000,00', { reverse: true }) : '';
-    this.textContent.substr(0, 1) == ',' ? this.textContent = this.textContent.replace(',', '') : '';
+    this.textContent.substr(0, 1) == ',' || this.textContent.substr(0, 1) == '.' ? this.textContent = this.textContent.replace(/[,|.]/, '') : '';
 })

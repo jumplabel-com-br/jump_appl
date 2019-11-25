@@ -26,6 +26,8 @@ namespace CoreUI.Web.Services
                          join projects in _context.Project on hour.Id_Project equals projects.Id
                          join clients in _context.Client on projects.Client_Id equals clients.Id
                          join employees in _context.Employee on hour.Employee_Id equals employees.Id
+                         //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
+                         where projects.Active == 1 //&& employees.Active == 1
                          orderby hour.Start_Time ascending
 
                          select new ListHour

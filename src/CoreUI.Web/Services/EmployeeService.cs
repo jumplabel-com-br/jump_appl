@@ -21,7 +21,26 @@ namespace CoreUI.Web.Services
 
         public async Task<List<Employee>> FindAllAsync()
         {
-            return await _context.Employee.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Employee
+                .Where(x => x.Active == 1)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
+
+        public async Task<List<Employee>> FindEmployeesAsync()
+        {
+            return await _context.Employee
+                //.Where(x => x.Active == 1)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
+
+        public async Task<List<Employee>> FindEmployeeAsync(int? id)
+        {
+            return await _context.Employee
+                .Where(x => x.Id == id && x.Active == 1)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
     }
 }

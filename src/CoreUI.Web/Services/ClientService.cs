@@ -19,7 +19,17 @@ namespace CoreUI.Web.Services
 
         public async Task<List<Client>> FindAllAsync()
         {
-            return await _context.Client.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Client
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
+
+        public async Task<List<Client>> FindClientAsync(int? id)
+        {
+            return await _context.Client
+                .Where(x => x.Id == id)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
     }
 }

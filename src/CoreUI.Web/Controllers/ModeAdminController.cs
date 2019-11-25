@@ -238,7 +238,7 @@ namespace CoreUI.Web.Controllers
                 var hour = await _context.Hour.FindAsync(id);
                 var clients = await _clientService.FindAllAsync();
                 var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                var employees = await _employeeService.FindAllAsync();
+                var employees = await _employeeService.FindEmployeesAsync();
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
 
                 return View(viewModel);
