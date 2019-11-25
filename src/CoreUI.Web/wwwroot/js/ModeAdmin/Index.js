@@ -196,7 +196,7 @@ $(document).ready(function () {
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
         $('table').DataTable().search(month).draw();
         $('#choose_clients, #choose_projects, #choose_employees').val('')
-        $('table tbdoy tr').length > 0 ?  SumTotalHours() : '';
+        $('table tbody  tr').length > 0 ?  SumTotalHours() : '';
     });
 
     var month = new Date().getMonth() + 1 + '/' + new Date().getFullYear();

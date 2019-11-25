@@ -284,8 +284,10 @@ if ($('table').length > 0) {
                             column
                                 .search(val ? '^' + val + '$' : '', true, false)
                                 .draw();
-                            lastWlhs == "ModeAdmin" ? SumTotalHours() : '';
-                            lastWlhs == "ModeAdmin" ? $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val()) : '';
+                            if (lastWlhs == "ModeAdmin") {
+                                SumTotalHours();
+                                $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val());
+                            }
                         });
 
 
