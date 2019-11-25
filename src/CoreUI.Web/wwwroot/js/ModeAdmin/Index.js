@@ -336,6 +336,9 @@ function UpdateStatusSubmit() {
 
 }
 
-setTimeout(function () {
-    Wlhs == "Reports" ? $('table tfoot tr td:eq(9)').text($('#TotalOfSumHours').val()) : $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val())
-}, 1000)
+$(document).ready(function () {
+    setInterval(function () {
+        Wlhs == "Reports" ? $('table tfoot tr td:eq(9)').text($('#TotalOfSumHours').val()) : $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val())
+    }, 1000)
+})
+
