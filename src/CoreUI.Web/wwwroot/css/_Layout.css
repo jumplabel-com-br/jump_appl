@@ -1,4 +1,4 @@
-﻿.cursor-pointer{
+﻿.cursor-pointer {
     cursor: pointer;
 }
 
@@ -8,7 +8,11 @@ table thead tr:first-child {
     /*color: rgb(255, 255, 255);*/
 }
 
-table thead tr:first-child th{
-    border-color: #010101;
-    width: 60px;
-}
+    table thead tr:first-child th {
+        border-color: #010101;
+        width: 60px;
+    }
+/*
+    table thead tr:first-child th, table thead tr:first-child, table {
+        -webkit-print-color-adjust: exact;
+    }*/

@@ -401,12 +401,13 @@ if ($('table').length > 0) {
                         //console.log(h);
                     });
 
-                    doc.content[1].table.body[2] != undefined ?
-                    doc.content[1].table.body[2].forEach(function (h) {
-                        h.fillColor = '#EF8223';
-                        h.style = {"color" : "#000", "border" : "1px solid black"}
-                        //console.log(h);
-                    }) : '';
+
+                    doc.content[1].table.body[doc.content[1].table.body.length - 1] != undefined ?
+                        doc.content[1].table.body[doc.content[1].table.body.length - 1].forEach(function (h) {
+                            h.fillColor = '#EF8223';
+                            h.style = { "color": "#fff" }
+                            //console.log(h);
+                        }) : '';
 
                     doc.content.splice(0, 0, {
                         margin: [0, 0, 170, 0],
@@ -456,6 +457,7 @@ if ($('table').length > 0) {
                 },
                 customize: function (win) {
                     var wlo = window.location.origin;
+
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(`
@@ -468,7 +470,11 @@ if ($('table').length > 0) {
 
                     $(win.document.body).find('table')
                         .addClass('compact')
-                        .css({ 'font-size': 'inherit'});
+                        .css({ 'font-size': 'inherit', 'color': '#000' });
+
+                    $(win.document.body)
+                        .find('table thead tr:eq(0) th')
+                        .css({ 'color': 'black' })
 
                     $(win.document.body).append(`
                     <div class="container" style="margin-top: 5%">

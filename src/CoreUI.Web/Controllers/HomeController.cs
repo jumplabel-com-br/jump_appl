@@ -213,7 +213,7 @@ namespace CoreUI.Web.Controllers
             HttpContext.Session.Remove(SessionAcessLevel);
             HttpContext.Session.Remove(SessionTotalBells);
             HttpContext.Session.Remove(SessionEmployeeId);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -232,7 +232,7 @@ namespace CoreUI.Web.Controllers
         public IActionResult ExpiredSession()
         {
             HttpContext.Session.SetString(SessionExpired, "true");
-            return RedirectToAction("Index", "Home", "Index");
+            return RedirectToAction(nameof(Index));
         }
 
     }
