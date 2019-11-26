@@ -14261,6 +14261,10 @@ body {
     .app-body {
         margin-top: 10%;
     }
+
+    .animated {
+        margin-top: 10%
+    }
 }
 
 @media(min-width: 992px){
