@@ -141,7 +141,7 @@ namespace CoreUI.Web.Controllers
                 var viewModel = new HourFormViewModel { Projects = projects };
                 return View(viewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }

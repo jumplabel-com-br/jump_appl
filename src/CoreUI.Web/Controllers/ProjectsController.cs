@@ -119,7 +119,8 @@ namespace CoreUI.Web.Controllers
             try
             {
                 var client = await _clientService.FindAllAsync();
-                var viewModel = new ProjectFormViewModel { Client = client };
+                var employee = await _employeeService.FindAllManagersAsync();
+                var viewModel = new ProjectFormViewModel { Client = client, Employee = employee };
 
                 return View(viewModel);
             }
@@ -135,7 +136,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Project_Name,Client_Id,Cost_Center_Id,Active")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Project_Name,Client_Id,Cost_Center_Id,Active,Project_Manager_Id,Manager_Id")] Project project)
         {
             GetSessions();
 
@@ -163,7 +164,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Projects/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, Project projects)
         {
             GetSessions();
 
@@ -182,7 +183,8 @@ namespace CoreUI.Web.Controllers
 
                 var project = await _context.Project.FindAsync(id);
                 var client = await _clientService.FindAllAsync();
-                var viewModel = new ProjectFormViewModel { Client = client, Project = project };
+                var employee = await _employeeService.FindAllManagersAsync();
+                var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee };
 
                 if (project == null)
                 {
@@ -190,7 +192,7 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(viewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 return RedirectToAction("Error", "Home");
@@ -202,7 +204,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Project_Name,Client_Id,Cost_Center_Id,Active")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Project_Name,Client_Id,Cost_Center_Id,Active,Project_Manager_Id,Manager_Id")] Project project)
         {
             GetSessions();
 

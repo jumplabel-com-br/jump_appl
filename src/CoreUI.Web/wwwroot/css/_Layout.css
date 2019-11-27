@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+table thead tr:first-child th {
+    border: 1px solid #000;
+}
+
 table thead tr:first-child {
     background-color: #EF8223;
     color: #fff;

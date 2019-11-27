@@ -47,6 +47,7 @@ namespace CoreUI.Web
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ApplicationDbContext"), builder =>

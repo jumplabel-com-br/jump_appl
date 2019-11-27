@@ -18,19 +18,25 @@ namespace CoreUI.Web.Models
         
         [Display(Name = "Ativo")]
         public int Active { get; set; }
+        public int Project_Manager_Id { get; set; }
+        public int Manager_Id { get; set; }
 
         public Project()
         {
 
         }
 
-        public Project(int id, string project_Name, int client_Id, long cost_Center_Id, int active)
+        public Project(int id, string project_Name, int client_Id, long cost_Center_Id, int active, int project_Manager_Id, int manager_Id)
         {
+
             Id = id;
             Project_Name = project_Name;
             Client_Id = client_Id;
             Cost_Center_Id = cost_Center_Id;
             Active = active;
+            Project_Manager_Id = project_Manager_Id;
+            Manager_Id = manager_Id;
+
         }
     }
 }

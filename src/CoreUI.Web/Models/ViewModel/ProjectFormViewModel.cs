@@ -9,5 +9,6 @@ namespace CoreUI.Web.Models.ViewModel
     {
         public Project Project { get; set; }
         public ICollection<Client> Client { get; set; }
+        public ICollection<Employee> Employee { get; set; }
     }
 }

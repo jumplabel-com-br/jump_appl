@@ -42,5 +42,13 @@ namespace CoreUI.Web.Services
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
+
+        public async Task<List<Employee>> FindAllManagersAsync()
+        {
+            return await _context.Employee
+                .Where(x => x.Active == 1 && (x.Access_LevelId == 1 || x.Access_LevelId == 2))
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
     }
 }

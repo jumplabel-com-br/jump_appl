@@ -122,9 +122,9 @@
       </li>
       -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link mr-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
           <!--<img class="img-avatar" src="~/images/brand/anonymous.jpg" alt="admin@bootstrapmaster.com">-->
-          <i class="avatar fa fa-user mt-3"></i>
+          <i class="avatar fa fa-user mt-3"></i> @ViewBag.Name
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" asp-controller="Home" asp-action="ChangePassword" onclick="$('.modalSpinner').modal('toggle')">

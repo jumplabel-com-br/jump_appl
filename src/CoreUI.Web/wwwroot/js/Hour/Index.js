@@ -36,7 +36,7 @@ $(document).ready(function () {
     AtualizaComboAno();
 
     $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
-        var month = $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val();
+        var month = $("#searchMothDataTable").val() != "" && $("#searchMothDataTable").val() < 10 ? '0' + $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val();
 
         if ($('#searchMothDataTable').val().length == 0 && $('#searchYearDataTable').val().length == 0) {
             month = '';

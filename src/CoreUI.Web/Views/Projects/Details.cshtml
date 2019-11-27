@@ -48,6 +48,33 @@
               </div>
             </div>
 
+            <div class="form-group row">
+              <div class="input-group col-10" title="Gerente Responsável">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Project.Project_Manager_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" disabled>
+                  <option value="" disabled>Nome do gerente</option>
+                </select>
+                <span asp-validation-for="Project.Project_Manager_Id" class="text-danger col-12"></span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Gerente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Project.Manager_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" disabled>
+                  <option value="" disabled>Nome do gerente</option>
+                </select>
+                <span asp-validation-for="Project.Manager_Id" class="text-danger col-12"></span>
+              </div>
+            </div>
 
             <div class="form-group row">
               <div class="input-group col-5" title="Centro de custo">

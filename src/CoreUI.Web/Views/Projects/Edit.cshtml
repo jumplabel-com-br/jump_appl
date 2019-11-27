@@ -49,6 +49,33 @@
               </div>
             </div>
 
+            <div class="form-group row">
+              <div class="input-group col-10" title="Gerente responsável">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Project.Project_Manager_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
+                  <option value="" disabled>Gerente Responsável</option>
+                </select>
+                <span asp-validation-for="Project.Project_Manager_Id" class="text-danger col-12"></span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-10" title="Gerente">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user-circle"></i>
+                  </span>
+                </div>
+                <select class="form-control" asp-for="Project.Manager_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
+                  <option value="" disabled>Gerente</option>
+                </select>
+                <span asp-validation-for="Project.Manager_Id" class="text-danger col-12"></span>
+              </div>
+            </div>
 
             <div class="form-group row">
               <div class="input-group col-5" title="Centro de custo">
@@ -77,7 +104,6 @@
                 <span asp-validation-for="Project.Active" class="text-danger col-12"></span>
               </div>
             </div>
-
             <div class="form-group form-actions text-right col-10">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="ProjectFormSubmit();">Salvar</button>
