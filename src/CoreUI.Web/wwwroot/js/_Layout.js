@@ -93,7 +93,7 @@ function templateMessagesBellForAdmin(model) {
 }
 
 function FilterHoursPerEmployee(consultant, id) {
-    if (wlhs[3] != 'ModeAdmin' && accessLevel != 3) {
+    if (wlhs[3].split('?')[0] != 'ModeAdmin' && accessLevel != 3) {
         alert('Acesse Aprovação de horas para verificar as horas do usuário')
         return false;
     }
@@ -151,7 +151,7 @@ function ReturnFunction(url, type = 'GET', async = false, dataType = 'json', dat
 
 function fn_showMessageDelete(id, param1, param2, pram3, param4) {
 
-    if (wlhs[3] == 'Project_team') {
+    if (wlhs[3].split('?')[0] == 'Project_team') {
 
         ReturnFunction('/api/HoursAPI');
 
@@ -174,7 +174,7 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
 
     }
 
-    if (wlhs[3] == 'Clients') {
+    if (wlhs[3].split('?')[0] == 'Clients') {
         ReturnFunction('/api/ProjectsAPI');
 
         let count = arr.filter(obj => obj.client_Id == id && obj.active == 1)
@@ -189,7 +189,7 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
     }
 
 
-    if (wlhs[3] == 'Projects') {
+    if (wlhs[3].split('?')[0] == 'Projects') {
         ReturnFunction('/api/HoursAPI');
         ReturnFunction('/api/Project_teamAPI');
 
@@ -262,7 +262,7 @@ function nameClass(id) {
 }
 if ($('table').length > 0) {
     var lastWlhs = wlhs[wlhs.length - 1];
-    var Wlhs = wlhs[3];
+    var Wlhs = wlhs[3].split('?')[0];
 
     var initComplete = function () {
         if (Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports") {

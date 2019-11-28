@@ -392,7 +392,7 @@ namespace CoreUI.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> ModeAdmin()
+        public async Task<IActionResult> ModeAdmin(DateTime? month, DateTime? year)
         {
             GetSessions();
 
@@ -404,7 +404,7 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-                var result = await _hourService.FindAllAsync();
+                var result = await _hourService.FindAllAsync(month, year);
                 return View("ModeAdmin", result);
 
             }

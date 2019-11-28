@@ -135,7 +135,7 @@
             <i class="fa fa-check-circle-o"></i> Aprovação de despesas
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
             <i class="fa fa-check-circle-o"></i> Aprovação de horas
           </a>
 
@@ -149,7 +149,7 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Project_team" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Project_team" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">
             <i class="fa fa-paste"></i> Equipes de projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
@@ -164,7 +164,7 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">
             <i class="fa fa-file"></i> Projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>

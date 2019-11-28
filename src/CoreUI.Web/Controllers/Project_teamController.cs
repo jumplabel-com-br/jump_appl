@@ -55,7 +55,7 @@ namespace CoreUI.Web.Controllers
         //Files Files;
 
         // GET: Project_team
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int accessLevel, int employeeId)
         {
             GetSessions();
 
@@ -67,9 +67,9 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-                return View(await _projectTeamService.FindAllAsync());
+                return View(await _projectTeamService.FindAllAsync(accessLevel, employeeId));
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 return RedirectToAction("Error", "Home");

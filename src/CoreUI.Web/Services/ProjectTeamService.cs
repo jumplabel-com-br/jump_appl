@@ -23,7 +23,7 @@ namespace CoreUI.Web.Services
             _config = config;
         }
 
-        public async Task<List<ListProjectTeam>> FindAllAsync()
+        public async Task<List<ListProjectTeam>> FindAllAsync(int accessLevel, int employeeId)
         {
 
             //var result = from obj in _context.Project_team select obj;
@@ -36,16 +36,23 @@ namespace CoreUI.Web.Services
                          select
                          new ListProjectTeam
                          {
-                             Id = projectTeam.Id,
-                             Client = client.Name,
-                             ClientId = client.Id,
-                             Employee = employee.Name,
-                             EmployeeId = employee.Id,
-                             Project = project.Project_Name,
-                             ProjectId = project.Id,
-                             Start = projectTeam.Start_Date,
-                             End = projectTeam.End_Date
+                             Id = projectTeam.Id == null ? 0 : projectTeam.Id,
+                             Client = client.Name == null ? "" : client.Name,
+                             ClientId = client.Id == null ? 0 : client.Id,
+                             Employee = employee.Name == null ? "" : employee.Name,
+                             EmployeeId = employee.Id == null ? 0 : employee.Id,
+                             Project = project.Project_Name == null ? "" : project.Project_Name,
+                             ProjectId = project.Id == null ? 0 : project.Id,
+                             Start = projectTeam.Start_Date == null ? DateTime.Now : projectTeam.Start_Date,
+                             End = projectTeam.End_Date == null ? DateTime.Now : projectTeam.End_Date,
+                             AccessLevel = employee.Access_LevelId == null ? 0 : employee.Access_LevelId,
+                             Project_Manager = project.Project_Manager_Id == null ? 0 : project.Project_Manager_Id
                          };
+
+            if (accessLevel == 2)
+            {
+                result = result.Where(x => x.AccessLevel == accessLevel && x.Project_Manager == employeeId);
+            }
 
             return await result
                 .OrderBy(x => x.Client)

@@ -47,7 +47,7 @@ namespace CoreUI.Web.Controllers
         const string SessionImgLogo = "false";
 
         // GET: Projects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? accessLevel, int? employeeId)
         {
             GetSessions();
 
@@ -59,7 +59,7 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-                return View(await _projectService.FindAllToListAsync());
+                return View(await _projectService.FindAllToListAsync(accessLevel, employeeId));
             }
             catch (Exception)
             {
@@ -86,9 +86,10 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
-                var project = await _context.Project.FindAsync(id);
+                var project = _projectService.Find(id);
                 var client = await _clientService.FindAllAsync();
-                var viewModel = new ProjectFormViewModel { Client = client, Project = project };
+                var employee = await _employeeService.FindAllManagersAsync();
+                var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee};
 
                 if (project == null)
                 {
@@ -181,7 +182,7 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
-                var project = await _context.Project.FindAsync(id);
+                var project = _projectService.Find(id);
                 var client = await _clientService.FindAllAsync();
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee };

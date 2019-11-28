@@ -19,7 +19,7 @@ namespace CoreUI.Web.Services
             _context = context;
         }
 
-        public async Task<List<ListHour>> FindAllAsync()
+        public async Task<List<ListHour>> FindAllAsync(DateTime? month, DateTime? year)
         {
 
             var result = from hour in _context.Hour
@@ -27,7 +27,7 @@ namespace CoreUI.Web.Services
                          join clients in _context.Client on projects.Client_Id equals clients.Id
                          join employees in _context.Employee on hour.Employee_Id equals employees.Id
                          //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
-                         where projects.Active == 1 //&& employees.Active == 1
+                         //where projects.Active == 1 //&& employees.Active == 1
                          orderby hour.Start_Time ascending
 
                          select new ListHour

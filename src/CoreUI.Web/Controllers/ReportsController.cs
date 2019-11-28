@@ -50,7 +50,7 @@ namespace CoreUI.Web.Controllers
         const string SessionTotalBells = "false";
         const string SessionImgLogo = "false";
 
-        public async Task<IActionResult> ModeAdmin()
+        public async Task<IActionResult> ModeAdmin(DateTime? month, DateTime? year)
         {
             GetSessions();
 
@@ -59,7 +59,7 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var result = await _hourService.FindAllAsync();
+            var result = await _hourService.FindAllAsync(month, year);
             return View(result);
         }
 

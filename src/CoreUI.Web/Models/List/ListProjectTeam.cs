@@ -29,5 +29,7 @@ namespace CoreUI.Web.Models
         [Display(Name = "Data de término")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime End { get; set; }
+        public int AccessLevel { get; set; }
+        public int Project_Manager { get; set; }
     }
 }
