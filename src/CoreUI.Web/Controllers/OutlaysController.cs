@@ -82,11 +82,14 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
+            int AcessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.id;
+
             var outlays = await _context.Outlays
                 .FirstOrDefaultAsync(m => m.Id == id);
             //var employees = _employeeService.FindAllAsync();
             var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
-            var clients = await _clienteService.FindAllAsync();
+            var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };
 
@@ -107,9 +110,12 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
+            int AcessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.id;
+
             //var employees = _employeeService.FindAllAsync();
             var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
-            var clients = await _clienteService.FindAllAsync();
+            var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects };
             return View(ViewModel);
@@ -212,10 +218,13 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
+            int accessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.Id;
+
             var outlays = await _context.Outlays.FindAsync(id);
             //var employees = _employeeService.FindAllAsync();
             var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
-            var clients = await _clienteService.FindAllAsync();
+            var clients = await _clienteService.FindAllAsync(accessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };
 

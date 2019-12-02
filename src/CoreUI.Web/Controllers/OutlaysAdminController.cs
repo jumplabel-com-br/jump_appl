@@ -86,11 +86,14 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
+            int AcessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.id;
+
             var outlays = await _context.Outlays
                 .FirstOrDefaultAsync(m => m.Id == id);
             var employees = await _employeeService.FindAllAsync();
             var projects = await _projectService.FindAllAsync();
-            var clients = await _clienteService.FindAllAsync();
+            var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees, Outlays = outlays };
 
@@ -111,9 +114,12 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
+            int AcessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.id;
+
             var employees = await _employeeService.FindAllAsync();
             var projects = await _projectService.FindAllAsync();
-            var clients = await _clienteService.FindAllAsync();
+            var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees };
             return View(ViewModel);
@@ -213,10 +219,13 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
+            int AcessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.id;
+
             var outlays = await _context.Outlays.FindAsync(id);
             var employees = await _employeeService.FindAllAsync();
             var projects = await _projectService.FindAllAsync();
-            var clients = await _clienteService.FindAllAsync();
+            var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees, Outlays = outlays };
 

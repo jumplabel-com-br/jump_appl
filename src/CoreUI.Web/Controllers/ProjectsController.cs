@@ -86,8 +86,11 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
+
                 var project = _projectService.Find(id);
-                var client = await _clientService.FindAllAsync();
+                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee};
 
@@ -119,7 +122,10 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-                var client = await _clientService.FindAllAsync();
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
+
+                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Employee = employee };
 
@@ -165,7 +171,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Projects/Edit/5
-        public async Task<IActionResult> Edit(int? id, Project projects)
+        public async Task<IActionResult> Edit(int? id)
         {
             GetSessions();
 
@@ -182,8 +188,11 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
+
                 var project = _projectService.Find(id);
-                var client = await _clientService.FindAllAsync();
+                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee };
 

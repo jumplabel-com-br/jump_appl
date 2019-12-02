@@ -197,8 +197,8 @@
             <!--<input type="hidden" class="form-control" asp-for="Hour.Employee_Id" value="@@ViewBag.Id" />-->
 
             <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();">Criar</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">Voltar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">Criar</button>
             </div>
           </form>
         </div>
@@ -211,7 +211,7 @@
   let StartDate = $('#Project_team_Start_Date').val();
   let EndDate = $('#Project_team_End_Date').val();
 </script>
-<script src="~/js/Hour/Create.js"></script>
+<script src="~/js/Hour/Create.js?@DateTime.Now.ToString()"></script>
 
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

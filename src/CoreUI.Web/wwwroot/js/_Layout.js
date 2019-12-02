@@ -16,8 +16,10 @@ if (wlhs[4] != 'ChangePassword') {
     }
 
     //ocuta coisas a quem não tem acesso de administrador ou gerencia
-    accessLevel != 1 && accessLevel != 2 ? $('.acessAdminGerencia').remove() : '';
-    accessLevel != 4 && accessLevel != 1 ? $('.acessAdminReports').remove() : '';
+    accessLevel != 1 && accessLevel == 2 ? $('.Admin').remove() : '';
+    accessLevel != 4 && accessLevel != 1 ? $('.Reports').remove() : '';
+    accessLevel == 3 ? $('.Admin, .Reports, .AdminAndManager').remove() : '';
+
 
     if (accessLevel == 1 || accessLevel == 2) {
 
@@ -261,8 +263,8 @@ function nameClass(id) {
     }
 }
 if ($('table').length > 0) {
-    var lastWlhs = wlhs[wlhs.length - 1];
-    var Wlhs = wlhs[3].split('?')[0];
+    var lastWlhs = wlhs[wlhs.length - 1].split('?')[0].replace('#','');
+    var Wlhs = wlhs[3].split('?')[0].replace('#', '');
 
     var initComplete = function () {
         if (Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports") {

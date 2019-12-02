@@ -6,3 +6,5 @@
         });
     });
 });
+
+$('#accessLevel').val() == "2" ? $('.card-header-actions').remove() : '';

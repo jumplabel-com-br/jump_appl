@@ -19,13 +19,18 @@ namespace CoreUI.Web.Services
             _context = context;
         }
 
-        public async Task<List<ListHour>> FindAllAsync(DateTime? month, DateTime? year)
+        public async Task<List<ListHour>> FindAllAsync(int? month, int? year)
         {
+            if (!year.HasValue)
+            {
+                year = DateTime.Now.Year;
+            }
 
             var result = from hour in _context.Hour
                          join projects in _context.Project on hour.Id_Project equals projects.Id
                          join clients in _context.Client on projects.Client_Id equals clients.Id
                          join employees in _context.Employee on hour.Employee_Id equals employees.Id
+                         //where hour.Date.Month == month && hour.Date.Year == year
                          //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
                          //where projects.Active == 1 //&& employees.Active == 1
                          orderby hour.Start_Time ascending
@@ -56,6 +61,16 @@ namespace CoreUI.Web.Services
                              Description = hour.Description,
                              Billing = hour.Billing
                          };
+
+            if (month.HasValue)
+            {
+                result = result.Where(x => x.Date.Month == month);
+            }
+
+            if (year.HasValue)
+            {
+                result = result.Where(x => x.Date.Year == year);
+            }
 
             return await result
                 //.OrderBy(x => x.Client)

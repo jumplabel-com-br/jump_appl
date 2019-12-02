@@ -11,11 +11,18 @@ function FilterProjectPerClient() {
         type: 'GET',
         dataType: 'json',
         data: {},
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        }
     })
         .done(function (data) {
             //console.log(data);
             $('#listClients').val().length > 0 ? arrFilterClients = data.filter(obj => obj.client_Id == $('#listClients').val()) : arrFilterClients = data;
             $('#Project_team_Project_Id').html(listProjects(arrFilterClients))
+            $('#Project_team_Project_Id').prop('disabled', false);
+            setTimeout(function () {
+                $('.modalSpinner').modal('hide');
+            },1000);
         })
         .fail(function () {
             console.log("error");

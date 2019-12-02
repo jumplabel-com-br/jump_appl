@@ -17,10 +17,23 @@ namespace CoreUI.Web.Services
             _context = context;
         }
 
-        public async Task<List<Client>> FindAllAsync()
+        public async Task<List<Client>> FindAllAsync(int? accessLevel, int? employeeId)
         {
-            return await _context.Client
+            var result = from client in _context.Client
+                         select client;
+
+            if (accessLevel == 2)
+            {
+                result = from client in _context.Client
+                  join project in _context.Project on client.Id equals project.Client_Id
+                  where project.Project_Manager_Id == employeeId
+                  select client;
+            }
+            
+                         
+            return await result
                 .OrderBy(x => x.Name)
+                .Distinct()
                 .ToListAsync();
         }
 

@@ -171,7 +171,7 @@
   </div>
 </div>
 
-<script src="~/js/Hour/Edit.js"></script>
+<script src="~/js/Hour/Edit.js?@DateTime.Now.ToString()"></script>
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

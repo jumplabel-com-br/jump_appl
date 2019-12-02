@@ -133,9 +133,12 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
+
                 var employee = await _employeeService.FindAllAsync();
                 var project = await _projectService.FindAllAsync();
-                var client = await _clientService.FindAllAsync();
+                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client };
 
                 return View(viewModel);

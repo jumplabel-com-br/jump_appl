@@ -179,7 +179,7 @@
             <input type="hidden" asp-for="Hour.Creation_Date" />
             <div class="form-group form-actions text-right">
               <div class="col-10">
-                <button type="submit" class="btn btn-sm btn-warning" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+                <button type="submit" class="btn btn-sm btn-warning" asp-action="Index" onclick="$('.modalSpinner').modal('show')" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">Voltar</button>
                 <input type="hidden" asp-for="Hour.Id" />
                 <!--<a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@@Model.Hour.Id" onclik="$('.modalSpinner').modal('show')">Editar</a>-->
               </div>
@@ -191,4 +191,4 @@
   </div>
 </div>
 
-<script src="~/js/Hour/Details.js"></script>
+<script src="~/js/Hour/Details.js?@DateTime.Now.ToString()"></script>

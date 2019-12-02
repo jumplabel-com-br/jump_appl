@@ -29,7 +29,7 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select class="form-control" name="listClients" id="listClients" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" onchange="FilterProjectPerClient()">
+                <select class="form-control" name="listClients" id="listClients" asp-items="@(new SelectList(Model.Client, "Id", "Name"))" onchange="FilterProjectPerClient();">
                   <option value="" selected>Selecione o cliente</option>
                 </select>
               </div>
@@ -42,7 +42,7 @@
                     <i class="fa fa-user-circle"></i>
                   </span>
                 </div>
-                <select class="form-control" asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))" title="Projeto">
+                <select class="form-control" asp-for="Project_team.Project_Id" asp-items="@(new SelectList(Model.Project, "Id", "Project_Name"))" title="Projeto" disabled>
                   <option value="" disabled selected>Selecione o projeto</option>
                 </select>
                 <span asp-validation-for="Project_team.Project_Id" class="text-danger col-12"></span>
@@ -58,21 +58,6 @@
                 </div>
                 <select class="form-control" asp-for="Project_team.Employee_Id" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))">
                   <option value="" selected disabled>Selecione o funcionário</option>
-                </select>
-                <span asp-validation-for="Project_team.Employee_Id" class="text-danger col-12"></span>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <div class="input-group col-10" title="Responsável">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-user-circle"></i>
-                  </span>
-                </div>
-                <select class="form-control">
-                  <option value="" selected disabled>Selecione o responsável</option>
-                  <option value="1">Tiago Zacari</option>
                 </select>
                 <span asp-validation-for="Project_team.Employee_Id" class="text-danger col-12"></span>
               </div>
@@ -111,7 +96,7 @@
   </div>
 </div>
 
-<script src="~/js/ProjectTeam/Generic.js"></script>
+<script src="~/js/ProjectTeam/Generic.js?@DateTime.Now.ToString()"></script>
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

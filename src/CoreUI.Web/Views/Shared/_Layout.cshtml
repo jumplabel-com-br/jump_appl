@@ -31,20 +31,20 @@
   <link href="~/Jquery/css/jqueryDatatables1-10-20.css" rel="stylesheet" />
 
   <!-- Bootstrap and necessary plugins-->
-  <script src="~/lib/jquery/dist/jquery.min.js"></script>
-  <script src="~/Jquery/js/jquery-3-3-1.js"></script>
-  <script src="~/Jquery/js/jqueryDatatables-1-10-20.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesButtons-1-6-0.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesButtonsFlash-1-6-0.js"></script>
-  <script src="~/Jquery/js/jqueryCloudFlare3-1-2.js"></script>
-  <script src="~/Jquery/js/jqueryCloudFlarePdfMake-0-1-53.js"></script>
-  <script src="~/Jquery/js/jqueryCloudFlarePdfMakeVfsFonts-0-1-53.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesButtonsHtml5-1-6-0.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesButtonsPrint-1-6-0.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesColreorder1-5-1.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesButtons-1-5-2.js"></script>
-  <script src="~/Jquery/js/jqueryDatatablesButtonsColVis-1-5-2.js"></script>
-  <script src="~/Jquery/js/jqueryUI-1-12-1.js"></script>
+  <script src="~/lib/jquery/dist/jquery.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jquery-3-3-1.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatables-1-10-20.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtons-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsFlash-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryCloudFlare3-1-2.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryCloudFlarePdfMake-0-1-53.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryCloudFlarePdfMakeVfsFonts-0-1-53.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsHtml5-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsPrint-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesColreorder1-5-1.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtons-1-5-2.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsColVis-1-5-2.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryUI-1-12-1.js?@DateTime.Now.ToString()"></script>
   <!--
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -63,9 +63,9 @@
           integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
           crossorigin="anonymous"></script>
   -->
-  <script src="~/js/jQuery-Mask-Plugin/dist/jquery.mask.js"></script>
-  <script src="~/js/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
-  <script src="~/js/jQuery-Mask-Plugin/src/jquery.mask.js"></script>
+  <script src="~/js/jQuery-Mask-Plugin/dist/jquery.mask.js?@DateTime.Now.ToString()"></script>
+  <script src="~/js/jQuery-Mask-Plugin/dist/jquery.mask.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/js/jQuery-Mask-Plugin/src/jquery.mask.js?@DateTime.Now.ToString()"></script>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
@@ -131,15 +131,15 @@
             <i class="fa fa-edit"></i> Alterar senha
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="OutlaysAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item AdminAndManager" asp-controller="OutlaysAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-check-circle-o"></i> Aprovação de despesas
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="ModeAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
+          <a class="dropdown-item AdminAndManager" asp-controller="ModeAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
             <i class="fa fa-check-circle-o"></i> Aprovação de horas
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Clients" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item Admin" asp-controller="Clients" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-user"></i> Clientes
             <!--<span class="badge badge-primary">1</span>-->
           </a>
@@ -149,12 +149,12 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Project_team" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">
+          <a class="dropdown-item AdminAndManager" asp-controller="Project_team" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">
             <i class="fa fa-paste"></i> Equipes de projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Employees" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item Admin" asp-controller="Employees" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-users"></i> Funcionários
             <!--<span class="badge badge-primary">1</span>-->
           </a>
@@ -164,26 +164,26 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminGerencia" asp-controller="Projects" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">
+          <a class="dropdown-item AdminAndManager" asp-controller="Projects" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">
             <i class="fa fa-file"></i> Projetos
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminReports" asp-controller="Reports" asp-action="ModeAdmin" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="ModeAdmin" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-file-excel-o"></i> Relatório de horas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item acessAdminReports" asp-controller="Reports" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-file-excel-o"></i> Relatório de despesas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
           <!--
-  <div class="divider"></div>
-  <a class="dropdown-item" href="#">
-    <i class="fa fa-shield"></i> Lock Account
-  </a>
-  -->
+          <div class="divider"></div>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-shield"></i> Lock Account
+          </a>
+          -->
 
           <form asp-controller="Home" asp-action="Logoff" class="text-center">
             <button class="btn btn-ghost-danger btn-sm" type="submit" value="Logoff">
@@ -206,6 +206,12 @@
   <!-- APP-HEADER
   <partial name="_app-header" />-->
   <!-- /APP-HEADER-->
+
+  <input type="hidden" name="accessLevel" id="accessLevel" value="@ViewBag.AcessLevel" />
+  <input type="hidden" name="approver" id="approver" value=" @ViewBag.id" />
+  <input type="hidden" name="employee" id="employee" value=" @ViewBag.id" />
+  <input type="hidden" name="accessLevel" id="accessLevel" value="@ViewBag.AcessLevel" />
+  <input type="hidden" name="ImgLogo" id="ImgLogo" value="@ViewBag.SessionImgLogo" />
 
   <partial name="_CookieConsentPartial" />
 
@@ -590,24 +596,18 @@
   </footer>
   <!-- Bootstrap and necessary plugins-->
 
-  <input type="hidden" name="accessLevel" id="accessLevel" value="@ViewBag.AcessLevel" />
-  <input type="hidden" name="approver" id="approver" value=" @ViewBag.id" />
-  <input type="hidden" name="employee" id="employee" value=" @ViewBag.id" />
-  <input type="hidden" name="accessLevel" id="accessLevel" value="@ViewBag.AcessLevel" />
-  <input type="hidden" name="ImgLogo" id="ImgLogo" value="@ViewBag.SessionImgLogo" />
-
-  <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
-  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="~/lib/pace-progress/pace.min.js"></script>
-  <script src="~/lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
-  <script src="~/lib/@@coreui/coreui/dist/js/coreui.min.js"></script>
-  <script src="~/js/Hour/GenericFunctionsHours.js"></script>
+  <script src="~/lib/popper.js/dist/umd/popper.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/lib/pace-progress/pace.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/lib/perfect-scrollbar/dist/perfect-scrollbar.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/lib/@@coreui/coreui/dist/js/coreui.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/js/Hour/GenericFunctionsHours.js?@DateTime.Now.ToString()"></script>
   <script>
     var accessLevel = @ViewBag.AcessLevel;
     var approver = @ViewBag.id;
     var employee = @ViewBag.id;
     var approval = $('#Hour_Approval').val();
   </script>
-  <script src="~/js/_Layout.js"></script>
+  <script src="~/js/_Layout.js?@DateTime.Now.ToString()"></script>
 </body>
 </html>

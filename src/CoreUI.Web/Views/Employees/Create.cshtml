@@ -172,7 +172,7 @@
     display: none;
   }
 </style>
-<script src="~/js/Employee/Generic.js"></script>
+<script src="~/js/Employee/Generic.js?@DateTime.Now.ToString()"></script>
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

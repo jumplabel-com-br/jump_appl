@@ -185,19 +185,18 @@ namespace CoreUI.Web.Controllers
 
                     if (Document != null)
                     {
-                        var lastId = (from result in _context.Outlays
+                        var lastId = (from result in _context.Hour
                                       where result.Employee_Id == empId
                                       orderby result.Id descending
                                       select result).FirstOrDefault();
 
                         if (lastId != null)
                         {
-                            int outlaysId = lastId.Id;
-                            nomeArquivo = string.Concat(outlaysId, "-", Document.FileName);
+                            int hoursId = lastId.Id;
+                            nomeArquivo = string.Concat(hoursId, "-", Document.FileName);
+                            hour.File = nomeArquivo;
                             _files.EnviarArquivo(Document, nomeArquivo, storage);
                         }
-
-                        hour.File = nomeArquivo;
 
                         _context.Update(hour);
                         await _context.SaveChangesAsync();
@@ -306,7 +305,9 @@ namespace CoreUI.Web.Controllers
                         {
                             string nomeArquivo = string.Concat(hour.Id ,"-",Document.FileName);
                             _files.EnviarArquivo(Document, nomeArquivo, storage);
+                            hour.File = nomeArquivo;
                         }
+
                         await _hourService.UpdateAsync(hour);
                     }
                     catch (DbUpdateConcurrencyException)
@@ -392,7 +393,7 @@ namespace CoreUI.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> ModeAdmin(DateTime? month, DateTime? year)
+        public async Task<IActionResult> ModeAdmin(int? month, int? year)
         {
             GetSessions();
 

@@ -51,7 +51,7 @@ namespace CoreUI.Web.Services
 
             if (accessLevel == 2)
             {
-                result = result.Where(x => x.AccessLevel == accessLevel && x.Project_Manager == employeeId);
+                result = result.Where(x => x.Project_Manager == employeeId);
             }
 
             return await result

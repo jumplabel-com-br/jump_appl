@@ -502,7 +502,7 @@ function HourSubmit() {
             document != undefined &&
             document.name.substr(document.name.length - 3).toLowerCase() != 'pdf' &&
             document.name.substr(document.name.length - 3).toLowerCase() != 'jpg' &&
-            document.name.substr(document.name.length - 3).toLowerCase() != 'jpeg' &&
+            document.name.substr(document.name.length - 4).toLowerCase() != 'jpeg' &&
             document.name.substr(document.name.length - 3).toLowerCase() != 'png') {
             alert('O tipo de documento só pode ser PNG, JPG ou PDF');
             return false;

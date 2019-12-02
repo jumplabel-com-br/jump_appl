@@ -182,7 +182,7 @@
   let StartDate = $('#Project_team_Start_Date').val();
   let EndDate = $('#Project_team_End_Date').val();
 </script>
-<script src="~/js/Hour/Create.js"></script>
+<script src="~/js/Hour/Create.js?@DateTime.Now.ToString()"></script>
 
 @section Scripts {
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

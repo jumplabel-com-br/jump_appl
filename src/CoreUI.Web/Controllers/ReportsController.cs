@@ -50,7 +50,7 @@ namespace CoreUI.Web.Controllers
         const string SessionTotalBells = "false";
         const string SessionImgLogo = "false";
 
-        public async Task<IActionResult> ModeAdmin(DateTime? month, DateTime? year)
+        public async Task<IActionResult> ModeAdmin(int? month, int? year)
         {
             GetSessions();
 
@@ -98,7 +98,7 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
-                var clients = await _clientService.FindAllAsync();
+                var clients = await _clientService.FindAllAsync(accessLevel, empId);
                 var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                 var employees = await _employeeService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
@@ -126,11 +126,14 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
+            int accessLevel = ViewBag.AcessLevel;
+            int employeeId = ViewBag.Id;
+
             var outlays = await _context.Outlays
                 .FirstOrDefaultAsync(m => m.Id == id);
             var employees = await _employeeService.FindAllAsync();
             var projects = await _projectService.FindAllAsync();
-            var clients = await _clientService.FindAllAsync();
+            var clients = await _clientService.FindAllAsync(accessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Employees = employees, Outlays = outlays };
 

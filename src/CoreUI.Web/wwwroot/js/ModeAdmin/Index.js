@@ -144,9 +144,9 @@ function UpdateBillingExecute(id, billing) {
 }
 
 $(document).ready(function () {
-    FilterEmployees();
-    FilterProjects();
-    FilterClients();
+    //FilterEmployees();
+    //FilterProjects();
+    //FilterClients();
 
     $('#toast-container').hide();
 
@@ -182,16 +182,20 @@ $(document).ready(function () {
         }
 
         $('#searchYearDataTable').html(
-            `<option value="">Todos</option>
+            `
             ${arrAno.map(obj => {
                 return `
-            <option ${obj.ano == new Date().getFullYear() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
+            <option ${obj.ano == $('#Year').val() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
             `
             }).join('')}`)
     }
 
+    $('#Month').val().length > 0 ? $('#searchMothDataTable').val($('#Month').val()) : '';
     AtualizaComboAno();
-
+    $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
+        SumTotalHours();
+    });
+    /*
     $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
         $('table').DataTable().search(month).draw();
@@ -204,7 +208,7 @@ $(document).ready(function () {
     $('table').DataTable().search(month).draw();
     SumTotalHours();
 
-    /*
+    
     $('#choose_employees').on('change', function () {
         var employee = $("#choose_employees").val().toLowerCase();
         $('table').DataTable().search(employee).draw();
@@ -262,7 +266,7 @@ function SumTotalHours() {
     let hours = 0;
     let minutes = 0;
 
-
+    /*
     document.querySelectorAll("#tbodyHour tr").forEach((teste, item) => {
         if (document.querySelectorAll('#tbodyHour tr .totalHours').length > 0) {
 
@@ -273,12 +277,10 @@ function SumTotalHours() {
             }
         }
     });
-
+    */
     document.querySelectorAll('.totalHours').forEach(obj => {
-        if (obj.style.display != 'none') {
             hours += new Date('1999-01-01 ' + obj.textContent.trim()).getHours();
             minutes += new Date('1999-01-01 ' + obj.textContent.trim()).getMinutes();
-        }
     });
 
     for (var i = minutes; minutes >= 60; i++) {
@@ -341,4 +343,5 @@ $(document).ready(function () {
         Wlhs == "Reports" ? $('table tfoot tr td:eq(9)').text($('#TotalOfSumHours').val()) : $('table tfoot tr td:eq(12)').text($('#TotalOfSumHours').val())
     }, 1000)
 })
+SumTotalHours();
 

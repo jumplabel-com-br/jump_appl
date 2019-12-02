@@ -18,3 +18,6 @@
     $('#toast-container-saved').toggle();
     $('#projectForm').submit();
 }
+
+$('#accessLevel').val() == "2" ? $('#Project_Project_Manager_Id, #Project_Manager_Id').attr('disabled', true) : '';
+$('#accessLevel').val() == "2" ? $('.card-header-actions').remove() : '';
