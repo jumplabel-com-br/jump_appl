@@ -54,7 +54,7 @@ namespace CoreUI.Web.Controllers
         const string SessionImgLogo = "false";
         const string storage = "Hour\\";
 
-        public async Task<IActionResult> Index(int? month, int? year)
+        public async Task<IActionResult> Index(int? billing, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -67,9 +67,16 @@ namespace CoreUI.Web.Controllers
             {
                 ViewBag.Month = month;
                 ViewBag.Year = year;
+                int empId = ViewBag.Id;
+                var accessLevel = ViewBag.AcessLevel;
+                //var result = await _hourService.FindAllAsync(month, year);
+                var horas = await _hourService.FindAllAsync(billing, approval, description, clients, projects, employees, month, year);
+                var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes };
 
-                var result = await _hourService.FindAllAsync(month, year);
-                return View(result);
+                return View(viewModel);
 
             }
             catch (Exception e)

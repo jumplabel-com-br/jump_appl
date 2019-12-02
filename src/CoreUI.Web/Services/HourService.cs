@@ -26,40 +26,41 @@ namespace CoreUI.Web.Services
                 year = DateTime.Now.Year;
             }
 
-            var result = from hour in _context.Hour
-                         join projects in _context.Project on hour.Id_Project equals projects.Id
-                         join clients in _context.Client on projects.Client_Id equals clients.Id
-                         join employees in _context.Employee on hour.Employee_Id equals employees.Id
+            var result = from horas in _context.Hour
+                         join projetos in _context.Project on horas.Id_Project equals projetos.Id
+                         join clientes in _context.Client on projetos.Client_Id equals clientes.Id
+                         join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
                          //where hour.Date.Month == month && hour.Date.Year == year
                          //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
                          //where projects.Active == 1 //&& employees.Active == 1
-                         orderby hour.Start_Time ascending
+                         orderby horas.Start_Time ascending
 
                          select new ListHour
                          {
-                             Id = hour.Id,
-                             Project = hour.Project,
-                             Date = hour.Date,
-                             Start_Time = hour.Start_Time,
-                             Stop_Time = hour.Stop_Time,
-                             Start_Time_2 = hour.Start_Time_2,
-                             Stop_Time_2 = hour.Stop_Time_2,
-                             Activies = hour.Activies,
-                             Total_Activies_Hours = hour.Total_Activies_Hours,
-                             Consultant = employees.Email.Replace("@jumplabel.com.br", ""),
-                             Creation_Date = hour.Creation_Date,
-                             Id_Project = hour.Id_Project,
-                             Employee_Id = hour.Employee_Id,
-                             Arrival_Time = hour.Arrival_Time,
-                             Beginning_Of_The_Break = hour.Beginning_Of_The_Break,
-                             End_Of_The_Break = hour.End_Of_The_Break,
-                             Exit_Time = hour.Exit_Time,
-                             Total_Hours_In_Activity = hour.Total_Hours_In_Activity,
-                             Approval = hour.Approval,
-                             Approver = hour.Approver,
-                             Client = clients.Name,
-                             Description = hour.Description,
-                             Billing = hour.Billing
+                             Id = horas.Id,
+                             Project = horas.Project,
+                             Date = horas.Date,
+                             Start_Time = horas.Start_Time,
+                             Stop_Time = horas.Stop_Time,
+                             Start_Time_2 = horas.Start_Time_2,
+                             Stop_Time_2 = horas.Stop_Time_2,
+                             Activies = horas.Activies,
+                             Total_Activies_Hours = horas.Total_Activies_Hours,
+                             Consultant = funcionarios.Email.Replace("@jumplabel.com.br", ""),
+                             Creation_Date = horas.Creation_Date,
+                             Id_Project = horas.Id_Project,
+                             Employee_Id = horas.Employee_Id,
+                             Arrival_Time = horas.Arrival_Time,
+                             Beginning_Of_The_Break = horas.Beginning_Of_The_Break,
+                             End_Of_The_Break = horas.End_Of_The_Break,
+                             Exit_Time = horas.Exit_Time,
+                             Total_Hours_In_Activity = horas.Total_Hours_In_Activity,
+                             Approval = horas.Approval,
+                             Approver = horas.Approver,
+                             Id_Client = clientes.Id,
+                             Client = clientes.Name,
+                             Description = horas.Description,
+                             Billing = horas.Billing
                          };
 
             if (month.HasValue)
@@ -71,6 +72,101 @@ namespace CoreUI.Web.Services
             {
                 result = result.Where(x => x.Date.Year == year);
             }
+
+            return await result
+                //.OrderBy(x => x.Client)
+                //.OrderBy(x => x.Project)
+                //.OrderBy(x => x.Consultant)
+                .OrderBy(x => x.Date)
+                //.OrderBy(x b=> x.Start_Time)
+                .ToListAsync();
+
+        }
+
+        public async Task<List<ListHour>> FindAllAsync(int? billing, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
+        {
+            if (!year.HasValue)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            var result = from horas in _context.Hour
+                         join projetos in _context.Project on horas.Id_Project equals projetos.Id
+                         join clientes in _context.Client on projetos.Client_Id equals clientes.Id
+                         join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
+                         //where hour.Date.Month == month && hour.Date.Year == year
+                         //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
+                         //where projects.Active == 1 //&& employees.Active == 1
+                         orderby horas.Start_Time ascending
+
+                         select new ListHour
+                         {
+                             Id = horas.Id,
+                             Project = horas.Project,
+                             Date = horas.Date,
+                             Start_Time = horas.Start_Time,
+                             Stop_Time = horas.Stop_Time,
+                             Start_Time_2 = horas.Start_Time_2,
+                             Stop_Time_2 = horas.Stop_Time_2,
+                             Activies = horas.Activies,
+                             Total_Activies_Hours = horas.Total_Activies_Hours,
+                             Consultant = funcionarios.Email.Replace("@jumplabel.com.br", ""),
+                             Creation_Date = horas.Creation_Date,
+                             Id_Project = horas.Id_Project,
+                             Employee_Id = horas.Employee_Id,
+                             Arrival_Time = horas.Arrival_Time,
+                             Beginning_Of_The_Break = horas.Beginning_Of_The_Break,
+                             End_Of_The_Break = horas.End_Of_The_Break,
+                             Exit_Time = horas.Exit_Time,
+                             Total_Hours_In_Activity = horas.Total_Hours_In_Activity,
+                             Approval = horas.Approval,
+                             Approver = horas.Approver,
+                             Id_Client = clientes.Id,
+                             Client = clientes.Name,
+                             Description = horas.Description,
+                             Billing = horas.Billing
+                         };
+
+            if (month.HasValue)
+            {
+                result = result.Where(x => x.Date.Month == month);
+            }
+
+            if (year.HasValue)
+            {
+                result = result.Where(x => x.Date.Year == year);
+            }
+
+            if (billing.HasValue)
+            {
+                result = result.Where(x => x.Billing == billing);
+            }
+
+            if (approval.HasValue)
+            {
+                result = result.Where(x => x.Approval == approval);
+            }
+            
+            if (description.HasValue)
+            {
+                result = result.Where(x => x.Description == description);
+            }
+
+            if (clients.HasValue)
+            {
+                result = result.Where(x => x.Id_Client == clients);
+            }
+
+            if (projects.HasValue)
+            {
+                result = result.Where(x => x.Id_Project == projects);
+            }
+
+            if (employees.HasValue)
+            {
+                result = result.Where(x => x.Employee_Id == employees);
+            }
+
 
             return await result
                 //.OrderBy(x => x.Client)

@@ -86,8 +86,10 @@ namespace CoreUI.Web.Models.List
         public int Approval { get; set; }
         public int Approver { get; set; }
 
+        public int Id_Client { get; set; }
         [Display(Name = "Cliente")]
         public string Client { get; set; }
+
 
         [Display(Name = "Atividade")]
         public int Description { get; set; }

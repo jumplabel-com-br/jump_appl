@@ -346,5 +346,7 @@ $(document).ready(function () {
     $('.dt-button').mouseover(() => {
         $('#choose_employees').val().length == 0 ? alert('Selecione um funcionário') : '';
     });
+
+    //$('.checkedItemCobranca').each(function () { this.checked ? this.value = 'sim' : this.value = 'nao' });
 })
 SumTotalHours();

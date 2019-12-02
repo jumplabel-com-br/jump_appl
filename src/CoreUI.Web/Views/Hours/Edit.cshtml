@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Edit";
+  Layout = "";
 }
 
 
@@ -170,8 +171,8 @@
     </div>
   </div>
 </div>
-
-<script src="~/js/Hour/Edit.js?@DateTime.Now.ToString()"></script>
-@section Scripts {
-  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<!--
+<script src="~/js/Hour/Edit.js?@@DateTime.Now.ToString()"></script>
+@@section Scripts {
+  @@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}-->

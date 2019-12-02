@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreUI.Web.Models.List;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace CoreUI.Web.Models.ViewModel
     public class HourFormViewModel
     {
         public Hour Hour { get; set; }
+        public List<ListHour> Hours { get; set; }
         //public Employee Employee { get; set; }
         public Project_team Project_team { get; set; }
         public Employee Employee { get; set; }

@@ -223,43 +223,93 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
 }
 
 function NameSelect(id) {
-    switch (id) {
-        case 2:
-            return 'Status';
-            break;
+    if (wlhs[3].split('?')[0].replace(/#/, '') == "ModeAdmin") {
+        switch (id) {
+            case 2:
+                return 'Status';
+                break;
 
-        case 5:
-            return 'Cliente';
-            break;
+            case 5:
+                return 'Cliente';
+                break;
 
-        case 6:
-            return 'Projeto';
-            break;
+            case 6:
+                return 'Projeto';
+                break;
 
-        case 7:
-            return 'Funcionário';
-            break;
-        default:
-            return 'Selecione';
+            case 7:
+                return 'Funcionário';
+                break;
+            default:
+                return 'Selecione';
+        }
     }
+
+    if (wlhs[3].split('?')[0].replace(/#/, '') == "Reports") {
+        if (wlhs[4].split('?')[0].replace(/#/, '') == "ModeAdmin") {
+            switch (id) {
+                case 0:
+                    return 'Status';
+                    break;
+
+                case 2:
+                    return 'Cliente';
+                    break;
+
+                case 3:
+                    return 'Projeto';
+                    break;
+
+                case 4:
+                    return 'Funcionário';
+                    break;
+                default:
+                    return 'Selecione';
+            }
+        }
+    }
+    
 }
 
 function nameClass(id) {
-    switch (id) {
-        case 5:
-            return 'choose_clients';
-            break;
+    if (wlhs[3].split('?')[0].replace(/#/, '') == "ModeAdmin") {
+        switch (id) {
+            case 5:
+                return 'choose_clients';
+                break;
 
-        case 6:
-            return 'choose_projects';
-            break;
+            case 6:
+                return 'choose_projects';
+                break;
 
-        case 7:
-            return 'choose_employees';
-            break;
+            case 7:
+                return 'choose_employees';
+                break;
 
-        default:
-            return '';
+            default:
+                return '';
+        }
+    }
+
+    if (wlhs[3].split('?')[0].replace(/#/, '') == "Reports") {
+        if (wlhs[4].split('?')[0].replace(/#/, '') == "ModeAdmin") {
+            switch (id) {
+                case 2:
+                    return 'choose_clients';
+                    break;
+
+                case 3:
+                    return 'choose_projects';
+                    break;
+
+                case 4:
+                    return 'choose_employees';
+                    break;
+
+                default:
+                    return '';
+            }
+        }
     }
 }
 if ($('table').length > 0) {
@@ -270,13 +320,14 @@ if ($('table').length > 0) {
         if (Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports") {
             this.api().columns().every(function (id, j) {
                 var column = this;
+                console.log('column:', column)
                 //console.log(id)
                 if (
-                    (Wlhs == "ModeAdmin" && (id == 2 || id == 5 || id == 6 || id == 7)) ||
+                    (Wlhs == "ModeAdmin" && (id == 1 || id == 2 || id == 5 || id == 6 || id == 7)) ||
                     (Wlhs == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4)) ||
                     (Wlhs == "Reports" && lastWlhs == "ModeAdmin" && (id == 0 || id == 2 || id == 3 || id == 4)) ||
                     (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin" && (id == 1 || id == 2 || id == 3 || id == 4))) {
-                    var select = $(`<select class="form-control ${Wlhs == "ModeAdmin" ? nameClass(id) : ''}" id="${Wlhs == "ModeAdmin" ? nameClass(id) : ''}"><option value=""> ${Wlhs == "ModeAdmin" ? NameSelect(id) : 'Selecione'}</option></select>`)
+                    var select = $(`<select class="form-control ${Wlhs == "ModeAdmin" || Wlhs == "Reports" ? nameClass(id) : ''}" id="${Wlhs == "ModeAdmin" || Wlhs == "Reports" ? nameClass(id) : ''}"><option value=""> ${Wlhs == "ModeAdmin" || Wlhs == "Reports" ? NameSelect(id) : 'Selecione'}</option></select>`)
                         .appendTo($(column.header()).empty())
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -341,7 +392,7 @@ if ($('table').length > 0) {
     function arrFor() {
         if (Wlhs == "ModeAdmin") {
             for (var i = 0; i <= 13; i++) {
-                if (i == 1 || i == 3 || i == 4 || i >= 8) {
+                if (i == 3 || i == 4 || i >= 8) {
                     $('#example thead tr:eq(1) th')[i].innerHTML = '';
                 }
 
@@ -602,3 +653,20 @@ if (wlhs[4] != 'ChangePassword') {
     JsonMessagesBell();
 }
 */
+
+function Modal(url, type = 'POST') {
+    $.ajax({
+        url: url,
+        type: type,
+        dataType: 'html',
+        data: {},
+    })
+        .done(function (data) {
+            $('.modalIndex .modal-body').html(data);
+            Client();
+            $('.modalIndex').modal('show');
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
