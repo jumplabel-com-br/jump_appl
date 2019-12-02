@@ -484,7 +484,7 @@ if ($('table').length > 0) {
                             <div class="col-6 text-left">
                                 <span>______________________________</span>
                             </div>
-                            <div class="col-6 text-ridht">
+                            <div class="col-6 text-left">
                                 <span>______________________________</span>
                             </div>
                         </div>
@@ -510,6 +510,7 @@ if ($('table').length > 0) {
 
     $('table').DataTable({
         initComplete: initComplete,
+        deferRender: true,
         "bJQueryUI": true,
         "bPaginate": false,
         "bFilter": true,

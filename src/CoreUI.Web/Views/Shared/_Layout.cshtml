@@ -169,21 +169,22 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="ModeAdmin" onclick="$('.modalSpinner').modal('toggle')">
-            <i class="fa fa-file-excel-o"></i> Relatório de horas
-            <!--<span class="badge badge-primary">1</span>-->
-          </a>
-
           <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('toggle')">
             <i class="fa fa-file-excel-o"></i> Relatório de despesas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
-          <!--
-          <div class="divider"></div>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-shield"></i> Lock Account
+
+          <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="ModeAdmin" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
+            <i class="fa fa-file-excel-o"></i> Relatório de horas
+            <!--<span class="badge badge-primary">1</span>-->
           </a>
-          -->
+
+          <!--
+  <div class="divider"></div>
+  <a class="dropdown-item" href="#">
+    <i class="fa fa-shield"></i> Lock Account
+  </a>
+  -->
 
           <form asp-controller="Home" asp-action="Logoff" class="text-center">
             <button class="btn btn-ghost-danger btn-sm" type="submit" value="Logoff">

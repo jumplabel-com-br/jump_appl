@@ -59,8 +59,20 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var result = await _hourService.FindAllAsync(month, year);
-            return View(result);
+            try
+            {
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+
+                var result = await _hourService.FindAllAsync(month, year);
+                return View(result);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<IActionResult> OutlaysAdmin()
