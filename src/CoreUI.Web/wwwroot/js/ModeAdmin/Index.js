@@ -342,11 +342,18 @@ $(document).ready(function () {
     setInterval(function () {
         Wlhs == "Reports" ? $('table tfoot tr td:eq(9)').text($('#TotalOfSumHours').val()) : $('table tfoot tr td:eq(12)').text($('#TotalOfSumHours').val())
     }, 1000)
-
+    /*
     $('.dt-button').mouseover(() => {
         $('#choose_employees').val().length == 0 ? alert('Selecione um funcionário') : '';
-    });
+    });*/
 
     //$('.checkedItemCobranca').each(function () { this.checked ? this.value = 'sim' : this.value = 'nao' });
 })
+
 SumTotalHours();
+$('#Selectbilling').val($('#Billing').val());
+$('#approval').val($('#Approval').val());
+$('#description').val($('#Description').val());
+$('#clients').val($('#Clients').val());
+$('#projects').val($('#Projects').val());
+$('#employees').val($('#Employees').val());

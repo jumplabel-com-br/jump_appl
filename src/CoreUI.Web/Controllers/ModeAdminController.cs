@@ -54,7 +54,7 @@ namespace CoreUI.Web.Controllers
         const string SessionImgLogo = "false";
         const string storage = "Hour\\";
 
-        public async Task<IActionResult> Index(int? billing, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
+        public async Task<IActionResult> Index(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -67,10 +67,17 @@ namespace CoreUI.Web.Controllers
             {
                 ViewBag.Month = month;
                 ViewBag.Year = year;
+                ViewBag.Billing = Selectbilling;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+
                 int empId = ViewBag.Id;
                 var accessLevel = ViewBag.AcessLevel;
                 //var result = await _hourService.FindAllAsync(month, year);
-                var horas = await _hourService.FindAllAsync(billing, approval, description, clients, projects, employees, month, year);
+                var horas = await _hourService.FindAllAsync(Selectbilling, approval, description, clients, projects, employees, month, year);
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
                 var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
@@ -81,8 +88,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -94,7 +100,7 @@ namespace CoreUI.Web.Controllers
         }*/
 
         // GET: Hours/Details/5
-        public async Task<IActionResult> Details(int? id, int Employee_Id)
+        public async Task<IActionResult> Details(int? id, int Employee_Id, int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
 
             GetSessions();
@@ -114,28 +120,37 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Billing = Selectbilling;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+
                 var hour = await _context.Hour.FindAsync(id);
-                var clients = await _clientService.FindAllAsync(id, Employee_Id);
-                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                var employees = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
+                var clientes = await _clientService.FindAllAsync(id, Employee_Id);
+                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Employees = funcionarios, Clients = clientes };
 
                 return View(viewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
 
         // GET: Hours/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
 
             GetSessions();
 
-            
+
 
             if (ViewBag.Email == null)
             {
@@ -147,16 +162,25 @@ namespace CoreUI.Web.Controllers
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
 
-                var clients = await _clientService.FindAllAsync(empId, accessLevel);
-                var projects = await _projectService.FindAllAsync();
-                var employees = await _employeeService.FindAllAsync();
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Billing = Selectbilling;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+
+                var clientes = await _clientService.FindAllAsync(empId, accessLevel);
+                var projetos = await _projectService.FindAllAsync();
+                var funcionarios = await _employeeService.FindAllAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients};
+                var viewModel = new HourFormViewModel { Projects = projetos, Employees = funcionarios, Clients = clientes };
                 return View(viewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
@@ -164,16 +188,17 @@ namespace CoreUI.Web.Controllers
         // POST: Hours/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Hour hour, IFormFile Document)
+        public async Task CreateAsync(Hour hour, IFormFile Document)
         {
 
             GetSessions();
 
             if (ViewBag.Email == null)
             {
-                return ExpiredSession();
+               ExpiredSession();
             }
 
 
@@ -188,8 +213,6 @@ namespace CoreUI.Web.Controllers
                     var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
                     var employees = await _employeeService.FindAllAsync();
                     var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients };
-
-                    return View(viewModel);
                 }
 
                 hour.File = string.Empty;
@@ -216,25 +239,71 @@ namespace CoreUI.Web.Controllers
                     _context.Update(hour);
                     await _context.SaveChangesAsync();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+               RedirectToAction(nameof(Error), new { message = e.Message });
             }
-
-
-            /*
-            if (ModelState.IsValid)
-            {
-                _context.Add(hour);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(hour);
-            */
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Hour hour, IFormFile Document)
+        {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
+
+            try
+            {
+                int empId = ViewBag.Id;
+                int accessLevel = ViewBag.AcessLevel;
+
+                if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
+                {
+                    var clients = await _clientService.FindAllAsync(accessLevel, empId);
+                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                    var employees = await _employeeService.FindAllAsync();
+                    var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients };
+                }
+
+                hour.File = string.Empty;
+                string nomeArquivo = string.Empty;
+
+                await _hourService.InsertAsync(hour);
+                await _context.SaveChangesAsync();
+
+                if (Document != null)
+                {
+                    var lastId = (from result in _context.Hour
+                                  where result.Employee_Id == empId
+                                  orderby result.Id descending
+                                  select result).FirstOrDefault();
+
+                    if (lastId != null)
+                    {
+                        int hoursId = lastId.Id;
+                        nomeArquivo = string.Concat(hoursId, "-", Document.FileName);
+                        hour.File = nomeArquivo;
+                        _files.EnviarArquivo(Document, nomeArquivo, storage);
+                    }
+
+                    _context.Update(hour);
+                    await _context.SaveChangesAsync();
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
+        }
 
         // GET: Hours/Edit/5
         public async Task<IActionResult> Edit(int? id, int Employee_Id)
@@ -265,29 +334,10 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-
-
-            /*
-            if (hour == null)
-            {
-                return NotFound();
-            }
-
-            return View(hour);
-
-           var obj = await _hourService.FindByIdAsync(id.Value);
-           if (obj == null)
-           {
-               return RedirectToAction(nameof(Error), new { message = "Id not found" });
-           }
-
-           List<Project> projects = await _projectService.FindAllAsync();
-           HourFormViewModel viewModel = new HourFormViewModel { Hour = obj, Projects = projects };
-           return View(viewModel);*/
         }
 
         // POST: Hours/Edit/5
@@ -336,9 +386,9 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(hour);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
@@ -366,9 +416,9 @@ namespace CoreUI.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Hours", "Index");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
@@ -394,31 +444,12 @@ namespace CoreUI.Web.Controllers
             catch (DbConcurrencyException e)
             {
 
-                throw new DbConcurrencyException(e.Message);
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-        }
-
-        public async Task<IActionResult> ModeAdmin(int? month, int? year)
-        {
-            GetSessions();
-
-            if (ViewBag.Email == null)
+            catch (Exception e)
             {
-                return ExpiredSession();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-
-
-            try
-            {
-                var result = await _hourService.FindAllAsync(month, year);
-                return View("ModeAdmin", result);
-
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Error", "Home");
-            }
-
         }
 
         public async void UpdateBilling(int id, int billing)
@@ -441,14 +472,7 @@ namespace CoreUI.Web.Controllers
 
 
             string queryString = "update Hour set Billing = " + billing + " where Id = " + id + "";
-            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
-
-            MySqlConnection connection = new MySqlConnection(connString);
-            MySqlCommand command = new MySqlCommand(queryString, connection);
-            MySqlDataAdapter da = new MySqlDataAdapter();
-            await connection.OpenAsync();
-            await command.ExecuteNonQueryAsync();
-            connection.Close();
+            ExecuteQuery(queryString);
         }
 
         public async Task<IActionResult> UpdateStatus(int status, string ids)
@@ -462,16 +486,20 @@ namespace CoreUI.Web.Controllers
 
             int id = ViewBag.Id;
             string queryString = "update Hour set Approver = " + id + ", Approval = '" + status + "' where Id in (" + ids + ")";
-            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+            ExecuteQuery(queryString);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async void ExecuteQuery(string queryString)
+        {
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
             MySqlConnection connection = new MySqlConnection(connString);
             MySqlCommand command = new MySqlCommand(queryString, connection);
             MySqlDataAdapter da = new MySqlDataAdapter();
             await connection.OpenAsync();
             await command.ExecuteNonQueryAsync();
             connection.Close();
-
-            return RedirectToAction(nameof(Index));
         }
 
         public void GetSessions()

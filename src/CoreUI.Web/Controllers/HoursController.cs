@@ -143,7 +143,7 @@ namespace CoreUI.Web.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
@@ -212,16 +212,67 @@ namespace CoreUI.Web.Controllers
             }
 
             return View(hour);
+        }
 
-            /*
-            if (ModelState.IsValid)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task CreateAsync(Hour hour, IFormFile Document)
+        {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
             {
-                _context.Add(hour);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ExpiredSession();
             }
-            return View(hour);
-            */
+
+            try
+            {
+                int empId = ViewBag.Id;
+                int accessLevel = ViewBag.AcessLevel;
+                if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
+                {
+                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+
+                    View(viewModel);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    hour.File = string.Empty;
+                    string nomeArquivo = string.Empty;
+
+                    await _hourService.InsertAsync(hour);
+                    await _context.SaveChangesAsync();
+
+                    if (Document != null)
+                    {
+                        var lastId = (from result in _context.Hour
+                                      where result.Employee_Id == empId
+                                      orderby result.Id descending
+                                      select result).FirstOrDefault();
+
+                        if (lastId != null)
+                        {
+                            int hoursId = lastId.Id;
+                            nomeArquivo = string.Concat(hoursId, "-", Document.FileName);
+                            hour.File = nomeArquivo;
+                            _files.EnviarArquivo(Document, nomeArquivo, storage);
+                        }
+
+                        _context.Update(hour);
+                        await _context.SaveChangesAsync();
+                    }
+
+
+                    RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception e)
+            {
+                RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
 
@@ -255,25 +306,6 @@ namespace CoreUI.Web.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
             }
-
-
-            /*
-            if (hour == null)
-            {
-                return NotFound();
-            }
-
-            return View(hour);
-
-           var obj = await _hourService.FindByIdAsync(id.Value);
-           if (obj == null)
-           {
-               return RedirectToAction(nameof(Error), new { message = "Id not found" });
-           }
-
-           List<Project> projects = await _projectService.FindAllAsync();
-           HourFormViewModel viewModel = new HourFormViewModel { Hour = obj, Projects = projects };
-           return View(viewModel);*/
         }
 
         // POST: Hours/Edit/5
@@ -329,6 +361,60 @@ namespace CoreUI.Web.Controllers
             catch (Exception)
             {
                 return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task EditAsync(Hour hour, IFormFile Document)
+        {
+
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                ExpiredSession();
+            }
+
+
+            try
+            {
+                int empId = ViewBag.Id;
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        if (Document != null)
+                        {
+                            string nomeArquivo = string.Concat(hour.Id, "-", Document.FileName);
+                            _files.EnviarArquivo(Document, nomeArquivo, storage);
+                            hour.File = nomeArquivo;
+                        }
+
+                        await _hourService.UpdateAsync(hour);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!HourExists(hour.Id))
+                        {
+                            RedirectToAction(nameof(Error), new { message = "Hora não encontrada para a edição, informar ao suporte" });
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    RedirectToAction(nameof(Index));
+                }
+                //View(hour);
+            }
+            catch (Exception e)
+            {
+                RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }

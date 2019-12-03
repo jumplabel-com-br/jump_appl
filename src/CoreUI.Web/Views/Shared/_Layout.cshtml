@@ -131,7 +131,7 @@
             <i class="fa fa-edit"></i> Alterar senha
           </a>
 
-          <a class="dropdown-item AdminAndManager" asp-controller="OutlaysAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item AdminAndManager" asp-controller="OutlaysAdmin" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
             <i class="fa fa-check-circle-o"></i> Aprovação de despesas
           </a>
 
@@ -169,7 +169,7 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
-          <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('toggle')">
+          <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
             <i class="fa fa-file-excel-o"></i> Relatório de despesas
             <!--<span class="badge badge-primary">1</span>-->
           </a>
@@ -229,10 +229,6 @@
         <div class="modal-body">
 
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
       </div>
     </div>
   </div>
@@ -242,6 +238,21 @@
       <div class="sk-wandering-cubes">
         <div class="sk-cube sk-cube1"></div>
         <div class="sk-cube sk-cube2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container-modal" class="toast-top-center" style="display:none;">
+    <div class="toast toast-info" aria-live="polite">
+      <div class="toast-title">Informação</div>
+      <div class="toast-message">
+        Deseja realizar está ação ?
+      </div>
+      <div class="div-form-saved mt-3">
+        <form id="form-modal">
+          <button type="button" class="btn btn-success btn-submit-sim-modal" >Sim</button>
+          <button type="button" class="btn btn-danger btn-btn-nao-modal" style="margin-left: 50%">Não</button>
+        </form>
       </div>
     </div>
   </div>

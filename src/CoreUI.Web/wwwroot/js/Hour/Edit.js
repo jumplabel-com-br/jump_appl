@@ -1,4 +1,4 @@
-﻿function fn_responsive() {
+﻿/*function fn_responsive() {
 
     width = window.innerWidth;
     if (width <= 300) {
@@ -27,4 +27,16 @@ $(document).ready(function () {
     if (wlh == "ModeAdmin") {
         $('#backToList').attr('formaction', '/Hours/ModeAdmin')
     }
+});*/
+
+$('.btn-edit').on('click', function () {
+    $('.btn-submit-sim-modal').on('click', function () {
+        Update('Hours/EditAsync', $('#HoursForm'))
+    });  
+});
+
+$('.btn-copy').on('click', function () {
+    $('.btn-submit-sim-modal').on('click', function () {
+        Create('Hours/CreateAsync', $('#HoursForm'))
+    }); 
 });

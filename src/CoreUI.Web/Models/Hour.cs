@@ -50,6 +50,9 @@ namespace CoreUI.Web.Models
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         [Required(ErrorMessage = "{0} preencha este campo")]
         public TimeSpan Total_Activies_Hours { get; set; }
+
+
+        [Display(Name = "Funcionário")]
         public string Consultant { get; set; }
 
         [Display(Name = "Data de Criação")]
@@ -94,6 +97,8 @@ namespace CoreUI.Web.Models
         public int Approver_Update { get; set; }
         public int Register { get; set; }
 
+
+        [Display(Name = "Atividade")]
         public int Description { get; set; }
         public string File { get; set; }
         public int Billing { get; set; }

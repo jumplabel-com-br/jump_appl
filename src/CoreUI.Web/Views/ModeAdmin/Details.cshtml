@@ -2,7 +2,7 @@
 
 @{
   ViewData["Title"] = "Details";
-  //Layout = "";
+  Layout = "";
 }
 
 
@@ -13,11 +13,13 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Detalhe do lançamento
           <div class="card-header-actions">
+            <!--
             <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
+            -->
           </div>
         </div>
         <div class="card-body">
@@ -25,7 +27,7 @@
             <input type="hidden" asp-for="Hour.Id" />
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Cliente">
+              <div class="input-group col-12" title="Cliente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -38,7 +40,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
+              <div class="input-group col-12" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -51,7 +53,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Funcionário">
+              <div class="input-group col-12" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -64,7 +66,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Descrição">
+              <div class="input-group col-12" title="Descrição">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar-check-o"></i>
@@ -80,7 +82,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Atestado/Declaração">
+              <div class="input-group col-12" title="Atestado/Declaração">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-file-text-o"></i>
@@ -97,8 +99,8 @@
               </div>
             </div>
 
-            <div class="form-group row">
-              <div class="input-group col-10" title="Data">
+            <div class="form-group row text-right">
+              <div class="input-group col-12" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -162,7 +164,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Atividades">
+              <div class="input-group col-12" title="Atividades">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-list-ul"></i>
@@ -178,9 +180,11 @@
             <input type="hidden" asp-for="Hour.Id_Project" />
             <input type="hidden" asp-for="Hour.Employee_Id" />
             <input type="hidden" asp-for="Hour.Creation_Date" />
+
             <div class="form-group form-actions text-right">
-              <div class="col-10">
-                <button type="submit" class="btn btn-sm btn-warning" asp-action="Index" onclick="$('.modalSpinner').modal('show')" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">Voltar</button>
+              <div class="col-12">
+                <!--<button type="submit" class="btn btn-sm btn-warning" asp-action="Index" onclick="$('.modalSpinner').modal('show')" asp-route-month="@@DateTime.Now.Month" asp-route-year="@@DateTime.Now.Year">Voltar</button>-->
+                <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-Selectbilling="@ViewBag.Billing" asp-route-approval="@ViewBag.Approval" asp-route-description="@ViewBag.Description" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
                 <input type="hidden" asp-for="Hour.Id" />
                 <!--<a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@@Model.Hour.Id" onclik="$('.modalSpinner').modal('show')">Editar</a>-->
               </div>

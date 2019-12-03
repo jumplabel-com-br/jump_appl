@@ -222,6 +222,7 @@ function fn_showMessageDelete(id, param1, param2, pram3, param4) {
     $('#toast-container').toggle();
 }
 
+/*
 function NameSelect(id) {
     if (wlhs[3].split('?')[0].replace(/#/, '') == "ModeAdmin") {
         switch (id) {
@@ -311,11 +312,13 @@ function nameClass(id) {
             }
         }
     }
-}
+}*/
+
 if ($('table').length > 0) {
     var lastWlhs = wlhs[wlhs.length - 1].split('?')[0].replace('#','');
     var Wlhs = wlhs[3].split('?')[0].replace('#', '');
 
+    /*
     var initComplete = function () {
         if (Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports") {
             this.api().columns().every(function (id, j) {
@@ -351,7 +354,7 @@ if ($('table').length > 0) {
                 }
             });
         }
-    };
+    };*/
 
     columnsModeAdmin = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     columnsOutlaysAdmin = [2, 3, 4, 5, 6, 7, 8];
@@ -388,7 +391,7 @@ if ($('table').length > 0) {
         columns = columnsOutlaysAdmin;
     }
 
-
+    /*
     function arrFor() {
         if (Wlhs == "ModeAdmin") {
             for (var i = 0; i <= 13; i++) {
@@ -426,8 +429,8 @@ if ($('table').length > 0) {
                 $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting_asc');
                 $('table thead tr:eq(1) th:eq(' + i + ')').removeClass('sorting');
             }
-        }*/
-    }
+        }**
+    }*/
 
     var buttons = Wlhs == "ModeAdmin" || Wlhs == "OutlaysAdmin" || Wlhs == "Reports" ?
         [
@@ -486,12 +489,6 @@ if ($('table').length > 0) {
                     docContentSplice(5, 0, 0, 3, 0, 0, 'left', 200, 100, 'Nome:                                                                                                                                     Nome:');
                     docContentSplice(6, 0, 0, 3, 0, 0, 'left', 200, 100, 'CPF:                                                                                                                                         CPF:');
 
-                    /*
-                    docContentSplice(7, 0, 0, 30, 0, 0, 'left', 200, 100, '______________________________');
-                    docContentSplice(8, 0, 0, 3, 0, 0, 'left', 200, 100, 'Assinatura Consultor');
-                    docContentSplice(9, 0, 0, 3, 0, 0, 'left', 200, 100, 'Nome:');
-                    docContentSplice(10, 0, 0, 3, 0, 0, 'left', 200, 100, 'CPF:');
-                    */
                 },
 
                 exportOptions: {
@@ -560,7 +557,7 @@ if ($('table').length > 0) {
         ] : [];
 
     $('table').DataTable({
-        initComplete: initComplete,
+        //initComplete: initComplete,
         deferRender: true,
         "bJQueryUI": true,
         "bPaginate": false,
@@ -588,11 +585,11 @@ if ($('table').length > 0) {
             }
         }
     });
-
+    
     if (Wlhs.replace('#', '') == "ModeAdmin" || Wlhs.replace('#', '') == "OutlaysAdmin" || Wlhs.replace('#', '') == "Reports") {
 
-        $('table thead tr').clone(true).appendTo('table thead');
-
+        //$('table thead tr').clone(true).appendTo('table thead');
+        /*
         if (Wlhs == "ModeAdmin") {
             var names = ['Aprovação', 'Cobrança', 'Status', 'Data', 'Atividade', 'Cliente', 'Projeto', 'Funcionário']
 
@@ -620,7 +617,7 @@ if ($('table').length > 0) {
         }
 
         arrFor();
-
+        */
 
         $('.buttons-excel, .buttons-pdf, .buttons-print').addClass('btn btn-lg');
         $('.buttons-excel').addClass('btn-success');
@@ -646,6 +643,7 @@ if ($('table').length > 0) {
     //$('table thead tr:eq(0)').css({ "background-color": "#EF8223", "color": "#fff" })
     //$('table thead tr:eq(0) th').css({ "border-color": "#010101", "width": "60px" })
 }
+
 $('.imgLogo').attr('src', $('#ImgLogo').val())
 
 /*
@@ -660,13 +658,48 @@ function Modal(url, type = 'POST') {
         type: type,
         dataType: 'html',
         data: {},
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        }
     })
         .done(function (data) {
             $('.modalIndex .modal-body').html(data);
-            Client();
+            url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Details" ? Client() : '';
+            url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Create"
             $('.modalIndex').modal('show');
+            $('.modalSpinner').modal('hide');
         })
         .fail(function () {
-            console.log("error");
+            alert("error");
+            $('.modalSpinner').modal('hide');
         });
+}
+
+function Create(url, form) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: '',
+        data: form.serialize(),
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+            $('#toast-container-modal').hide();
+            $('#toast-container-saved').show();
+        }
+    })
+        .done(function () {
+            $('#toast-container-saved').hide();
+            $('.modalSpinner').modal('hide');
+            $('#toast-container-modal').hide();
+        })
+        .fail(function () {
+            alert("error");
+            $('.modalSpinner').modal('hide');
+            $('#toast-container-modal').hide();
+        });
+
+}
+
+function Update(url, form) {
+    Create(url, form)
 }

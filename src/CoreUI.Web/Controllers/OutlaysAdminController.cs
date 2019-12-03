@@ -57,7 +57,7 @@ namespace CoreUI.Web.Controllers
         public string storage = "Outlays\\";
 
         // GET: Outlays
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -66,9 +66,16 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var ViewModel = await _outlaysService.FindAllAsync();
+            int empId = ViewBag.Id;
+            var accessLevel = ViewBag.AcessLevel;
 
-            return View(ViewModel);
+            var despesas = await _outlaysService.FindAllAsync(status, clients, projects, employees, month, year);
+            var clientes = await _clienteService.FindAllAsync(accessLevel, empId);
+            var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+            var funcionarios = await _employeeService.FindAllAsync();
+            var viewModel = new OutlaysFormViewModel { Outlay = despesas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+
+            return View(viewModel);
         }
 
         // GET: Outlays/Details/5

@@ -1,7 +1,8 @@
 ﻿@model CoreUI.Web.Models.ViewModel.HourFormViewModel
 
 @{
-  ViewData["Title"] = "Create"; ;
+  ViewData["Title"] = "Create";
+  Layout = "";
   //ViewData["Name"];
   //ViewData["Id"];
 }
@@ -12,20 +13,22 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-            <i class="fa fa-edit"></i> Lançamento de hora
-            <div class="card-header-actions">
-              <a asp-action="Create">
-                <input type="hidden" asp-for="@ViewData["Email"]" />
-                <input type="hidden" asp-for="@ViewData["Password"]" />
-                <i class="fa fa-plus"></i>
-              </a>
+          <i class="fa fa-edit"></i> Lançamento de hora
+          <div class="card-header-actions">
+            <!--
+            <a asp-action="Create">
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+                -->
           </div>
         </div>
         <div class="card-body">
           <form id="HoursForm" asp-action="Create" enctype="multipart/form-data">
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Cliente">
+              <div class="input-group col-12" title="Cliente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -38,7 +41,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
+              <div class="input-group col-12" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -47,12 +50,12 @@
                 <select asp-for="Hour.Id_Project" asp-items="@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control" onchange="TextNameProject(this.id); Employee()">
                   <option value="">Selecione o projeto</option>
                 </select>
-                <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12">Projeto inválido</span>
+                <span asp-validation-for="Hour.Id_Project" name="id_project" id="id_project" class="text-danger text-danger-span  col-12" style="display: none">Projeto inválido</span>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Funcionário">
+              <div class="input-group col-12" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -65,7 +68,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Descrição">
+              <div class="input-group col-12" title="Descrição">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar-check-o"></i>
@@ -77,12 +80,12 @@
                   <option value="2">Férias</option>
                   <option value="3">Licença</option>
                 </select>
-                <span asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12">Descrição inválida</span>
+                <span asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12" style="display: none">Descrição inválida</span>
               </div>
             </div>
 
             <div class="form-group row divDocument" style="display:none">
-              <div class="input-group col-10" title="Atestado/Declaração">
+              <div class="input-group col-12" title="Atestado/Declaração">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-file-text-o"></i>
@@ -90,19 +93,19 @@
                 </div>
                 <input type="file" name="Document" id="Document" class="ml-2" />
                 <input type="hidden" asp-for="Hour.File" />
-                <span name="document_hour" id="document_hour" class="text-danger text-danger-span  col-12">Documento inválido</span>
+                <span name="document_hour" id="document_hour" class="text-danger text-danger-span  col-12" style="display: none">Documento inválido</span>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Data">
+              <div class="input-group col-12" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
                 <input asp-for="Hour.Date" class="form-control datepicker" onchange="calculaHora();" />
-                <span asp-validation-for="Hour.Date" name="hour_date" id="hour_date" class="text-danger text-danger-span  col-12">Data inválida</span>
+                <span asp-validation-for="Hour.Date" name="hour_date" id="hour_date" class="text-danger text-danger-span  col-12" style="display: none">Data inválida</span>
               </div>
             </div>
 
@@ -114,7 +117,7 @@
                   </span>
                 </div>
                 <input asp-for="Hour.Arrival_Time" class="form-control" onchange="calculaHora(); SetValuesHours();" value="00:00" />
-                <span asp-validation-for="Hour.Arrival_Time" name="hour_arrival_time" id="hour_arrival_time" class="text-danger text-danger-span col-12">Entrada inválida</span>
+                <span asp-validation-for="Hour.Arrival_Time" name="hour_arrival_time" id="hour_arrival_time" class="text-danger text-danger-span col-12" style="display: none">Entrada inválida</span>
               </div>
 
               <div class="input-group col-2" title="Pausa para o almoço">
@@ -124,7 +127,7 @@
                   </span>
                 </div>
                 <input asp-for="Hour.Beginning_Of_The_Break" class="form-control" onchange="calculaHora(); SetValuesHours();" value="00:00" />
-                <span asp-validation-for="Hour.Beginning_Of_The_Break" name="hour_beginning_of_the_break" id="hour_beginning_of_the_break" class="text-danger text-danger-span col-12">Início de intervalo inválido</span>
+                <span asp-validation-for="Hour.Beginning_Of_The_Break" name="hour_beginning_of_the_break" id="hour_beginning_of_the_break" class="text-danger text-danger-span col-12" style="display: none">Início de intervalo inválido</span>
               </div>
 
               <div class="input-group col-2" title="Volta do almoço">
@@ -134,7 +137,7 @@
                   </span>
                 </div>
                 <input asp-for="Hour.End_Of_The_Break" class="form-control" onchange="calculaHora(); SetValuesHours();" value="00:00" />
-                <span asp-validation-for="Hour.End_Of_The_Break" name="hour_end_of_the_break" id="hour_end_of_the_break" class="text-danger text-danger-span col-12">Retorno do intervalo inválido</span>
+                <span asp-validation-for="Hour.End_Of_The_Break" name="hour_end_of_the_break" id="hour_end_of_the_break" class="text-danger text-danger-span col-12" style="display: none">Retorno do intervalo inválido</span>
               </div>
 
               <div class="input-group col-2" title="Hora de saída">
@@ -144,7 +147,7 @@
                   </span>
                 </div>
                 <input asp-for="Hour.Exit_Time" class="form-control" onchange="calculaHora(); SetValuesHours();" value="00:00" />
-                <span asp-validation-for="Hour.Exit_Time" name="hour_exit_time" id="hour_exit_time" class="text-danger text-danger-span col-12">Saída inválida</span>
+                <span asp-validation-for="Hour.Exit_Time" name="hour_exit_time" id="hour_exit_time" class="text-danger text-danger-span col-12" style="display: none">Saída inválida</span>
               </div>
 
               <div class="input-group col-2" title="Total de horas">
@@ -154,19 +157,19 @@
                   </span>
                 </div>
                 <input asp-for="Hour.Total_Hours_In_Activity" class="form-control" readonly />
-                <span asp-validation-for="Hour.Total_Hours_In_Activity" name="hour_total_hours_in_activity" id="hour_total_hours_in_activity" class="text-danger text-danger-span col-12">Cálculo de horas inválido</span>
+                <span asp-validation-for="Hour.Total_Hours_In_Activity" name="hour_total_hours_in_activity" id="hour_total_hours_in_activity" class="text-danger text-danger-span col-12" style="display: none">Cálculo de horas inválido</span>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Atividades">
+              <div class="input-group col-12" title="Atividades">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-list-ul"></i>
                   </span>
                 </div>
                 <textarea asp-for="Hour.Activies" class="form-control" style="height: 100px;" placeholder="Atividades"></textarea>
-                <span asp-validation-for="Hour.Activies" name="hour_activies" id="hour_activies" class="text-danger text-danger-span text-danger-span col-12">Atividades inválidas</span>
+                <span asp-validation-for="Hour.Activies" name="hour_activies" id="hour_activies" class="text-danger text-danger-span text-danger-span col-12" style="display: none">Atividades inválidas</span>
               </div>
             </div>
 
@@ -196,8 +199,8 @@
             <input type="hidden" asp-for="Hour.Approver_Update" value="@ViewBag.Id" />
             <!--<input type="hidden" class="form-control" asp-for="Hour.Employee_Id" value="@@ViewBag.Id" />-->
 
-            <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">Voltar</button>
+            <div class="form-group form-actions text-right col-12">
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-Selectbilling="@ViewBag.Billing" asp-route-approval="@ViewBag.Approval" asp-route-description="@ViewBag.Description" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">Criar</button>
             </div>
           </form>
@@ -208,8 +211,8 @@
 </div>
 
 <script>
-  let StartDate = $('#Project_team_Start_Date').val();
-  let EndDate = $('#Project_team_End_Date').val();
+  StartDate = $('#Project_team_Start_Date').val();
+  EndDate = $('#Project_team_End_Date').val();
 </script>
 <script src="~/js/Hour/Create.js?@DateTime.Now.ToString()"></script>
 

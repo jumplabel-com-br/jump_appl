@@ -50,7 +50,7 @@ namespace CoreUI.Web.Controllers
         const string SessionTotalBells = "false";
         const string SessionImgLogo = "false";
 
-        public async Task<IActionResult> ModeAdmin(int? month, int? year)
+        public async Task<IActionResult> ModeAdmin(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -63,9 +63,23 @@ namespace CoreUI.Web.Controllers
             {
                 ViewBag.Month = month;
                 ViewBag.Year = year;
+                ViewBag.Billing = Selectbilling;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
 
-                var result = await _hourService.FindAllAsync(month, year);
-                return View(result);
+                int empId = ViewBag.Id;
+                var accessLevel = ViewBag.AcessLevel;
+                //var result = await _hourService.FindAllAsync(month, year);
+                var horas = await _hourService.FindAllAsync(Selectbilling, approval, description, clients, projects, employees, month, year);
+                var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+
+                return View(viewModel);
 
             }
             catch (Exception e)
@@ -75,7 +89,7 @@ namespace CoreUI.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> OutlaysAdmin()
+        public async Task<IActionResult> OutlaysAdmin(int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -84,12 +98,12 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var ViewModel = await _outlaysService.FindAllAsync();
+            var ViewModel = await _outlaysService.FindAllAsync(status, clients, projects, employees, month, year);
 
             return View(ViewModel);
         }
 
-        public async Task<IActionResult> DetailsModeAdmin(int? id, int Employee_Id)
+        public async Task<IActionResult> DetailsModeAdmin(int? id, int Employee_Id, int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
 
             GetSessions();
@@ -109,11 +123,20 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Billing = Selectbilling;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+
                 var hour = await _context.Hour.FindAsync(id);
-                var clients = await _clientService.FindAllAsync(accessLevel, empId);
-                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                var employees = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
+                var clientes = await _clientService.FindAllAsync(id, Employee_Id);
+                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Employees = funcionarios, Clients = clientes };
 
                 return View(viewModel);
             }

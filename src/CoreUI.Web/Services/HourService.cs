@@ -90,6 +90,11 @@ namespace CoreUI.Web.Services
                 year = DateTime.Now.Year;
             }
 
+            if (!month.HasValue)
+            {
+                month = DateTime.Now.Month;
+            }
+
             var result = from horas in _context.Hour
                          join projetos in _context.Project on horas.Id_Project equals projetos.Id
                          join clientes in _context.Client on projetos.Client_Id equals clientes.Id

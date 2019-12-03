@@ -17,24 +17,24 @@ namespace CoreUI.Web.Services
             _context = context;
         }
 
-        public async Task<List<ListOutlays>> FindAllAsync()
+        public async Task<List<ListOutlays>> FindAllAsync(int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             var result = from outlays in _context.Outlays
-                         join clients in _context.Client
-                            on outlays.Client_Id equals clients.Id
-                         join projects in _context.Project
-                            on outlays.Project_Id equals projects.Id
-                         join employees in _context.Employee
-                            on outlays.Employee_Id equals employees.Id
+                         join clientes in _context.Client
+                            on outlays.Client_Id equals clientes.Id
+                         join projetos in _context.Project
+                            on outlays.Project_Id equals projetos.Id
+                         join funcionarios in _context.Employee
+                            on outlays.Employee_Id equals funcionarios.Id
                          join projectTeam in _context.Project_team
-                            on projects.Id equals projectTeam.Project_Id
+                            on projetos.Id equals projectTeam.Project_Id
 
                          select new ListOutlays
                          {
                              Id = outlays.Id,
-                             Employee = employees.Name,
-                             Project = projects.Project_Name,
-                             Client = clients.Name,
+                             Employee = funcionarios.Name,
+                             Project = projetos.Project_Name,
+                             Client = clientes.Name,
                              Date = outlays.Date,
                              NoteNumber = outlays.NoteNumber,
                              NoteValue = outlays.NoteValue,
@@ -42,6 +42,11 @@ namespace CoreUI.Web.Services
                              File = outlays.File,
                              Status = outlays.Status
                          };
+
+            if (status.HasValue)
+            {
+                result = result.Where(x => x.Status == status);
+            }
 
             return await result
                 .OrderBy(x => x.Date)
@@ -60,7 +65,7 @@ namespace CoreUI.Web.Services
                             on outlays.Employee_Id equals employees.Id
                          join projectTeam in _context.Project_team
                             on projects.Id equals projectTeam.Project_Id
-                        where outlays.Status == 2
+                         where outlays.Status == 2
 
                          select new ListOutlays
                          {

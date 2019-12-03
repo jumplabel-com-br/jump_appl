@@ -13,11 +13,16 @@
           <div class="card-header">
             <i class="fa fa-edit"></i> Lançamento de hora
             <div class="card-header-actions">
+              <!--
               <a asp-action="Create">
-                <input type="hidden" asp-for="@ViewData["Email"]" />
-                <input type="hidden" asp-for="@ViewData["Password"]" />
+                <input type="hidden" asp-for="@@ViewData["Email"]" />
+                <input type="hidden" asp-for="@@ViewData["Password"]" />
                 <i class="fa fa-plus"></i>
               </a>
+              -->
+              <button type="button" class="btn btn-sm btn-ghost-primary" onclick="Modal('Hours/Create', 'GET')">
+                <i class="fa fa-plus"></i>
+              </button>
             </div>
           </div>
           <div class="card-body">
@@ -191,12 +196,12 @@
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
-                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-search"></i></a>
+                        <button class="btn btn-ghost-warning" onclick="Modal('/Hours/Details/@item.Id?Employee_id=@item.Employee_Id')"><i class="fa fa-search"></i></button>
 
                         @{
                           if (item.Approval <= 1)
                           {
-                            <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-edit"></i></a>
+                            <button class="btn btn-ghost-primary" onclick="Modal('/Hours/Edit/@item.Id', 'GET')"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                           }
                         }

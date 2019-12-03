@@ -291,49 +291,6 @@ function searchProjectsPerEmployee() {
             console.log(data);
             arrHours = data;
 
-
-            data.filter(obj =>
-                obj.id != $('#Hour_Id').val() &&
-                obj.employee_Id == $('#Hour_Employee_Id').val() &&
-                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
-                $('#Hour_Arrival_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1] &&
-                $('#Hour_Exit_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
-            ).length > 0
-
-            ||
-
-            data.filter(obj =>
-                obj.id != $('#Hour_Id').val() &&
-                obj.employee_Id == $('#Hour_Employee_Id').val() &&
-                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
-                $('#Hour_Arrival_Time').val().replace('.000', '') < obj.arrival_Time.replace(':00', '').split('T')[1] &&
-                $('#Hour_Exit_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
-                && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
-            ).length > 0
-
-            ||
-
-            data.filter(obj =>
-                obj.id != $('#Hour_Id').val() &&
-                obj.employee_Id == $('#Hour_Employee_Id').val() &&
-                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
-                $('#Hour_Arrival_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
-                && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
-            ).length > 0 
-
-            ||
-
-            data.filter(obj =>
-                obj.id != $('#Hour_Id').val() &&
-                obj.employee_Id == $('#Hour_Employee_Id').val() &&
-                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
-                $('#Hour_Arrival_Time').val().replace('.000', '') == obj.start_Time.replace(':00', '') &&
-                $('#Hour_Exit_Time').val().replace('.000', '') == obj.stop_Time_2.replace(':00', '') &&
-                $('#Hour_Description').val() == '3'
-
-            ).length > 0 ? existingDate = false : existingDate = true; 
-
-            
             data.filter(obj =>
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Id').val() != obj.id &&
@@ -347,7 +304,49 @@ function searchProjectsPerEmployee() {
                 $('#Hour_Arrival_Time').val().replace('.000', '') <= obj.exit_Time.split('T')[1] &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.start_Time.split('T')[1] &&
                 obj.employee_Id == $('#Hour_Employee_Id').val()).length > 0 ? existingDate = false : existingDate = true;
-            
+
+
+            data.filter(obj =>
+                obj.id != $('#Hour_Id').val() &&
+                obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                $('#Hour_Arrival_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1] &&
+                $('#Hour_Exit_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
+            ).length > 0
+
+                ||
+
+                data.filter(obj =>
+                    obj.id != $('#Hour_Id').val() &&
+                    obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                    $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                    $('#Hour_Arrival_Time').val().replace('.000', '') < obj.arrival_Time.replace(':00', '').split('T')[1] &&
+                    $('#Hour_Exit_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
+                    && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
+                ).length > 0
+
+                ||
+
+                data.filter(obj =>
+                    obj.id != $('#Hour_Id').val() &&
+                    obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                    $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                    $('#Hour_Arrival_Time').val().replace('.000', '') < obj.exit_Time.replace(':00', '').split('T')[1]
+                    && $('#Hour_Exit_Time').val().replace('.000', '') > obj.arrival_Time.replace(':00', '').split('T')[1]
+                ).length > 0
+
+                ||
+
+                data.filter(obj =>
+                    obj.id != $('#Hour_Id').val() &&
+                    obj.employee_Id == $('#Hour_Employee_Id').val() &&
+                    $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
+                    $('#Hour_Arrival_Time').val().replace('.000', '') == obj.start_Time.replace(':00', '') &&
+                    $('#Hour_Exit_Time').val().replace('.000', '') == obj.stop_Time_2.replace(':00', '') &&
+                    $('#Hour_Description').val() == '3'
+
+                ).length > 0 ? existingDate = false : existingDate = true;
+
         })
         .fail(function () {
             console.log("error");
@@ -355,10 +354,8 @@ function searchProjectsPerEmployee() {
 }
 
 function CopySubmit() {
-    if (wlh == 'Edit') {
-        $('#HoursForm').attr("action", "/Hours/Create");
-        $('#HoursForm #Hour_Id').remove();
-    }
+    $('#HoursForm').attr("action", "/Hours/Create");
+    $('#HoursForm #Hour_Id').remove();
 
     HourSubmit();
 }
@@ -367,6 +364,12 @@ function sizeFile(size) {
     var i = Math.floor(Math.log(size) / Math.log(1024));
     return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
 }
+
+$('.btn-btn-nao-modal').on('click', function () {
+    $('#toast-container-modal').hide();
+    //$('.modalIndex').modal('hide');
+    //$('#HoursForm').submit();
+});
 
 function HourSubmit() {
 
@@ -522,10 +525,10 @@ function HourSubmit() {
         return false;
     }
 
-    $('.modalSpinner').modal('show');
-    $('#toast-container-saved').toggle();
-
-    $('#HoursForm').submit();
+    //$('.modalSpinner').modal('show');
+    //$('#toast-container-saved').toggle();
+    $('#toast-container-modal').show();
+    //$('#HoursForm').submit();
 }
 
 function ActiveLinck() {
