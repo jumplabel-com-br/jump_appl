@@ -32,8 +32,11 @@ namespace CoreUI.Web.Services
                          select new ListOutlays
                          {
                              Id = outlays.Id,
+                             Id_Employee = funcionarios.Id,
                              Employee = funcionarios.Name,
+                             Id_Project = projetos.Id,
                              Project = projetos.Project_Name,
+                             Id_Client = clientes.Id,
                              Client = clientes.Name,
                              Date = outlays.Date,
                              NoteNumber = outlays.NoteNumber,
@@ -45,7 +48,32 @@ namespace CoreUI.Web.Services
 
             if (status.HasValue)
             {
-                result = result.Where(x => x.Status == status);
+                result = result.Where(x => x.Status == status).Distinct();
+            }
+
+            if (clients.HasValue)
+            {
+                result = result.Where(x => x.Id_Client == clients).Distinct();
+            }
+
+            if (projects.HasValue)
+            {
+                result = result.Where(x => x.Id_Project == projects).Distinct();
+            }
+
+            if (employees.HasValue)
+            {
+                result = result.Where(x => x.Id_Employee == employees).Distinct();
+            }
+
+            if (month.HasValue)
+            {
+                result = result.Where(x => x.Date.Month == month).Distinct();
+            }
+
+            if (year.HasValue)
+            {
+                result = result.Where(x => x.Date.Year == year).Distinct();
             }
 
             return await result

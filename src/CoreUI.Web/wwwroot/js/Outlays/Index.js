@@ -16,7 +16,7 @@ function AtualizaComboAno() {
 
 AtualizaComboAno();
 
-$('#searchMothDataTable, #searchYearDataTable').on('change', function () {
+/*$('#searchMothDataTable, #searchYearDataTable').on('change', function () {
     var month = $("#searchMothDataTable").val();
     var year = $('#searchYearDataTable').val();
     console.log(month + '/' + year);
@@ -25,9 +25,15 @@ $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
         $(this).toggle(
             $(this).text().toLowerCase().indexOf(month + '/' + year) > -1);
     });
-});
+});*/
 
 $('.notesValues').each(function () {
     this.textContent.length > 2 ? $('.notesValues').mask('000.000.000.000.000,00', { reverse: true }) : '';
     this.textContent.substr(0, 1) == ',' || this.textContent.substr(0, 1) == '.' ? this.textContent = this.textContent.replace(/[,|.]/, '') : '';
 })
+
+$('#searchMothDataTable').val($('#Month').val())
+$('#searchYearDataTable').val($('#Year').val())
+$('#clients').val($('#Clients').val())
+$('#projects').val($('#Projects').val())
+$('#employees').val($('#Employees').val())

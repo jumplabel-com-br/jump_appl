@@ -53,7 +53,7 @@ namespace CoreUI.Web.Controllers
         public string storage = "Outlays\\";
 
         // GET: Outlays
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -62,9 +62,23 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var ViewModel = await _outlaysService.FindPerEmployee(ViewBag.Id);
+            int empId = ViewBag.Id;
+            var accessLevel = ViewBag.AcessLevel;
 
-            return View(ViewModel);
+            var despesas = await _outlaysService.FindAllAsync(status, clients, projects, employees, month, year);
+            var clientes = await _clienteService.FindAllAsync(accessLevel, empId);
+            var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+            var funcionarios = await _employeeService.FindAllAsync();
+            var viewModel = new OutlaysFormViewModel { Outlay = despesas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+
+            ViewBag.Month = month;
+            ViewBag.Year = year;
+            ViewBag.Status = status;
+            ViewBag.Clients = clients;
+            ViewBag.Projects = projects;
+            ViewBag.Employees = employees;
+
+            return View(viewModel);
         }
 
         // GET: Outlays/Details/5
@@ -88,7 +102,7 @@ namespace CoreUI.Web.Controllers
             var outlays = await _context.Outlays
                 .FirstOrDefaultAsync(m => m.Id == id);
             //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var projects = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
             var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };
@@ -114,7 +128,7 @@ namespace CoreUI.Web.Controllers
             int employeeId = ViewBag.id;
 
             //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var projects = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
             var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects };
@@ -223,7 +237,7 @@ namespace CoreUI.Web.Controllers
 
             var outlays = await _context.Outlays.FindAsync(id);
             //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindPerEmployeeAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var projects = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
             var clients = await _clienteService.FindAllAsync(accessLevel, employeeId);
 
             var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };

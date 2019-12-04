@@ -34,7 +34,7 @@ $(document).ready(function () {
     }
 
     AtualizaComboAno();
-
+    /*
     $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
         var month = $("#searchMothDataTable").val() != "" && $("#searchMothDataTable").val() < 10 ? '0' + $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val();
 
@@ -52,6 +52,7 @@ $(document).ready(function () {
     $("#searchMothDataTable").val(new Date().getMonth() + 1)
     $('table').DataTable().search(month).draw();
     SumTotalHours();
+    */
 });
 
 function SumTotalHours() {

@@ -26,7 +26,7 @@ function notCheckedAll() {
 
 function confirmUpdateStatus() {
 
-    if ($('#status').val().length <= 0) {
+    if ($('#statusUpdate').val().length <= 0) {
         $('.toast-container').show();
         $('.toast-message').hide();
         $('.message-error-delete').html('Operação inválida, selecione um status');
@@ -71,3 +71,10 @@ $('.notesValues').each(function () {
     this.textContent.length > 2 ? $('.notesValues').mask('000.000.000.000.000,00', { reverse: true }) : '';
     this.textContent.substr(0, 1) == ',' || this.textContent.substr(0, 1) == '.'? this.textContent = this.textContent.replace(/,|./, '') : '';
 })
+
+$('#searchMothDataTable').val($('#Month').val())
+$('#searchYearDataTable').val($('#Year').val())
+$('#status').val($('#Status').val());
+$('#clients').val($('#Clients').val())
+$('#projects').val($('#Projects').val())
+$('#employees').val($('#Employees').val())

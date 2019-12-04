@@ -71,11 +71,12 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Employees = employees;
 
                 int empId = ViewBag.Id;
-                var accessLevel = ViewBag.AcessLevel;
+                int accessLevel = ViewBag.AcessLevel;
+
                 //var result = await _hourService.FindAllAsync(month, year);
                 var horas = await _hourService.FindAllAsync(Selectbilling, approval, description, clients, projects, employees, month, year);
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
-                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes };
 
@@ -134,7 +135,7 @@ namespace CoreUI.Web.Controllers
 
                 var hour = await _context.Hour.FindAsync(id);
                 var clientes = await _clientService.FindAllAsync(id, Employee_Id);
-                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Employees = funcionarios, Clients = clientes };
 

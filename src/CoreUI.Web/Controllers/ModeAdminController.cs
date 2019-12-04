@@ -79,7 +79,7 @@ namespace CoreUI.Web.Controllers
                 //var result = await _hourService.FindAllAsync(month, year);
                 var horas = await _hourService.FindAllAsync(Selectbilling, approval, description, clients, projects, employees, month, year);
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
-                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes };
 
@@ -131,7 +131,7 @@ namespace CoreUI.Web.Controllers
 
                 var hour = await _context.Hour.FindAsync(id);
                 var clientes = await _clientService.FindAllAsync(id, Employee_Id);
-                var projetos = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Employees = funcionarios, Clients = clientes };
 
@@ -191,64 +191,7 @@ namespace CoreUI.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task CreateAsync(Hour hour, IFormFile Document)
-        {
-
-            GetSessions();
-
-            if (ViewBag.Email == null)
-            {
-               ExpiredSession();
-            }
-
-
-            try
-            {
-                int empId = ViewBag.Id;
-                int accessLevel = ViewBag.AcessLevel;
-
-                if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
-                {
-                    var clients = await _clientService.FindAllAsync(accessLevel, empId);
-                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                    var employees = await _employeeService.FindAllAsync();
-                    var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients };
-                }
-
-                hour.File = string.Empty;
-                string nomeArquivo = string.Empty;
-
-                await _hourService.InsertAsync(hour);
-                await _context.SaveChangesAsync();
-
-                if (Document != null)
-                {
-                    var lastId = (from result in _context.Hour
-                                  where result.Employee_Id == empId
-                                  orderby result.Id descending
-                                  select result).FirstOrDefault();
-
-                    if (lastId != null)
-                    {
-                        int hoursId = lastId.Id;
-                        nomeArquivo = string.Concat(hoursId, "-", Document.FileName);
-                        hour.File = nomeArquivo;
-                        _files.EnviarArquivo(Document, nomeArquivo, storage);
-                    }
-
-                    _context.Update(hour);
-                    await _context.SaveChangesAsync();
-                }
-            }
-            catch (Exception e)
-            {
-               RedirectToAction(nameof(Error), new { message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Hour hour, IFormFile Document)
+        public async Task<IActionResult> Create(Hour hour, IFormFile Document, int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
 
             GetSessions();
@@ -266,10 +209,10 @@ namespace CoreUI.Web.Controllers
 
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
-                    var clients = await _clientService.FindAllAsync(accessLevel, empId);
-                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                    var employees = await _employeeService.FindAllAsync();
-                    var viewModel = new HourFormViewModel { Projects = projects, Employees = employees, Clients = clients };
+                    var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+                    var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+                    var funcionarios = await _employeeService.FindAllAsync();
+                    var viewModel = new HourFormViewModel { Projects = projetos, Employees = funcionarios, Clients = clientes };
                 }
 
                 hour.File = string.Empty;
@@ -297,7 +240,7 @@ namespace CoreUI.Web.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { Selectbilling, approval, description, clients, projects, employees, month, year});
             }
             catch (Exception e)
             {
@@ -328,7 +271,7 @@ namespace CoreUI.Web.Controllers
 
                 var hour = await _context.Hour.FindAsync(id);
                 var clients = await _clientService.FindAllAsync(id, Employee_Id);
-                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projects = await _projectService.FindProjectAsync(empId, accessLevel);
                 var employees = await _employeeService.FindEmployeesAsync();
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
 

@@ -84,10 +84,11 @@ namespace CoreUI.Web.Services
             //  .OrderBy(x => x.Project_Name).ToListAsync();
         }
 
-        public async Task<List<Project>> FindPerEmployeeAsync(int employeeId, int accessLevel)
+        public async Task<List<Project>> FindProjectAsync(int employeeId, int accessLevel)
         {
-
-            var result = from project in _context.Project
+            if (accessLevel != 1)
+            {
+                var result = from project in _context.Project
                          join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
                          join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
                          where employee.Id == employeeId
@@ -103,24 +104,60 @@ namespace CoreUI.Web.Services
                              Manager_Id = project.Manager_Id == null ? 0 : project.Manager_Id
                          };
 
+                return await result
+               .OrderBy(x => x.Project_Name)
+               .Distinct()
+               .ToListAsync();
 
-            return await result
-                .OrderBy(x => x.Project_Name)
-                .Distinct()
-                .ToListAsync();
-            /*
-            var result = from project in _context.Project
+            }
+            else
+            {
+                var result = from project in _context.Project
                          join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
                          join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
-                         where DateTime.Now.Date >= projectTeam.Start_Date && DateTime.Now.Date <= projectTeam.End_Date
 
-                         select project;
+                         select new Project()
+                         {
+                             Id = project.Id,
+                             Project_Name = project.Project_Name == null ? "" : project.Project_Name,
+                             Client_Id = project.Client_Id == null ? 0 : project.Client_Id,
+                             Cost_Center_Id = project.Cost_Center_Id == null ? 0 : project.Cost_Center_Id,
+                             Active = project.Active == null ? 0 : project.Active,
+                             Project_Manager_Id = project.Project_Manager_Id == null ? 0 : project.Project_Manager_Id,
+                             Manager_Id = project.Manager_Id == null ? 0 : project.Manager_Id
+                         };
 
-            return await result
-                .OrderBy(x => x.Project_Name)
-                .Distinct()
-                .ToListAsync();*/
+                return await result
+               .OrderBy(x => x.Project_Name)
+               .Distinct()
+               .ToListAsync();
 
+            }
+        }
+
+        public async Task<List<Project>> FindProjecPerEmployeetAsync(int employeeId)
+        {
+
+                var result = from project in _context.Project
+                             join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+                             join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
+                             where employee.Id == employeeId
+
+                             select new Project()
+                             {
+                                 Id = project.Id,
+                                 Project_Name = project.Project_Name == null ? "" : project.Project_Name,
+                                 Client_Id = project.Client_Id == null ? 0 : project.Client_Id,
+                                 Cost_Center_Id = project.Cost_Center_Id == null ? 0 : project.Cost_Center_Id,
+                                 Active = project.Active == null ? 0 : project.Active,
+                                 Project_Manager_Id = project.Project_Manager_Id == null ? 0 : project.Project_Manager_Id,
+                                 Manager_Id = project.Manager_Id == null ? 0 : project.Manager_Id
+                             };
+
+                return await result
+               .OrderBy(x => x.Project_Name)
+               .Distinct()
+               .ToListAsync();
         }
 
         public async Task<List<ListProject>> FindAllToListAsync(int? accessLevel, int? employeeId)

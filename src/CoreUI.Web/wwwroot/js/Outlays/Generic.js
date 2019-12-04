@@ -106,6 +106,11 @@ function sizeFile(size) {
     return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
 }
 
+$('.btn-submit-sim-modal').on('click', function () {
+    Create('/OutlaysAdmin/Create', $('#OutlaysForm'));
+    $('#toast-container-modal').hide();
+});
+
 function OutlaysSubmit() {
     $('#id_client').hide();
     $('#id_project').hide();
@@ -194,6 +199,8 @@ function OutlaysSubmit() {
     let noteValue = $('#Outlays_NoteValue').val().replace(/[,|.]/g, '');
     $('#Outlays_NoteValue').val(noteValue);
 
+    //$('#toast-container-modal').toggle();
+    $('.modalSpinner').modal('toggle')
     $('#toast-container-saved').toggle();
     $('#OutlaysForm').submit();
 }

@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Details";
+    Layout = "";
 }
 
 <div class="col-12">
@@ -11,18 +12,20 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Detalhes do cliente
           <div class="card-header-actions">
+            <!--
             <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
+            -->
           </div>
         </div>
         <div class="card-body">
           <form id="projectForm" asp-action="Edit">
             <input type="hidden" asp-for="Id" />
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-12">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -33,9 +36,9 @@
               </div>
             </div>
 
-            <div class="form-group form-actions text-right col-10">
+            <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
-              <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.Id" onclick="$('.modalSpinner').modal('show')">Editar</i></a>
+              <button class="btn btn-sm btn-primary" type="button" onclick="Modal(`/Clients/Edit/@Model.Id`, 'GET')">Editar</button>
             </div>
           </form>
         </div>

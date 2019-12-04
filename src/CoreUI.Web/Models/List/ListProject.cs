@@ -9,9 +9,10 @@ namespace CoreUI.Web.Models.List
     public class ListProject
     {
         public int Id { get; set; }
-        [Display(Name = "Projeto")]
+
         public string Project { get; set; }
 
+        public int Client_Id { get; set; }
         [Display(Name = "Cliente")]
         public string Client { get; set; }
         public string Status { get; set; }
@@ -28,5 +29,8 @@ namespace CoreUI.Web.Models.List
         [Display(Name = "Gerente")]
         public string Manager { get; set; }
         public int AcessLevel { get; set; }
+        public long Cost_Center_Id { get; set; }
+        public int Active { get; set; }
+        public int Employee_Id { get; set; }
     }
 }

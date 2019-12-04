@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Create";
+    Layout = "";
 }
 
 
@@ -12,18 +13,20 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Lançamento de despesas
           <div class="card-header-actions">
+            <!--
             <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
+            -->
           </div>
         </div>
         <div class="card-body">
           <form enctype="multipart/form-data" id="OutlaysForm" asp-action="Edit">
             <input type="hidden" asp-for="Outlays.Id" />
             <div class="form-group row">
-              <div class="input-group col-10" title="Cliente">
+              <div class="input-group col-12" title="Cliente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -36,7 +39,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
+              <div class="input-group col-12" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -49,7 +52,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-5" title="Data">
+              <div class="input-group col-6" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -58,7 +61,7 @@
                 <input disabled asp-for="Outlays.Date" class="form-control" placeholder="Data" />
               </div>
 
-              <div class="input-group col-5" title="Número da nota">
+              <div class="input-group col-6" title="Número da nota">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-pencil"></i>
@@ -69,7 +72,7 @@
             </div>
 
             <div class="row">
-              <div class="input-group col-5" title="Valor da nota">
+              <div class="input-group col-6" title="Valor da nota">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-usd"></i>
@@ -78,7 +81,7 @@
                 <input disabled asp-for="Outlays.NoteValue" class="form-control" placeholder="Valor da nota" />
               </div>
 
-              <div class="input-group col-5" title="Arquivo">
+              <div class="input-group col-6" title="Arquivo">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-file"></i>
@@ -97,7 +100,7 @@
             </div>
 
             <div class="row mt-3">
-              <div class="input-group col-10" title="Descrição">
+              <div class="input-group col-12" title="Descrição">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-list"></i>
@@ -108,21 +111,27 @@
             </div>
 
             <!--
-            <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-user"></i>
-                  </span>
-                </div>
-                <select asp-for="Outlays.Employee_Id" asp-items="@@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control" >
-                  <option value="">Selecione o projeto</option>
-                </select>
-              </div>
-            </div>
-            -->
+  <div class="form-group row">
+    <div class="input-group col-12" title="Projeto">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-user"></i>
+        </span>
+      </div>
+      <select asp-for="Outlays.Employee_Id" asp-items="@@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control" >
+        <option value="">Selecione o projeto</option>
+      </select>
+    </div>
+  </div>
+  -->
             <input type="hidden" asp-for="Outlays.Employee_Id" value="@ViewBag.Id" />
-            <div class="form-group form-actions text-right col-10 mt-3">
+
+            <input type="hidden" name="clients" id="clients" value="@ViewBag.Clients" />
+            <input type="hidden" name="projects" id="projects" value="@ViewBag.Projects" />
+            <input type="hidden" name="employees" id="employees" value="@ViewBag.Employees" />
+            <input type="hidden" name="month" id="month" value="@ViewBag.Month" />
+            <input type="hidden" name="year" id="year" value="@ViewBag.Year" />
+            <div class="form-group form-actions text-right col-12 mt-3">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
             </div>
           </form>

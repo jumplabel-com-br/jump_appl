@@ -665,22 +665,36 @@ function Modal(url, type = 'POST') {
         .done(function (data) {
             $('.modalIndex .modal-body').html(data);
             url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Details" ? Client() : '';
-            url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Create"
+            //url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Create"
             $('.modalIndex').modal('show');
-            $('.modalSpinner').modal('hide');
         })
         .fail(function () {
             alert("error");
-            $('.modalSpinner').modal('hide');
+            //$('.modalSpinner').modal('hide');
+        })
+        .always(function () {
+            setTimeout(function () { $('.modalSpinner').modal('hide') }, 1000)
         });
 }
 
+/*
 function Create(url, form) {
+    let formData = new FormData();
+    formData.append("Hour_Id_Project", $("#Hour_Id_Project").val());
+    formData.append("Document", $('#Document').prop('files')[0])
+    alert(formData);
+    alert(form.serialize());
+
+    //form = form.serialize();
+    //alert(fomr += formData);
+
     $.ajax({
         url: url,
         type: 'POST',
         dataType: '',
         data: form.serialize(),
+        processData: false,
+        contentType: false,
         beforeSend: function () {
             $('.modalSpinner').modal('show');
             $('#toast-container-modal').hide();
@@ -698,7 +712,7 @@ function Create(url, form) {
             $('#toast-container-modal').hide();
         });
 
-}
+*/
 
 function Update(url, form) {
     Create(url, form)

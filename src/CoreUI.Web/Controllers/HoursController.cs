@@ -136,7 +136,7 @@ namespace CoreUI.Web.Controllers
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
 
-                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projects = await _projectService.FindProjecPerEmployeetAsync(empId);
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
                 var viewModel = new HourFormViewModel { Projects = projects };
                 return View(viewModel);
@@ -169,7 +169,7 @@ namespace CoreUI.Web.Controllers
                 int accessLevel = ViewBag.AcessLevel;
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
-                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                    var projects = await _projectService.FindProjectAsync(empId, accessLevel);
                     var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
 
                     return View(viewModel);
@@ -214,68 +214,6 @@ namespace CoreUI.Web.Controllers
             return View(hour);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task CreateAsync(Hour hour, IFormFile Document)
-        {
-
-            GetSessions();
-
-            if (ViewBag.Email == null)
-            {
-                ExpiredSession();
-            }
-
-            try
-            {
-                int empId = ViewBag.Id;
-                int accessLevel = ViewBag.AcessLevel;
-                if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
-                {
-                    var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
-                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
-
-                    View(viewModel);
-                }
-
-                if (ModelState.IsValid)
-                {
-                    hour.File = string.Empty;
-                    string nomeArquivo = string.Empty;
-
-                    await _hourService.InsertAsync(hour);
-                    await _context.SaveChangesAsync();
-
-                    if (Document != null)
-                    {
-                        var lastId = (from result in _context.Hour
-                                      where result.Employee_Id == empId
-                                      orderby result.Id descending
-                                      select result).FirstOrDefault();
-
-                        if (lastId != null)
-                        {
-                            int hoursId = lastId.Id;
-                            nomeArquivo = string.Concat(hoursId, "-", Document.FileName);
-                            hour.File = nomeArquivo;
-                            _files.EnviarArquivo(Document, nomeArquivo, storage);
-                        }
-
-                        _context.Update(hour);
-                        await _context.SaveChangesAsync();
-                    }
-
-
-                    RedirectToAction(nameof(Index));
-                }
-            }
-            catch (Exception e)
-            {
-                RedirectToAction(nameof(Error), new { message = e.Message });
-            }
-        }
-
-
         // GET: Hours/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -297,14 +235,14 @@ namespace CoreUI.Web.Controllers
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
-                var projects = await _projectService.FindPerEmployeeAsync(empId, accessLevel);
+                var projects = await _projectService.FindProjecPerEmployeetAsync(empId);
                 var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
 
                 return View(viewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -445,11 +383,11 @@ namespace CoreUI.Web.Controllers
             catch (DbConcurrencyException e)
             {
 
-                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de deletar" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, tentar novamente e avisar o suporte" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
@@ -475,7 +413,7 @@ namespace CoreUI.Web.Controllers
             catch (DbConcurrencyException e)
             {
 
-                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de salvar" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -498,7 +436,7 @@ namespace CoreUI.Web.Controllers
             catch (DbConcurrencyException e)
             {
 
-                return RedirectToAction(nameof(Error), new { message = "Não foi possível executar a ação de update" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
             catch (Exception)
             {

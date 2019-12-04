@@ -525,10 +525,10 @@ function HourSubmit() {
         return false;
     }
 
-    //$('.modalSpinner').modal('show');
-    //$('#toast-container-saved').toggle();
-    $('#toast-container-modal').show();
-    //$('#HoursForm').submit();
+    $('.modalSpinner').modal('show');
+    $('#toast-container-saved').toggle();
+    //$('#toast-container-modal').show();
+    $('#HoursForm').submit();
 }
 
 function ActiveLinck() {

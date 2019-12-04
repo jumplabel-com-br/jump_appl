@@ -192,9 +192,9 @@ $(document).ready(function () {
 
     $('#Month').val().length > 0 ? $('#searchMothDataTable').val($('#Month').val()) : '';
     AtualizaComboAno();
-    $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
+    /*$('#searchMothDataTable, #searchYearDataTable').on('change', function () {
         SumTotalHours();
-    });
+    });*/
     /*
     $('#searchMothDataTable, #searchYearDataTable').on('change', function () {
         var month = $("#searchMothDataTable").val() != '' ? $("#searchMothDataTable").val() + '/' + $('#searchYearDataTable').val() : '';
@@ -297,7 +297,7 @@ function SumTotalHours() {
 
 function confirmUpdateStatus() {
 
-    if ($('#status').val().length <= 0) {
+    if ($('#statusUpdate').val().length <= 0) {
         $('.toast-container').show();
         $('.toast-message').hide();
         $('.message-error-delete').html('Operação inválida, selecione um status');

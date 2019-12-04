@@ -10,12 +10,16 @@ namespace CoreUI.Web.Models.List
     {
         public int Id { get; set; }
 
+        public int Id_Employee { get; set; }
+
         [Display(Name = "Funcionário")]
         public string Employee { get; set; }
 
+        public int Id_Project { get; set; }
         [Display(Name = "Projeto")]
         public string Project { get; set; }
 
+        public int Id_Client { get; set; }
         [Display(Name = "Cliente")]
         public string Client { get; set; }
 

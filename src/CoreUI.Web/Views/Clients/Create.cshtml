@@ -1,7 +1,8 @@
 ﻿@model CoreUI.Web.Models.Client
 
 @{
-  ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create";
+    Layout = "";
 }
 
 <div class="col-12">
@@ -11,17 +12,19 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Criar cliente
           <div class="card-header-actions">
+            <!--
             <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
+            -->
           </div>
         </div>
         <div class="card-body">
           <form id="ClientForm" asp-action="Create">
             <div class="form-group row">
-              <div class="input-group col-10">
+              <div class="input-group col-12">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -31,7 +34,7 @@
                 <span asp-validation-for="Name" class="text-danger col-12"></span>
               </div>
             </div>
-            <div class="form-group form-actions text-right col-10">
+            <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show');">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="ClientFormSubmit();">Criar</button>
             </div>

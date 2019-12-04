@@ -10,6 +10,7 @@ using CoreUI.Web.Services;
 using Microsoft.AspNetCore.Hosting;
 using CoreUI.Web.Models.ViewModel;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace CoreUI.Web.Controllers
 {
@@ -205,7 +206,7 @@ namespace CoreUI.Web.Controllers
             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new { message = e.Message});
             }
         }
 
@@ -341,6 +342,17 @@ namespace CoreUI.Web.Controllers
         private bool ProjectExists(int id)
         {
             return _context.Project.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }

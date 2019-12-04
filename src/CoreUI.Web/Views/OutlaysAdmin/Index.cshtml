@@ -207,7 +207,7 @@
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
-                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-search"></i></a>
+                        <button class="btn btn-ghost-warning" onclick="Modal(`/OutlaysAdmin/Details/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&status=${$('#status').val().length > 0 ? $('#status').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`)"><i class="fa fa-search"></i></button>
                         <!--
                           <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" onclick="$('.modalSpinner').modal('show');"><i class="fa fa-edit"></i></a>
                           <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>
@@ -223,7 +223,7 @@
             <div class="row mb-3 ml-1">
               <div class="col-2">
                 <input type="hidden" name="ids" id="ids" value="" />
-                <select class="form-control" name="status" id="status">
+                <select class="form-control" name="statusUpdate" id="statusUpdate">
                   <option value="">Selecione...</option>
                   <option value="1">Aguardando</option>
                   <option value="4">Aprovado</option>
@@ -246,7 +246,6 @@
 
 <input type="hidden" name="Month" id="Month" value="@ViewBag.Month" />
 <input type="hidden" name="Year" id="Year" value="@ViewBag.Year" />
-<input type="hidden" name="Approval" id="Approval" value="@ViewBag.Status">
 <input type="hidden" name="Clients" id="Clients" value="@ViewBag.Clients">
 <input type="hidden" name="Projects" id="Projects" value="@ViewBag.Projects">
 <input type="hidden" name="Employees" id="Employees" value="@ViewBag.Employees">
