@@ -28,7 +28,7 @@ $(document).ready(function () {
             `<option value="">Todos</option>
             ${arrAno.map(obj => {
                 return `
-            <option ${obj.ano == new Date().getFullYear() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
+            <option ${obj.ano == $('#Year').val() ? 'selected' : ''} value="${obj.ano}">${obj.ano}</option>
             `
             }).join('')}`)
     }
@@ -64,18 +64,6 @@ function SumTotalHours() {
 
     let hours = 0;
     let minutes = 0;
-
-
-    document.querySelectorAll("#tbodyHour tr").forEach((teste, item) => {
-        if (document.querySelectorAll('#tbodyHour tr .totalHours').length > 0) {
-
-            if (teste.style.display == 'none') {
-                document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = 'none'
-            } else {
-                document.querySelectorAll('#tbodyHour tr .totalHours')[item].style.display = ''
-            }
-        }
-    }); 
 
     document.querySelectorAll('.totalHours').forEach(obj => {
         if (obj.style.display != 'none') {
@@ -138,3 +126,11 @@ function UpdateStatusSubmit() {
     $('#UpdateStatus').submit();
 
 }
+
+SumTotalHours();
+$('#searchMothDataTable').val($('#Month').val())
+$('#searchYearDataTable').val($('#Year').val())
+$('#approval').val($('#Approval').val());
+$('#description').val($('#Description').val());
+$('#clients').val($('#Clients').val());
+$('#projects').val($('#Projects').val());

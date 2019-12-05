@@ -132,6 +132,7 @@ namespace CoreUI.Web.Services
                              Billing = horas.Billing
                          };
 
+
             if (month.HasValue)
             {
                 result = result.Where(x => x.Date.Month == month);
@@ -183,13 +184,23 @@ namespace CoreUI.Web.Services
 
         }
 
-        public async Task<List<ListHour>> FindAllPerEmployeeAsync(dynamic employeeId)
+        public async Task<List<ListHour>> FindAllPerEmployeeAsync(dynamic employeeId, int? billing, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
             int employee = employeeId;
 
+            if (!year.HasValue)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            if (!month.HasValue)
+            {
+                month = DateTime.Now.Month;
+            }
+
             var result = from hours in _context.Hour
-                         join projects in _context.Project on hours.Id_Project equals projects.Id
-                         join clients in _context.Client on projects.Client_Id equals clients.Id
+                         join projetos in _context.Project on hours.Id_Project equals projetos.Id
+                         join clientes in _context.Client on projetos.Client_Id equals clientes.Id
                          where hours.Employee_Id == employee
                          orderby hours.Start_Time ascending
                          //orderby hours.Start_Time ascending
@@ -216,10 +227,46 @@ namespace CoreUI.Web.Services
                              Total_Hours_In_Activity = hours.Total_Hours_In_Activity,
                              Approval = hours.Approval,
                              Approver = hours.Approver,
-                             Client = clients.Name,
+                             Id_Client = clientes.Id,
+                             Client = clientes.Name,
                              Description = hours.Description,
                              Billing = hours.Billing
                          };
+
+            if (month.HasValue)
+            {
+                result = result.Where(x => x.Date.Month == month);
+            }
+
+            if (year.HasValue)
+            {
+                result = result.Where(x => x.Date.Year == year);
+            }
+
+            if (billing.HasValue)
+            {
+                result = result.Where(x => x.Billing == billing);
+            }
+
+            if (approval.HasValue)
+            {
+                result = result.Where(x => x.Approval == approval);
+            }
+
+            if (description.HasValue)
+            {
+                result = result.Where(x => x.Description == description);
+            }
+
+            if (clients.HasValue)
+            {
+                result = result.Where(x => x.Id_Client == clients);
+            }
+
+            if (projects.HasValue)
+            {
+                result = result.Where(x => x.Id_Project == projects);
+            }
 
             return await result
                 .OrderBy(x => x.Date)

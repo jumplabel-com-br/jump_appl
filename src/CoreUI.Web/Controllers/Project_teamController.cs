@@ -56,7 +56,7 @@ namespace CoreUI.Web.Controllers
         //Files Files;
 
         // GET: Project_team
-        public async Task<IActionResult> Index(int accessLevel, int employeeId)
+        public async Task<IActionResult> Index(int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -68,7 +68,21 @@ namespace CoreUI.Web.Controllers
 
             try
             {
-                return View(await _projectTeamService.FindAllAsync(accessLevel, employeeId));
+                //ViewBag.Month = month;
+                //ViewBag.Year = year;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
+
+                var projectTeam = await _projectTeamService.FindAllAsync(accessLevel, employeeId, clients, projects, employees);
+                var clientes = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var projetos = await _projectService.FindProjectAsync(accessLevel, employeeId);
+                var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new ProjectTeamFormViewModel { ProjectsTeams = projectTeam, Client = clientes, Project = projetos, Employee = funcionarios };
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
@@ -82,7 +96,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Project_team/Details/5
-        public async Task<IActionResult> Details(int? id, int? cliente, int? projeto, int? funcionario)
+        public async Task<IActionResult> Details(int? id, int? clients, int? projects, int? employees)
         {
             GetSessions();
 
@@ -99,11 +113,15 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+
                 var project_team = await _context.Project_team.FindAsync(id);
-                var employee = await _employeeService.FindEmployeeAsync(funcionario);
-                var project = await _projectService.FindProjectAsync(projeto);
-                var client = await _clientService.FindClientAsync(cliente);
-                var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client, Project_team = project_team };
+                var funcionarios = await _employeeService.FindEmployeeAsync(employees);
+                var projetos = await _projectService.FindProjectAsync(projects);
+                var clientes = await _clientService.FindClientAsync(clients);
+                var viewModel = new ProjectTeamFormViewModel { Project = projetos, Employee = funcionarios, Client = clientes, Project_team = project_team };
 
                 if (project_team == null)
                 {
@@ -122,7 +140,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Project_team/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? clients, int? projects, int? employees)
         {
             GetSessions();
 
@@ -134,8 +152,13 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+
                 int accessLevel = ViewBag.AcessLevel;
                 int employeeId = ViewBag.Id;
+
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
 
                 var employee = await _employeeService.FindAllAsync();
                 var project = await _projectService.FindAllAsync();
@@ -158,7 +181,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Project_team project_team)
+        public async Task<IActionResult> Create(Project_team project_team, int? clients, int? projects, int? employees)
         {
             GetSessions();
 
@@ -174,7 +197,7 @@ namespace CoreUI.Web.Controllers
                 {
                     _context.Add(project_team);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { clients, projects, employees});
                 }
                 return View(project_team);
             }
@@ -188,7 +211,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Project_team/Edit/5
-        public async Task<IActionResult> Edit(int? id, int? cliente, int? projeto, int? funcionario)
+        public async Task<IActionResult> Edit(int? id, int? clients, int? projects, int? employees)
         {
             GetSessions();
 
@@ -200,15 +223,19 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+                ViewBag.Employees = employees;
+
                 if (id == null)
                 {
                     return NotFound();
                 }
 
                 var project_team = await _context.Project_team.FindAsync(id);
-                var employee = await _employeeService.FindEmployeeAsync(funcionario);
-                var project = await _projectService.FindProjectAsync(projeto);
-                var client = await _clientService.FindClientAsync(cliente);
+                var employee = await _employeeService.FindEmployeeAsync(employees);
+                var project = await _projectService.FindProjectAsync(projects);
+                var client = await _clientService.FindClientAsync(clients);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team, Client = client };
 
                 if (project_team == null)
@@ -229,7 +256,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Project_Id,Employee_Id,Start_Date,End_Date")] Project_team project_team)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Project_Id,Employee_Id,Start_Date,End_Date")] Project_team project_team, int? clients, int? projects, int? employees)
         {
             GetSessions();
 
@@ -264,7 +291,7 @@ namespace CoreUI.Web.Controllers
                             return RedirectToAction("Error", "Home");
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { clients, projects, employees});
                 }
                 return View(project_team);
             }
@@ -316,7 +343,7 @@ namespace CoreUI.Web.Controllers
         // POST: Project_team/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? clients, int? projects, int? employees)
         {
             GetSessions();
 
@@ -331,7 +358,7 @@ namespace CoreUI.Web.Controllers
                 var project_team = await _context.Project_team.FindAsync(id);
                 _context.Project_team.Remove(project_team);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new {clients, projects, employees});
             }
             catch (Exception)
             {

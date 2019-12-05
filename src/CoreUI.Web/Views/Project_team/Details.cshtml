@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Create";
+    Layout = "";
 }
 
 
@@ -23,7 +24,7 @@
         <div class="card-body">
           <form id="projectForm" asp-action="Edit">
             <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
+              <div class="input-group col-12" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -37,7 +38,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Funcionário">
+              <div class="input-group col-12" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -51,7 +52,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-5" title="Data de início">
+              <div class="input-group col-6" title="Data de início">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -61,7 +62,7 @@
                 <span asp-validation-for="Project_team.Start_Date" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-5" title="Data de término">
+              <div class="input-group col-6" title="Data de término">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -72,9 +73,9 @@
               </div>
             </div>
 
-            <div class="form-group form-actions text-right col-10">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">Back to list</button>
-              <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.Project_team.Id">Editar</a>
+            <div class="form-group form-actions text-right col-12">
+              <button class="btn btn-sm btn-warning" type="submit" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
+              <button class="btn btn-sm btn-primary" type="button" onclick="Modal(`/Project_team/Edit/@Model.Project_team.Id?clients=@ViewBag.Clients&projects=@ViewBag.Projects&employees=@ViewBag.Employees`, 'GET')">Editar</button>
             </div>
           </form>
         </div>

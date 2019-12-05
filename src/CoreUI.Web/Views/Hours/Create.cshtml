@@ -64,7 +64,7 @@
                     <i class="fa fa-file-text-o"></i>
                   </span>
                 </div>
-                <input type="file" name="Document" id="Document" class="ml-2"/>
+                <input type="file" name="Document" id="Document" class="ml-2" />
                 <input type="hidden" asp-for="Hour.File" />
                 <span name="document_hour" id="document_hour" class="text-danger text-danger-span  col-12">Documento inválido</span>
               </div>
@@ -170,8 +170,15 @@
             <input type="hidden" class="form-control" asp-for="Project_team.Project_Id" />
             <input type="hidden" class="form-control" asp-for="Hour.Employee_Id" value="@ViewBag.Id" />
 
+            <input type="hidden" name="approval" id="approval" value="@ViewBag.Approval">
+            <input type="hidden" name="description" id="description" value="@ViewBag.Description">
+            <input type="hidden" name="clients" id="clients" value="@ViewBag.Clients">
+            <input type="hidden" name="projects" id="projects" value="@ViewBag.Projects">
+            <input type="hidden" name="month" id="month" value="@ViewBag.Month">
+            <input type="hidden" name="year" id="year" value="@ViewBag.Year">
+
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index"  asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-approval="@ViewBag.Approval" asp-route-description="@ViewBag.Description" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();">Criar</button>
             </div>
           </form>

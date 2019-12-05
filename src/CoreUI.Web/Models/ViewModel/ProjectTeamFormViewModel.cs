@@ -12,6 +12,7 @@ namespace CoreUI.Web.Models.ViewModel
         public Project Projects { get; set; }
         public Client Clients { get; set; }
 
+        public List<ListProjectTeam> ProjectsTeams { get; set; }
         public ICollection<Employee> Employee { get; set; }
         public ICollection<Project> Project { get; set; }
         public ICollection<Client> Client { get; set; }

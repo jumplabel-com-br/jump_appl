@@ -23,7 +23,7 @@ namespace CoreUI.Web.Services
             _config = config;
         }
 
-        public async Task<List<ListProjectTeam>> FindAllAsync(int accessLevel, int employeeId)
+        public async Task<List<ListProjectTeam>> FindAllAsync(int accessLevel, int employeeId, int? clients, int? projects, int? employees)
         {
 
             //var result = from obj in _context.Project_team select obj;
@@ -52,6 +52,19 @@ namespace CoreUI.Web.Services
             if (accessLevel == 2)
             {
                 result = result.Where(x => x.Project_Manager == employeeId);
+            }
+
+            if (clients.HasValue)
+            {
+                result = result.Where(x => x.ClientId == clients);
+            }
+            if (projects.HasValue)
+            {
+                result = result.Where(x => x.ProjectId == projects);
+            }
+            if (employees.HasValue)
+            {
+                result = result.Where(x => x.EmployeeId == employees);
             }
 
             return await result

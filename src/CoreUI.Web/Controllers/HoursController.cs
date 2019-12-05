@@ -28,17 +28,19 @@ namespace CoreUI.Web.Controllers
         private readonly ProjectTeamService _projectTeamService;
         private readonly EmployeeService _employeeService;
         private readonly HourService _hourService;
+        private readonly ClientService _clientService;
         private readonly Files _files;
         private readonly IConfiguration _config;
         IHostingEnvironment _appEnvironment;
 
-        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, Files files, IConfiguration config, IHostingEnvironment env)
+        public HoursController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ClientService client, ProjectTeamService projectTeam, Files files, IConfiguration config, IHostingEnvironment env)
         {
             _context = context;
             _projectService = project;
             _projectTeamService = projectTeam;
             _employeeService = employee;
             _hourService = hour;
+            _clientService = client;
             _files = files;
             _config = config;
             _appEnvironment = env;
@@ -55,7 +57,7 @@ namespace CoreUI.Web.Controllers
         const string SessionImgLogo = "false";
         const string storage = "Hour\\";
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
             GetSessions();
 
@@ -67,14 +69,33 @@ namespace CoreUI.Web.Controllers
 
             try
             {
+                //int empId = ViewBag.Id;
+                //var result = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id);
+
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Billing = Selectbilling;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+
                 int empId = ViewBag.Id;
-                var result = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id);
-                return View(result);
+                var accessLevel = ViewBag.AcessLevel;
+                //var result = await _hourService.FindAllAsync(month, year);
+                var horas = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id, Selectbilling, approval, description, clients, projects, month, year);
+                var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+                var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+                //var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes };
+
+
+                return View(viewModel);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -86,7 +107,7 @@ namespace CoreUI.Web.Controllers
         }*/
 
         // GET: Hours/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
             GetSessions();
@@ -111,17 +132,24 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+
                 return View(hour);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
+                return RedirectToAction(nameof(Error), new { message = e.Message});
             }
 
         }
 
         // GET: Hours/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
             GetSessions();
@@ -136,9 +164,17 @@ namespace CoreUI.Web.Controllers
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
 
-                var projects = await _projectService.FindProjecPerEmployeetAsync(empId);
+
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+
+                var projetos = await _projectService.FindProjecPerEmployeetAsync(empId);
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Projects = projects };
+                var viewModel = new HourFormViewModel { Projects = projetos };
                 return View(viewModel);
             }
             catch (Exception e)
@@ -153,7 +189,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Hour hour, IFormFile Document)
+        public async Task<IActionResult> Create(Hour hour, IFormFile Document, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
             GetSessions();
@@ -169,8 +205,8 @@ namespace CoreUI.Web.Controllers
                 int accessLevel = ViewBag.AcessLevel;
                 if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
                 {
-                    var projects = await _projectService.FindProjectAsync(empId, accessLevel);
-                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+                    var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos };
 
                     return View(viewModel);
                 }
@@ -203,19 +239,19 @@ namespace CoreUI.Web.Controllers
                     }
 
                     
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { approval, description, clients, projects, month, year});
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
             return View(hour);
         }
 
         // GET: Hours/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
             GetSessions();
 
@@ -229,14 +265,21 @@ namespace CoreUI.Web.Controllers
                 int empId = ViewBag.Id;
                 var accessLevel = ViewBag.AcessLevel;
 
+                ViewBag.Month = month;
+                ViewBag.Year = year;
+                ViewBag.Approval = approval;
+                ViewBag.Description = description;
+                ViewBag.Clients = clients;
+                ViewBag.Projects = projects;
+
                 if (id == null)
                 {
                     return RedirectToAction(nameof(Error), new { message = "Hora não encontrada, informar o suporte" });
                 }
 
                 var hour = await _context.Hour.FindAsync(id);
-                var projects = await _projectService.FindProjecPerEmployeetAsync(empId);
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects };
+                var projetos = await _projectService.FindProjecPerEmployeetAsync(empId);
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos };
 
                 return View(viewModel);
             }
@@ -251,7 +294,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Hour hour, IFormFile Document)
+        public async Task<IActionResult> Edit(Hour hour, IFormFile Document, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
 
@@ -280,11 +323,11 @@ namespace CoreUI.Web.Controllers
 
                         await _hourService.UpdateAsync(hour);
                     }
-                    catch (DbUpdateConcurrencyException)
+                    catch (DbUpdateConcurrencyException e)
                     {
                         if (!HourExists(hour.Id))
                         {
-                            return RedirectToAction(nameof(Error), new { message = "Hora não encontrada para a edição, informar ao suporte" });
+                            return RedirectToAction(nameof(Error), new { message = e.Message });
                         }
                         else
                         {
@@ -292,67 +335,13 @@ namespace CoreUI.Web.Controllers
                         }
                     }
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { approval, description, clients, projects, month, year});
                 }
                 return View(hour);
             }
-            catch (Exception)
-            {
-                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar ao suporte" });
-            }
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task EditAsync(Hour hour, IFormFile Document)
-        {
-
-
-            GetSessions();
-
-            if (ViewBag.Email == null)
-            {
-                ExpiredSession();
-            }
-
-
-            try
-            {
-                int empId = ViewBag.Id;
-
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        if (Document != null)
-                        {
-                            string nomeArquivo = string.Concat(hour.Id, "-", Document.FileName);
-                            _files.EnviarArquivo(Document, nomeArquivo, storage);
-                            hour.File = nomeArquivo;
-                        }
-
-                        await _hourService.UpdateAsync(hour);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!HourExists(hour.Id))
-                        {
-                            RedirectToAction(nameof(Error), new { message = "Hora não encontrada para a edição, informar ao suporte" });
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-
-                    RedirectToAction(nameof(Index));
-                }
-                //View(hour);
-            }
             catch (Exception e)
             {
-                RedirectToAction(nameof(Error), new { message = e.Message });
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
         }
@@ -390,31 +379,6 @@ namespace CoreUI.Web.Controllers
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
-        }
-
-
-        [HttpPost, ActionName("Update")]
-        public async Task<IActionResult> Update(Hour hour)
-        {
-
-            GetSessions();
-
-            if (ViewBag.Email == null)
-            {
-                return ExpiredSession();
-            }
-
-            try
-            {
-                _context.Update(hour);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch (DbConcurrencyException e)
-            {
-
-                return RedirectToAction(nameof(Error), new { message = e.Message });
-            }
         }
 
         public async Task<IActionResult> ModeAdmin(int? month, int? year)

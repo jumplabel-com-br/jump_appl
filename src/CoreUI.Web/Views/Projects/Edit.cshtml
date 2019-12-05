@@ -104,6 +104,12 @@
                 <span asp-validation-for="Project.Active" class="text-danger col-12"></span>
               </div>
             </div>
+
+            <input type="hidden" name="Clients" id="Clients" value="@ViewBag.Clients">
+            <input type="hidden" name="Projects" id="Projects" value="@ViewBag.Projects">
+            <input type="hidden" name="Manager" id="Manager" value="@ViewBag.Manager">
+            <input type="hidden" name="Manager_Project" id="Manager_Project" value="@ViewBag.Manager_Project">
+
             <div class="form-group form-actions text-right col-10">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="ProjectFormSubmit();">Salvar</button>
