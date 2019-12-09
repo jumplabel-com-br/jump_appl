@@ -7,6 +7,11 @@ ActiveLinck();
 $('.modalSpinner').modal('hide');
 $('.modalSpinner').hide();
 
+//ocuta coisas a quem não tem acesso de administrador ou gerencia
+accessLevel != 1 && accessLevel == 2 ? $('.Admin').remove() : '';
+accessLevel != 4 && accessLevel != 1 ? $('.Reports').remove() : '';
+accessLevel == 3 ? $('.Admin, .Reports, .AdminAndManager').remove() : '';
+
 //verifica se está em revisão
 if (wlhs[4] != 'ChangePassword') {
     if (approval != null) {
@@ -14,12 +19,6 @@ if (wlhs[4] != 'ChangePassword') {
             $('.readonly').prop('disabled', true);
         }
     }
-
-    //ocuta coisas a quem não tem acesso de administrador ou gerencia
-    accessLevel != 1 && accessLevel == 2 ? $('.Admin').remove() : '';
-    accessLevel != 4 && accessLevel != 1 ? $('.Reports').remove() : '';
-    accessLevel == 3 ? $('.Admin, .Reports, .AdminAndManager').remove() : '';
-
 
     if (accessLevel == 1 || accessLevel == 2) {
 
