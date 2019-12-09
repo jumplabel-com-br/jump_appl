@@ -102,6 +102,7 @@ namespace CoreUI.Web.Models
         public int Description { get; set; }
         public string File { get; set; }
         public int Billing { get; set; }
+        public int LocalityId { get; set; }
 
         public Hour()
         {

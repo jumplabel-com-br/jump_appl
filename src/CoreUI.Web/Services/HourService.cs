@@ -90,18 +90,19 @@ namespace CoreUI.Web.Services
                 year = DateTime.Now.Year;
             }
 
-            if (!month.HasValue)
-            {
-                month = DateTime.Now.Month;
-            }
-
             var result = from horas in _context.Hour
                          join projetos in _context.Project on horas.Id_Project equals projetos.Id
                          join clientes in _context.Client on projetos.Client_Id equals clientes.Id
                          join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
-                         //where hour.Date.Month == month && hour.Date.Year == year
-                         //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
-                         //where projects.Active == 1 //&& employees.Active == 1
+                         join Descriptions in _context.Description on horas.Description equals Descriptions.Id
+                           into Description
+                         from descriptions in Description.DefaultIfEmpty()
+                         join locality in _context.Locality on horas.LocalityId equals locality.Id
+                            into localities
+                         from locality in localities.DefaultIfEmpty()
+                             //where hour.Date.Month == month && hour.Date.Year == year
+                             //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
+                             //where projects.Active == 1 //&& employees.Active == 1
                          orderby horas.Start_Time ascending
 
                          select new ListHour
@@ -129,7 +130,9 @@ namespace CoreUI.Web.Services
                              Id_Client = clientes.Id,
                              Client = clientes.Name,
                              Description = horas.Description,
-                             Billing = horas.Billing
+                             Description_Name = descriptions.Name,
+                             Billing = horas.Billing,
+                             LocalityId = locality.Id == null ? 1 : locality.Id
                          };
 
 
@@ -201,6 +204,14 @@ namespace CoreUI.Web.Services
             var result = from hours in _context.Hour
                          join projetos in _context.Project on hours.Id_Project equals projetos.Id
                          join clientes in _context.Client on projetos.Client_Id equals clientes.Id
+
+                         join Descriptions in _context.Description on hours.Description equals Descriptions.Id
+                            into Description
+                                from descriptions in Description.DefaultIfEmpty()
+                         join locality in _context.Locality on hours.LocalityId equals locality.Id
+                            into localities
+                                from locality in localities.DefaultIfEmpty()
+
                          where hours.Employee_Id == employee
                          orderby hours.Start_Time ascending
                          //orderby hours.Start_Time ascending
@@ -230,7 +241,11 @@ namespace CoreUI.Web.Services
                              Id_Client = clientes.Id,
                              Client = clientes.Name,
                              Description = hours.Description,
-                             Billing = hours.Billing
+                             Description_Name = descriptions.Name,
+                             Billing = hours.Billing,
+                             File = hours.File == null ? "Sem Documento" : hours.File,
+                             LocalityId = locality.Id == null ? 1 : locality.Id
+
                          };
 
             if (month.HasValue)

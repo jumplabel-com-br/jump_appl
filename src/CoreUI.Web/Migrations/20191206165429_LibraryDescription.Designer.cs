@@ -3,14 +3,16 @@ using System;
 using CoreUI.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreUI.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191206165429_LibraryDescription")]
+    partial class LibraryDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,20 +41,6 @@ namespace CoreUI.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Client");
-                });
-
-            modelBuilder.Entity("CoreUI.Web.Models.Description", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Active");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Description");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>
@@ -125,8 +113,6 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<int>("Id_Project");
 
-                    b.Property<int>("LocalityId");
-
                     b.Property<string>("Project");
 
                     b.Property<int>("Register");
@@ -148,7 +134,7 @@ namespace CoreUI.Web.Migrations
                     b.ToTable("Hour");
                 });
 
-            modelBuilder.Entity("CoreUI.Web.Models.Locality", b =>
+            modelBuilder.Entity("CoreUI.Web.Models.LibraryDescription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -159,7 +145,7 @@ namespace CoreUI.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locality");
+                    b.ToTable("LibraryDescription");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Outlays", b =>

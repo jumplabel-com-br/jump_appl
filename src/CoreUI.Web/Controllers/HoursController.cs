@@ -86,8 +86,11 @@ namespace CoreUI.Web.Controllers
                 var horas = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id, Selectbilling, approval, description, clients, projects, month, year);
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
                 var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+                var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+
                 //var funcionarios = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes };
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes, Description = descriptions, Locality = localities };
 
 
                 return View(viewModel);
@@ -107,7 +110,7 @@ namespace CoreUI.Web.Controllers
         }*/
 
         // GET: Hours/Details/5
-        public async Task<IActionResult> Details(int? id, int? approval, int? description, int? clients, int? projects, int? month, int? year)
+        public async Task<IActionResult> Details(int? id, int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
             GetSessions();
@@ -132,6 +135,9 @@ namespace CoreUI.Web.Controllers
                     return NotFound();
                 }
 
+                int empId = ViewBag.Id;
+                var accessLevel = ViewBag.AcessLevel;
+
                 ViewBag.Month = month;
                 ViewBag.Year = year;
                 ViewBag.Approval = approval;
@@ -139,7 +145,17 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Clients = clients;
                 ViewBag.Projects = projects;
 
-                return View(hour);
+                var horas = await _hourService.FindAllPerEmployeeAsync(ViewBag.Id, Selectbilling, approval, description, clients, projects, month, year);
+                var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+                var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+                var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+                //var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Clients = clientes, Description = descriptions, Locality = localities };
+
+
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
@@ -173,8 +189,9 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Projects = projects;
 
                 var projetos = await _projectService.FindProjecPerEmployeetAsync(empId);
-                //var projectsTeam = await _projectTeamService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Projects = projetos };
+                var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+                var viewModel = new HourFormViewModel { Projects = projetos, Description = descriptions, Locality = localities };
                 return View(viewModel);
             }
             catch (Exception e)
@@ -279,7 +296,10 @@ namespace CoreUI.Web.Controllers
 
                 var hour = await _context.Hour.FindAsync(id);
                 var projetos = await _projectService.FindProjecPerEmployeetAsync(empId);
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos };
+                var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Description = descriptions, Locality = localities};
 
                 return View(viewModel);
             }
@@ -402,7 +422,7 @@ namespace CoreUI.Web.Controllers
 
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch (Exception)
+             catch (Exception e)
             {
                 return RedirectToAction(nameof(Error), new { message = "Erro não definido, tentar novamente e avisar o suporte" });
             }

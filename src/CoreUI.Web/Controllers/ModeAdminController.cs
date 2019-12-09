@@ -81,7 +81,11 @@ namespace CoreUI.Web.Controllers
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
                 var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+                var Description = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+
+                //var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes, Employees = funcionarios, Description = Description, Locality = localities };
 
                 return View(viewModel);
 
@@ -133,7 +137,11 @@ namespace CoreUI.Web.Controllers
                 var clientes = await _clientService.FindAllAsync(id, Employee_Id);
                 var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Employees = funcionarios, Clients = clientes };
+                var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+
+                //var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos, Clients = clientes, Employees = funcionarios, Description = descriptions, Locality = localities };
 
                 return View(viewModel);
             }
@@ -175,7 +183,12 @@ namespace CoreUI.Web.Controllers
                 var projetos = await _projectService.FindAllAsync();
                 var funcionarios = await _employeeService.FindAllAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Projects = projetos, Employees = funcionarios, Clients = clientes };
+                var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+
+                //var funcionarios = await _employeeService.FindAllAsync();
+                var viewModel = new HourFormViewModel { Projects = projetos, Clients = clientes, Employees = funcionarios, Description = descriptions, Locality = localities };
+
                 return View(viewModel);
             }
             catch (Exception e)
@@ -212,7 +225,8 @@ namespace CoreUI.Web.Controllers
                     var clientes = await _clientService.FindAllAsync(accessLevel, empId);
                     var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                     var funcionarios = await _employeeService.FindAllAsync();
-                    var viewModel = new HourFormViewModel { Projects = projetos, Employees = funcionarios, Clients = clientes };
+                    var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+                    var viewModel = new HourFormViewModel { Projects = projetos, Employees = funcionarios, Clients = clientes, Locality = localities };
                 }
 
                 hour.File = string.Empty;
@@ -273,7 +287,9 @@ namespace CoreUI.Web.Controllers
                 var clients = await _clientService.FindAllAsync(id, Employee_Id);
                 var projects = await _projectService.FindProjectAsync(empId, accessLevel);
                 var employees = await _employeeService.FindEmployeesAsync();
-                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients };
+                var description = await _context.Description.Where(x => x.Active == 1).ToListAsync();
+                var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+                var viewModel = new HourFormViewModel { Hour = hour, Projects = projects, Employees = employees, Clients = clients, Description = description, Locality = localities };
 
                 return View(viewModel);
             }

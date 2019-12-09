@@ -174,23 +174,7 @@
                       @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
-                      @{
-                          switch (item.Description)
-                          {
-                            case 1:
-                            @Html.DisplayName("Dia útil");
-                              break;
-
-                            case 2:
-                            @Html.DisplayName("Férias");
-                              break;
-
-                            case 3:
-                            @Html.DisplayName("Licença");
-                              break;
-                          }
-
-                      }
+                      @Html.DisplayFor(modelItem => item.Description_Name)
                     </td>
                     <td>
                       @Html.DisplayFor(modelItem => item.Arrival_Time)
@@ -241,7 +225,7 @@
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
-                        <button class="btn btn-ghost-warning" onclick="Modal(`/Hours/Details/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`)"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-ghost-warning" onclick="Modal(`/Hours/Details/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET')"><i class="fa fa-search"></i></button>
 
                         @{
                             if (item.Approval <= 1)

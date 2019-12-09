@@ -14,6 +14,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Diagnostics;
 
 namespace CoreUI.Web.Controllers
 {
@@ -66,9 +67,9 @@ namespace CoreUI.Web.Controllers
                 var result = await _employeeService.FindAllAsync();
                 return View(result);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
         }
@@ -114,9 +115,9 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -150,9 +151,9 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(employee);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
 
@@ -183,9 +184,9 @@ namespace CoreUI.Web.Controllers
                 var viewModel = new EmployeeFormViewModel { Employee = employee, Access_Level = accessLevel };
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -223,9 +224,9 @@ namespace CoreUI.Web.Controllers
                 return View(employee);
             }
 
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
         }
@@ -290,6 +291,17 @@ namespace CoreUI.Web.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employee.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }

@@ -130,10 +130,10 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
 
@@ -167,10 +167,10 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
 
@@ -201,10 +201,10 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(project_team);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
 
@@ -244,10 +244,10 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -280,7 +280,7 @@ namespace CoreUI.Web.Controllers
                         _context.Update(project_team);
                         await _context.SaveChangesAsync();
                     }
-                    catch (DbUpdateConcurrencyException)
+                    catch (DbUpdateConcurrencyException e)
                     {
                         if (!Project_teamExists(project_team.Id))
                         {
@@ -288,17 +288,17 @@ namespace CoreUI.Web.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Error", "Home");
+                            return RedirectToAction(nameof(Error), new {message = e.Message});
                         }
                     }
                     return RedirectToAction(nameof(Index), new { clients, projects, employees});
                 }
                 return View(project_team);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
 
@@ -331,10 +331,10 @@ namespace CoreUI.Web.Controllers
 
                 return View(project_team);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
 
@@ -360,10 +360,10 @@ namespace CoreUI.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new {clients, projects, employees});
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 

@@ -2,15 +2,24 @@
     cursor: pointer;
 }
 
-table thead tr:first-child th {
-    border: 1px solid #000;
+table {
+    width: 100% !important;
 }
 
-table thead tr:first-child {
-    background-color: #EF8223;
-    color: #fff;
-    /*color: rgb(255, 255, 255);*/
-}
+    table thead tr:first-child th {
+        border: 1px solid #000;
+    }
+
+    table thead tr:first-child {
+        background-color: #EF8223;
+        color: #fff;
+        /*color: rgb(255, 255, 255);*/
+    }
+
+@media (max-width: 575px) {
+    .imgLogo {
+        margin-right: 100% !important;
+    }
 
 /*
     table thead tr:first-child th, table thead tr:first-child, table {

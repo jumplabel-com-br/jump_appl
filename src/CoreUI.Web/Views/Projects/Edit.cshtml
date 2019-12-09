@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Edit";
+  Layout = "";
 }
 
 
@@ -13,18 +14,20 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Editar projeto
           <div class="card-header-actions">
+            <!--
             <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
+            -->
           </div>
         </div>
         <div class="card-body">
           <form id="projectForm" asp-action="Edit">
             <input type="hidden" asp-for="Project.Id" />
             <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
+              <div class="input-group col-12" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -36,7 +39,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Cliente">
+              <div class="input-group col-12" title="Cliente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -50,7 +53,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Gerente responsável">
+              <div class="input-group col-12" title="Gerente responsável">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -64,7 +67,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Gerente">
+              <div class="input-group col-12" title="Gerente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user-circle"></i>
@@ -78,7 +81,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-5" title="Centro de custo">
+              <div class="input-group col-6" title="Centro de custo">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-money"></i>
@@ -90,7 +93,7 @@
                 <span asp-validation-for="Project.Cost_Center_Id" class="text-danger col-12"></span>
               </div>
 
-              <div class="input-group col-5" title="Ativo">
+              <div class="input-group col-6" title="Ativo">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-check-square-o"></i>
@@ -110,7 +113,7 @@
             <input type="hidden" name="Manager" id="Manager" value="@ViewBag.Manager">
             <input type="hidden" name="Manager_Project" id="Manager_Project" value="@ViewBag.Manager_Project">
 
-            <div class="form-group form-actions text-right col-10">
+            <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="ProjectFormSubmit();">Salvar</button>
             </div>

@@ -140,9 +140,10 @@
             <input type="hidden" name="employees" id="employees" value="@ViewBag.Employees" />
             <input type="hidden" name="month" id="month" value="@ViewBag.Month" />
             <input type="hidden" name="year" id="year" value="@ViewBag.Year" />
+
             <div class="form-group form-actions text-right col-12 mt-3">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="OutlaysSubmit();">Criar</button>
+              <button type="submit" class="btn btn-sm btn-warning" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+              <button type="button" class="btn btn-sm btn-success" onclick="OutlaysSubmit();">Criar</button>
             </div>
           </form>
         </div>

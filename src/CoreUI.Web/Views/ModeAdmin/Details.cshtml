@@ -72,12 +72,10 @@
                     <i class="fa fa-calendar-check-o"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide()" disabled>
+                <select asp-for="Hour.Description" asp-items="@(new SelectList(Model.Description, "Id", "Name"))" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValBilling(this.value)" disabled>
                   <option value="">Selecione</option>
-                  <option value="1">Dia útil</option>
-                  <option value="2">Férias</option>
-                  <option value="3">Licença</option>
                 </select>
+                <span style="display: none" asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12">Descrição inválida</span>
               </div>
             </div>
 
@@ -96,6 +94,19 @@
                 {
                   <a class="ml-2 mt-1">@Model.Hour.File</a>
                 }
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Localidade">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.LocalityId" asp-items="@(new SelectList(Model.Locality, "Id", "Name"))" class="form-control" disabled>
+                </select>
+                <span style="display: none" asp-validation-for="Hour.LocalityId" name="locality_id" id="locality_id" class="text-danger text-danger-span  col-12">Descrição inválida</span>
               </div>
             </div>
 

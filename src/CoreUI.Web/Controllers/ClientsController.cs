@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace CoreUI.Web.Controllers
 {
@@ -45,9 +46,9 @@ namespace CoreUI.Web.Controllers
                     .OrderBy(x => x.Name)
                     .ToListAsync());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
             
         }
@@ -78,9 +79,9 @@ namespace CoreUI.Web.Controllers
 
                 return View(client);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -98,9 +99,9 @@ namespace CoreUI.Web.Controllers
             {
                 return View();
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
             
         }
@@ -129,9 +130,9 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(client);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
             
         }
@@ -161,9 +162,9 @@ namespace CoreUI.Web.Controllers
                 return View(client);
 
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -210,9 +211,9 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(client);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -242,9 +243,9 @@ namespace CoreUI.Web.Controllers
 
                 return View(client);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -267,9 +268,9 @@ namespace CoreUI.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
             
         }
@@ -294,6 +295,17 @@ namespace CoreUI.Web.Controllers
         private bool ClientExists(int id)
         {
             return _context.Client.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }

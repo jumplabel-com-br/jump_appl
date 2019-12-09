@@ -230,23 +230,7 @@
                         @Html.DisplayFor(modelItem => item.Date)
                       </td>
                       <td>
-                        @{
-                          switch (item.Description)
-                          {
-                            case 1:
-                              @Html.DisplayName("Dia útil");
-                              break;
-
-                            case 2:
-                              @Html.DisplayName("Férias");
-                              break;
-
-                            case 3:
-                              @Html.DisplayName("Licença");
-                              break;
-                          }
-
-                        }
+                       @Html.DisplayFor(modelItem => item.Description_Name)
                       </td>
                       <td>
                         @Html.DisplayFor(modelItem => item.Client)

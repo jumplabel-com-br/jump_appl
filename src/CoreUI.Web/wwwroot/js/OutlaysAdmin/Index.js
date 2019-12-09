@@ -72,9 +72,9 @@ $('.notesValues').each(function () {
     this.textContent.substr(0, 1) == ',' || this.textContent.substr(0, 1) == '.'? this.textContent = this.textContent.replace(/,|./, '') : '';
 })
 
-$('#searchMothDataTable').val($('#Month').val())
-$('#searchYearDataTable').val($('#Year').val())
+$('#searchMothDataTable').val($('#Month').val());
+$('#searchYearDataTable').val($('#Year').val());
 $('#status').val($('#Status').val());
-$('#clients').val($('#Clients').val())
-$('#projects').val($('#Projects').val())
-$('#employees').val($('#Employees').val())
+$('#clients').val($('#Clients').val());
+$('#projects').val($('#Projects').val());
+$('#employees').val($('#Employees').val());

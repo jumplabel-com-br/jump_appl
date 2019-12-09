@@ -115,7 +115,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Outlays/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -127,11 +127,18 @@ namespace CoreUI.Web.Controllers
             int AcessLevel = ViewBag.AcessLevel;
             int employeeId = ViewBag.id;
 
-            //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
-            var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
+            ViewBag.Month = month;
+            ViewBag.Year = year;
+            ViewBag.Status = status;
+            ViewBag.Clients = clients;
+            ViewBag.Projects = projects;
+            ViewBag.Employees = employees;
 
-            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects };
+            //var employees = _employeeService.FindAllAsync();
+            var projetos = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var clientes = await _clienteService.FindAllAsync(AcessLevel, employeeId);
+
+            var ViewModel = new OutlaysFormViewModel { Clients = clientes, Projects = projetos };
             return View(ViewModel);
         }
 
@@ -140,7 +147,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Employee_Id,Project_Id,Client_Id,Date,NoteNumber,NoteValue,Description,File,Status")] Outlays outlays, IFormFile Document)
+        public async Task<IActionResult> Create([Bind("Id,Employee_Id,Project_Id,Client_Id,Date,NoteNumber,NoteValue,Description,File,Status")] Outlays outlays, IFormFile Document, int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -179,7 +186,7 @@ namespace CoreUI.Web.Controllers
 
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { status, clients, projects, employees, month, year});
                 }
             }
             catch (DbUpdateConcurrencyException e)
@@ -218,7 +225,7 @@ namespace CoreUI.Web.Controllers
         }
 
         // GET: Outlays/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -235,12 +242,19 @@ namespace CoreUI.Web.Controllers
             int accessLevel = ViewBag.AcessLevel;
             int employeeId = ViewBag.Id;
 
+            ViewBag.Month = month;
+            ViewBag.Year = year;
+            ViewBag.Status = status;
+            ViewBag.Clients = clients;
+            ViewBag.Projects = projects;
+            ViewBag.Employees = employees;
+
             var outlays = await _context.Outlays.FindAsync(id);
             //var employees = _employeeService.FindAllAsync();
-            var projects = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
-            var clients = await _clienteService.FindAllAsync(accessLevel, employeeId);
+            var projetos = await _projectService.FindProjectAsync(ViewBag.Id, ViewBag.AcessLevel);
+            var clientes = await _clienteService.FindAllAsync(accessLevel, employeeId);
 
-            var ViewModel = new OutlaysFormViewModel { Clients = clients, Projects = projects, Outlays = outlays };
+            var ViewModel = new OutlaysFormViewModel { Clients = clientes, Projects = projetos, Outlays = outlays };
 
             if (outlays == null)
             {
@@ -254,7 +268,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Employee_Id,Project_Id,Client_Id,Date,NoteNumber,NoteValue,Description,File,Status")] Outlays outlays, IFormFile Document)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Employee_Id,Project_Id,Client_Id,Date,NoteNumber,NoteValue,Description,File,Status")] Outlays outlays, IFormFile Document, int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -313,7 +327,7 @@ namespace CoreUI.Web.Controllers
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id, status, clients, projects, employees, month, year});
             //return View(outlays);
         }
 
@@ -338,7 +352,7 @@ namespace CoreUI.Web.Controllers
         // POST: Outlays/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? status, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
 
@@ -350,7 +364,7 @@ namespace CoreUI.Web.Controllers
             var outlays = await _context.Outlays.FindAsync(id);
             _context.Outlays.Remove(outlays);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { status, clients, projects, employees, month, year});
         }
 
         public void GetSessions()

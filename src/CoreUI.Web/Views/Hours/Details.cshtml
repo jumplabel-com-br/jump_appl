@@ -1,4 +1,4 @@
-﻿@model CoreUI.Web.Models.Hour
+﻿@model CoreUI.Web.Models.ViewModel.HourFormViewModel
 
 @{
   ViewData["Title"] = "Details";
@@ -13,18 +13,14 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Detalhe do lançamento
           <div class="card-header-actions">
-            <!--
-            <a asp-action="Create">
-              <input type="hidden" asp-for="@@ViewData["Email"]" />
-              <input type="hidden" asp-for="@@ViewData["Password"]" />
+            <button type="button" class="btn btn-sm btn-ghost-primary" onclick="Modal(`Hours/Create?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET')">
               <i class="fa fa-plus"></i>
-            </a>
-            -->
+            </button>
           </div>
         </div>
         <div class="card-body">
           <form asp-action="Edit">
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Hour.Id" />
 
             <div class="form-group row">
               <div class="input-group col-12" title="Projeto">
@@ -33,8 +29,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Project" class="form-control" readonly />
-                <span asp-validation-for="Project" class="text-danger col-12"></span>
+                <input asp-for="Hour.Project" class="form-control" readonly />
               </div>
             </div>
 
@@ -45,11 +40,8 @@
                     <i class="fa fa-calendar-check-o"></i>
                   </span>
                 </div>
-                <select asp-for="Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide()" disabled>
+                <select asp-for="Hour.Description" asp-items="@(new SelectList(Model.Description, "Id", "Name"))" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValBilling(this.value)" disabled>
                   <option value="">Selecione</option>
-                  <option value="1">Dia útil</option>
-                  <option value="2">Férias</option>
-                  <option value="3">Licença</option>
                 </select>
               </div>
             </div>
@@ -61,14 +53,27 @@
                     <i class="fa fa-file-text-o"></i>
                   </span>
                 </div>
-                @if (@Model.File != "Sem Documento")
+                @if (@Model.Hour.File != "Sem Documento")
                 {
-                  <a href="~/Files/Hour/@Model.File" download="" class="ml-2 mt-1">@Model.File</a>
+                  <a href="~/Files/Hour/@Model.Hour.File" download="" class="ml-2 mt-1">@Model.Hour.File</a>
                 }
                 else
                 {
-                  <a class="ml-2 mt-1">@Model.File</a>
+                  <a class="ml-2 mt-1">@Model.Hour.File</a>
                 }
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Localidade">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.LocalityId" asp-items="@(new SelectList(Model.Locality, "Id", "Name"))" class="form-control" disabled>
+                </select>
+                <span style="display: none" asp-validation-for="Hour.LocalityId" name="locality_id" id="locality_id" class="text-danger text-danger-span  col-12">Descrição inválida</span>
               </div>
             </div>
 
@@ -79,8 +84,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input asp-for="Date" class="form-control" readonly />
-                <span asp-validation-for="Date" class="text-danger col-12"></span>
+                <input asp-for="Hour.Date" class="form-control" readonly />
               </div>
             </div>
 
@@ -91,8 +95,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Start_Time" class="form-control" onchange="calculaHoraEdit()" readonly />
-                <span asp-validation-for="Start_Time" class="text-danger col-12"></span>
+                <input asp-for="Hour.Start_Time" class="form-control" onchange="calculaHoraEdit()" readonly />
               </div>
 
               <div class="input-group col-2" title="Pausa para o almoço">
@@ -101,8 +104,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Stop_Time" class="form-control" onchange="calculaHoraEdit()" readonly />
-                <span asp-validation-for="Stop_Time" class="text-danger col-12"></span>
+                <input asp-for="Hour.Stop_Time" class="form-control" onchange="calculaHoraEdit()" readonly />
               </div>
 
               <div class="input-group col-2" title="Volta do almoço">
@@ -111,8 +113,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Start_Time_2" class="form-control" onchange="calculaHoraEdit()" readonly />
-                <span asp-validation-for="Start_Time_2" class="text-danger col-12"></span>
+                <input asp-for="Hour.Start_Time_2" class="form-control" onchange="calculaHoraEdit()" readonly />
               </div>
 
               <div class="input-group col-2" title="Hora de saída">
@@ -121,8 +122,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Stop_Time_2" class="form-control" onchange="calculaHoraEdit()" readonly />
-                <span asp-validation-for="Stop_Time_2" class="text-danger col-12"></span>
+                <input asp-for="Hour.Stop_Time_2" class="form-control" onchange="calculaHoraEdit()" readonly />
               </div>
 
               <div class="input-group col-2" title="Total de horas">
@@ -131,8 +131,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="Total_Activies_Hours" class="form-control" readonly />
-                <span asp-validation-for="Total_Activies_Hours" class="text-danger col-12"></span>
+                <input asp-for="Hour.Total_Activies_Hours" class="form-control" readonly />
               </div>
             </div>
 
@@ -143,16 +142,16 @@
                     <i class="fa fa-list-ul"></i>
                   </span>
                 </div>
-                <textarea asp-for="Activies" class="form-control" placeholder="Atividades" style="height:100px;" readonly></textarea>
-                <span asp-validation-for="Activies" class="text-danger col-12"></span>
+                <textarea asp-for="Hour.Activies" class="form-control" placeholder="Atividades" style="height:100px;" readonly></textarea>
+                <span asp-validation-for="Hour.Activies" class="text-danger col-12"></span>
               </div>
             </div>
 
-            <input type="hidden" asp-for="Project" class="form-control" />
-            <input type="hidden" asp-for="Consultant" />
-            <input type="hidden" asp-for="Id_Project" />
-            <input type="hidden" asp-for="Employee_Id" />
-            <input type="hidden" asp-for="Creation_Date" />
+            <input type="hidden" asp-for="Hour.Project" class="form-control" />
+            <input type="hidden" asp-for="Hour.Consultant" />
+            <input type="hidden" asp-for="Hour.Id_Project" />
+            <input type="hidden" asp-for="Hour.Employee_Id" />
+            <input type="hidden" asp-for="Hour.Creation_Date" />
             <div class="form-group form-actions text-right">
               <div class="col-12">
                 <button class="btn btn-sm btn-warning" data-dismiss="modal" aria-label="Close">Voltar</button>

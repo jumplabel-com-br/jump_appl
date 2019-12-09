@@ -93,6 +93,11 @@ namespace CoreUI.Web.Models.List
 
         [Display(Name = "Atividade")]
         public int Description { get; set; }
+
+        [Display(Name = "Atividade")]
+        public string Description_Name { get; set; }
         public int Billing { get; set; }
+        public string File { get; set; }
+        public int LocalityId { get; set; }
     }
 }

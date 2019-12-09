@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Create";
+    Layout = "";
 }
 
 
@@ -19,7 +20,7 @@
           <form enctype="multipart/form-data" id="OutlaysForm" asp-action="Edit">
             <input type="hidden" asp-for="Outlays.Id" />
             <div class="form-group row">
-              <div class="input-group col-10" title="Cliente">
+              <div class="input-group col-12" title="Cliente">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -32,7 +33,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Projeto">
+              <div class="input-group col-12" title="Projeto">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -45,7 +46,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Funcionário">
+              <div class="input-group col-12" title="Funcionário">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-user"></i>
@@ -58,7 +59,7 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-5" title="Data">
+              <div class="input-group col-6" title="Data">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -67,7 +68,7 @@
                 <input disabled asp-for="Outlays.Date" class="form-control" placeholder="Data" />
               </div>
 
-              <div class="input-group col-5" title="Número da nota">
+              <div class="input-group col-6" title="Número da nota">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-pencil"></i>
@@ -78,7 +79,7 @@
             </div>
 
             <div class="row">
-              <div class="input-group col-5" title="Valor da nota">
+              <div class="input-group col-6" title="Valor da nota">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-usd"></i>
@@ -87,7 +88,7 @@
                 <input disabled asp-for="Outlays.NoteValue" class="form-control" placeholder="Valor da nota" />
               </div>
 
-              <div class="input-group col-5" title="Arquivo">
+              <div class="input-group col-6" title="Arquivo">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-file"></i>
@@ -106,7 +107,7 @@
             </div>
 
             <div class="row mt-3">
-              <div class="input-group col-10" title="Descrição">
+              <div class="input-group col-12" title="Descrição">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-list"></i>
@@ -118,7 +119,7 @@
 
             <!--
   <div class="form-group row">
-    <div class="input-group col-10" title="Projeto">
+    <div class="input-group col-12" title="Projeto">
       <div class="input-group-prepend">
         <span class="input-group-text">
           <i class="fa fa-user"></i>
@@ -130,8 +131,8 @@
     </div>
   </div>
   -->
-            <div class="form-group form-actions text-right col-10 mt-3">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+            <div class="form-group form-actions text-right col-12 mt-3">
+              <button  type="button" class="btn btn-sm btn-warning" onclick="$('.modalIndex').modal('hide')">Voltar</button>
             </div>
           </form>
         </div>

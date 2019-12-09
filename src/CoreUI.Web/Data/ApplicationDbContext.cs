@@ -20,6 +20,8 @@ namespace CoreUI.Web.Models
         public DbSet<Client> Client { get; set; }
         public DbSet<Project_team> Project_team { get; set; }
         public DbSet<Outlays> Outlays { get; set; }
+        public DbSet<Description> Description { get; set; }
+        public DbSet<Locality> Locality { get; set; }
 
 
     }

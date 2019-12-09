@@ -13,11 +13,6 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Edição do lançamento
           <div class="card-header-actions">
-            <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
-              <i class="fa fa-plus"></i>
-            </a>
           </div>
         </div>
         <div class="card-body">
@@ -65,19 +60,16 @@
             </div>
 
             <div class="form-group row">
-              <div class="input-group col-10" title="Descrição">
+              <div class="input-group col-12" title="Descrição">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar-check-o"></i>
                   </span>
                 </div>
-                <select asp-for="Hour.Description" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValBilling(this.value)">
+                <select asp-for="Hour.Description" asp-items="@(new SelectList(Model.Description, "Id", "Name"))" class="form-control" onchange="this.value == 3 ? $('.divDocument').show() : $('.divDocument').hide(); setValBilling(this.value)">
                   <option value="">Selecione</option>
-                  <option value="1">Dia útil</option>
-                  <option value="2">Férias</option>
-                  <option value="3">Licença</option>
                 </select>
-                <span asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12">Descrição inválida</span>
+                <span style="display: none" asp-validation-for="Hour.Description" name="descricao_hour" id="descricao_hour" class="text-danger text-danger-span  col-12">Descrição inválida</span>
               </div>
             </div>
 
@@ -91,6 +83,20 @@
                 <input type="file" name="Document" id="Document" class="ml-2" />
                 <input type="hidden" asp-for="Hour.File" />
                 <span name="document_hour" id="document_hour" class="text-danger text-danger-span  col-12">Documento inválido</span>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Localidade">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar-check-o"></i>
+                  </span>
+                </div>
+                <select asp-for="Hour.LocalityId" asp-items="@(new SelectList(Model.Locality, "Id", "Name"))" class="form-control">
+                </select>
+                <span style="display: none" asp-validation-for="Hour.LocalityId" name="locality_id" id="locality_id" class="text-danger text-danger-span  col-12">Descrição inválida</span>
               </div>
             </div>
 

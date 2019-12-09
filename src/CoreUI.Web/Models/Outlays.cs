@@ -9,8 +9,14 @@ namespace CoreUI.Web.Models
     public class Outlays
     {
         public int Id { get; set; }
+
+        [Display(Name = "Funcionário")]
         public int Employee_Id { get; set; }
+
+        [Display(Name = "Projeto")]
         public int Project_Id { get; set; }
+
+        [Display(Name = "Cliente")]
         public int Client_Id { get; set; }
 
         [Display(Name = "Data")]
@@ -27,6 +33,8 @@ namespace CoreUI.Web.Models
 
         [Display(Name = "Descrição")]
         public string Description { get; set; }
+
+        [Display(Name = "Arquivo")]
         public string File { get; set; }
         public int Status { get; set; }
 

@@ -120,7 +120,7 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
                 return RedirectToAction(nameof(Error));
@@ -155,7 +155,7 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
                 return RedirectToAction(nameof(Error));
@@ -187,7 +187,7 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(project);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
                 return RedirectToAction(nameof(Error));
@@ -282,7 +282,7 @@ namespace CoreUI.Web.Controllers
                 }
                 return View(project);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
                 return RedirectToAction(nameof(Error));
@@ -315,7 +315,7 @@ namespace CoreUI.Web.Controllers
 
                 return View(project);
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
                 return RedirectToAction(nameof(Error));
@@ -343,7 +343,7 @@ namespace CoreUI.Web.Controllers
 
                 return RedirectToAction(nameof(Index), new { clients, projects, manager_project, manager });
             }
-            catch (Exception)
+             catch (Exception e)
             {
 
                 return RedirectToAction(nameof(Error));

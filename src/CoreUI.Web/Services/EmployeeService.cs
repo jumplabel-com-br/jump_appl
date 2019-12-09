@@ -21,7 +21,22 @@ namespace CoreUI.Web.Services
 
         public async Task<List<Employee>> FindAllAsync()
         {
-            return await _context.Employee
+            var result = from employees in _context.Employee
+                         select new Employee()
+                         {
+                             Id = employees.Id == null ? 0 : employees.Id,
+                             Email = employees.Email == null ? "" : employees.Email,
+                             Name = employees.Name == null ? "" : employees.Name,
+                             Document = employees.Document == null ? "" : employees.Document,
+                             Contract_Mode = employees.Contract_Mode == null ? "" : employees.Contract_Mode,
+                             Active = employees.Active == null ? 0 : employees.Active,
+                             Appointment = employees.Appointment == null ? 0 : employees.Appointment,
+                             Password = employees.Password == null ? "" : employees.Password,
+                             Change_Password = employees.Change_Password == null ? 0 : employees.Change_Password,
+                             Access_LevelId = employees.Access_LevelId == null ? 0 : employees.Access_LevelId
+                         };
+
+            return await result
                 .Where(x => x.Active == 1)
                 .OrderBy(x => x.Name)
                 .ToListAsync();

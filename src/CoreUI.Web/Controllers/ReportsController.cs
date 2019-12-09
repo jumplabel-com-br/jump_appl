@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreUI.Web.Models;
@@ -86,7 +87,7 @@ namespace CoreUI.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
         }
 
@@ -99,9 +100,23 @@ namespace CoreUI.Web.Controllers
                 return ExpiredSession();
             }
 
-            var ViewModel = await _outlaysService.FindAllAsync(status, clients, projects, employees, month, year);
+            int empId = ViewBag.Id;
+            var accessLevel = ViewBag.AcessLevel;
 
-            return View(ViewModel);
+            var despesas = await _outlaysService.FindAllAsync(status, clients, projects, employees, month, year);
+            var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+            var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
+            var funcionarios = await _employeeService.FindAllAsync();
+            var viewModel = new OutlaysFormViewModel { Outlay = despesas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+
+            ViewBag.Month = month;
+            ViewBag.Year = year;
+            ViewBag.Status = status;
+            ViewBag.Clients = clients;
+            ViewBag.Projects = projects;
+            ViewBag.Employees = employees;
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> DetailsModeAdmin(int? id, int Employee_Id, int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
@@ -141,9 +156,9 @@ namespace CoreUI.Web.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception)
+             catch (Exception e)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction(nameof(Error), new {message = e.Message});
             }
 
         }
@@ -217,6 +232,17 @@ namespace CoreUI.Web.Controllers
         {
             HttpContext.Session.SetString(SessionExpired, "true");
             return RedirectToAction("Index", "Home", "Index");
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }

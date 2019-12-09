@@ -1,4 +1,5 @@
-﻿using CoreUI.Web.Models.List;
+﻿
+using CoreUI.Web.Models.List;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace CoreUI.Web.Models.ViewModel
         public ICollection<Project> Projects { get; set; }
         public ICollection<ListProject> ListProjects { get; set; }
         public ICollection<Employee> Employees { get; set; }
+        public ICollection<Description> Description { get; set; }
+        public ICollection<Locality> Locality { get; set; }
 
     }
 }

@@ -21,6 +21,9 @@
                 <i class="fa fa-plus"></i>
               </a>
               -->
+              <button type="button" class="btn btn-ghost-primary" onclick="Modal(`Projects/Create?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+                <i class="fa fa-plus"></i>
+              </button>
             </div>
           </div>
           <div class="card-body">
@@ -91,40 +94,44 @@
               <tbody id="tbodyHour">
                 @foreach (var item in Model.ListProject)
                 {
-                  <tr>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Client)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Project)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Project_Manager)
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => item.Manager)
-                    </td>
-                    <td>
-                      @{
+                <tr>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Client)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Project)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Project_Manager)
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => item.Manager)
+                  </td>
+                  <td>
+                    @{
                         if (item.Status == "1")
                         {
-                          @Html.DisplayName("Ativo")
+                      @Html.DisplayName("Ativo")
                         }
                         else
                         {
-                          @Html.DisplayName("Inativo")
+                      @Html.DisplayName("Inativo")
                         }
-                      }
-                    </td>
+                    }
+                  </td>
 
-                    <td colspan="2">
-                      <div class="row ml-0">
-                        <a class="btn btn-ghost-warning" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
-                        <a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                        <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </td>
-                  </tr>
+                  <td colspan="2">
+                    <div class="row ml-0">
+                      <button type="button" class="btn btn-ghost-warning" onclick="Modal(`/Projects/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+                        <i class="fa fa-search"></i>
+                      </button>
+                      <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Projects/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </td>
+                </tr>
                 }
               </tbody>
             </table>
