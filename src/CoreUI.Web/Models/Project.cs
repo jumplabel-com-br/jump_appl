@@ -20,7 +20,7 @@ namespace CoreUI.Web.Models
         [Display(Name = "Status")]
         public int Active { get; set; }
 
-        [Display(Name = "Gerente do projeto")]
+        [Display(Name = "Gerente de projeto")]
         public int Project_Manager_Id { get; set; }
 
         [Display(Name = "Gerente")]

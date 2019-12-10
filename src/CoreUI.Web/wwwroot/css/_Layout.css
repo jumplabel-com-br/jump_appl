@@ -20,7 +20,11 @@ table {
     .imgLogo {
         margin-right: 100% !important;
     }
+}
 
+form > label {
+    width: 200px !important;
+}
 /*
     table thead tr:first-child th, table thead tr:first-child, table {
         -webkit-print-color-adjust: exact;

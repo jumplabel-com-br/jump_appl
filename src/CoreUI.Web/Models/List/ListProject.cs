@@ -26,7 +26,7 @@ namespace CoreUI.Web.Models.List
         public int Project_Manager_Id { get; set; }
         public int Manager_Id { get; set; }
 
-        [Display(Name = "Gerente do projeto")]
+        [Display(Name = "Gerente de projeto")]
         public string Project_Manager { get; set; }
         [Display(Name = "Gerente")]
         public string Manager { get; set; }

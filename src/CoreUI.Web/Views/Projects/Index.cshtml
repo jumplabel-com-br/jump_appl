@@ -21,7 +21,7 @@
                 <i class="fa fa-plus"></i>
               </a>
               -->
-              <button type="button" class="btn btn-ghost-primary" onclick="Modal(`Projects/Create?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+              <button type="button" class="btn btn-ghost-primary" onclick="Modal(`Projects/Create?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val() != undefined > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val() != undefined > 0 ? $('#manager').val(): null}`, 'GET')">
                 <i class="fa fa-plus"></i>
               </button>
             </div>
@@ -51,10 +51,10 @@
                     </label>
 
                     @{
-                      if (ViewBag.AcessLevel == 3)
+                      if (ViewBag.AcessLevel == 1)
                       {
                         <label>
-                          Gerente do projeto:
+                          Gerente de projeto:
                           <select name="manager_project" id="manager_project" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" class="form-control">
                             <option value="">Selecione</option>
                           </select>
@@ -127,10 +127,10 @@
 
                   <td colspan="2">
                     <div class="row ml-0">
-                      <button type="button" class="btn btn-ghost-warning" onclick="Modal(`/Projects/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+                      <button type="button" class="btn btn-ghost-warning" onclick="Modal(`/Projects/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val() != undefined > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val() != undefined > 0 ? $('#manager').val(): null}`, 'GET')">
                         <i class="fa fa-search"></i>
                       </button>
-                      <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Projects/Edit/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+                      <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Projects/Edit/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val() != undefined > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val() != undefined ? $('#manager').val(): null}`, 'GET')">
                         <i class="fa fa-edit"></i>
                       </button>
                       <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>

@@ -429,7 +429,6 @@ namespace CoreUI.Web.Controllers
                 billing = 0;
             }
 
-
             string queryString = "update Hour set Billing = " + billing + " where Id = " + id + "";
             ExecuteQuery(queryString);
         }
