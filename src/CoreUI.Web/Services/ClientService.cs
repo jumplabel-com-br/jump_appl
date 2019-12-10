@@ -21,15 +21,25 @@ namespace CoreUI.Web.Services
         {
             var result = from client in _context.Client
                          select client;
-
+            /*
             if (accessLevel == 2)
             {
                 result = from client in _context.Client
                   join project in _context.Project on client.Id equals project.Client_Id
+                  join projectTeam
                   where project.Project_Manager_Id == employeeId
                   select client;
             }
-            
+            */
+
+            if (accessLevel == 2 || accessLevel == 3)
+            {
+                result = from client in _context.Client
+                         join project in _context.Project on client.Id equals project.Client_Id
+                         join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+                         where projectTeam.Employee_Id == employeeId
+                         select client;
+            }
                          
             return await result
                 .OrderBy(x => x.Name)

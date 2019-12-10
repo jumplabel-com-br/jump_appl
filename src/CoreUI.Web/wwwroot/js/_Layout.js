@@ -716,3 +716,111 @@ function Create(url, form) {
 function Update(url, form) {
     Create(url, form)
 }
+
+
+function ReturnAjaxAPI(url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (datas) {
+            //console.log("success");
+            data = datas;
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
+function Projects() {
+    let arr = [];
+
+    ReturnAjaxAPI('/api/Project_teamAPI');
+    arrProjectTeam = data;
+
+    ReturnAjaxAPI('/api/ProjectsAPI?clientId=' + $('#clients').val() + '&accessLevel=' + accessLevel + '&employeeId=' + employee);
+    arrProjects = data;
+
+    arrProjectTeam = arrProjectTeam.filter(obj => obj.employee_Id == employee)
+
+    arr = arrProjectTeam.concat(arrProjects)
+    arr = arr.filter(obj => obj.client_Id == $('#clients').val());
+    $('#projects').html(SelectProject(arr))
+}
+
+function Employees() {
+    let arr = [];
+    let count = [];
+    var employees = []
+    arrProjectTeam;
+
+    ReturnAjaxAPI('/api/EmployeesAPI?projectId=' + $('#projects').val());
+    arrEmployees = data;
+
+
+
+    $('#employees').html(SelectEmployee(arrEmployees))
+}
+
+
+
+function SelectProject(model) {
+
+    if (model.length == 0) {
+        return `<option value="">Sem projeto para este cliente</option>`
+    }
+    else {
+        return `
+        <option value="">Selecione o projeto</option>
+        ${model.map(obj => {
+            return `
+            <option value="${obj.id}"> ${obj.project_Name} </option>
+        `}).join('')}
+        `
+    }
+}
+
+function SelectEmployee(model) {
+    if (model.length == 0) {
+        return `<option value="">Sem funcionário para este projeto</option>`
+    }
+    else {
+        return `
+        <option value="">Selecione o funcionário</option>
+        ${model.map(obj => {
+            return `
+            <option value="${obj.id}"> ${obj.name} </option>
+        `}).join('')}
+        `
+    }
+}
+
+
+$('#clients').on('change', function () {
+    if (this.value == '') {
+        $('#projects').val('');
+        $('#projects').attr('disabled', true);
+        $('#employees').length > 0 ? $('#employees').attr('disabled', true) : '';
+        $('#employees').length > 0 ? $('#employees').val('') : '';
+
+    } else {
+        Projects();
+        $('#projects').attr('disabled', false);
+    }
+});
+
+$('#projects').on('change', function () {
+    if (this.value == '') {
+        $('#employees').length > 0 ? $('#employees').attr('disabled', true) : '';
+
+    } else {
+        $('#employees').length > 0 ? Employees() : '';
+        $('#employees').length > 0 ? $('#employees').attr('disabled', false) : '';
+    }
+});
+
+$('#projects').attr('disabled', true);
+$('#employees').attr('disabled', true)

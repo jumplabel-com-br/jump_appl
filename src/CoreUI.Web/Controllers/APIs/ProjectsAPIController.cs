@@ -22,9 +22,66 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/ProjectsAPI
         [HttpGet]
-        public IEnumerable<Project> GetProject()
+        public IEnumerable<Project> GetProject(int? clientId, int? accessLevel, int? employeeId)
         {
-            return _context.Project.OrderBy(x => x.Project_Name).Distinct();
+            if (clientId.HasValue && accessLevel == 3)
+            {
+                var result = from project in _context.Project
+                             join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+                             join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
+                             where project.Client_Id == clientId
+                             && projectTeam.Employee_Id == employeeId
+                             //where employee.Id == employeeId && projectTeam.Employee_Id == employeeId
+
+                             select new Project()
+                             {
+                                 Id = project.Id,
+                                 Project_Name = project.Project_Name == null ? "" : project.Project_Name,
+                                 Client_Id = project.Client_Id == null ? 0 : project.Client_Id,
+                                 Cost_Center_Id = project.Cost_Center_Id == null ? 0 : project.Cost_Center_Id,
+                                 Active = project.Active == null ? 0 : project.Active,
+                                 Project_Manager_Id = project.Project_Manager_Id == null ? 0 : project.Project_Manager_Id,
+                                 Manager_Id = project.Manager_Id == null ? 0 : project.Manager_Id
+                             };
+
+                return result
+               .OrderBy(x => x.Project_Name)
+               .Distinct();
+            }
+
+            if (clientId.HasValue && accessLevel == 2)
+            {
+                var result = from project in _context.Project
+                             join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+                             join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
+                             where project.Client_Id == clientId
+                             && project.Project_Manager_Id == employeeId
+                             //where employee.Id == employeeId && projectTeam.Employee_Id == employeeId
+
+                             select new Project()
+                             {
+                                 Id = project.Id,
+                                 Project_Name = project.Project_Name == null ? "" : project.Project_Name,
+                                 Client_Id = project.Client_Id == null ? 0 : project.Client_Id,
+                                 Cost_Center_Id = project.Cost_Center_Id == null ? 0 : project.Cost_Center_Id,
+                                 Active = project.Active == null ? 0 : project.Active,
+                                 Project_Manager_Id = project.Project_Manager_Id == null ? 0 : project.Project_Manager_Id,
+                                 Manager_Id = project.Manager_Id == null ? 0 : project.Manager_Id
+                             };
+
+                return result
+               .OrderBy(x => x.Project_Name)
+               .Distinct();
+            }
+            else
+            {
+                var result = _context.Project.OrderBy(x => x.Project_Name).Distinct();
+                return result
+               .OrderBy(x => x.Project_Name)
+               .Distinct();
+            }
+
+
         }
 
         // GET: api/ProjectsAPI/5

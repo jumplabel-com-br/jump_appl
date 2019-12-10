@@ -1,7 +1,7 @@
 ﻿@model CoreUI.Web.Models.ViewModel.HourFormViewModel
 
 @{
-    ViewData["Title"] = "Index";
+  ViewData["Title"] = "Index";
 }
 
 <!-- Breadcrumb-->
@@ -28,36 +28,14 @@
           <div class="card-body">
             <div class="row ml-0">
               <div class="col-12 mb-3">
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
                   Filtros
                 </button>
               </div>
 
-              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group">
+              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
                 <div class="col-8">
                   <form asp-action="Index">
-                    <label>
-                      Status:
-                      <select name="approval" id="approval" class="form-control">
-                        <option value="">Selecione</option>
-                        <option value="1">Aguardando</option>
-                        <option value="2">Revisar</option>
-                        <option value="3">Reprovado</option>
-                        <option value="4">Aprovado</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Atividade:
-                      <select name="description" id="description" class="form-control">
-                        <option value="">Selecione</option>
-                        <option value="1">Dia útil</option>
-                        <option value="2">Férias</option>
-                        <option value="3">Licença</option>
-                      </select>
-                    </label>
-
-                    <br />
 
                     <label>
                       Clientes:
@@ -72,7 +50,28 @@
                         <option value="">Selecione</option>
                       </select>
                     </label>
-                    <br />
+
+
+                    <label>
+                      Atividade:
+                      <select name="description" id="description" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="1">Dia útil</option>
+                        <option value="2">Férias</option>
+                        <option value="3">Licença</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      Status:
+                      <select name="approval" id="approval" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="1">Aguardando</option>
+                        <option value="2">Revisar</option>
+                        <option value="3">Reprovado</option>
+                        <option value="4">Aprovado</option>
+                      </select>
+                    </label>
 
                     <label>
                       Mês:
@@ -198,28 +197,28 @@
                     -->
                     <td>
                       @{
-                          switch (item.Approval)
-                          {
-                            case 1:
+                        switch (item.Approval)
+                        {
+                          case 1:
                             @Html.DisplayName("Aguardando");
-                              break;
+                            break;
 
-                            case 2:
+                          case 2:
                             @Html.DisplayName("Revisar");
-                              break;
+                            break;
 
-                            case 3:
+                          case 3:
                             @Html.DisplayName("Reprovado");
-                              break;
+                            break;
 
-                            case 4:
+                          case 4:
                             @Html.DisplayName("Aprovado");
-                              break;
+                            break;
 
-                            default:
+                          default:
                             @Html.DisplayName("Sem status");
-                              break;
-                          }
+                            break;
+                        }
 
                       }
                     </td>
@@ -228,16 +227,16 @@
                         <button class="btn btn-ghost-warning" onclick="Modal(`/Hours/Details/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET')"><i class="fa fa-search"></i></button>
 
                         @{
-                            if (item.Approval <= 1)
-                            {
+                          if (item.Approval <= 1)
+                          {
                             <button class="btn btn-ghost-primary" onclick="Modal(`/Hours/Edit/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET')"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
-                            }
+                          }
                         }
                       </div>
                     </td>
                   </tr>
-                            }
+                }
               </tbody>
             </table>
           </div>
@@ -249,16 +248,16 @@
   </div>
 </div>
 
-@{ 
-    if (ViewBag.Month == null)
-    {
-      ViewBag.Month = DateTime.Now.Month;
-    }
+@{
+  if (ViewBag.Month == null)
+  {
+    ViewBag.Month = DateTime.Now.Month;
+  }
 
-    if (ViewBag.Year == null)
-    {
-      ViewBag.Year = DateTime.Now.Year;
-    }
+  if (ViewBag.Year == null)
+  {
+    ViewBag.Year = DateTime.Now.Year;
+  }
 }
 <input type="hidden" name="Month" id="Month" value="@ViewBag.Month" />
 <input type="hidden" name="Year" id="Year" value="@ViewBag.Year" />

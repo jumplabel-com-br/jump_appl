@@ -65,7 +65,7 @@ namespace CoreUI.Web.Controllers
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
 
-            var despesas = await _outlaysService.FindAllAsync(status, clients, projects, employees, month, year);
+            var despesas = await _outlaysService.FindAllAsync(empId,status, clients, projects, employees, month, year);
             var clientes = await _clienteService.FindAllAsync(accessLevel, empId);
             var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
             var funcionarios = await _employeeService.FindAllAsync();

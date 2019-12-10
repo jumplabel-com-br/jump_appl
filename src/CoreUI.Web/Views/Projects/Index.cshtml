@@ -29,11 +29,11 @@
           <div class="card-body">
             <div class="row ml-0">
               <div class="col-12 mb-3">
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
                   Filtros
                 </button>
               </div>
-              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group">
+              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
                 <div class="col-8">
                   <form asp-action="Index">
                     <label>
@@ -50,19 +50,24 @@
                       </select>
                     </label>
 
-                    <label>
-                      Gerente do projeto:
-                      <select name="manager_project" id="manager_project" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" class="form-control">
-                        <option value="">Selecione</option>
-                      </select>
-                    </label>
+                    @{
+                      if (ViewBag.AcessLevel == 3)
+                      {
+                        <label>
+                          Gerente do projeto:
+                          <select name="manager_project" id="manager_project" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" class="form-control">
+                            <option value="">Selecione</option>
+                          </select>
+                        </label>
 
-                    <label>
-                      Gerente:
-                      <select name="manager" id="manager" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" class="form-control">
-                        <option value="">Selecione</option>
-                      </select>
-                    </label>
+                        <label>
+                          Gerente:
+                          <select name="manager" id="manager" asp-items="@(new SelectList(Model.Employee, "Id", "Name"))" class="form-control">
+                            <option value="">Selecione</option>
+                          </select>
+                        </label>
+                      }
+                    }
                     <button type="submit" class="btn btn-primary"><i class="fa fa-send-o"></i></button>
                   </form>
                 </div>
@@ -72,10 +77,10 @@
               <thead>
                 <tr>
                   <th>
-                    @Html.DisplayNameFor(model => model.Client)
+                    @Html.DisplayNameFor(model => model.Project.Client_Id)
                   </th>
                   <th>
-                    @Html.DisplayNameFor(model => model.Project)
+                    @Html.DisplayNameFor(model => model.Project.Project_Name)
                   </th>
                   <th>
                     @Html.DisplayNameFor(model => model.Project.Project_Manager_Id)
@@ -125,7 +130,7 @@
                       <button type="button" class="btn btn-ghost-warning" onclick="Modal(`/Projects/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
                         <i class="fa fa-search"></i>
                       </button>
-                      <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Projects/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
+                      <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Projects/Edit/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val(): null}&manager_project=${$('#manager_project').val().length > 0 ? $('#manager_project').val(): null}&manager=${$('#manager').val().length > 0 ? $('#manager').val(): null}`, 'GET')">
                         <i class="fa fa-edit"></i>
                       </button>
                       <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>

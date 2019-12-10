@@ -88,6 +88,7 @@ namespace CoreUI.Web.Services
         {
             if (accessLevel != 1)
             {
+                /*
                 var result = from project in _context.Project
                          join projectTeams in _context.Project_team on project.Id equals projectTeams.Project_Id
                             into controllerProjectTeam
@@ -98,8 +99,14 @@ namespace CoreUI.Web.Services
                                 from employee in controllerEmployee.DefaultIfEmpty()
 
                          where employee.Id == employeeId
+*/
 
-                         select new Project()
+                var  result = from project in _context.Project
+                              join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
+                              join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
+                              where employee.Id == employeeId && projectTeam.Employee_Id == employeeId
+
+                              select new Project()
                          {
                              Id = project.Id,
                              Project_Name = project.Project_Name == null ? "" : project.Project_Name,

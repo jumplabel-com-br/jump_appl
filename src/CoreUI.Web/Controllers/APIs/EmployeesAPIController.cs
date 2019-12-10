@@ -22,8 +22,20 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/EmployeesAPI
         [HttpGet]
-        public IEnumerable<Employee> GetEmployee()
+        public IEnumerable<Employee> GetEmployee(int? projectId)
         {
+            if (projectId.HasValue)
+            {
+                var result = from employees in _context.Employee
+                             join projectTeam in _context.Project_team on employees.Id equals projectTeam.Employee_Id
+                             join projects in _context.Project on projectTeam.Project_Id equals projects.Id
+                             where projectTeam.Project_Id == projectId
+                             //where projectTeam.Employee_Id == employeeId
+
+                             select employees;
+
+                return result.OrderBy(x => x.Email).Distinct();
+            }
             return _context.Employee.OrderBy(x => x.Email).Distinct();
         }
 
