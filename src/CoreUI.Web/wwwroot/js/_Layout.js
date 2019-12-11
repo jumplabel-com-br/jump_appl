@@ -11,6 +11,7 @@ $('.modalSpinner').hide();
 accessLevel != 1 && accessLevel == 2 ? $('.Admin').remove() : '';
 accessLevel != 4 && accessLevel != 1 ? $('.Reports').remove() : '';
 accessLevel == 3 ? $('.Admin, .Reports, .AdminAndManager').remove() : '';
+accessLevel == 4 ? $('.accessDenied').remove() : '';
 
 //verifica se está em revisão
 if (wlhs[4] != 'ChangePassword') {
@@ -526,34 +527,47 @@ if ($('table').length > 0) {
                         .css({ 'color': 'black' })
 
                     $(win.document.body).append(`
-                    <div class="container" style="margin-top: 5%">
-                        <div class="row">
-                            <div class="col-6 text-left">
-                                <span>______________________________</span>
-                            </div>
-                            <div class="col-6 text-left">
-                                <span>______________________________</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="container" style="margin-top: 10%">
+	                    <div class="row">
+		                    <div class="col-6">
+			                    <span>______________________________</span>
+		                    </div>
+		                    <div class="col-6">
+			                    <span>______________________________</span>
+		                    </div>
+	                    </div>
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="row col-2">Assinatura</div>
-                                <div class="row col-2">CPF:</div>
-                                <div class="row col-2">Nome</div>
-                            </div>
-                            <div class="col-6">
-                                <div class="row col-2">Assinatura</div>
-                                <div class="row col-2">CPF:</div>
-                                <div class="row col-2">Nome</div>
-                            </div>
-                        </div>
-                    </div>`)
-                }
-            }
-        ] : [];
+	                    <div class="row">
+		                    <div class="col-6">
+			                    <span>Assinatura do gestor</span>
+		                    </div>
+
+		                    <div class="col-6">
+			                    <span>Assinatura do consultor</span>
+		                    </div>
+	                    </div>
+
+	                    <div class="row">
+		                    <div class="col-6">
+			                    <span>CPF:</span>
+		                    </div>
+
+		                    <div class="col-6">
+			                    <span>CPF:</span>
+		                    </div>
+	                    </div>
+
+	                    <div class="row">
+		                    <div class="col-6">
+			                    <span>Nome:</span>
+		                    </div>
+
+		                    <div class="col-6">
+			                    <span>Nome:</span>
+		                    </div>
+	                    </div>
+                    </div>
+                    `)}}] : [];
 
     $('table').DataTable({
         //initComplete: initComplete,
@@ -638,9 +652,6 @@ if ($('table').length > 0) {
         Wlhs == 'Hours' || Wlhs == "ModeAdmin" ? SumTotalHours() : '';
         Wlhs == "ModeAdmin" ? $('table tfoot tr td:eq(12)').text($('#TotalOfSumHours').val()) : '';
     });
-
-    //$('table thead tr:eq(0)').css({ "background-color": "#EF8223", "color": "#fff" })
-    //$('table thead tr:eq(0) th').css({ "border-color": "#010101", "width": "60px" })
 }
 
 $('.imgLogo').attr('src', $('#ImgLogo').val())
@@ -664,59 +675,15 @@ function Modal(url, type = 'POST') {
         .done(function (data) {
             $('.modalIndex .modal-body').html(data);
             url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Details" ? Client() : '';
-            //url.split('/')[1] == "ModeAdmin" && url.split('/')[2] == "Create"
             $('.modalIndex').modal('show');
         })
         .fail(function () {
             alert("error");
-            //$('.modalSpinner').modal('hide');
         })
         .always(function () {
             setTimeout(function () { $('.modalSpinner').modal('hide') }, 1000)
         });
 }
-
-/*
-function Create(url, form) {
-    let formData = new FormData();
-    formData.append("Hour_Id_Project", $("#Hour_Id_Project").val());
-    formData.append("Document", $('#Document').prop('files')[0])
-    alert(formData);
-    alert(form.serialize());
-
-    //form = form.serialize();
-    //alert(fomr += formData);
-
-    $.ajax({
-        url: url,
-        type: 'POST',
-        dataType: '',
-        data: form.serialize(),
-        processData: false,
-        contentType: false,
-        beforeSend: function () {
-            $('.modalSpinner').modal('show');
-            $('#toast-container-modal').hide();
-            $('#toast-container-saved').show();
-        }
-    })
-        .done(function () {
-            $('#toast-container-saved').hide();
-            $('.modalSpinner').modal('hide');
-            $('#toast-container-modal').hide();
-        })
-        .fail(function () {
-            alert("error");
-            $('.modalSpinner').modal('hide');
-            $('#toast-container-modal').hide();
-        });
-
-*/
-
-function Update(url, form) {
-    Create(url, form)
-}
-
 
 function ReturnAjaxAPI(url) {
     $.ajax({
