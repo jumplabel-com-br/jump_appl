@@ -2,6 +2,7 @@
 
 @{
   ViewData["Title"] = "Create";
+  Layout = "";
 }
 
 
@@ -13,11 +14,7 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Edit Employee
           <div class="card-header-actions">
-            <a asp-action="Create">
-              <input type="hidden" asp-for="@ViewData["Email"]" />
-              <input type="hidden" asp-for="@ViewData["Password"]" />
-              <i class="fa fa-plus"></i>
-            </a>
+
           </div>
         </div>
         <div class="card-body">
@@ -62,7 +59,7 @@
                     <i class="icon-lock"></i>
                   </span>
                 </div>
-                <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="Confirmar Senha" value=""/>
+                <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="Confirmar Senha" value="" />
                 <span class="text-danger col-12"></span>
               </div>
 
@@ -149,24 +146,25 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div id="toast-container" class="toast-top-center" style="display:none;">
-    <div class="toast toast-info" aria-live="polite">
-      <div class="toast-title">Saved</div>
-      <div class="toast-message">
-        Saved successfully
-      </div>
+<div id="toast-container" class="toast-top-center" style="display:none;">
+  <div class="toast toast-info" aria-live="polite">
+    <div class="toast-title">Saved</div>
+    <div class="toast-message">
+      Saved successfully
     </div>
   </div>
+</div>
 
-  <style>
-    #employee_salary,
-    #employee_appointment {
-      display: none;
-    }
-  </style>
-
-  <script src="~/js/Employee/Generic.js?@DateTime.Now.ToString()"></script>
-  @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<style>
+  #employee_salary,
+  #employee_appointment {
+    display: none;
   }
+</style>
+
+<script src="~/js/Employee/Generic.js?@DateTime.Now.ToString()"></script>
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -14,11 +14,9 @@
         <div class="card-header">
           <i class="fa fa-edit"></i> Editar equipe do projeto
           <div class="card-header-actions">
-            <a asp-action="Create">
-              <input type="hidden" asp-for="Project.@ViewData["Email"]" />
-              <input type="hidden" asp-for="Project.@ViewData["Password"]" />
+            <button type="button" class="btn btn-sm btn-ghost-primary" onclick="Modal(`/Project_team/Create?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`, 'GET')">
               <i class="fa fa-plus"></i>
-            </a>
+            </button>
           </div>
         </div>
         <div class="card-body">

@@ -367,6 +367,7 @@ if ($('table').length > 0) {
         { "orderable": false, "targets": 11 },
     ];
 
+
     columnDefsOutlaysAdmin = [
         { "orderable": false, "targets": 0 },
         { "sorting_asc": false, "targets": 0 },
@@ -390,6 +391,7 @@ if ($('table').length > 0) {
     } else if (Wlhs == "Reports" && lastWlhs == "OutlaysAdmin") {
         columns = columnsOutlaysAdmin;
     }
+
 
     /*
     function arrFor() {
@@ -436,12 +438,13 @@ if ($('table').length > 0) {
         [
             {
                 extend: 'excelHtml5',
+                title: 'Jump Label',
                 footer: true,
                 text: '<i class="fa fa-file-excel-o"></i>',
                 exportOptions: {
                     // Aqui você inclui o índice da coluna
                     // Sabendo que os índices começam com 0
-                    columns
+                    columns : [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 },
 
             },
@@ -792,7 +795,7 @@ $('#projects').on('change', function () {
 $('#projects').attr('disabled', true);
 $('#employees').attr('disabled', true);
 
-let arrMes = [
+var arrMes = [
     { value: '1', name: 'Janeiro' },
     { value: '2', name: 'Fevereiro' },
     { value: '3', name: 'Março' },
@@ -809,7 +812,7 @@ let arrMes = [
 
 $('#searchMothDataTable').html(
     arrMes.map((obj) => {
-    return `
-            <option value="${obj.value}">${obj.name}</option>
+        return `
+            <option ${$('#Month').val() == obj.value ? `selected` : ''} value="${obj.value}">${obj.name}</option>
         `
 }).join(''));

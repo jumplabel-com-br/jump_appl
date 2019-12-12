@@ -11,7 +11,7 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-edit"></i> Lançamento de hora
+            <i class="fa fa-edit"></i> Aprovação de horas
             <div class="card-header-actions">
               <button class="btn btn-sm btn-ghost-primary" onclick="Modal(`/ModeAdmin/Create?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&Selectbilling=${$('#Selectbilling').val().length > 0 ? $('#Selectbilling').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`, 'GET')">
                 <i class="fa fa-plus"></i>
@@ -124,8 +124,6 @@
               <label id="sum"></label>
             </div>
             <div id="exportExcel">
-              <div class="row chooseColumns">
-              </div>
               <table id="example" class="table table-responsive-sm table-bordered  table-sm">
                 <thead>
                   <tr>
@@ -171,10 +169,12 @@
                     <th>
                       @Html.DisplayNameFor(model => model.Hour.Total_Hours_In_Activity)
                     </th>
+                    <th class="activities" style="display:none">
+                      Observação
+                    </th>
                     <th>
                       Ações
                     </th>
-                  </tr>
                 </thead>
                 <tbody id="tbodyHour">
                   @foreach (var item in Model.Hours)
@@ -228,7 +228,7 @@
                         @Html.DisplayFor(modelItem => item.Date)
                       </td>
                       <td>
-                       @Html.DisplayFor(modelItem => item.Description_Name)
+                        @Html.DisplayFor(modelItem => item.Description_Name)
                       </td>
                       <td>
                         @Html.DisplayFor(modelItem => item.Client)
@@ -254,6 +254,9 @@
                       <th class="totalHours">
                         @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
                       </th>
+                      <td class="activities" style="display: none">
+                        @Html.DisplayFor(modelItem => item.Activies)
+                      </td>
                       <td colspan="2">
                         <div class="row ml-0">
                           <button class="btn btn-ghost-warning" onclick="Modal(`/ModeAdmin/Details/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&Selectbilling=${$('#Selectbilling').val().length > 0 ? $('#Selectbilling').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`)"><i class="fa fa-search"></i></button>
@@ -277,6 +280,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td style="display: none"></td>
                     <td></td>
                   </tr>
                 </tfoot>

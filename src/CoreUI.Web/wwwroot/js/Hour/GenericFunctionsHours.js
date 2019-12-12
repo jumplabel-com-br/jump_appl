@@ -291,7 +291,7 @@ function searchProjectsPerEmployee() {
             console.log(data);
             arrHours = data;
 
-            data.filter(obj =>
+            if (data.filter(obj =>
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Id').val() != obj.id &&
                 (
@@ -303,10 +303,12 @@ function searchProjectsPerEmployee() {
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') <= obj.exit_Time.split('T')[1] &&
                 $('#Hour_Arrival_Time').val().replace('.000', '') >= obj.start_Time.split('T')[1] &&
-                obj.employee_Id == $('#Hour_Employee_Id').val()).length > 0 ? existingDate = false : existingDate = true;
+                obj.employee_Id == $('#Hour_Employee_Id').val()).length > 0)
+            {
+                return existingDate = false;
+            } //?  : existingDate = true;
 
-
-            data.filter(obj =>
+            if (data.filter(obj =>
                 obj.id != $('#Hour_Id').val() &&
                 obj.employee_Id == $('#Hour_Employee_Id').val() &&
                 $('#Hour_Date').val() == obj.date.replace('T00:00:00', '') &&
@@ -345,7 +347,14 @@ function searchProjectsPerEmployee() {
                     $('#Hour_Exit_Time').val().replace('.000', '') == obj.stop_Time_2.replace(':00', '') &&
                     $('#Hour_Description').val() == '3'
 
-                ).length > 0 ? existingDate = false : existingDate = true;
+                ).length > 0) {
+
+                return existingDate = false;
+
+            } else {
+                return existingDate = true;
+            }
+            
 
         })
         .fail(function () {

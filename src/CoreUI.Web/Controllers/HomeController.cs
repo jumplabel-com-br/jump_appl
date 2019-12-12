@@ -171,6 +171,8 @@ namespace CoreUI.Web.Controllers
 
             //hour.Employee.Where(emp => emp.Email == employee.Email);
 
+            Random rdm = new Random();
+            rdm.Next();
 
             if (ViewBag.Email == null)
             {
@@ -189,6 +191,7 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
                 HttpContext.Session.SetInt32(SessionChangePassword, changePassword);
                 HttpContext.Session.SetString(SessionImgLogo, img);
+                ViewBag.RDM = rdm;
                 
             }
 

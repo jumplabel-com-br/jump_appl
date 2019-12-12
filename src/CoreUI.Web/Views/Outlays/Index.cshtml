@@ -96,9 +96,6 @@
                     Projeto
                   </th>
                   <th>
-                    Funcionários
-                  </th>
-                  <th>
                     @Html.DisplayNameFor(model => model.Outlays.Date)
                   </th>
                   <th>
@@ -128,9 +125,6 @@
                     <th>
                       @Html.DisplayFor(modelItem => item.Project)
                     </th>
-                    <td class="DatesMonth">
-                      @Html.DisplayFor(modelItem => item.Employee)
-                    </td>
                     <td>
                       @Html.DisplayFor(modelItem => item.Date)
                     </td>
@@ -148,12 +142,12 @@
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
-                        <button type="button" class="btn btn-ghost-warning" onclick="Modal(`/Outlays/Details/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`)"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-ghost-warning" onclick="Modal(`/Outlays/Details/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`)"><i class="fa fa-search"></i></button>
 
                         @{
                           if (item.Status <= 1)
                           {
-                            <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Outlays/Edit/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`, 'GET')"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-ghost-primary" onclick="Modal(`/Outlays/Edit/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET')"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                           }
                         }
