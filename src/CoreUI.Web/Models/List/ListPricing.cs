@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CoreUI.Web.Models
+namespace CoreUI.Web.Models.List
 {
-    public class Pricing
+    public class ListPricing
     {
         public int Id { get; set; }
 
@@ -15,6 +15,7 @@ namespace CoreUI.Web.Models
 
         [Display(Name = "Cliente")]
         public int Client_Id { get; set; }
+        public string Cliente { get; set; }
 
         [Display(Name = "Alocação")]
         public string Allocation { get; set; }

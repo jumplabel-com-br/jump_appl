@@ -61,6 +61,7 @@ namespace CoreUI.Web
             services.AddScoped<ClientService>();
             services.AddScoped<ProjectTeamService>();
             services.AddScoped<OutlaysService>();
+            services.AddScoped<PricingService>();
 
             services.AddScoped<Files>();
 

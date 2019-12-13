@@ -1,0 +1,81 @@
+﻿@model CoreUI.Web.Models.Pricing
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Pricing</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="TypePricing" class="control-label"></label>
+                <input asp-for="TypePricing" class="form-control" />
+                <span asp-validation-for="TypePricing" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client_Id" class="control-label"></label>
+                <input asp-for="Client_Id" class="form-control" />
+                <span asp-validation-for="Client_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Allocation" class="control-label"></label>
+                <input asp-for="Allocation" class="form-control" />
+                <span asp-validation-for="Allocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountExecutive" class="control-label"></label>
+                <input asp-for="AccountExecutive" class="form-control" />
+                <span asp-validation-for="AccountExecutive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberProposal" class="control-label"></label>
+                <input asp-for="NumberProposal" class="form-control" />
+                <span asp-validation-for="NumberProposal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllocationManager_Id" class="control-label"></label>
+                <input asp-for="AllocationManager_Id" class="form-control" />
+                <span asp-validation-for="AllocationManager_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Administrator_Id" class="control-label"></label>
+                <input asp-for="Administrator_Id" class="form-control" />
+                <span asp-validation-for="Administrator_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InitialDate" class="control-label"></label>
+                <input asp-for="InitialDate" class="form-control" />
+                <span asp-validation-for="InitialDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeBetweenInitialAndEndDate" class="control-label"></label>
+                <input asp-for="TimeBetweenInitialAndEndDate" class="form-control" />
+                <span asp-validation-for="TimeBetweenInitialAndEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Risk" class="control-label"></label>
+                <input asp-for="Risk" class="form-control" />
+                <span asp-validation-for="Risk" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

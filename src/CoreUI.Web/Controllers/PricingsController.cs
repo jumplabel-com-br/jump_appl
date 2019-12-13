@@ -1,0 +1,253 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using CoreUI.Web.Models;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using CoreUI.Web.Services;
+using Microsoft.AspNetCore.Hosting;
+using CoreUI.Web.Controllers.APIs;
+using MySql.Data.MySqlClient;
+using System.Data;
+using CoreUI.Web.Models.ViewModel;
+
+namespace CoreUI.Web.Controllers
+{
+    public class PricingsController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly ProjectService _projectService;
+        private readonly ProjectTeamService _projectTeamService;
+        private readonly EmployeeService _employeeService;
+        private readonly HourService _hourService;
+        private readonly ClientService _clientService;
+        private readonly PricingService _pricingService;
+        private readonly Files _files;
+        private readonly IConfiguration _config;
+        private readonly IHostingEnvironment _appEnvironment;
+
+        public PricingsController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, ClientService client, PricingService pricing, Files files, IConfiguration config, IHostingEnvironment env)
+        {
+            _context = context;
+            _projectService = project;
+            _projectTeamService = projectTeam;
+            _employeeService = employee;
+            _hourService = hour;
+            _clientService = client;
+            _pricingService = pricing;
+            _files = files;
+            _config = config;
+            _appEnvironment = env;
+        }
+
+        const string SessionEmail = "_Email";
+        const string SessionName = "_Name";
+        const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
+        const string SessionInvalid = "false";
+        const string SessionExpired = "false";
+        const string SessionTotalBells = "false";
+        const string SessionImgLogo = "false";
+        const string storage = "Hour\\";
+
+        // GET: Pricings
+        public async Task<IActionResult> Index()
+        {
+            GetSessions();
+
+            int empId = ViewBag.Id;
+            var accessLevel = ViewBag.AcessLevel;
+
+            var listPricing = await _pricingService.FindAllAsync();
+            var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+            var funcionarios = await _employeeService.FindAllAsync();
+
+            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios };
+            return View(viewModel);
+        }
+
+        // GET: Pricings/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pricing = await _context.Pricing
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (pricing == null)
+            {
+                return NotFound();
+            }
+
+            return View(pricing);
+        }
+
+        // GET: Pricings/Create
+        public async Task<IActionResult> Create()
+        {
+            GetSessions();
+
+            int empId = ViewBag.Id;
+            var accessLevel = ViewBag.AcessLevel;
+
+            var listPricing = await _pricingService.FindAllAsync();
+            var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+            var funcionarios = await _employeeService.FindAllAsync();
+
+            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios };
+            return View(viewModel);
+        }
+
+        // POST: Pricings/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost, ActionName("CreateAsync")]
+        [ValidateAntiForgeryToken]
+        public async Task<int> Create(Pricing pricing)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(pricing);
+                await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+            }
+            //return View(pricing);
+
+            
+            string queryString = "SELECT id FROM Pricing order by id desc limit 1;";
+            var dt = ReturnDataAdapter(queryString);
+            int lastId = (int)dt.Rows[0]["id"] == null ? 1 : (int)dt.Rows[0]["id"];
+
+            return lastId;
+        }
+
+        // GET: Pricings/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pricing = await _context.Pricing.FindAsync(id);
+            if (pricing == null)
+            {
+                return NotFound();
+            }
+            return View(pricing);
+        }
+
+        // POST: Pricings/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TypePricing,Client_Id,Allocation,AccountExecutive,NumberProposal,AllocationManager_Id,Administrator_Id,InitialDate,EndDate,TimeBetweenInitialAndEndDate,Risk")] Pricing pricing)
+        {
+            if (id != pricing.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(pricing);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PricingExists(pricing.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(pricing);
+        }
+
+        // GET: Pricings/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pricing = await _context.Pricing
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (pricing == null)
+            {
+                return NotFound();
+            }
+
+            return View(pricing);
+        }
+
+        // POST: Pricings/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var pricing = await _context.Pricing.FindAsync(id);
+            _context.Pricing.Remove(pricing);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public void GetSessions()
+        {
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
+            ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
+            ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
+        }
+        private bool PricingExists(int id)
+        {
+            return _context.Pricing.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
+        }
+
+        public DataTable ReturnDataAdapter(string queryString)
+        {
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+
+            MySqlConnection connection = new MySqlConnection(connString);
+            MySqlCommand command = new MySqlCommand(queryString, connection);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+
+            da.SelectCommand = command;
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            return dt;
+            
+        }
+    }
+}

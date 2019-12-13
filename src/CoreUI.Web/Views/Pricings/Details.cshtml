@@ -1,0 +1,84 @@
+﻿@model CoreUI.Web.Models.Pricing
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pricing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TypePricing)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TypePricing)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Client_Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Client_Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Allocation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Allocation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountExecutive)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AccountExecutive)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberProposal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberProposal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AllocationManager_Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AllocationManager_Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Administrator_Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Administrator_Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InitialDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeBetweenInitialAndEndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeBetweenInitialAndEndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Risk)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Risk)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
