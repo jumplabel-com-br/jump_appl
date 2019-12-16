@@ -6,26 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
-using CoreUI.Web.Models.ViewModel;
 
 namespace CoreUI.Web.Controllers
 {
-    public class DetailsPricingsController : Controller
+    public class TypePricingsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DetailsPricingsController(ApplicationDbContext context)
+        public TypePricingsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: DetailsPricings
+        // GET: TypePricings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DetailsPricing.ToListAsync());
+            return View(await _context.TypePricing.ToListAsync());
         }
 
-        // GET: DetailsPricings/Details/5
+        // GET: TypePricings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,41 +32,39 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing
+            var typePricing = await _context.TypePricing
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (detailsPricing == null)
+            if (typePricing == null)
             {
                 return NotFound();
             }
 
-            return View(detailsPricing);
+            return View(typePricing);
         }
 
-        // GET: DetailsPricings/Create
-        public async Task<IActionResult> Create()
+        // GET: TypePricings/Create
+        public IActionResult Create()
         {
-            var hiring = await _context.Hiring.ToListAsync();
-            var viewModel = new PricingFormViewModel {  Hiring = hiring };
-            return View(viewModel);
+            return View();
         }
 
-        // POST: DetailsPricings/Create
+        // POST: TypePricings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DetailsPricing detailsPricing)
+        public async Task<IActionResult> Create([Bind("Id,Name,Active")] TypePricing typePricing)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(detailsPricing);
+                _context.Add(typePricing);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Pricings");
+                return RedirectToAction(nameof(Index));
             }
-            return View(detailsPricing);
+            return View(typePricing);
         }
 
-        // GET: DetailsPricings/Edit/5
+        // GET: TypePricings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +72,22 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing.FindAsync(id);
-            if (detailsPricing == null)
+            var typePricing = await _context.TypePricing.FindAsync(id);
+            if (typePricing == null)
             {
                 return NotFound();
             }
-            return View(detailsPricing);
+            return View(typePricing);
         }
 
-        // POST: DetailsPricings/Edit/5
+        // POST: TypePricings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TypeContract,Hiring_Id,SpecialtyName,HoursMonth,HourConsultant,HourSale,ValueCLTType,VT,Cust,AgeYears")] DetailsPricing detailsPricing)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Active")] TypePricing typePricing)
         {
-            if (id != detailsPricing.Id)
+            if (id != typePricing.Id)
             {
                 return NotFound();
             }
@@ -99,12 +96,12 @@ namespace CoreUI.Web.Controllers
             {
                 try
                 {
-                    _context.Update(detailsPricing);
+                    _context.Update(typePricing);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DetailsPricingExists(detailsPricing.Id))
+                    if (!TypePricingExists(typePricing.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +112,10 @@ namespace CoreUI.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(detailsPricing);
+            return View(typePricing);
         }
 
-        // GET: DetailsPricings/Delete/5
+        // GET: TypePricings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +123,30 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing
+            var typePricing = await _context.TypePricing
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (detailsPricing == null)
+            if (typePricing == null)
             {
                 return NotFound();
             }
 
-            return View(detailsPricing);
+            return View(typePricing);
         }
 
-        // POST: DetailsPricings/Delete/5
+        // POST: TypePricings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var detailsPricing = await _context.DetailsPricing.FindAsync(id);
-            _context.DetailsPricing.Remove(detailsPricing);
+            var typePricing = await _context.TypePricing.FindAsync(id);
+            _context.TypePricing.Remove(typePricing);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DetailsPricingExists(int id)
+        private bool TypePricingExists(int id)
         {
-            return _context.DetailsPricing.Any(e => e.Id == id);
+            return _context.TypePricing.Any(e => e.Id == id);
         }
     }
 }

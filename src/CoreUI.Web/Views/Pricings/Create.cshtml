@@ -31,7 +31,9 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Pricing.TypePricing" class="form-control" placeholder="Tipo de precificação" />
+                <select asp-for="Pricing.TypePricing" class="form-control" asp-items="@(new SelectList(Model.TypePricing, "Id",  "Name"))">
+                  <option value="">Selecione</option>
+                </select>
                 <span asp-validation-for="Pricing.TypePricing" name="pricing_typePricing" id="pricing_typePricing" class="text-danger"></span>
               </div>
             </div>

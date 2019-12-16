@@ -66,8 +66,9 @@ namespace CoreUI.Web.Controllers
             var listPricing = await _pricingService.FindAllAsync();
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var funcionarios = await _employeeService.FindAllAsync();
+            var typePricing = await _context.TypePricing.ToListAsync();
 
-            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios };
+            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, TypePricing = typePricing };
             return View(viewModel);
         }
 
@@ -100,8 +101,9 @@ namespace CoreUI.Web.Controllers
             var listPricing = await _pricingService.FindAllAsync();
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var funcionarios = await _employeeService.FindAllAsync();
+            var typePricing = await _context.TypePricing.ToListAsync();
 
-            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios };
+            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, TypePricing = typePricing };
             return View(viewModel);
         }
 
@@ -136,12 +138,22 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
+            GetSessions();
+
+            int empId = ViewBag.Id;
+            var accessLevel = ViewBag.AcessLevel;
+
             var pricing = await _context.Pricing.FindAsync(id);
+            var clientes = await _clientService.FindAllAsync(accessLevel, empId);
+            var funcionarios = await _employeeService.FindAllAsync();
+            var typePricing = await _context.TypePricing.ToListAsync();
+
+            var viewModel = new PricingFormViewModel { Pricing = pricing, Clients = clientes, Employees = funcionarios, TypePricing = typePricing };
             if (pricing == null)
             {
                 return NotFound();
             }
-            return View(pricing);
+            return View(viewModel);
         }
 
         // POST: Pricings/Edit/5

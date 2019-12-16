@@ -6,26 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
-using CoreUI.Web.Models.ViewModel;
 
 namespace CoreUI.Web.Controllers
 {
-    public class DetailsPricingsController : Controller
+    public class HiringsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DetailsPricingsController(ApplicationDbContext context)
+        public HiringsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: DetailsPricings
+        // GET: Hirings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DetailsPricing.ToListAsync());
+            return View(await _context.Hiring.ToListAsync());
         }
 
-        // GET: DetailsPricings/Details/5
+        // GET: Hirings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,41 +32,39 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing
+            var hiring = await _context.Hiring
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (detailsPricing == null)
+            if (hiring == null)
             {
                 return NotFound();
             }
 
-            return View(detailsPricing);
+            return View(hiring);
         }
 
-        // GET: DetailsPricings/Create
-        public async Task<IActionResult> Create()
+        // GET: Hirings/Create
+        public IActionResult Create()
         {
-            var hiring = await _context.Hiring.ToListAsync();
-            var viewModel = new PricingFormViewModel {  Hiring = hiring };
-            return View(viewModel);
+            return View();
         }
 
-        // POST: DetailsPricings/Create
+        // POST: Hirings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DetailsPricing detailsPricing)
+        public async Task<IActionResult> Create([Bind("Id,Name,Active")] Hiring hiring)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(detailsPricing);
+                _context.Add(hiring);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Pricings");
+                return RedirectToAction(nameof(Index));
             }
-            return View(detailsPricing);
+            return View(hiring);
         }
 
-        // GET: DetailsPricings/Edit/5
+        // GET: Hirings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +72,22 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing.FindAsync(id);
-            if (detailsPricing == null)
+            var hiring = await _context.Hiring.FindAsync(id);
+            if (hiring == null)
             {
                 return NotFound();
             }
-            return View(detailsPricing);
+            return View(hiring);
         }
 
-        // POST: DetailsPricings/Edit/5
+        // POST: Hirings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TypeContract,Hiring_Id,SpecialtyName,HoursMonth,HourConsultant,HourSale,ValueCLTType,VT,Cust,AgeYears")] DetailsPricing detailsPricing)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Active")] Hiring hiring)
         {
-            if (id != detailsPricing.Id)
+            if (id != hiring.Id)
             {
                 return NotFound();
             }
@@ -99,12 +96,12 @@ namespace CoreUI.Web.Controllers
             {
                 try
                 {
-                    _context.Update(detailsPricing);
+                    _context.Update(hiring);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DetailsPricingExists(detailsPricing.Id))
+                    if (!HiringExists(hiring.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +112,10 @@ namespace CoreUI.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(detailsPricing);
+            return View(hiring);
         }
 
-        // GET: DetailsPricings/Delete/5
+        // GET: Hirings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +123,30 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing
+            var hiring = await _context.Hiring
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (detailsPricing == null)
+            if (hiring == null)
             {
                 return NotFound();
             }
 
-            return View(detailsPricing);
+            return View(hiring);
         }
 
-        // POST: DetailsPricings/Delete/5
+        // POST: Hirings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var detailsPricing = await _context.DetailsPricing.FindAsync(id);
-            _context.DetailsPricing.Remove(detailsPricing);
+            var hiring = await _context.Hiring.FindAsync(id);
+            _context.Hiring.Remove(hiring);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DetailsPricingExists(int id)
+        private bool HiringExists(int id)
         {
-            return _context.DetailsPricing.Any(e => e.Id == id);
+            return _context.Hiring.Any(e => e.Id == id);
         }
     }
 }

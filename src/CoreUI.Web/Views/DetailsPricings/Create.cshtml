@@ -1,4 +1,4 @@
-﻿@model CoreUI.Web.Models.DetailsPricing
+﻿@model CoreUI.Web.Models.ViewModel.PricingFormViewModel
 
 @{
   ViewData["Title"] = "Create";
@@ -15,8 +15,8 @@
           <div class="card-header-actions">
             <!--
             <a asp-action="Create">
-              <input type="hidden" asp-for="Pricing.@@ViewData["Email"]" />
-              <input type="hidden" asp-for="Pricing.@@ViewData["Password"]" />
+              <input type="hidden" asp-for="DetailsPricing.Pricing.@@ViewData["Email"]" />
+              <input type="hidden" asp-for="DetailsPricing.Pricing.@@ViewData["Password"]" />
               <i class="fa fa-plus"></i>
             </a>
                 -->
@@ -31,8 +31,10 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="TypeContract" class="form-control" placeholder="Contratação" />
-                <span asp-validation-for="TypeContract" name="typeContract" id="typeContract" class="text-danger"></span>
+                <select asp-for="DetailsPricing.TypeContract" class="form-control" asp-items="@(new SelectList(Model.Hiring, "Id", "Name"))">
+                  <option value="">Selecione</option>
+                </select>
+                <span asp-validation-for="DetailsPricing.TypeContract" name="typeContract" id="typeContract" class="text-danger"></span>
               </div>
             </div>
 
@@ -43,8 +45,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="SpecialtyName" class="form-control" placeholder="Especialidade/Nome" />
-                <span asp-validation-for="SpecialtyName" name="specialtyName" id="specialtyName" class="text-danger"></span>
+                <input asp-for="DetailsPricing.SpecialtyName" class="form-control" placeholder="Especialidade/Nome" />
+                <span asp-validation-for="DetailsPricing.SpecialtyName" name="specialtyName" id="specialtyName" class="text-danger"></span>
               </div>
             </div>
 
@@ -56,8 +58,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="HoursMonth" class="form-control" placeholder="Horas mês" />
-                <span asp-validation-for="HoursMonth" name="hoursMonth" id="hoursMonth" class="text-danger"></span>
+                <input asp-for="DetailsPricing.HoursMonth" class="form-control" placeholder="Horas mês" />
+                <span asp-validation-for="DetailsPricing.HoursMonth" name="hoursMonth" id="hoursMonth" class="text-danger"></span>
               </div>
             </div>
 
@@ -68,8 +70,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="HourConsultant" class="form-control" placeholder="Horas consultor" />
-                <span asp-validation-for="HourConsultant" name="hourConsultant" id="hourConsultant" class="text-danger"></span>
+                <input asp-for="DetailsPricing.HourConsultant" class="form-control" placeholder="Horas consultor" />
+                <span asp-validation-for="DetailsPricing.HourConsultant" name="hourConsultant" id="hourConsultant" class="text-danger"></span>
               </div>
             </div>
 
@@ -80,8 +82,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="HourSale" class="form-control" placeholder="Horas venda" />
-                <span asp-validation-for="HourSale" name="hourSale" id="hourSale" class="text-danger"></span>
+                <input asp-for="DetailsPricing.HourSale" class="form-control" placeholder="Horas venda" />
+                <span asp-validation-for="DetailsPricing.HourSale" name="hourSale" id="hourSale" class="text-danger"></span>
               </div>
             </div>
 
@@ -92,8 +94,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="ValueCLTType" class="form-control" placeholder="Valor CLT" />
-                <span asp-validation-for="ValueCLTType" name="valueCLTType" id="valueCLTType" class="text-danger"></span>
+                <input asp-for="DetailsPricing.ValueCLTType" class="form-control" placeholder="Valor CLT" />
+                <span asp-validation-for="DetailsPricing.ValueCLTType" name="valueCLTType" id="valueCLTType" class="text-danger"></span>
               </div>
             </div>
 
@@ -104,8 +106,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="VT" class="form-control" placeholder="Vale transporte" />
-                <span asp-validation-for="VT" name="vt" id="vt" class="text-danger"></span>
+                <input asp-for="DetailsPricing.VT" class="form-control" placeholder="Vale transporte" />
+                <span asp-validation-for="DetailsPricing.VT" name="vt" id="vt" class="text-danger"></span>
               </div>
             </div>
 
@@ -117,8 +119,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Cust" class="form-control" placeholder="Ajuda/Custo" />
-                <span asp-validation-for="Cust" name="cust" id="cust" class="text-danger"></span>
+                <input asp-for="DetailsPricing.Cust" class="form-control" placeholder="Ajuda/Custo" />
+                <span asp-validation-for="DetailsPricing.Cust" name="cust" id="cust" class="text-danger"></span>
               </div>
             </div>
 
@@ -130,12 +132,12 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="AgeYears" class="form-control" placeholder="Idade" />
-                <span asp-validation-for="AgeYears" name="ageYears" id="ageYears" class="text-danger"></span>
+                <input asp-for="DetailsPricing.AgeYears" class="form-control" placeholder="Idade" />
+                <span asp-validation-for="DetailsPricing.AgeYears" name="ageYears" id="ageYears" class="text-danger"></span>
               </div>
             </div>
 
-            <input type="hidden" asp-for="Hiring_Id" class="form-control" />
+            <input type="hidden" asp-for="DetailsPricing.Hiring_Id" class="form-control" />
             <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Criar</button>

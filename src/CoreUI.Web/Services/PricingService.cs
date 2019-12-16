@@ -21,6 +21,8 @@ namespace CoreUI.Web.Services
         public async Task<List<ListPricing>> FindAllAsync()
         {
             var result = from pricing in _context.Pricing
+                         join typePricint in _context.TypePricing on pricing.TypePricing equals typePricint.Id
+
                          join client in _context.Client on pricing.Client_Id equals client.Id
                             into clients
                          from client in clients.DefaultIfEmpty()
