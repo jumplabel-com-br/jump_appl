@@ -1,0 +1,76 @@
+﻿@model CoreUI.Web.Models.DetailsPricing
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>DetailsPricing</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="TypeContract" class="control-label"></label>
+                <input asp-for="TypeContract" class="form-control" />
+                <span asp-validation-for="TypeContract" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hiring_Id" class="control-label"></label>
+                <input asp-for="Hiring_Id" class="form-control" />
+                <span asp-validation-for="Hiring_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialtyName" class="control-label"></label>
+                <input asp-for="SpecialtyName" class="form-control" />
+                <span asp-validation-for="SpecialtyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoursMonth" class="control-label"></label>
+                <input asp-for="HoursMonth" class="form-control" />
+                <span asp-validation-for="HoursMonth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HourConsultant" class="control-label"></label>
+                <input asp-for="HourConsultant" class="form-control" />
+                <span asp-validation-for="HourConsultant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HourSale" class="control-label"></label>
+                <input asp-for="HourSale" class="form-control" />
+                <span asp-validation-for="HourSale" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValueCLTType" class="control-label"></label>
+                <input asp-for="ValueCLTType" class="form-control" />
+                <span asp-validation-for="ValueCLTType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VT" class="control-label"></label>
+                <input asp-for="VT" class="form-control" />
+                <span asp-validation-for="VT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cust" class="control-label"></label>
+                <input asp-for="Cust" class="form-control" />
+                <span asp-validation-for="Cust" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgeYears" class="control-label"></label>
+                <input asp-for="AgeYears" class="form-control" />
+                <span asp-validation-for="AgeYears" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

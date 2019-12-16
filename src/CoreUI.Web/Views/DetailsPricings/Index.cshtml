@@ -1,8 +1,9 @@
-﻿@model CoreUI.Web.Models.ViewModel.PricingFormViewModel
+﻿@model IEnumerable<CoreUI.Web.Models.DetailsPricing>
 
 @{
-    ViewData["Title"] = "Index";
+  ViewData["Title"] = "Index";
 }
+
 
 <!-- Breadcrumb-->
 <div class="container-fluid mt-2">
@@ -60,7 +61,7 @@
                       </select>
                     </label>
 
-                   
+
 
                     <label>
                       Clientes:
@@ -132,86 +133,76 @@
                 <thead>
                   <tr>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.TypePricing)
+                      @Html.DisplayNameFor(model => model.TypeContract)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.Client_Id)
+                      @Html.DisplayNameFor(model => model.Hiring_Id)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.Allocation)
+                      @Html.DisplayNameFor(model => model.SpecialtyName)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.AccountExecutive)
+                      @Html.DisplayNameFor(model => model.HoursMonth)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.NumberProposal)
+                      @Html.DisplayNameFor(model => model.HourConsultant)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.AllocationManager_Id)
+                      @Html.DisplayNameFor(model => model.HourSale)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.Administrator_Id)
+                      @Html.DisplayNameFor(model => model.ValueCLTType)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.InitialDate)
+                      @Html.DisplayNameFor(model => model.VT)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.EndDate)
+                      @Html.DisplayNameFor(model => model.Cust)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.TimeBetweenInitialAndEndDate)
+                      @Html.DisplayNameFor(model => model.AgeYears)
                     </th>
-                    <th>
-                      @Html.DisplayNameFor(model => model.Pricing.Risk)
-                    </th>
-                    <th>
-                      Ações
-                    </th>
+                    <th></th>
                   </tr>
                 </thead>
-                <tbody id="tbodyHour">
-                  @foreach (var item in Model.ListPricing)
+                <tbody>
+                  @foreach (var item in Model)
                   {
                     <tr>
                       <td>
-                        @Html.DisplayFor(modelItem => item.TypePricing)
+                        @Html.DisplayFor(modelItem => item.TypeContract)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.Client_Id)
+                        @Html.DisplayFor(modelItem => item.Hiring_Id)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.Allocation)
+                        @Html.DisplayFor(modelItem => item.SpecialtyName)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.AccountExecutive)
+                        @Html.DisplayFor(modelItem => item.HoursMonth)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.NumberProposal)
+                        @Html.DisplayFor(modelItem => item.HourConsultant)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.AllocationManager_Id)
+                        @Html.DisplayFor(modelItem => item.HourSale)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.Administrator_Id)
+                        @Html.DisplayFor(modelItem => item.ValueCLTType)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.InitialDate)
+                        @Html.DisplayFor(modelItem => item.VT)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.EndDate)
+                        @Html.DisplayFor(modelItem => item.Cust)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.TimeBetweenInitialAndEndDate)
+                        @Html.DisplayFor(modelItem => item.AgeYears)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.Risk)
-                      </td>
-                      <td>
-                        <div class="row ml-0">
-                          <button type="button" class="btn btn-ghost-warning" asp-route-id="@item.Id"><i class="fa fa-search"></i></button>
-                          <button type="button" class="btn btn-ghost-primary"  asp-route-id="@item.Id"><i class="fa fa-edit"></i></button>
-                          <button type="button" class="btn btn-ghost-danger"  asp-route-id="@item.Id" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
-                        </div>
+                        <button type="button" class="btn btn-ghost-warning" asp-route-id="@item.Id"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-ghost-primary" asp-route-id="@item.Id"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-ghost-danger" asp-route-id="@item.Id"><i class="fa fa-trash-o"></i></button>
                       </td>
                     </tr>
                   }

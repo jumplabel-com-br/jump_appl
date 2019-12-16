@@ -33,9 +33,13 @@ namespace CoreUI.Web.Models.List
         public int Administrator_Id { get; set; }
 
         [Display(Name = "Data inicial")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime InitialDate { get; set; }
 
         [Display(Name = "Data final")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Tempo de Alocação")]

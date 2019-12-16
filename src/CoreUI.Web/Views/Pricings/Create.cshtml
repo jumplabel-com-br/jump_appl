@@ -11,7 +11,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-edit"></i> Aprovação de horas
+          <i class="fa fa-edit"></i> Precificação
           <div class="card-header-actions">
             <!--
             <a asp-action="Create">
@@ -32,7 +32,7 @@
                   </span>
                 </div>
                 <input asp-for="Pricing.TypePricing" class="form-control" placeholder="Tipo de precificação" />
-                <span asp-validation-for="Pricing.TypePricing" class="text-danger"></span>
+                <span asp-validation-for="Pricing.TypePricing" name="pricing_typePricing" id="pricing_typePricing" class="text-danger"></span>
               </div>
             </div>
 
@@ -46,7 +46,7 @@
                 <select asp-for="Pricing.Client_Id" class="form-control" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))">
                   <option value="">Cliente</option>
                 </select>
-                <span asp-validation-for="Pricing.Client_Id" class="text-danger"></span>
+                <span asp-validation-for="Pricing.Client_Id" name="pricing_client_Id" id="pricing_client_Id" class="text-danger"></span>
               </div>
             </div>
 
@@ -58,7 +58,7 @@
                   </span>
                 </div>
                 <input asp-for="Pricing.Allocation" class="form-control" placeholder="Alocação" />
-                <span asp-validation-for="Pricing.Allocation" class="text-danger"></span>
+                <span asp-validation-for="Pricing.Allocation" name="pricing_allocation" id="pricing_allocation" class="text-danger"></span>
               </div>
             </div>
 
@@ -70,7 +70,7 @@
                   </span>
                 </div>
                 <input type="text" asp-for="Pricing.AccountExecutive" class="form-control" placeholder="Executivo da conta" />
-                <span asp-validation-for="Pricing.AccountExecutive" class="text-danger"></span>
+                <span asp-validation-for="Pricing.AccountExecutive" name="pricing_accountExecutive" id="pricing_accountExecutive" class="text-danger"></span>
               </div>
             </div>
 
@@ -82,7 +82,7 @@
                   </span>
                 </div>
                 <input type="number" asp-for="Pricing.NumberProposal" class="form-control" placeholder="Número da proposta" />
-                <span asp-validation-for="Pricing.NumberProposal" class="text-danger"></span>
+                <span asp-validation-for="Pricing.NumberProposal" name="pricing_numberProposal" id="pricing_numberProposal" class="text-danger"></span>
               </div>
             </div>
 
@@ -96,7 +96,7 @@
                 <select asp-for="Pricing.AllocationManager_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))">
                   <option value="">Gerente</option>
                 </select>
-                <span asp-validation-for="Pricing.AllocationManager_Id" class="text-danger"></span>
+                <span asp-validation-for="Pricing.AllocationManager_Id" name="pricing_allocationManager_Id" id="pricing_allocationManager_Id" class="text-danger"></span>
               </div>
             </div>
 
@@ -110,7 +110,7 @@
                 <select asp-for="Pricing.Administrator_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))">
                   <option value="">Responsável</option>
                 </select>
-                <span asp-validation-for="Pricing.Administrator_Id" class="text-danger"></span>
+                <span asp-validation-for="Pricing.Administrator_Id" name="pricing_administrator_Id" id="pricing_administrator_Id" class="text-danger"></span>
               </div>
             </div>
 
@@ -121,8 +121,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial" />
-                <span asp-validation-for="Pricing.InitialDate" class="text-danger"></span>
+                <input type="date" asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial" />
+                <span asp-validation-for="Pricing.InitialDate" name="pricing_initialDate" id="pricing_initialDate" class="text-danger"></span>
               </div>
             </div>
 
@@ -133,8 +133,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" />
-                <span asp-validation-for="Pricing.EndDate" class="text-danger"></span>
+                <input type="date" asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" />
+                <span asp-validation-for="Pricing.EndDate" name="pricing_endDate" id="pricing_endDate" class="text-danger"></span>
               </div>
             </div>
 
@@ -145,8 +145,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Pricing.TimeBetweenInitialAndEndDate" class="form-control" placeholder="Tempo entre a data final e inicial" />
-                <span asp-validation-for="Pricing.TimeBetweenInitialAndEndDate" class="text-danger"></span>
+                <input type="number" asp-for="Pricing.TimeBetweenInitialAndEndDate" class="form-control" placeholder="Tempo entre a data inicial e final" />
+                <span asp-validation-for="Pricing.TimeBetweenInitialAndEndDate" name="pricing_TimeBetweenInitialAndEndDate" id="pricing_TimeBetweenInitialAndEndDate" class="text-danger"></span>
               </div>
             </div>
 
@@ -158,13 +158,13 @@
                   </span>
                 </div>
                 <input asp-for="Pricing.Risk" class="form-control" placeholder="Risco" />
-                <span asp-validation-for="Pricing.Risk" class="text-danger"></span>
+                <span asp-validation-for="Pricing.Risk" name="pricing_risk" id="pricing_risk" class="text-danger"></span>
               </div>
             </div>
 
             <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit()">Criar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit()">Next</button>
             </div>
           </form>
         </div>
@@ -174,25 +174,4 @@
 </div>
 
 <input type="hidden" name="hiring_Id" id="hiring_Id" value="" />
-<script>
-  function FormSubmit() {
-    var form = $('#PricingsForm').serialize();
-
-    $.ajax({
-      url: '/Pricings/CreateAsync',
-      type: 'POST',
-      dataType: 'html',
-      data: form,
-    })
-      .done(function (data) {
-        console.log("success");
-        $('#hiring_Id').val(data)
-      })
-      .fail(function () {
-        console.log("error");
-      })
-      .always(function () {
-        console.log("complete");
-      });
-  }
-</script>
+<script src="~/js/Pricing/Generic.js"></script>
