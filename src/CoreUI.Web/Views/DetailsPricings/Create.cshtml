@@ -5,6 +5,11 @@
   Layout = "";
 }
 
+  <style>
+    .text-danger-span{
+      display:  none;
+    }
+  </style>
 
 <div class="col-12">
   <div class="row">
@@ -32,9 +37,9 @@
                   </span>
                 </div>
                 <select asp-for="DetailsPricing.TypeContract" class="form-control" asp-items="@(new SelectList(Model.Hiring, "Id", "Name"))">
-                  <option value="">Selecione</option>
+                  <option value="">Contratação</option>
                 </select>
-                <span asp-validation-for="DetailsPricing.TypeContract" name="typeContract" id="typeContract" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.TypeContract" name="typeContract" id="typeContract" class="text-danger text-danger-span col-12">Contratação inválida</span>
               </div>
             </div>
 
@@ -46,7 +51,7 @@
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.SpecialtyName" class="form-control" placeholder="Especialidade/Nome" />
-                <span asp-validation-for="DetailsPricing.SpecialtyName" name="specialtyName" id="specialtyName" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.SpecialtyName" name="specialtyName" id="specialtyName" class="text-danger text-danger-span col-12">Especialidade/Nome inválida</span>
               </div>
             </div>
 
@@ -58,8 +63,8 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.HoursMonth" class="form-control" placeholder="Horas mês" />
-                <span asp-validation-for="DetailsPricing.HoursMonth" name="hoursMonth" id="hoursMonth" class="text-danger"></span>
+                <input asp-for="DetailsPricing.HoursMonth" class="form-control" placeholder="Horas mês" value="168" />
+                <span asp-validation-for="DetailsPricing.HoursMonth" name="hoursMonth" id="hoursMonth" class="text-danger text-danger-span col-12">Horas mês inválido</span>
               </div>
             </div>
 
@@ -71,7 +76,7 @@
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.HourConsultant" class="form-control" placeholder="Horas consultor" />
-                <span asp-validation-for="DetailsPricing.HourConsultant" name="hourConsultant" id="hourConsultant" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.HourConsultant" name="hourConsultant" id="hourConsultant" class="text-danger text-danger-span col-12">Horas consultor inválido</span>
               </div>
             </div>
 
@@ -83,7 +88,7 @@
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.HourSale" class="form-control" placeholder="Horas venda" />
-                <span asp-validation-for="DetailsPricing.HourSale" name="hourSale" id="hourSale" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.HourSale" name="hourSale" id="hourSale" class="text-danger text-danger-span col-12">Horas venda inválida</span>
               </div>
             </div>
 
@@ -95,7 +100,7 @@
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.ValueCLTType" class="form-control" placeholder="Valor CLT" />
-                <span asp-validation-for="DetailsPricing.ValueCLTType" name="valueCLTType" id="valueCLTType" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.ValueCLTType" name="valueCLTType" id="valueCLTType" class="text-danger text-danger-span col-12">Valor CLT inválido</span>
               </div>
             </div>
 
@@ -107,7 +112,7 @@
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.VT" class="form-control" placeholder="Vale transporte" />
-                <span asp-validation-for="DetailsPricing.VT" name="vt" id="vt" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.VT" name="vt" id="vt" class="text-danger text-danger-span col-12">VT inválido</span>
               </div>
             </div>
 
@@ -120,7 +125,7 @@
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.Cust" class="form-control" placeholder="Ajuda/Custo" />
-                <span asp-validation-for="DetailsPricing.Cust" name="cust" id="cust" class="text-danger"></span>
+                <span asp-validation-for="DetailsPricing.Cust" name="cust" id="cust" class="text-danger text-danger-span col-12">Ajuda/Custo inválido</span>
               </div>
             </div>
 
@@ -132,14 +137,15 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.AgeYears" class="form-control" placeholder="Idade" />
-                <span asp-validation-for="DetailsPricing.AgeYears" name="ageYears" id="ageYears" class="text-danger"></span>
+                <input type="date" class="form-control clssAgeYears" placeholder="Idade" onchange="ageYears();" />
+                <span asp-validation-for="DetailsPricing.AgeYears" name="ageYears" id="ageYears" class="text-danger text-danger-span col-12">Idade inválida</span>
               </div>
             </div>
 
+            <input type="hidden" asp-for="DetailsPricing.AgeYears" />
             <input type="hidden" asp-for="DetailsPricing.Hiring_Id" class="form-control" />
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" onclick="Modal(`/Pricings/Edit/${$('#DetailsPricing_Hiring_Id').val()}`, 'GET')">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Criar</button>
             </div>
           </form>

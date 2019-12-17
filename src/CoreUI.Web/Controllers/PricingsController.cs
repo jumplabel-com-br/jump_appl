@@ -159,14 +159,16 @@ namespace CoreUI.Web.Controllers
         // POST: Pricings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("EditAsync")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TypePricing,Client_Id,Allocation,AccountExecutive,NumberProposal,AllocationManager_Id,Administrator_Id,InitialDate,EndDate,TimeBetweenInitialAndEndDate,Risk")] Pricing pricing)
+        public async Task<int> Edit(int id, Pricing pricing)
         {
+            /*
             if (id != pricing.Id)
             {
                 return NotFound();
             }
+            */
 
             if (ModelState.IsValid)
             {
@@ -177,6 +179,7 @@ namespace CoreUI.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    /*
                     if (!PricingExists(pricing.Id))
                     {
                         return NotFound();
@@ -185,10 +188,12 @@ namespace CoreUI.Web.Controllers
                     {
                         throw;
                     }
+                    */
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            return View(pricing);
+            //return View(pricing);
+            return id;
         }
 
         // GET: Pricings/Delete/5

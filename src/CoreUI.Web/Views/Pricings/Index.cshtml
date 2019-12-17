@@ -208,8 +208,8 @@
                       </td>
                       <td>
                         <div class="row ml-0">
-                          <button type="button" class="btn btn-ghost-warning" asp-route-id="@item.Id"><i class="fa fa-search"></i></button>
-                          <button type="button" class="btn btn-ghost-primary"  asp-route-id="@item.Id"><i class="fa fa-edit"></i></button>
+                          <button type="button" class="btn btn-ghost-warning" asp-route-id="@item.Id" onclick="Modal(`/Pricings/Details/@item.Id`, 'GET')"><i class="fa fa-search"></i></button>
+                          <button type="button" class="btn btn-ghost-primary"  asp-route-id="@item.Id" onclick="Modal(`/Pricings/Edit/@item.Id`, 'GET')"><i class="fa fa-edit"></i></button>
                           <button type="button" class="btn btn-ghost-danger"  asp-route-id="@item.Id" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                         </div>
                       </td>

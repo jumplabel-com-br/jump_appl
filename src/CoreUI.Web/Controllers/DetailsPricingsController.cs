@@ -75,12 +75,17 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
 
-            var detailsPricing = await _context.DetailsPricing.FindAsync(id);
+            //var detailsPricings = await _context.DetailsPricing.FindAsync(id);
+            var detailsPricing = await _context.DetailsPricing.Where(x => x.Hiring_Id == id).FirstAsync();
+
+            var hiring = await _context.Hiring.ToListAsync();
+            var viewModel = new PricingFormViewModel { DetailsPricing = detailsPricing, Hiring = hiring };
+
             if (detailsPricing == null)
             {
                 return NotFound();
             }
-            return View(detailsPricing);
+            return View(viewModel);
         }
 
         // POST: DetailsPricings/Edit/5
@@ -88,7 +93,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TypeContract,Hiring_Id,SpecialtyName,HoursMonth,HourConsultant,HourSale,ValueCLTType,VT,Cust,AgeYears")] DetailsPricing detailsPricing)
+        public async Task<IActionResult> Edit(int id, DetailsPricing detailsPricing)
         {
             if (id != detailsPricing.Id)
             {
@@ -113,7 +118,7 @@ namespace CoreUI.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Pricings");
             }
             return View(detailsPricing);
         }

@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="PricingsForm" asp-action="Edit" enctype="multipart/form-data">
+          <form id="PricingsForm" asp-action="EditAsync" enctype="multipart/form-data">
             <input type="hidden" asp-for="Pricing.Id" />
             <div class="form-group row">
               <div class="input-group col-12" title="Tipo de precificação">
@@ -33,7 +33,7 @@
                   </span>
                 </div>
                 <select asp-for="Pricing.TypePricing"  class="form-control" asp-items="@(new SelectList(Model.TypePricing, "Id",  "Name"))">
-                  <option value="">Selecione</option>
+                  <option value="">Tipo de precificação</option>
                 </select>
                 <span asp-validation-for="Pricing.TypePricing" name="pricing_typePricing" id="pricing_typePricing" class="text-danger"></span>
               </div>
@@ -167,7 +167,7 @@
 
             <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit()">Next</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/EditAsync', `/DetailsPricings/Edit/@Model.Pricing.Id`)">Next</button>
             </div>
           </form>
         </div>

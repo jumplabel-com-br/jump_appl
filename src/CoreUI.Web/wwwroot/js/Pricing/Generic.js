@@ -1,20 +1,29 @@
-﻿function FormSubmit() {
-    verificationsOnSubmit();
+﻿function FormSubmit(url, modal) {
+
+    if (verificationsOnSubmit() == false) {
+        return false;
+    }
 
     var form = $('#PricingsForm').serialize();
 
     $.ajax({
-        url: '/Pricings/CreateAsync',
+        url: url,
         type: 'POST',
         dataType: 'html',
         data: form,
     })
         .done(function (data) {
             console.log("success");
-            $('#hiring_Id').val(data);
+            $('#hiring_Id') != undefined && $('#hiring_Id') != null ?
+                $('#hiring_Id').val(data)
+            : '';
 
-            Modal(`/DetailsPricings/Create`, 'GET');
-            setTimeout(function () { $('#Hiring_Id').val(data); }, 1000)
+            Modal(modal, 'GET');
+            setTimeout(function () {
+                $('#DetailsPricing_Hiring_Id') != undefined && $('#DetailsPricing_Hiring_Id') != null ?
+                    $('#DetailsPricing_Hiring_Id').val(data)
+                : '';
+            }, 1000)
         })
         .fail(function () {
             console.log("error");
@@ -25,6 +34,18 @@
 }
 
 function verificationsOnSubmit() {
+
+    $('#pricing_typePricing').hide();
+    $('#pricing_client_Id').hide();
+    $('#pricing_allocation').hide();
+    $('#pricing_accountExecutive').hide();
+    $('#pricing_numberProposal').hide();
+    $('#pricing_allocationManager_Id').hide();
+    $('#pricing_administrator_Id').hide();
+    $('#pricing_initialDate').hide();
+    $('#pricing_endDate').hide();
+    $('#pricing_TimeBetweenInitialAndEndDate').hide();
+    $('#pricing_risk').hide();
 
     if ($('#Pricing_TypePricing').val().length == 0) {
         $('#pricing_typePricing').show();
@@ -87,4 +108,15 @@ function verificationsOnSubmit() {
         return false;
     }
     */
+}
+
+function betweenDates() {
+    var betweenDate = new Date($('#Pricing_EndDate').val()) - new Date($('#Pricing_InitialDate').val());
+
+    betweenDate = betweenDate / 1000; //transformando millisegundos em segundos
+    betweenDate = betweenDate / 60; // transformando segundos em minutos
+    betweenDate = betweenDate / 60; // transformando  minutos em horas
+    betweenDate = betweenDate / 24; // transformando horas em dias
+
+    $('#Pricing_TimeBetweenInitialAndEndDate').val(betweenDate);
 }
