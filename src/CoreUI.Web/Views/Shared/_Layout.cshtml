@@ -171,6 +171,11 @@
             <!--<span class="badge badge-primary">1</span>-->
           </a>
 
+          <a class="dropdown-item AdminAndManager accessDenied" asp-controller="Pricings" asp-action="Index" onclick="$('.modalSpinner').modal('toggle')">
+            <i class="fa fa-usd"></i> Precificação
+            <!--<span class="badge badge-primary">1</span>-->
+          </a>
+
           <a class="dropdown-item Admin Reports" asp-controller="Reports" asp-action="OutlaysAdmin" onclick="$('.modalSpinner').modal('toggle')" asp-route-month="@DateTime.Today.Month" asp-route-year="@DateTime.Today.Year">
             <i class="fa fa-file-excel-o"></i> Relatório de despesas
             <!--<span class="badge badge-primary">1</span>-->
@@ -182,11 +187,11 @@
           </a>
 
           <!--
-          <div class="divider"></div>
-          <a class="dropdown-item" href="#">
-            <i class="fa fa-shield"></i> Lock Account
-          </a>
-          -->
+  <div class="divider"></div>
+  <a class="dropdown-item" href="#">
+    <i class="fa fa-shield"></i> Lock Account
+  </a>
+  -->
 
           <form asp-controller="Home" asp-action="Logoff" class="text-center">
             <button class="btn btn-ghost-danger btn-sm" type="submit" value="Logoff">
@@ -219,12 +224,12 @@
   <partial name="_CookieConsentPartial" />
 
 
-  <div class="modal modalIndex fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal modalIndex fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close closeModalIndex" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

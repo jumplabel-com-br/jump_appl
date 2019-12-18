@@ -19,111 +19,6 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="row ml-0">
-              <div class="col-12 mb-3">
-                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
-                  Filtros
-                </button>
-              </div>
-
-              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
-                <div class="col-8">
-                  <form asp-action="Index">
-                    <!--
-                    <label>
-                      Cobrança:
-                      <select name="Selectbilling" id="Selectbilling" class="form-control">
-                        <option value="">Selecione</option>
-                        <option value="0">Não</option>
-                        <option value="1">Sim</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Status:
-                      <select name="approval" id="approval" class="form-control">
-                        <option value="">Selecione</option>
-                        <option value="1">Aguardando</option>
-                        <option value="2">Revisar</option>
-                        <option value="3">Reprovado</option>
-                        <option value="4">Aprovado</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Atividade:
-                      <select name="description" id="description" class="form-control">
-                        <option value="">Selecione</option>
-                        <option value="1">Dia útil</option>
-                        <option value="2">Férias</option>
-                        <option value="3">Licença</option>
-                      </select>
-                    </label>
-
-                   
-
-                    <label>
-                      Clientes:
-                      <select name="clients" id="clients" asp-items="@@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control">
-                        <option value="">Selecione</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Projetos:
-                      <select name="projects" id="projects" asp-items="@@(new SelectList(Model.Projects, "Id", "Project_Name"))" class="form-control">
-                        <option value="">Selecione</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Funcionários:
-                      <select name="employees" id="employees" asp-items="@@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control">
-                        <option value="">Selecione</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Mês:
-                      <select name="month" id="searchMothDataTable" class="form-control">
-                        <option value="">Todos</option>
-                        <option value="1">@@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(1).ToLower()</option>
-                        <option value="2">Fev</option>
-                        <option value="3">Mar</option>
-                        <option value="4">Abr</option>
-                        <option value="5">Mai</option>
-                        <option value="6">Jun</option>
-                        <option value="7">Jul</option>
-                        <option value="8">Ago</option>
-                        <option value="9">Set</option>
-                        <option value="10">Out</option>
-                        <option value="11">Nov</option>
-                        <option value="12">Dez</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Ano:
-                      <select name="year" id="searchYearDataTable" class="form-control">
-                        <option value=""></option>
-                      </select>
-                    </label>
-
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-send-o"></i></button>
-                    -->
-                  </form>
-                </div>
-
-                <!--
-                <div class="col-4 text-right">
-                  <label class="text-left">
-                    Total de Horas
-                    <input class="form-control" id="TotalOfSumHours" disabled />
-                  </label>
-                </div>
-                -->
-              </div>
-            </div>
             <div class="text-right">
               <label id="sum"></label>
             </div>
@@ -141,7 +36,7 @@
                       @Html.DisplayNameFor(model => model.Pricing.Allocation)
                     </th>
                     <th>
-                      @Html.DisplayNameFor(model => model.Pricing.AccountExecutive)
+                      @Html.DisplayNameFor(model => model.Pricing.AccountExecutive_Id)
                     </th>
                     <th>
                       @Html.DisplayNameFor(model => model.Pricing.NumberProposal)
@@ -174,10 +69,10 @@
                   {
                     <tr>
                       <td>
-                        @Html.DisplayFor(modelItem => item.TypePricing)
+                        @Html.DisplayFor(modelItem => item.TypesPricing)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.Client_Id)
+                        @Html.DisplayFor(modelItem => item.Cliente)
                       </td>
                       <td>
                         @Html.DisplayFor(modelItem => item.Allocation)
@@ -189,10 +84,10 @@
                         @Html.DisplayFor(modelItem => item.NumberProposal)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.AllocationManager_Id)
+                        @Html.DisplayFor(modelItem => item.AllocationManager)
                       </td>
                       <td>
-                        @Html.DisplayFor(modelItem => item.Administrator_Id)
+                        @Html.DisplayFor(modelItem => item.Administrator)
                       </td>
                       <td>
                         @Html.DisplayFor(modelItem => item.InitialDate)
@@ -226,3 +121,5 @@
     <!--/.row-->
   </div>
 </div>
+
+<script src="~/js/Pricing/Index.js"></script>

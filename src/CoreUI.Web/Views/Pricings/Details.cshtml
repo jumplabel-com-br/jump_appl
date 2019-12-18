@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form id="PricingsForm" asp-action="Edit" enctype="multipart/form-data">
+          <form id="PricingsForm" asp-action="Details" asp-controller="DetailsPricings" enctype="multipart/form-data">
             <input type="hidden" asp-for="Pricing.Id" />
             <div class="form-group row">
               <div class="input-group col-12" title="Tipo de precificação">
@@ -32,7 +32,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.TypePricing"  class="form-control" asp-items="@(new SelectList(Model.TypePricing, "Id",  "Name"))"  disabled>
+                <select asp-for="Pricing.TypePricing" class="form-control" asp-items="@(new SelectList(Model.TypePricing, "Id",  "Name"))" disabled>
                   <option value="">Selecione</option>
                 </select>
                 <span asp-validation-for="Pricing.TypePricing" name="pricing_typePricing" id="pricing_typePricing" class="text-danger"></span>
@@ -60,7 +60,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="Pricing.Allocation" class="form-control" placeholder="Alocação" disabled/>
+                <input asp-for="Pricing.Allocation" class="form-control" placeholder="Alocação" disabled />
                 <span asp-validation-for="Pricing.Allocation" name="pricing_allocation" id="pricing_allocation" class="text-danger"></span>
               </div>
             </div>
@@ -72,8 +72,10 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input type="text" asp-for="Pricing.AccountExecutive" class="form-control" placeholder="Executivo da conta" disabled/>
-                <span asp-validation-for="Pricing.AccountExecutive" name="pricing_accountExecutive" id="pricing_accountExecutive" class="text-danger"></span>
+                <select asp-for="Pricing.AccountExecutive_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id",  "Name"))" disabled>
+                  <option value="">Selecione</option>
+                </select>
+                <span asp-validation-for="Pricing.AccountExecutive_Id" name="pricing_accountExecutive" id="pricing_accountExecutive" class="text-danger"></span>
               </div>
             </div>
 
@@ -81,10 +83,10 @@
               <div class="input-group col-12" title="Número da proposta">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-sort-numeric-asc"></i>
                   </span>
                 </div>
-                <input type="number" asp-for="Pricing.NumberProposal" class="form-control" placeholder="Número da proposta" disabled/>
+                <input type="number" asp-for="Pricing.NumberProposal" class="form-control" placeholder="Número da proposta" disabled />
                 <span asp-validation-for="Pricing.NumberProposal" name="pricing_numberProposal" id="pricing_numberProposal" class="text-danger"></span>
               </div>
             </div>
@@ -96,7 +98,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.AllocationManager_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" disabled>
+                <select asp-for="Pricing.AllocationManager_Id" class="form-control" asp-items="@(new SelectList(Model.Managers, "Id", "Name"))" disabled>
                   <option value="">Gerente</option>
                 </select>
                 <span asp-validation-for="Pricing.AllocationManager_Id" name="pricing_allocationManager_Id" id="pricing_allocationManager_Id" class="text-danger"></span>
@@ -110,7 +112,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.Administrator_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" disabled>
+                <select asp-for="Pricing.Administrator_Id" class="form-control" asp-items="@(new SelectList(Model.Managers, "Id", "Name"))" disabled>
                   <option value="">Responsável</option>
                 </select>
                 <span asp-validation-for="Pricing.Administrator_Id" name="pricing_administrator_Id" id="pricing_administrator_Id" class="text-danger"></span>
@@ -121,10 +123,10 @@
               <div class="input-group col-12" title="Data inicial">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input type="date" asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial" disabled/>
+                <input type="date" asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial" disabled />
                 <span asp-validation-for="Pricing.InitialDate" name="pricing_initialDate" id="pricing_initialDate" class="text-danger"></span>
               </div>
             </div>
@@ -133,10 +135,10 @@
               <div class="input-group col-12" title="Data final">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input type="date" asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" disabled/>
+                <input type="date" asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" disabled />
                 <span asp-validation-for="Pricing.EndDate" name="pricing_endDate" id="pricing_endDate" class="text-danger"></span>
               </div>
             </div>
@@ -145,10 +147,10 @@
               <div class="input-group col-12" title="Tempo">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input type="number" asp-for="Pricing.TimeBetweenInitialAndEndDate" class="form-control" placeholder="Tempo entre a data inicial e final" disabled/>
+                <input type="number" asp-for="Pricing.TimeBetweenInitialAndEndDate" class="form-control" placeholder="Tempo entre a data inicial e final" disabled />
                 <span asp-validation-for="Pricing.TimeBetweenInitialAndEndDate" name="pricing_TimeBetweenInitialAndEndDate" id="pricing_TimeBetweenInitialAndEndDate" class="text-danger"></span>
               </div>
             </div>
@@ -157,17 +159,17 @@
               <div class="input-group col-12" title="Risco">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-percent"></i>
                   </span>
                 </div>
-                <input asp-for="Pricing.Risk" class="form-control" placeholder="Risco" disabled/>
+                <input asp-for="Pricing.Risk" class="form-control" placeholder="Risco" disabled />
                 <span asp-validation-for="Pricing.Risk" name="pricing_risk" id="pricing_risk" class="text-danger"></span>
               </div>
             </div>
 
             <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit()">Next</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="Modal('/DetailsPricings/Details/@Model.Pricing.Id', 'GET');">Next</button>
             </div>
           </form>
         </div>
@@ -178,3 +180,7 @@
 
 <input type="hidden" name="hiring_Id" id="hiring_Id" value="" />
 <script src="~/js/Pricing/Generic.js"></script>
+<script>
+  betweenDates();
+</script>
+

@@ -20,7 +20,7 @@ namespace CoreUI.Web.Models
         public string Allocation { get; set; }
 
         [Display(Name = "Executivo da conta")]
-        public string AccountExecutive { get; set; }
+        public int AccountExecutive_Id { get; set; }
 
         [Display(Name = "Número da proposta")]
         public int NumberProposal { get; set; }

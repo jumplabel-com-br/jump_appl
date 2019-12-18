@@ -21,11 +21,23 @@ namespace CoreUI.Web.Services
         public async Task<List<ListPricing>> FindAllAsync()
         {
             var result = from pricing in _context.Pricing
-                         join typePricint in _context.TypePricing on pricing.TypePricing equals typePricint.Id
+                         join typePricing in _context.TypePricing on pricing.TypePricing equals typePricing.Id
+                            into typesPricings
+                         from typePricing in typesPricings.DefaultIfEmpty()
 
                          join client in _context.Client on pricing.Client_Id equals client.Id
                             into clients
                          from client in clients.DefaultIfEmpty()
+
+                         join executiveAccounts in _context.Employee on pricing.AccountExecutive_Id equals executiveAccounts.Id
+                             into executiveAccount
+                         from executiveAccounts in executiveAccount.DefaultIfEmpty()
+
+                         join employeeManager in _context.Employee on pricing.Administrator_Id equals employeeManager.Id
+                             into employeesManager
+                         from employeeManager in employeesManager.DefaultIfEmpty()
+
+
                          join employee in _context.Employee on pricing.AllocationManager_Id equals employee.Id
                              into employees
                          from employee in employees.DefaultIfEmpty()
@@ -34,12 +46,17 @@ namespace CoreUI.Web.Services
                          {
                              Id = pricing.Id,
                              TypePricing = pricing.TypePricing,
-                             Client_Id = pricing.Client_Id,
+                             TypesPricing = typePricing.Name,
+                             Client_Id = client.Id,
+                             Cliente = client.Name,
                              Allocation = pricing.Allocation,
-                             AccountExecutive = pricing.AccountExecutive,
+                             AccountExecutive_Id = executiveAccounts.Id,
+                             AccountExecutive = executiveAccounts.Name,
                              NumberProposal = pricing.NumberProposal,
-                             AllocationManager_Id = pricing.AllocationManager_Id,
-                             Administrator_Id = pricing.Administrator_Id,
+                             AllocationManager_Id = employee.Id,
+                             AllocationManager = employee.Name,
+                             Administrator_Id = employeeManager.Id,
+                             Administrator = employeeManager.Name,
                              InitialDate = pricing.InitialDate,
                              EndDate = pricing.EndDate,
                              TimeBetweenInitialAndEndDate = pricing.TimeBetweenInitialAndEndDate,

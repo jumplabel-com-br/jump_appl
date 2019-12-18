@@ -13,6 +13,7 @@ namespace CoreUI.Web.Models.ViewModel
         public DetailsPricing DetailsPricing { get; set; }
         public ICollection<Client> Clients { get; set; }
         public ICollection<Employee> Employees { get; set; }
+        public ICollection<Employee> Managers { get; set; }
         public ICollection<TypePricing> TypePricing { get; set; }
         public ICollection<Hiring> Hiring { get; set; }
     }

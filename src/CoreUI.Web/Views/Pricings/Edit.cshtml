@@ -72,8 +72,10 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input type="text" asp-for="Pricing.AccountExecutive" class="form-control" placeholder="Executivo da conta" />
-                <span asp-validation-for="Pricing.AccountExecutive" name="pricing_accountExecutive" id="pricing_accountExecutive" class="text-danger"></span>
+                <select asp-for="Pricing.AccountExecutive_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id",  "Name"))">
+                  <option value="">Executivo da conta</option>
+                </select>
+                <span asp-validation-for="Pricing.AccountExecutive_Id" name="pricing_accountExecutive" id="pricing_accountExecutive" class="text-danger"></span>
               </div>
             </div>
 
@@ -81,7 +83,7 @@
               <div class="input-group col-12" title="Número da proposta">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-sort-numeric-asc"></i>
                   </span>
                 </div>
                 <input type="number" asp-for="Pricing.NumberProposal" class="form-control" placeholder="Número da proposta" />
@@ -96,7 +98,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.AllocationManager_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))">
+                <select asp-for="Pricing.AllocationManager_Id" class="form-control" asp-items="@(new SelectList(Model.Managers, "Id", "Name"))">
                   <option value="">Gerente</option>
                 </select>
                 <span asp-validation-for="Pricing.AllocationManager_Id" name="pricing_allocationManager_Id" id="pricing_allocationManager_Id" class="text-danger"></span>
@@ -110,7 +112,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.Administrator_Id" class="form-control" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))">
+                <select asp-for="Pricing.Administrator_Id" class="form-control" asp-items="@(new SelectList(Model.Managers, "Id", "Name"))">
                   <option value="">Responsável</option>
                 </select>
                 <span asp-validation-for="Pricing.Administrator_Id" name="pricing_administrator_Id" id="pricing_administrator_Id" class="text-danger"></span>
@@ -121,7 +123,7 @@
               <div class="input-group col-12" title="Data inicial">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-calendar"></i>
                   </span>
                 </div>
                 <input type="date" asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial" />
@@ -133,7 +135,7 @@
               <div class="input-group col-12" title="Data final">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-calendar"></i>
                   </span>
                 </div>
                 <input type="date" asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" />
@@ -145,10 +147,10 @@
               <div class="input-group col-12" title="Tempo">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input type="number" asp-for="Pricing.TimeBetweenInitialAndEndDate" class="form-control" placeholder="Tempo entre a data inicial e final" />
+                <input type="number" asp-for="Pricing.TimeBetweenInitialAndEndDate" class="form-control" placeholder="Tempo entre a data inicial e final"  readonly />
                 <span asp-validation-for="Pricing.TimeBetweenInitialAndEndDate" name="pricing_TimeBetweenInitialAndEndDate" id="pricing_TimeBetweenInitialAndEndDate" class="text-danger"></span>
               </div>
             </div>
@@ -157,7 +159,7 @@
               <div class="input-group col-12" title="Risco">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-percent"></i>
                   </span>
                 </div>
                 <input asp-for="Pricing.Risk" class="form-control" placeholder="Risco" />
@@ -178,3 +180,6 @@
 
 <input type="hidden" name="hiring_Id" id="hiring_Id" value="" />
 <script src="~/js/Pricing/Generic.js"></script>
+<script>
+  betweenDates();
+</script>

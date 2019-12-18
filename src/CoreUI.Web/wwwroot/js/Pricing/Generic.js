@@ -64,7 +64,7 @@ function verificationsOnSubmit() {
     }
     */
 
-    if ($('#Pricing_AccountExecutive').val().length == 0) {
+    if ($('#Pricing_AccountExecutive_Id').val().length == 0) {
         $('#pricing_accountExecutive').show();
         return false;
     }
@@ -108,6 +108,11 @@ function verificationsOnSubmit() {
         return false;
     }
     */
+
+    if (parseInt($('#Pricing_TimeBetweenInitialAndEndDate').val()) < 0) {
+        alert('Data inicial não pode ser mais recente que a data final');
+        return false;
+    }
 }
 
 function betweenDates() {

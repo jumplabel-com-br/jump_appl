@@ -35,12 +35,15 @@ namespace CoreUI.Web.Controllers
 
             var detailsPricing = await _context.DetailsPricing
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            var hiring = await _context.Hiring.ToListAsync();
+            var viewModel = new PricingFormViewModel { DetailsPricing = detailsPricing, Hiring = hiring };
             if (detailsPricing == null)
             {
                 return NotFound();
             }
 
-            return View(detailsPricing);
+            return View(viewModel);
         }
 
         // GET: DetailsPricings/Create

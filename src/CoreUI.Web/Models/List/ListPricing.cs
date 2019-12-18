@@ -12,6 +12,7 @@ namespace CoreUI.Web.Models.List
 
         [Display(Name = "Tipo de Precificação")]
         public int TypePricing { get; set; }
+        public string TypesPricing { get; set; }
 
         [Display(Name = "Cliente")]
         public int Client_Id { get; set; }
@@ -20,17 +21,21 @@ namespace CoreUI.Web.Models.List
         [Display(Name = "Alocação")]
         public string Allocation { get; set; }
 
+        public int AccountExecutive_Id { get; set; }
         [Display(Name = "Executivo da conta")]
         public string AccountExecutive { get; set; }
+
 
         [Display(Name = "Número da proposta")]
         public int NumberProposal { get; set; }
 
         [Display(Name = "Alocação do Gerente")]
         public int AllocationManager_Id { get; set; }
+        public string AllocationManager { get; set; }
 
         [Display(Name = "Responsável")]
         public int Administrator_Id { get; set; }
+        public string Administrator { get; set; }
 
         [Display(Name = "Data inicial")]
         [DataType(DataType.Date)]
