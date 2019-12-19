@@ -1,4 +1,6 @@
-﻿function FormSubmit(url, modal) {
+﻿var returnData;
+
+function FormSubmit(url, modal) {
 
     if (verificationsOnSubmit() == false) {
         return false;
@@ -14,14 +16,15 @@
     })
         .done(function (data) {
             console.log("success");
+            returnData = data;
             $('#hiring_Id') != undefined && $('#hiring_Id') != null ?
-                $('#hiring_Id').val(data)
+                $('#hiring_Id').val(returnData)
             : '';
 
             Modal(modal, 'GET');
             setTimeout(function () {
                 $('#DetailsPricing_Hiring_Id') != undefined && $('#DetailsPricing_Hiring_Id') != null ?
-                    $('#DetailsPricing_Hiring_Id').val(data)
+                    $('#DetailsPricing_Hiring_Id').val(returnData)
                 : '';
             }, 1000)
         })

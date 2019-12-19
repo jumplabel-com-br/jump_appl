@@ -175,7 +175,7 @@
 
             <div class="form-group form-actions text-right">
               <div class="col-12">
-                <button class="btn btn-sm btn-warning" type="submit" name="backToList" id="backToList" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-approval="@ViewBag.Approval" asp-route-description="@ViewBag.Description" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects">Voltar</button>
+                <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
                 <button class="btn btn-sm btn-success btn-edit" type="button" onclick="HourSubmit();" asp-route-id="Id">Salvar</button>
                 <button class="btn btn-sm btn-info btn-copy" type="button" onclick="CopySubmit();">Copiar</button>
                 <!--<button class="btn btn-sm btn-primary" type="button" onclick="createHour();" asp-route-id="Id">Criar</button>-->

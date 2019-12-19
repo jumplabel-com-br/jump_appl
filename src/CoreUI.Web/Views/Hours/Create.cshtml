@@ -188,7 +188,7 @@
             <input type="hidden" name="year" id="year" value="@ViewBag.Year">
 
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-approval="@ViewBag.Approval" asp-route-description="@ViewBag.Description" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();">Criar</button>
             </div>
           </form>

@@ -125,7 +125,7 @@
 
             <input type="hidden" name="teste" id="teste" value="@ViewBag.Status" />
             <div class="form-group form-actions text-right col-12 mt-3">
-              <button class="btn btn-sm btn-warning" type="submit" onclick="$('.modalSpinner').modal('toggle');" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-status="@ViewBag.Status" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
             </div>
           </form>
         </div>

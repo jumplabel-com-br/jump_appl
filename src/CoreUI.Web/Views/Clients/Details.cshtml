@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-primary" type="button" onclick="Modal(`/Clients/Edit/@Model.Id`, 'GET')">Editar</button>
             </div>
           </form>

@@ -111,7 +111,7 @@
             <input type="hidden" name="Manager_Project" id="Manager_Project" value="@ViewBag.Manager_Project">
 
             <div class="form-group form-actions text-right col-12">
-              <button type="submit" class="btn btn-sm btn-warning" asp-action="Index" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-manager="@ViewBag.Manager" asp-route-manager_project="@ViewBag.Manager_Project">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button type="button" class="btn btn-sm btn-primary" onclick="Modal(`/Projects/Edit/@Model.Project.Id?clients=${$('#Clients').val().length > 0 ? $('#Clients').val() : null}&projects=${$('#Projects').val().length > 0 ? $('#Projects').val(): null}&manager_project=${$('#Manager_Project').val().length > 0 ? $('#Manager_Project').val(): null}&manager=${$('#Manager').val().length > 0 ? $('#Manager').val(): null}`, 'GET')">Editar</button>
             </div>
           </form>

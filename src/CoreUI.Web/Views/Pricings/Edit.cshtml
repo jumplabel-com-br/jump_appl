@@ -168,8 +168,8 @@
             </div>
 
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/EditAsync', `/DetailsPricings/Edit/@Model.Pricing.Id`)">Next</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/EditAsync', `/DetailsPricings/Edit/@Model.Pricing.Id`)">Próximo</button>
             </div>
           </form>
         </div>
@@ -179,7 +179,7 @@
 </div>
 
 <input type="hidden" name="hiring_Id" id="hiring_Id" value="" />
-<script src="~/js/Pricing/Generic.js"></script>
+<script src="~/js/Pricing/Generic.js?@DateTime.Now.ToString()"></script>
 <script>
   betweenDates();
 </script>

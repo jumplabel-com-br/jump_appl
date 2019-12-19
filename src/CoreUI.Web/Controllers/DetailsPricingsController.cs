@@ -7,16 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
 using CoreUI.Web.Models.ViewModel;
+using CoreUI.Web.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CoreUI.Web.Controllers
 {
     public class DetailsPricingsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ProjectService _projectService;
+        private readonly ProjectTeamService _projectTeamService;
+        private readonly EmployeeService _employeeService;
+        private readonly HourService _hourService;
+        private readonly ClientService _clientService;
+        private readonly PricingService _pricingService;
+        private readonly Files _files;
+        private readonly IConfiguration _config;
+        private readonly IHostingEnvironment _appEnvironment;
 
-        public DetailsPricingsController(ApplicationDbContext context)
+
+        public DetailsPricingsController(ApplicationDbContext context, ProjectService project, EmployeeService employee, HourService hour, ProjectTeamService projectTeam, ClientService client, PricingService pricing, Files files, IConfiguration config, IHostingEnvironment env)
         {
             _context = context;
+            _projectService = project;
+            _projectTeamService = projectTeam;
+            _employeeService = employee;
+            _hourService = hour;
+            _clientService = client;
+            _pricingService = pricing;
+            _files = files;
+            _config = config;
+            _appEnvironment = env;
         }
 
         // GET: DetailsPricings
@@ -49,8 +71,9 @@ namespace CoreUI.Web.Controllers
         // GET: DetailsPricings/Create
         public async Task<IActionResult> Create()
         {
+            var detailsPricing = _pricingService.DetailsPricing();
             var hiring = await _context.Hiring.ToListAsync();
-            var viewModel = new PricingFormViewModel {  Hiring = hiring };
+            var viewModel = new PricingFormViewModel { Hiring = hiring };
             return View(viewModel);
         }
 

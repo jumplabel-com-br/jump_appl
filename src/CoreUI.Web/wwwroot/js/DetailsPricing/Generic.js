@@ -81,6 +81,7 @@ function ageYears() {
     years = years / 60; // transformando  minutos em horas
     years = years / 24; // transformando horas em dias
     years = years / 365;
+    years = parseInt(years);
 
     $('#DetailsPricing_AgeYears').val(years);
 }

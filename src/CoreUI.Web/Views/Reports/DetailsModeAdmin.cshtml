@@ -170,7 +170,7 @@
             <input type="hidden" asp-for="Hour.Creation_Date" />
             <div class="form-group form-actions text-right">
               <div class="col-12">
-                <button type="submit" class="btn btn-sm btn-warning" asp-action="ModeAdmin" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-Selectbilling="@ViewBag.Billing" asp-route-approval="@ViewBag.Approval" asp-route-description="@ViewBag.Description" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
+                <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
                 <input type="hidden" asp-for="Hour.Id" />
                 <!--<a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@@Model.Hour.Id" onclik="$('.modalSpinner').modal('show')">Editar</a>-->
               </div>

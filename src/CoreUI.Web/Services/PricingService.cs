@@ -66,5 +66,31 @@ namespace CoreUI.Web.Services
             return await result
                 .ToListAsync();
         }
+
+        public async Task<DetailsPricing> DetailsPricing(int? id = null)
+        {
+            var result = from detailsPricing in _context.DetailsPricing
+                         select new DetailsPricing
+                         {
+                             Id = detailsPricing.Id,
+                             TypeContract = detailsPricing.TypeContract == null ? 0 : detailsPricing.TypeContract,
+                             Hiring_Id = detailsPricing.Hiring_Id == null ? 0 : detailsPricing.Hiring_Id,
+                             SpecialtyName = detailsPricing.SpecialtyName == null ? "" : detailsPricing.SpecialtyName,
+                             HoursMonth = detailsPricing.HoursMonth == null ? 0 : detailsPricing.HoursMonth,
+                             HourConsultant = detailsPricing.HourConsultant == null ? 0 : detailsPricing.HourConsultant,
+                             HourSale = detailsPricing.HourSale == null ? 0 : detailsPricing.HourSale,
+                             ValueCLTType = detailsPricing.ValueCLTType == null ? 0 : detailsPricing.ValueCLTType,
+                             VT = detailsPricing.VT == null ? 0 : detailsPricing.VT,
+                             Cust = detailsPricing.Cust == null ? 0 : detailsPricing.Cust,
+                             AgeYears = detailsPricing == null ? 0 : detailsPricing.AgeYears
+                         };
+
+            if (id.HasValue)
+            {
+                result = result.Where(x => x.Id == id);
+            }
+
+            return await result.FirstAsync();
+        }
     }
 }

@@ -114,7 +114,7 @@
             <input type="hidden" name="Manager_Project" id="Manager_Project" value="@ViewBag.Manager_Project">
 
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-accessLevel="@ViewBag.AcessLevel" asp-route-employeeId="@ViewBag.Id">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="ProjectFormSubmit();">Salvar</button>
             </div>
           </form>

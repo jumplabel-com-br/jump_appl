@@ -72,7 +72,7 @@
               <div class="input-group col-12" title="Horas consultor">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-clock-o""></i>
+                    <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.HourConsultant" class="form-control" placeholder="Horas consultor" />
@@ -84,7 +84,7 @@
               <div class="input-group col-12" title="Horas venda">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="fa fa-clock-o""></i>
+                    <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
                 <input asp-for="DetailsPricing.HourSale" class="form-control" placeholder="Horas venda" />
@@ -145,7 +145,7 @@
             <input type="hidden" asp-for="DetailsPricing.AgeYears" />
             <input type="hidden" asp-for="DetailsPricing.Hiring_Id" class="form-control" />
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="button" onclick="Modal(`/Pricings/Edit/${$('#DetailsPricing_Hiring_Id').val()}`, 'GET')">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Criar</button>
             </div>
           </form>
@@ -155,5 +155,5 @@
   </div>
 </div>
 
-<script src="~/js/DetailsPricing/Generic.js"></script>
+<script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
 

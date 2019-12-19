@@ -193,7 +193,7 @@
 
             <div class="form-group form-actions text-right">
               <div class="col-10">
-                <button class="btn btn-sm btn-warning" type="submit" name="backToList" id="backToList" asp-action="Index" onclick="$('.modalSpinner').modal('show')">Voltar</button>
+                <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
                 <button class="btn btn-sm btn-success" type="button" onclick="HourSubmit();" asp-route-id="Id">Salvar</button>
                 <button class="btn btn-sm btn-info" type="button" onclick="CopySubmit();">Copiar</button>
               </div>

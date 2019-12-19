@@ -137,7 +137,7 @@
             <input type="hidden" name="Employees" id="Employees" value="@ViewBag.Employees">
 
             <div class="form-group form-actions text-right col-12 mt-3">
-              <button class="btn btn-sm btn-warning" type="submit" asp-action="Index" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-status="@ViewBag.Status" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="OutlaysSubmit();">Criar</button>
             </div>
           </form>

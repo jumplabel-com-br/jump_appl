@@ -72,7 +72,7 @@
             </div>
 
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="submit" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">Voltar</button>
+              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-primary" type="button" onclick="Modal(`/Project_team/Edit/@Model.Project_team.Id?clients=@ViewBag.Clients&projects=@ViewBag.Projects&employees=@ViewBag.Employees`, 'GET')">Editar</button>
             </div>
           </form>
