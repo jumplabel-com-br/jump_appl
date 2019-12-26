@@ -12,6 +12,12 @@
     $('#DetailsPricing_AgeYears').val().length == 0 ? $('#DetailsPricing_AgeYears').val(0) : '';
 
     var form = $('#DetailsPricingsForm');
+
+    if ($('#DetailsPricing_Id').val() ==  "") {
+        $('#DetailsPricingsForm').prop('action', '/DetailsPricings/CreateAsync');
+        $('#DetailsPricing_Id').remove();
+    }
+
     $('#toast-container-saved').toggle();
     $('.modalSpinner').modal('show');
     form.submit();
@@ -70,6 +76,157 @@ function verificationsOnSubmitDetails() {
     }
 
 }
+
+function addDetailsPricings() {
+    let data = $('#DetailsPricingsForm').serialize()
+
+
+    $.ajax({
+        url: '/DetailsPricings/CreateAsync',
+        type: 'POST',
+        dataType: 'html',
+        data: data,
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        },
+    })
+        .done(function () {
+            console.log("success");
+            returnDetailsPricings()
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            $('.modalSpinner').modal('hide');
+        });
+}
+
+function returnDetailsPricings() {
+    $.ajax({
+        url: '/api/DetailsPricingsAPI',
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        },
+    })
+        .done(function (data) {
+            console.log("success");
+            console.log('data: ', data)
+            data.length > 0 ? $('.grid-pricings').html(gridDetailsPricings(data)) : $('.grid-pricings').html('');
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            $('.modalSpinner').modal('hide');
+        });
+}
+
+function gridDetailsPricings(model) {
+    return `
+    <table id="example" class="table table-responsive-sm table-bordered  table-sm">
+                <thead>
+                  <tr>
+                    <th>
+                      Contratação
+                    </th>
+                    <th>
+                      Especialidade/Nome
+                    </th>
+                    <th>
+                      Horas mês
+                    </th>
+                    <th>
+                      Horas  consultor
+                    </th>
+                    <th>
+                      Horas Venda
+                    </th>
+                    <th>
+                      Valor CLT
+                    </th>
+                    <th>
+                      VT
+                    </th>
+                    <th>
+                      Custo/Ajuda
+                    </th>
+                    <th>
+                      Idade
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    ${model.map(obj => {
+                        return `
+                      <tr>
+                        <td>
+                            ${obj.typeContract}
+                        </td>
+                        <td>
+                            ${obj.specialtyName}
+                        </td>
+                        <td>
+                            ${obj.hoursMonth}
+                        </td>
+                        <td>
+                            ${obj.hourConsultant}
+                        </td>
+                        <td>
+                            ${obj.hourSale}
+                        </td>
+                        <td>
+                            ${obj.valueCLTType}
+                        </td>
+                        <td>
+                            ${obj.vt}
+                        </td>
+                        <td>
+                            ${obj.cust}
+                        </td>
+                        <td>
+                            ${obj.ageYears}
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-ghost-primary" onclick="Modal('/DetailsPricings/Edit/${obj.id}')"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-ghost-danger" onclick="deleteDetailsPricings(${obj.id});"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                    </tr>
+                    `}).join('')}
+                 </tbody>
+           </table>
+    `
+}
+
+function deleteDetailsPricings(id) {
+
+    if (confirm('Deseja realmente deletar está informação ?')) {
+        $.ajax({
+            url: '/DetailsPricings/Delete',
+            type: 'GET',
+            dataType: 'html',
+            data: { id },
+            beforeSend: function() {
+                $('.modalSpinner').modal('show');
+            }
+        })
+            .done(function () {
+                console.log("success");
+                $('.modalSpinner').modal('hide');
+            })
+            .fail(function () {
+                console.log("error");
+                $('.modalSpinner').modal('hide');
+            });
+
+    }
+}
+
+returnDetailsPricings();
 
 function ageYears() {
     var inputYear = $('.clssAgeYears').val().split('-')

@@ -17,16 +17,12 @@ function FormSubmit(url, modal) {
         .done(function (data) {
             console.log("success");
             returnData = data;
+            debugger;
             $('#hiring_Id') != undefined && $('#hiring_Id') != null ?
                 $('#hiring_Id').val(returnData)
             : '';
 
             Modal(modal, 'GET');
-            setTimeout(function () {
-                $('#DetailsPricing_Hiring_Id') != undefined && $('#DetailsPricing_Hiring_Id') != null ?
-                    $('#DetailsPricing_Hiring_Id').val(returnData)
-                : '';
-            }, 1000)
         })
         .fail(function () {
             console.log("error");

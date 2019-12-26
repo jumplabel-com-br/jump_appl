@@ -169,7 +169,7 @@
 
             <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/EditAsync', `/DetailsPricings/Edit/@Model.Pricing.Id`)">Próximo</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/EditAsync?id=@Model.Pricing.Id', `/DetailsPricings/Edit/@Model.Pricing.Id`)">Próximo</button>
             </div>
           </form>
         </div>

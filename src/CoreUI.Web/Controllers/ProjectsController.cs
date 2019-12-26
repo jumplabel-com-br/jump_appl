@@ -69,7 +69,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Manager_Project = manager_project;
 
                 var Listprojects = await _projectService.FindAllToListAsync(accessLevel, employeeId, clients, projects, manager_project, manager);
-                var clientes = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var clientes = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var projetos = await _projectService.FindProjectAsync((int)accessLevel, (int)employeeId);
                 var funcionarios = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { ListProject = Listprojects, Client = clientes, Projects = projetos, Employee = funcionarios };
@@ -109,7 +109,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Manager_Project = manager_project;
 
                 var project = _projectService.Find(id);
-                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var client = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee };
 
@@ -123,7 +123,7 @@ namespace CoreUI.Web.Controllers
              catch (Exception e)
             {
 
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = e.Message});
             }
 
         }
@@ -149,7 +149,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Manager = manager;
                 ViewBag.Manager_Project = manager_project;
 
-                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var client = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Employee = employee };
 
@@ -158,7 +158,7 @@ namespace CoreUI.Web.Controllers
              catch (Exception e)
             {
 
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -190,7 +190,7 @@ namespace CoreUI.Web.Controllers
              catch (Exception e)
             {
 
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -221,7 +221,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Manager_Project = manager_project;
 
                 var project = _projectService.Find(id);
-                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var client = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var employee = await _employeeService.FindAllManagersAsync();
                 var viewModel = new ProjectFormViewModel { Client = client, Project = project, Employee = employee };
 
@@ -285,7 +285,7 @@ namespace CoreUI.Web.Controllers
              catch (Exception e)
             {
 
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -318,7 +318,7 @@ namespace CoreUI.Web.Controllers
              catch (Exception e)
             {
 
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -346,7 +346,7 @@ namespace CoreUI.Web.Controllers
              catch (Exception e)
             {
 
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 

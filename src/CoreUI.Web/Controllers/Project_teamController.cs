@@ -77,7 +77,7 @@ namespace CoreUI.Web.Controllers
                 int employeeId = ViewBag.Id;
 
                 var projectTeam = await _projectTeamService.FindAllAsync(accessLevel, employeeId, clients, projects, employees);
-                var clientes = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var clientes = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var projetos = await _projectService.FindProjectAsync(accessLevel, employeeId);
                 var funcionarios = await _employeeService.FindAllAsync();
                 var viewModel = new ProjectTeamFormViewModel { ProjectsTeams = projectTeam, Client = clientes, Project = projetos, Employee = funcionarios };
@@ -116,11 +116,13 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Clients = clients;
                 ViewBag.Projects = projects;
                 ViewBag.Employees = employees;
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
 
                 var project_team = await _context.Project_team.FindAsync(id);
                 var funcionarios = await _employeeService.FindEmployeeAsync(employees);
                 var projetos = await _projectService.FindProjectAsync(projects);
-                var clientes = await _clientService.FindClientAsync(clients);
+                var clientes = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var viewModel = new ProjectTeamFormViewModel { Project = projetos, Employee = funcionarios, Client = clientes, Project_team = project_team };
 
                 if (project_team == null)
@@ -162,7 +164,7 @@ namespace CoreUI.Web.Controllers
 
                 var employee = await _employeeService.FindAllAsync();
                 var project = await _projectService.FindAllAsync();
-                var client = await _clientService.FindAllAsync(accessLevel, employeeId);
+                var client = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client };
 
                 return View(viewModel);
@@ -226,6 +228,8 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Clients = clients;
                 ViewBag.Projects = projects;
                 ViewBag.Employees = employees;
+                int accessLevel = ViewBag.AcessLevel;
+                int employeeId = ViewBag.Id;
 
                 if (id == null)
                 {
@@ -235,7 +239,7 @@ namespace CoreUI.Web.Controllers
                 var project_team = await _context.Project_team.FindAsync(id);
                 var employee = await _employeeService.FindEmployeeAsync(employees);
                 var project = await _projectService.FindProjectAsync(projects);
-                var client = await _clientService.FindClientAsync(clients);
+                var client = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Project_team = project_team, Client = client };
 
                 if (project_team == null)

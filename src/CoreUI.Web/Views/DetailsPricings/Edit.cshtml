@@ -19,12 +19,12 @@
           <i class="fa fa-edit"></i> Precificação
           <div class="card-header-actions">
             <!--
-            <a asp-action="Create">
-              <input type="hidden" asp-for="DetailsPricing.Pricing.@@ViewData["Email"]" />
-              <input type="hidden" asp-for="DetailsPricing.Pricing.@@ViewData["Password"]" />
-              <i class="fa fa-plus"></i>
-            </a>
-                -->
+      <a asp-action="Create">
+        <input type="hidden" asp-for="DetailsPricing.Pricing.@@ViewData["Email"]" />
+        <input type="hidden" asp-for="DetailsPricing.Pricing.@@ViewData["Password"]" />
+        <i class="fa fa-plus"></i>
+      </a>
+          -->
           </div>
         </div>
         <div class="card-body">
@@ -143,13 +143,19 @@
             </div>
 
             <input type="hidden" asp-for="DetailsPricing.AgeYears" />
-            <input type="hidden" asp-for="DetailsPricing.Hiring_Id" class="form-control" />
-            <input type="hidden" asp-for="DetailsPricing.Id" />
+            <input type="hidden" asp-for="DetailsPricing.Hiring_Id" />
+            <!--<input type="hidden" asp-for="DetailsPricing.Id" />-->
             <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>
+              <button type="button" class="btn btn-sm btn-ghost-primary" onclick="addDetailsPricings()">Adicionar</button>
+              <!--
+    <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
+    <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>
+    -->
             </div>
           </form>
+        </div>
+        <div class="grid-pricings">
+
         </div>
       </div>
     </div>
@@ -157,3 +163,6 @@
 </div>
 
 <script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
+<script>
+  $('#DetailsPricing_Hiring_Id').val(returnData)
+</script>

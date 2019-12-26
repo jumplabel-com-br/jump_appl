@@ -82,15 +82,16 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DetailsPricing detailsPricing)
+        public async Task CreateAsync(DetailsPricing detailsPricing)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(detailsPricing);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Pricings");
+                //return RedirectToAction("Index", "Pricings");
             }
-            return View(detailsPricing);
+            //return View(detailsPricing);
         }
 
         // GET: DetailsPricings/Edit/5
@@ -102,12 +103,12 @@ namespace CoreUI.Web.Controllers
             }
 
             //var detailsPricings = await _context.DetailsPricing.FindAsync(id);
-            var detailsPricing = await _context.DetailsPricing.Where(x => x.Hiring_Id == id).FirstAsync();
+            var detailsPricing = await _context.DetailsPricing.Where(x => x.Hiring_Id == id).FirstOrDefaultAsync();
 
             var hiring = await _context.Hiring.ToListAsync();
             var viewModel = new PricingFormViewModel { DetailsPricing = detailsPricing, Hiring = hiring };
 
-            if (detailsPricing == null)
+            if (viewModel == null)
             {
                 return NotFound();
             }
@@ -149,33 +150,14 @@ namespace CoreUI.Web.Controllers
             return View(detailsPricing);
         }
 
-        // GET: DetailsPricings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var detailsPricing = await _context.DetailsPricing
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (detailsPricing == null)
-            {
-                return NotFound();
-            }
-
-            return View(detailsPricing);
-        }
-
         // POST: DetailsPricings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task Delete(int id)
         {
             var detailsPricing = await _context.DetailsPricing.FindAsync(id);
             _context.DetailsPricing.Remove(detailsPricing);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            //return 0;
         }
 
         private bool DetailsPricingExists(int id)

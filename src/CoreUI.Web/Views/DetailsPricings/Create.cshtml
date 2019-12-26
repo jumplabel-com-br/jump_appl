@@ -145,15 +145,24 @@
             <input type="hidden" asp-for="DetailsPricing.AgeYears" />
             <input type="hidden" asp-for="DetailsPricing.Hiring_Id" class="form-control" />
             <div class="form-group form-actions text-right col-12">
+              <button type="button" class="btn btn-sm btn-ghost-primary" onclick="addDetailsPricings()">Adicionar</button>
+              <!--
               <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Criar</button>
+              -->
             </div>
           </form>
+        </div>
+        <div class="grid-pricings">
+          
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<script>
+   $('#DetailsPricing_Hiring_Id').val(returnData)
+</script>
 <script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
 

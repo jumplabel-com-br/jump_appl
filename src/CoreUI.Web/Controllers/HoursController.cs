@@ -435,7 +435,7 @@ namespace CoreUI.Web.Controllers
 
             if (status == null || status == 0 || ids == "")
             {
-                return RedirectToAction(nameof(Error));
+                return RedirectToAction(nameof(Error), new { message = "Erro desconhecido, informar o T.I" });
             }
 
             if (ViewBag.Email == null)
