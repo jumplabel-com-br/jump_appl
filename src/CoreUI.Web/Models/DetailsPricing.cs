@@ -10,7 +10,7 @@ namespace CoreUI.Web.Models
     {
         public int Id { get; set; }
         public int TypeContract { get; set; }
-        public int Hiring_Id { get; set; }
+        public int Pricing_Id { get; set; }
         public string SpecialtyName { get; set; }
         public int HoursMonth { get; set; }
         public int HourConsultant { get; set; }

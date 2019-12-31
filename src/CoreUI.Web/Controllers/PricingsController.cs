@@ -237,7 +237,7 @@ namespace CoreUI.Web.Controllers
             var pricing = await _context.Pricing.FindAsync(id);
             _context.Pricing.Remove(pricing);
 
-            var detailsPricing = await _context.DetailsPricing.Where(x => x.Hiring_Id == id).FirstOrDefaultAsync();
+            var detailsPricing = await _context.DetailsPricing.Where(x => x.Pricing_Id == id).FirstOrDefaultAsync();
             if (detailsPricing != null)
             {
                 _context.DetailsPricing.Remove(detailsPricing);

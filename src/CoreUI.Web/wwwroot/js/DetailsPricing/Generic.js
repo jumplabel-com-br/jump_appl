@@ -104,7 +104,7 @@ function addDetailsPricings() {
 
 function returnDetailsPricings() {
     $.ajax({
-        url: '/api/DetailsPricingsAPI',
+        url: `/api/DetailsPricingsAPI?pricingId=${returnData}`,
         type: 'GET',
         dataType: 'json',
         data: {},
@@ -192,7 +192,7 @@ function gridDetailsPricings(model) {
                             ${obj.ageYears}
                         </td>
                         <td>
-                            <button type="button" class="btn btn-ghost-primary" onclick="Modal('/DetailsPricings/Edit/${obj.id}')"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-ghost-primary" onclick="editDetailsPricings(${obj.id});"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="deleteDetailsPricings(${obj.id});"><i class="fa fa-trash-o"></i></button>
                         </td>
                     </tr>
@@ -217,6 +217,7 @@ function deleteDetailsPricings(id) {
             .done(function () {
                 console.log("success");
                 $('.modalSpinner').modal('hide');
+                returnDetailsPricings();
             })
             .fail(function () {
                 console.log("error");
@@ -224,6 +225,34 @@ function deleteDetailsPricings(id) {
             });
 
     }
+}
+
+function editDetailsPricings(id) {
+    $.ajax({
+        url: `/api/DetailsPricingsAPI/${id}`,
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        },
+    })
+        .done(function (data) {
+            console.log("success");
+            
+            if (data.length > 0) {
+                let infos = data[0];
+
+                $('#DetailsPricingsForm').append(`<input type="hidden" name="DetailsPricing.Id" id="DetailsPricing.Id" value=${infos.id} />`);
+
+            }
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            $('.modalSpinner').modal('hide');
+        });
 }
 
 returnDetailsPricings();

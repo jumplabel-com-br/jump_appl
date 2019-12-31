@@ -1,4 +1,4 @@
-﻿$('.closeModalIndex').on('click', function () {
+﻿/*$('.closeModalIndex').on('click', function () {
 
     if ($('#Pricing_Id').val() == undefined && $('#DetailsPricingsForm').length  == 1) {
         SubmitPricing();
@@ -6,4 +6,4 @@
         alert('Preencha as duas etapas do formulário ou clique em voltar!');
         return false;
     }
-});
+});*/

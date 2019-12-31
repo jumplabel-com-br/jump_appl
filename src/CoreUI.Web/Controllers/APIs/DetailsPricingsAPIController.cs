@@ -22,8 +22,21 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/DetailsPricingsAPI
         [HttpGet]
-        public IEnumerable<DetailsPricing> GetDetailsPricing()
+        public IEnumerable<DetailsPricing> GetDetailsPricing(int? pricingId)
         {
+
+            if (pricingId.HasValue)
+            {
+
+                var result = from detailsPricings in _context.DetailsPricing
+                         where detailsPricings.Pricing_Id == pricingId
+                         select detailsPricings;
+
+                return result.OrderBy(x => x.SpecialtyName).Distinct();
+                
+                //result = _context.DetailsPricing.Where( x => x.Pricing_Id == pricingId);
+            }
+
             return _context.DetailsPricing;
         }
 

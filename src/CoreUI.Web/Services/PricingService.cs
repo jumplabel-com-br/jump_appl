@@ -74,7 +74,7 @@ namespace CoreUI.Web.Services
                          {
                              Id = detailsPricing.Id,
                              TypeContract = detailsPricing.TypeContract == null ? 0 : detailsPricing.TypeContract,
-                             Hiring_Id = detailsPricing.Hiring_Id == null ? 0 : detailsPricing.Hiring_Id,
+                             Pricing_Id = detailsPricing.Pricing_Id == null ? 0 : detailsPricing.Pricing_Id,
                              SpecialtyName = detailsPricing.SpecialtyName == null ? "" : detailsPricing.SpecialtyName,
                              HoursMonth = detailsPricing.HoursMonth == null ? 0 : detailsPricing.HoursMonth,
                              HourConsultant = detailsPricing.HourConsultant == null ? 0 : detailsPricing.HourConsultant,

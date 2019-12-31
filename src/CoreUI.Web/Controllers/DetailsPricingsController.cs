@@ -103,7 +103,7 @@ namespace CoreUI.Web.Controllers
             }
 
             //var detailsPricings = await _context.DetailsPricing.FindAsync(id);
-            var detailsPricing = await _context.DetailsPricing.Where(x => x.Hiring_Id == id).FirstOrDefaultAsync();
+            var detailsPricing = await _context.DetailsPricing.Where(x => x.Pricing_Id == id).FirstOrDefaultAsync();
 
             var hiring = await _context.Hiring.ToListAsync();
             var viewModel = new PricingFormViewModel { DetailsPricing = detailsPricing, Hiring = hiring };
@@ -120,12 +120,12 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DetailsPricing detailsPricing)
+        public async Task Edit(int id, DetailsPricing detailsPricing)
         {
-            if (id != detailsPricing.Id)
+            /*if (id != detailsPricing.Id)
             {
                 return NotFound();
-            }
+            }*/
 
             if (ModelState.IsValid)
             {
@@ -138,16 +138,16 @@ namespace CoreUI.Web.Controllers
                 {
                     if (!DetailsPricingExists(detailsPricing.Id))
                     {
-                        return NotFound();
+                        //return NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), "Pricings");
+                //return RedirectToAction(nameof(Index), "Pricings");
             }
-            return View(detailsPricing);
+            //return View(detailsPricing);
         }
 
         // POST: DetailsPricings/Delete/5

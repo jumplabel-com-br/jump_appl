@@ -143,19 +143,20 @@
             </div>
 
             <input type="hidden" asp-for="DetailsPricing.AgeYears" />
-            <input type="hidden" asp-for="DetailsPricing.Hiring_Id" />
+            <input type="hidden" asp-for="DetailsPricing.Pricing_Id" />
             <!--<input type="hidden" asp-for="DetailsPricing.Id" />-->
             <div class="form-group form-actions text-right col-12">
               <button type="button" class="btn btn-sm btn-ghost-primary" onclick="addDetailsPricings()">Adicionar</button>
+              <button type="button" class="btn btn-sm btn-ghost-success" onclick="saveDetailsPricings();">Salvar</button>
               <!--
-    <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
-    <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>
-    -->
+  <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
+  <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>
+  -->
             </div>
           </form>
-        </div>
-        <div class="grid-pricings">
+          <div class="grid-pricings">
 
+          </div>
         </div>
       </div>
     </div>
@@ -164,5 +165,9 @@
 
 <script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
 <script>
-  $('#DetailsPricing_Hiring_Id').val(returnData)
+  $('#DetailsPricing_Pricing_Id').val(returnData)
+
+  function saveDetailsPricings() {
+    $('#DetailsPricingsForm').append('<input type="hidden" name="DetailsPricing.Id"  id="DetailsPricing_Id" />') 
+  }
 </script>

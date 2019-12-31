@@ -17,10 +17,10 @@ function FormSubmit(url, modal) {
         .done(function (data) {
             console.log("success");
             returnData = data;
-            debugger;
-            $('#hiring_Id') != undefined && $('#hiring_Id') != null ?
+            //debugger;
+            /*$('#hiring_Id') != undefined && $('#hiring_Id') != null ?
                 $('#hiring_Id').val(returnData)
-            : '';
+            : '';*/
 
             Modal(modal, 'GET');
         })
