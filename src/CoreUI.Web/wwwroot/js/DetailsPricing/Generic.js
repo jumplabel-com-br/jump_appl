@@ -192,7 +192,7 @@ function gridDetailsPricings(model) {
                             ${obj.ageYears}
                         </td>
                         <td>
-                            <button type="button" class="btn btn-ghost-primary" onclick="editDetailsPricings(${obj.id});"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-ghost-primary" onclick="editDetailsPricings(${obj.id});$('.success-save-details').show();"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="deleteDetailsPricings(${obj.id});"><i class="fa fa-trash-o"></i></button>
                         </td>
                     </tr>
@@ -239,13 +239,24 @@ function editDetailsPricings(id) {
     })
         .done(function (data) {
             console.log("success");
-            
-            if (data.length > 0) {
-                let infos = data[0];
 
-                $('#DetailsPricingsForm').append(`<input type="hidden" name="DetailsPricing.Id" id="DetailsPricing.Id" value=${infos.id} />`);
+            console.log('data: ', data)
 
-            }
+                let infos = data;
+
+                $('#DetailsPricing_TypeContract').val(infos.typeContract)
+                $('#DetailsPricing_Pricing_Id').val(infos.pricing_Id)
+                $('#DetailsPricing_SpecialtyName').val(infos.specialtyName)
+                $('#DetailsPricing_HoursMonth').val(infos.hoursMonth)
+                $('#DetailsPricing_HourConsultant').val(infos.hourConsultant)
+                $('#DetailsPricing_HourSale').val(infos.hourSale)
+                $('#DetailsPricing_ValueCLTType').val(infos.valueCLTType)
+                $('#DetailsPricing_VT').val(infos.vt)
+                $('#DetailsPricing_Cust').val(infos.cust)
+                $('#DetailsPricing_AgeYears').val(infos.ageYears)
+
+                $('#DetailsPricingsForm').append(`<input type="hidden" name="DetailsPricing.Id" id="DetailsPricing_Id" value=${infos.id} />`);
+
         })
         .fail(function () {
             console.log("error");
@@ -256,6 +267,33 @@ function editDetailsPricings(id) {
 }
 
 returnDetailsPricings();
+
+function saveDetailsPricings() {
+
+    let data = $('#DetailsPricingsForm').serialize()
+
+    $.ajax({
+        url: '/DetailsPricings/EditAsync',
+        type: 'POST',
+        dataType: 'html',
+        data: data,
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        },
+    })
+        .done(function () {
+            console.log("success");
+            returnDetailsPricings();
+            $('.success-save-details').hide();
+            $('#DetailsPricing_Id').remove();
+        })
+        .fail(function () {
+            console.log("error");
+        })
+        .always(function () {
+            $('.modalSpinner').modal('hide');
+        });
+}
 
 function ageYears() {
     var inputYear = $('.clssAgeYears').val().split('-')

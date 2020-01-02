@@ -115,12 +115,14 @@ function verificationsOnSubmit() {
 }
 
 function betweenDates() {
-    var betweenDate = new Date($('#Pricing_EndDate').val()) - new Date($('#Pricing_InitialDate').val());
+    var betweenDate = new Date($('#Pricing_EndDate').val()).getTime() - new Date($('#Pricing_InitialDate').val()).getTime();
 
     betweenDate = betweenDate / 1000; //transformando millisegundos em segundos
     betweenDate = betweenDate / 60; // transformando segundos em minutos
     betweenDate = betweenDate / 60; // transformando  minutos em horas
-    betweenDate = betweenDate / 24; // transformando horas em dias
+    betweenDateDays = betweenDate / 24; // transformando horas em dias
+    betweenDateMonths = betweenDateDays / 30.417; //transforma dias em meses
+    betweenDateYears = betweenDateMonths / 365; //transforma meses em anos
 
-    $('#Pricing_TimeBetweenInitialAndEndDate').val(betweenDate);
+    $('#Pricing_TimeBetweenInitialAndEndDate').val(betweenDateDays + ' dias; ' + parseInt(betweenDateMonths) + '  mêses; ' + parseInt(betweenDateYears)  + ' anos;');
 }

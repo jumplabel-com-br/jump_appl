@@ -120,7 +120,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Edit(int id, DetailsPricing detailsPricing)
+        public async Task EditAsync(int id, DetailsPricing detailsPricing)
         {
             /*if (id != detailsPricing.Id)
             {

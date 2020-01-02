@@ -42,7 +42,7 @@ namespace CoreUI.Web.Models
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Tempo de Alocação")]
-        public int TimeBetweenInitialAndEndDate { get; set; }
+        public string TimeBetweenInitialAndEndDate { get; set; }
 
         [Display(Name = "Risco")]
         public int Risk { get; set; }

@@ -147,7 +147,7 @@
             <!--<input type="hidden" asp-for="DetailsPricing.Id" />-->
             <div class="form-group form-actions text-right col-12">
               <button type="button" class="btn btn-sm btn-ghost-primary" onclick="addDetailsPricings()">Adicionar</button>
-              <button type="button" class="btn btn-sm btn-ghost-success" onclick="saveDetailsPricings();">Salvar</button>
+              <button type="button" class="btn btn-sm btn-ghost-success success-save-details" style="display: none" onclick="saveDetailsPricings();">Salvar</button>
               <!--
   <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
   <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>
@@ -166,8 +166,4 @@
 <script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
 <script>
   $('#DetailsPricing_Pricing_Id').val(returnData)
-
-  function saveDetailsPricings() {
-    $('#DetailsPricingsForm').append('<input type="hidden" name="DetailsPricing.Id"  id="DetailsPricing_Id" />') 
-  }
 </script>
