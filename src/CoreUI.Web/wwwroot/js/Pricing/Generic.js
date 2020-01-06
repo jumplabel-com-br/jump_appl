@@ -121,8 +121,10 @@ function betweenDates() {
     betweenDate = betweenDate / 60; // transformando segundos em minutos
     betweenDate = betweenDate / 60; // transformando  minutos em horas
     betweenDateDays = betweenDate / 24; // transformando horas em dias
-    betweenDateMonths = betweenDateDays / 30.417; //transforma dias em meses
-    betweenDateYears = betweenDateMonths / 365; //transforma meses em anos
+    betweenDateMonths = betweenDateDays / 30; //transforma dias em meses
 
-    $('#Pricing_TimeBetweenInitialAndEndDate').val(betweenDateDays + ' dias; ' + parseInt(betweenDateMonths) + '  mêses; ' + parseInt(betweenDateYears)  + ' anos;');
+    betweenDateDays == 364 || betweenDateDays == 365 ? betweenDateDays += 1 : '';
+    betweenDateYears = betweenDateDays / 365//transforma meses em anos
+
+    $('#Pricing_TimeBetweenInitialAndEndDate').val(betweenDateDays + ' dia(s); ' + parseInt(betweenDateMonths) + '  mês(es); ' + parseInt(betweenDateYears)  + ' ano(s);');
 }

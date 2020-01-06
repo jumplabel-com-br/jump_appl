@@ -125,6 +125,22 @@ function returnDetailsPricings() {
         });
 }
 
+function typeContract(tc) {
+    switch (tc) {
+        case 1:
+            return 'CLT';
+            break;
+        case 2:
+            return 'PJ';
+            break;
+        case 3:
+            return 'CLT Flex';
+            break;
+        default:
+            return ''
+    }
+}
+
 function gridDetailsPricings(model) {
     return `
     <table id="example" class="table table-responsive-sm table-bordered  table-sm">
@@ -165,7 +181,7 @@ function gridDetailsPricings(model) {
                         return `
                       <tr>
                         <td>
-                            ${obj.typeContract}
+                            ${typeContract(obj.typeContract)}
                         </td>
                         <td>
                             ${obj.specialtyName}

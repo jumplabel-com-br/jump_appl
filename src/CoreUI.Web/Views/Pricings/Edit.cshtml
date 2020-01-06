@@ -126,7 +126,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input type="date" asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial" />
+                <input type="date" asp-for="Pricing.InitialDate" class="form-control" placeholder="Data inicial"  onchange="betweenDates();"/>
                 <span asp-validation-for="Pricing.InitialDate" name="pricing_initialDate" id="pricing_initialDate" class="text-danger"></span>
               </div>
             </div>
@@ -138,7 +138,7 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                <input type="date" asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" />
+                <input type="date" asp-for="Pricing.EndDate" class="form-control" placeholder="Data final" onchange="betweenDates();" />
                 <span asp-validation-for="Pricing.EndDate" name="pricing_endDate" id="pricing_endDate" class="text-danger"></span>
               </div>
             </div>
