@@ -147,7 +147,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.Projects = projects;
             ViewBag.Employees = employees;
 
-            var funcionarios = await _employeeService.FindAllAsync();
+            var funcionarios = await _employeeService.FindEmployeesActivesAsync();
             var projetos = await _projectService.FindAllAsync();
             var clientes = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 
@@ -248,7 +248,7 @@ namespace CoreUI.Web.Controllers
             int employeeId = ViewBag.id;
 
             var outlays = await _context.Outlays.FindAsync(id);
-            var employees = await _employeeService.FindAllAsync();
+            var employees = await _employeeService.FindEmployeesActivesAsync();
             var projects = await _projectService.FindAllAsync();
             var clients = await _clienteService.FindAllAsync(AcessLevel, employeeId);
 

@@ -75,7 +75,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.HourConsultant" class="form-control" placeholder="Horas consultor" />
+                <input type="text" asp-for="DetailsPricing.HourConsultant" class="form-control money" placeholder="Horas consultor" />
                 <span asp-validation-for="DetailsPricing.HourConsultant" name="hourConsultant" id="hourConsultant" class="text-danger text-danger-span col-12">Horas consultor inválido</span>
               </div>
             </div>
@@ -87,7 +87,7 @@
                     <i class="fa fa-clock-o"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.HourSale" class="form-control" placeholder="Horas venda" />
+                <input type="text" asp-for="DetailsPricing.HourSale" class="form-control money" placeholder="Horas venda" />
                 <span asp-validation-for="DetailsPricing.HourSale" name="hourSale" id="hourSale" class="text-danger text-danger-span col-12">Horas venda inválida</span>
               </div>
             </div>
@@ -99,7 +99,7 @@
                     <i class="fa fa-money"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.ValueCLTType" class="form-control" placeholder="Valor CLT" />
+                <input asp-for="DetailsPricing.ValueCLTType" class="form-control money" placeholder="Valor CLT" />
                 <span asp-validation-for="DetailsPricing.ValueCLTType" name="valueCLTType" id="valueCLTType" class="text-danger text-danger-span col-12">Valor CLT inválido</span>
               </div>
             </div>
@@ -111,7 +111,7 @@
                     <i class="fa fa-money"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.VT" class="form-control" placeholder="Vale transporte" />
+                <input asp-for="DetailsPricing.VT" class="form-control money" placeholder="Vale transporte" />
                 <span asp-validation-for="DetailsPricing.VT" name="vt" id="vt" class="text-danger text-danger-span col-12">VT inválido</span>
               </div>
             </div>
@@ -124,14 +124,14 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <input asp-for="DetailsPricing.Cust" class="form-control" placeholder="Ajuda/Custo" />
+                <input asp-for="DetailsPricing.Cust" class="form-control money" placeholder="Ajuda/Custo" />
                 <span asp-validation-for="DetailsPricing.Cust" name="cust" id="cust" class="text-danger text-danger-span col-12">Ajuda/Custo inválido</span>
               </div>
             </div>
 
 
             <div class="form-group row">
-              <div class="input-group col-12" title="Idade">
+              <div class="input-group col-12" title="Data de nascimento">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-calendar"></i>
@@ -145,16 +145,19 @@
             <input type="hidden" asp-for="DetailsPricing.AgeYears" />
             <input type="hidden" asp-for="DetailsPricing.Pricing_Id" />
             <!--<input type="hidden" asp-for="DetailsPricing.Id" />-->
-            <div class="form-group form-actions text-right col-12">
-              <button type="button" class="btn btn-sm btn-ghost-primary" onclick="addDetailsPricings()">Adicionar</button>
-              <button type="button" class="btn btn-sm btn-ghost-success success-save-details" style="display: none" onclick="saveDetailsPricings();">Salvar</button>
-              <!--
-  <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
-  <button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>
-  -->
+            <div class="row">
+              <div class="form-group col-6 text-left">
+                <button class="btn btn-sm btn-warning text-right" type="button" onclick="Modal('/Pricings/Edit/@Model.DetailsPricing.Pricing_Id', 'GET')">Voltar</button>
+              </div>
+              <div class="form-group form-actions text-right col-6">
+
+                <button type="button" class="btn btn-sm btn-primary" onclick="addDetailsPricings()">Adicionar</button>
+                <button type="button" class="btn btn-sm btn-success success-save-details" style="display: none" onclick="saveDetailsPricings();">Salvar</button>
+                <!--<button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>-->
+              </div>
             </div>
           </form>
-          <div class="grid-pricings">
+          <div class="grid-pricings"  style="height:200px; overflow:auto;">
 
           </div>
         </div>

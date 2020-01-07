@@ -1,4 +1,4 @@
-﻿var returnData;
+﻿var returnData = $('#Pricing_Id').val();
 
 function FormSubmit(url, modal) {
 

@@ -75,11 +75,48 @@ function verificationsOnSubmitDetails() {
         return false;
     }
 
+    if ($('#DetailsPricing_TypeContract').val() == 2) {
+        if ($('#DetailsPricing_ValueCLTType').val() != '' && $('#DetailsPricing_ValueCLTType').val() != 0) {
+            alert('Valor CLT não deve ser preenchido para PJ');
+            return false;
+        }
+        /*
+        if ($('#DetailsPricing_VT').val() != '' || $('#DetailsPricing_VT').val() != 0) {
+            alert('O vale transporte não deve ser peeenchido para PJ');
+            return false;
+        }
+        */
+    }
+
 }
 
 function addDetailsPricings() {
-    let data = $('#DetailsPricingsForm').serialize()
 
+    if (verificationsOnSubmitDetails() == false) {
+        return false;
+    }
+
+    if ($('#DetailsPricing_HourConsultant').val() == '') {
+        $('#DetailsPricing_HourConsultant').val(0);
+    }
+
+    if ($('#DetailsPricing_ValueCLTType').val() == '') {
+        $('#DetailsPricing_ValueCLTType').val(0);
+    }
+
+    if ($('#DetailsPricing_VT').val() == '') {
+        $('#DetailsPricing_VT').val(0);
+    }
+
+    if ($('#DetailsPricing_Cust').val() == '') {
+        $('#DetailsPricing_Cust').val(0);
+    }
+
+    if ($('#DetailsPricing_AgeYears').val() == '') {
+        $('#DetailsPricing_AgeYears').val(0);
+    }
+
+    let data = $('#DetailsPricingsForm').serialize()
 
     $.ajax({
         url: '/DetailsPricings/CreateAsync',
@@ -98,7 +135,7 @@ function addDetailsPricings() {
             console.log("error");
         })
         .always(function () {
-            $('.modalSpinner').modal('hide');
+            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
         });
 }
 
@@ -121,7 +158,7 @@ function returnDetailsPricings() {
             console.log("error");
         })
         .always(function () {
-            $('.modalSpinner').modal('hide');
+            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
         });
 }
 
@@ -173,7 +210,8 @@ function gridDetailsPricings(model) {
                     <th>
                       Idade
                     </th>
-                    <th></th>
+                    ${$('#Pricing_Id').val() == undefined ? `
+                    <th></th>` : ''}
                   </tr>
                 </thead>
                 <tbody>
@@ -207,10 +245,11 @@ function gridDetailsPricings(model) {
                         <td>
                             ${obj.ageYears}
                         </td>
+                        ${$('#Pricing_Id').val() == undefined ? `
                         <td>
                             <button type="button" class="btn btn-ghost-primary" onclick="editDetailsPricings(${obj.id});$('.success-save-details').show();"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="deleteDetailsPricings(${obj.id});"><i class="fa fa-trash-o"></i></button>
-                        </td>
+                        </td>`  : ''}
                     </tr>
                     `}).join('')}
                  </tbody>
@@ -232,12 +271,12 @@ function deleteDetailsPricings(id) {
         })
             .done(function () {
                 console.log("success");
-                $('.modalSpinner').modal('hide');
+                setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
                 returnDetailsPricings();
             })
             .fail(function () {
                 console.log("error");
-                $('.modalSpinner').modal('hide');
+                setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
             });
 
     }
@@ -278,13 +317,37 @@ function editDetailsPricings(id) {
             console.log("error");
         })
         .always(function () {
-            $('.modalSpinner').modal('hide');
+            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
         });
 }
 
 returnDetailsPricings();
 
 function saveDetailsPricings() {
+
+    if (verificationsOnSubmitDetails() == false) {
+        return false;
+    }
+
+    if ($('#DetailsPricing_HourConsultant').val() == '') {
+        $('#DetailsPricing_HourConsultant').val(0);
+    }
+
+    if ($('#DetailsPricing_ValueCLTType').val() == '') {
+        $('#DetailsPricing_ValueCLTType').val(0);
+    }
+
+    if ($('#DetailsPricing_VT').val() == '') {
+        $('#DetailsPricing_VT').val(0);
+    }
+
+    if ($('#DetailsPricing_Cust').val() == '') {
+        $('#DetailsPricing_Cust').val(0);
+    }
+
+    if ($('#DetailsPricing_AgeYears').val() == '') {
+        $('#DetailsPricing_AgeYears').val(0);
+    }
 
     let data = $('#DetailsPricingsForm').serialize()
 
@@ -307,7 +370,7 @@ function saveDetailsPricings() {
             console.log("error");
         })
         .always(function () {
-            $('.modalSpinner').modal('hide');
+            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
         });
 }
 
@@ -325,3 +388,5 @@ function ageYears() {
 
     $('#DetailsPricing_AgeYears').val(years);
 }
+
+$('.money').mask('000.000.000.000.000,00', { reverse: true });

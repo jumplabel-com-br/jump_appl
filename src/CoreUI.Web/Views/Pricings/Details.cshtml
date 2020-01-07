@@ -166,12 +166,10 @@
                 <span asp-validation-for="Pricing.Risk" name="pricing_risk" id="pricing_risk" class="text-danger"></span>
               </div>
             </div>
-
-            <div class="form-group form-actions text-right col-12">
-              <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="Modal('/DetailsPricings/Details/@Model.Pricing.Id', 'GET');">Próximo</button>
-            </div>
           </form>
+          <div class="grid-pricings"  style="height:200px; overflow:auto;">
+
+          </div>
         </div>
       </div>
     </div>
@@ -180,7 +178,9 @@
 
 <input type="hidden" name="hiring_Id" id="hiring_Id" value="" />
 <script src="~/js/Pricing/Generic.js?@DateTime.Now.ToString()"></script>
+<script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
 <script>
   betweenDates();
+  returnDetailsPricings();
 </script>
 

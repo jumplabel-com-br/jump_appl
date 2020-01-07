@@ -10,6 +10,7 @@ using CoreUI.Web.Models.ViewModel;
 using CoreUI.Web.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreUI.Web.Controllers
 {
@@ -41,15 +42,39 @@ namespace CoreUI.Web.Controllers
             _appEnvironment = env;
         }
 
+        const string SessionEmail = "_Email";
+        const string SessionName = "_Name";
+        const string SessionEmployeeId = "_Id";
+        const string SessionAcessLevel = "_IdAccessLevel";
+        const string SessionInvalid = "false";
+        const string SessionExpired = "false";
+        const string SessionTotalBells = "false";
+        const string SessionImgLogo = "false";
+        const string storage = "Hour\\";
+
         // GET: DetailsPricings
         public async Task<IActionResult> Index()
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             return View(await _context.DetailsPricing.ToListAsync());
         }
 
         // GET: DetailsPricings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -71,6 +96,13 @@ namespace CoreUI.Web.Controllers
         // GET: DetailsPricings/Create
         public async Task<IActionResult> Create()
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             var detailsPricing = _pricingService.DetailsPricing();
             var hiring = await _context.Hiring.ToListAsync();
             var viewModel = new PricingFormViewModel { Hiring = hiring };
@@ -84,6 +116,12 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task CreateAsync(DetailsPricing detailsPricing)
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                ExpiredSession();
+            }
 
             if (ModelState.IsValid)
             {
@@ -97,6 +135,13 @@ namespace CoreUI.Web.Controllers
         // GET: DetailsPricings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -122,6 +167,13 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task EditAsync(int id, DetailsPricing detailsPricing)
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+               ExpiredSession();
+            }
+
             /*if (id != detailsPricing.Id)
             {
                 return NotFound();
@@ -153,6 +205,13 @@ namespace CoreUI.Web.Controllers
         // POST: DetailsPricings/Delete/5
         public async Task Delete(int id)
         {
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                ExpiredSession();
+            }
+
             var detailsPricing = await _context.DetailsPricing.FindAsync(id);
             _context.DetailsPricing.Remove(detailsPricing);
             await _context.SaveChangesAsync();
@@ -163,6 +222,22 @@ namespace CoreUI.Web.Controllers
         private bool DetailsPricingExists(int id)
         {
             return _context.DetailsPricing.Any(e => e.Id == id);
+        }
+
+        public void GetSessions()
+        {
+            ViewBag.Email = HttpContext.Session.GetString(SessionEmail);
+            ViewBag.Id = HttpContext.Session.GetInt32(SessionEmployeeId);
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
+            ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
+            ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
         }
     }
 }

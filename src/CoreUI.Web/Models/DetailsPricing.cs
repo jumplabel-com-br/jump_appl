@@ -13,8 +13,8 @@ namespace CoreUI.Web.Models
         public int Pricing_Id { get; set; }
         public string SpecialtyName { get; set; }
         public int HoursMonth { get; set; }
-        public int HourConsultant { get; set; }
-        public int HourSale { get; set; }
+        public double HourConsultant { get; set; }
+        public double HourSale { get; set; }
         public double ValueCLTType { get; set; }
         public double VT { get; set; }
         public double Cust { get; set; }

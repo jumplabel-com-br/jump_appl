@@ -60,6 +60,11 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
 
@@ -82,6 +87,11 @@ namespace CoreUI.Web.Controllers
             }
 
             GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
 
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
@@ -108,13 +118,18 @@ namespace CoreUI.Web.Controllers
         {
             GetSessions();
 
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
 
             var listPricing = await _pricingService.FindAllAsync();
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
-            var funcionarios = await _employeeService.FindAllAsync();
+            var funcionarios = await _employeeService.FindEmployeesActivesAsync();
             var typePricing = await _context.TypePricing.ToListAsync();
 
             var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
@@ -128,6 +143,15 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<int> Create(Pricing pricing)
         {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                ExpiredSession();
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(pricing);
@@ -147,6 +171,14 @@ namespace CoreUI.Web.Controllers
         // GET: Pricings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -160,7 +192,7 @@ namespace CoreUI.Web.Controllers
             var pricing = await _context.Pricing.FindAsync(id);
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
-            var funcionarios = await _employeeService.FindAllAsync();
+            var funcionarios = await _employeeService.FindEmployeesActivesAsync();
             var typePricing = await _context.TypePricing.ToListAsync();
 
             var viewModel = new PricingFormViewModel { Pricing = pricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
@@ -184,6 +216,13 @@ namespace CoreUI.Web.Controllers
                 return NotFound();
             }
             */
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                ExpiredSession();
+            }
 
             if (ModelState.IsValid)
             {
@@ -234,6 +273,14 @@ namespace CoreUI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+            GetSessions();
+
+            if (ViewBag.Email == null)
+            {
+                return ExpiredSession();
+            }
+
             var pricing = await _context.Pricing.FindAsync(id);
             _context.Pricing.Remove(pricing);
 
@@ -287,6 +334,12 @@ namespace CoreUI.Web.Controllers
 
             return dt;
             
+        }
+
+        public IActionResult ExpiredSession()
+        {
+            HttpContext.Session.SetString(SessionExpired, "true");
+            return RedirectToAction("Index", "Home", "Index");
         }
     }
 }

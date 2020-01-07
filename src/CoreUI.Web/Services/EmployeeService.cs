@@ -37,7 +37,7 @@ namespace CoreUI.Web.Services
                          };
 
             return await result
-                .Where(x => x.Active == 1)
+                //.Where(x => x.Active == 1)
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
@@ -55,6 +55,14 @@ namespace CoreUI.Web.Services
         {
             return await _context.Employee
                 .Where(x => x.Id == id && x.Active == 1)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
+
+        public async Task<List<Employee>> FindEmployeesActivesAsync()
+        {
+            return await _context.Employee
+                .Where(x => x.Active == 1)
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
