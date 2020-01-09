@@ -105,8 +105,8 @@
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
-                        <button class="btn btn-ghost-warning" onclick="Modal(`/Project_team/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`, 'GET')"><i class="fa fa-search"></i></button>
-                        <button class="btn btn-ghost-primary" onclick="Modal(`/Project_team/Edit/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`, 'GET')"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-ghost-warning" onclick="Modal(`/Project_team/Details/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() :  @item.ClientId}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : @item.ProjectId}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : @item.EmployeeId}`, 'GET')"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-ghost-primary" onclick="Modal(`/Project_team/Edit/@item.Id?clients=${$('#clients').val().length > 0 ? $('#clients').val() : @item.ClientId}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : @item.ProjectId}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : @item.EmployeeId}`, 'GET')"><i class="fa fa-edit"></i></button>
                         <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id, '@Html.DisplayFor(modelItem => item.Start)', '@Html.DisplayFor(modelItem => item.End)', @item.ProjectId, @item.EmployeeId);"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </td>

@@ -162,7 +162,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Projects = projects;
                 ViewBag.Employees = employees;
 
-                var employee = await _employeeService.FindAllAsync();
+                var employee = await _employeeService.FindEmployeesActivesAsync();
                 var project = await _projectService.FindAllAsync();
                 var client = await _clientService.FindAllForProjectsAsync(accessLevel, employeeId);
                 var viewModel = new ProjectTeamFormViewModel { Project = project, Employee = employee, Client = client };

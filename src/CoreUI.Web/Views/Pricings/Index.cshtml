@@ -1,7 +1,7 @@
 ﻿@model CoreUI.Web.Models.ViewModel.PricingFormViewModel
 
 @{
-    ViewData["Title"] = "Index";
+  ViewData["Title"] = "Index";
 }
 
 <!-- Breadcrumb-->
@@ -19,6 +19,66 @@
             </div>
           </div>
           <div class="card-body">
+            <div class="row ml-0">
+              <div class="col-12 mb-3">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
+                  Filtros
+                </button>
+              </div>
+
+              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
+                <div class="col-12">
+                  <form asp-action="Index">
+                    <label>
+                      Tipo de precificação:
+                      <select name="tipoPrecificacao" id="tipoPrecificacao" asp-items="@(new SelectList(Model.TypePricing, "Id", "Name"))" class="form-control">
+                        <option value="">Selecione</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      Clientes:
+                      <select name="clients" id="clients" asp-items="@(new SelectList(Model.Clients, "Id", "Name"))" class="form-control">
+                        <option value="">Selecione</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      Executivo da conta:
+                      <select name="executivoConta" id="executivoConta" asp-items="@(new SelectList(Model.Employees, "Id", "Name"))" class="form-control">
+                        <option value="">Selecione</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      Alocação Gerente:
+                      <select name="alocacaoGerente" id="alocacaoGerente" asp-items="@(new SelectList(Model.Managers, "Id", "Name"))" class="form-control">
+                        <option value="">Selecione</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      Responsável:
+                      <select name="responsavel" id="responsavel" asp-items="@(new SelectList(Model.Managers, "Id", "Name"))" class="form-control">
+                        <option value="">Selecione</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      A partir de:
+                      <input type="date" name="dtInicial" id="dtInicial" class="form-control">
+                    </label>
+
+                    <label>
+                      Retroativo a:
+                      <input type="date" name="dtFinal" id="dtFinal" class="form-control">
+                    </label>
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-send-o"></i></button>
+                  </form>
+                </div>
+              </div>
+            </div>
             <div class="text-right">
               <label id="sum"></label>
             </div>
@@ -104,8 +164,8 @@
                       <td>
                         <div class="row ml-0">
                           <button type="button" class="btn btn-ghost-warning" asp-route-id="@item.Id" onclick="Modal(`/Pricings/Details/@item.Id`, 'GET')"><i class="fa fa-search"></i></button>
-                          <button type="button" class="btn btn-ghost-primary"  asp-route-id="@item.Id" onclick="Modal(`/Pricings/Edit/@item.Id`, 'GET')"><i class="fa fa-edit"></i></button>
-                          <button type="button" class="btn btn-ghost-danger"  asp-route-id="@item.Id" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
+                          <button type="button" class="btn btn-ghost-primary" asp-route-id="@item.Id" onclick="Modal(`/Pricings/Edit/@item.Id`, 'GET')"><i class="fa fa-edit"></i></button>
+                          <button type="button" class="btn btn-ghost-danger" asp-route-id="@item.Id" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                         </div>
                       </td>
                     </tr>
@@ -121,5 +181,13 @@
     <!--/.row-->
   </div>
 </div>
+
+<input type="hidden" name="tipoPrecificacaoInput" id="tipoPrecificacaoInput" value="@ViewBag.tipoPrecificacao">
+<input type="hidden" name="clientsInput" id="clientsInput" value="@ViewBag.clients">
+<input type="hidden" name="executivoContaInput" id="executivoContaInput" value="@ViewBag.executivoConta">
+<input type="hidden" name="alocacaoGerenteInput" id="alocacaoGerenteInput" value="@ViewBag.alocacaoGerente">
+<input type="hidden" name="responsavelInput" id="responsavelInput" value="@ViewBag.responsavel">
+<input type="hidden" name="dtInicialInput" id="dtInicialInput" value="@ViewBag.dtInicial">
+<input type="hidden" name="dtFinalInput" id="dtFinalInput" value="@ViewBag.dtFinal">
 
 <script src="~/js/Pricing/Index.js?@DateTime.Now.ToString()"></script>

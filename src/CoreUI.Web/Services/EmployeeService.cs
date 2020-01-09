@@ -74,5 +74,13 @@ namespace CoreUI.Web.Services
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
+
+        public async Task<List<Employee>> FindDifferenceEmployeeAsync()
+        {
+            return await _context.Employee
+                .Where(x => x.Active == 1 && (x.Access_LevelId != 3))
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
     }
 }

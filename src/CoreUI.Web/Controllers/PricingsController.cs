@@ -56,7 +56,7 @@ namespace CoreUI.Web.Controllers
         const string storage = "Hour\\";
 
         // GET: Pricings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? tipoPrecificacao, int? clients, int? executivoConta, int? alocacaoGerente, int? responsavel, DateTime? dtInicial, DateTime? dtFinal)
         {
             GetSessions();
 
@@ -68,10 +68,26 @@ namespace CoreUI.Web.Controllers
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
 
-            var listPricing = await _pricingService.FindAllAsync();
+            ViewBag.tipoPrecificacao = tipoPrecificacao;
+            ViewBag.clients = clients;
+            ViewBag.executivoConta = executivoConta;
+            ViewBag.alocacaoGerente = alocacaoGerente;
+            ViewBag.responsavel = responsavel;
+
+            if (dtInicial.HasValue)
+            {
+                ViewBag.dtInicial = dtInicial.Value.ToShortDateString();
+            }
+
+            if (dtFinal.HasValue)
+            {
+                ViewBag.dtFinal = dtFinal.Value.ToShortDateString();
+            }
+
+            var listPricing = await _pricingService.FindAllAsync(tipoPrecificacao, clients, executivoConta, alocacaoGerente, responsavel, dtInicial, dtFinal);
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
-            var funcionarios = await _employeeService.FindAllAsync();
+            var funcionarios = await _employeeService.FindDifferenceEmployeeAsync();
             var typePricing = await _context.TypePricing.ToListAsync();
 
             var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
@@ -126,7 +142,7 @@ namespace CoreUI.Web.Controllers
             int empId = ViewBag.Id;
             var accessLevel = ViewBag.AcessLevel;
 
-            var listPricing = await _pricingService.FindAllAsync();
+            var listPricing = await _pricingService.FindAllAsync(null,null,null,null,null,null,null);
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
             var funcionarios = await _employeeService.FindEmployeesActivesAsync();

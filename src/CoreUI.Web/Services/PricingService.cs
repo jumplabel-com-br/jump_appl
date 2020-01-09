@@ -18,7 +18,7 @@ namespace CoreUI.Web.Services
             _context = context;
         }
 
-        public async Task<List<ListPricing>> FindAllAsync()
+        public async Task<List<ListPricing>> FindAllAsync(int? tipoPrecificacao, int? clients, int? executivoConta, int? alocacaoGerente, int? responsavel, DateTime? dtInicial, DateTime? dtFinal)
         {
             var result = from pricing in _context.Pricing
                          join typePricing in _context.TypePricing on pricing.TypePricing equals typePricing.Id
@@ -26,8 +26,8 @@ namespace CoreUI.Web.Services
                          from typePricing in typesPricings.DefaultIfEmpty()
 
                          join client in _context.Client on pricing.Client_Id equals client.Id
-                            into clients
-                         from client in clients.DefaultIfEmpty()
+                            into clientes
+                         from client in clientes.DefaultIfEmpty()
 
                          join executiveAccounts in _context.Employee on pricing.AccountExecutive_Id equals executiveAccounts.Id
                              into executiveAccount
@@ -62,6 +62,41 @@ namespace CoreUI.Web.Services
                              TimeBetweenInitialAndEndDate = pricing.TimeBetweenInitialAndEndDate,
                              Risk = pricing.Risk
                          };
+
+
+            if (tipoPrecificacao.HasValue)
+            {
+                result = result.Where(x => x.TypePricing == tipoPrecificacao);
+            }
+            if (clients.HasValue)
+            {
+                result = result.Where(x => x.Client_Id == clients);
+            }
+
+            if (executivoConta.HasValue)
+            {
+                result = result.Where(x => x.AccountExecutive_Id == executivoConta);
+            }
+
+            if (alocacaoGerente.HasValue)
+            {
+                result = result.Where(x => x.AllocationManager_Id == alocacaoGerente);
+            }
+
+            if (responsavel.HasValue)
+            {
+                result = result.Where(x => x.Administrator_Id == responsavel);
+            }
+
+            if (dtInicial.HasValue)
+            {
+                result = result.Where(x => x.InitialDate >= dtInicial.Value);
+            }
+
+            if (dtFinal.HasValue)
+            {
+                result = result.Where(x => x.EndDate <= dtFinal.Value);
+            }
 
             return await result
                 .ToListAsync();

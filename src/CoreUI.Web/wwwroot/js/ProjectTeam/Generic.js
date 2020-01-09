@@ -5,6 +5,28 @@ var arrHours;
 var arrFilterClients;
 var wlh = window.location.href.split('/')[4]
 
+function filterClient() {
+    $.ajax({
+        url: '/api/ProjectsAPI',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: {},
+    })
+        .done(function (data) {
+            //console.log(data);
+
+            arrClients = data;
+            arrClients = arrClients.filter(obj => obj.id == $('#Project_Id').val());
+            arrClients.length > 0 ? $('#listClients').val(arrClients[0].client_Id) : '';
+            FilterProjectPerClient();
+
+        })
+        .fail(function () {
+            console.log("error");
+        });
+}
+
 function FilterProjectPerClient() {
     $.ajax({
         url: '/api/ProjectsAPI',
@@ -34,12 +56,13 @@ function listProjects(model) {
     <option value="">Selecione...</option>
     ${model.map(obj => {
         return `
-            <option value="${obj.id}">${obj.project_Name}</option>
+            <option ${obj.id == $('#Project_Id').val() ? 'selected' : ''} value="${obj.id}">${obj.project_Name}</option>
         `
     })}
     `
 }
 
+/*
 function searchHours() {
     $.ajax({
         url: '/api/HoursAPI',
@@ -57,7 +80,7 @@ function searchHours() {
             console.log("error");
         });
 }
-
+*/
 function JsonChecksDatesStartAndEndProjectTeam() {
 
     let project = $('#Project_team_Project_Id').val();
@@ -136,27 +159,6 @@ function disabledInput(employee, start, end, projectId) {
 
 //disabledInput($('#Project_team_Employee_Id').val(), $('#Project_team_Start_Date').val(), $('#Project_team_End_Date').val(), $('#Project_team_Project_Id').val());
 
-function filterClient() {
-    $.ajax({
-        url: '/api/ProjectsAPI',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        data: {},
-    })
-        .done(function (data) {
-            //console.log(data);
-
-            arrClients = data;
-            arrClients = arrClients.filter(obj => obj.id == $('#Project_team_Project_Id').val());
-            arrClients.length > 0 ? $('#listClients').val(arrClients[0].client_Id) : '';
-
-        })
-        .fail(function () {
-            console.log("error");
-        });
-}
-
 
 function projectTeamSubmit(start, end) {
     JsonChecksDatesStartAndEndProjectTeam();
@@ -211,6 +213,7 @@ function projectTeamSubmit(start, end) {
 
 }
 
+/*
 if (wlh == 'Edit') {
     searchHours();
     let hours = arrHours.filter(obj => obj.employee_Id == $('#Project_team_Employee_Id').val() && obj.date.replace('T00:00:00', '') >= $('#Project_team_Start_Date').val() && obj.date.replace('T00:00:00', '') <= $('#Project_team_End_Date').val() && obj.id_Project == $('#Project_team_Project_Id').val())
@@ -218,4 +221,6 @@ if (wlh == 'Edit') {
     var hoursEnd = hours.length > 0 ? hours[hours.length - 1].date.replace('T00:00:00', '') : '';
     //filterClient();
 }
+*/
 
+filterClient();

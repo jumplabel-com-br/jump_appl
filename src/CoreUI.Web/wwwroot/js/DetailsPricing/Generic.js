@@ -116,7 +116,9 @@ function addDetailsPricings() {
         $('#DetailsPricing_AgeYears').val(0);
     }
 
-    let data = $('#DetailsPricingsForm').serialize()
+
+    $('#DetailsPricing_Id').remove();
+    let data = $('#DetailsPricingsForm').serialize().replace(/R%24%20/g,'')
 
     $.ajax({
         url: '/DetailsPricings/CreateAsync',
@@ -129,7 +131,9 @@ function addDetailsPricings() {
     })
         .done(function () {
             console.log("success");
-            returnDetailsPricings()
+            returnDetailsPricings();
+            $('.success-save-details').hide();
+            $('.inputs').val('')
         })
         .fail(function () {
             console.log("error");
@@ -158,7 +162,10 @@ function returnDetailsPricings() {
             console.log("error");
         })
         .always(function () {
-            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
+            setTimeout(function () {
+                $('.modalSpinner').modal('hide');
+                maskMoney();
+            }, 1000)
         });
 }
 
@@ -228,19 +235,19 @@ function gridDetailsPricings(model) {
                             ${obj.hoursMonth}
                         </td>
                         <td>
-                            ${obj.hourConsultant}
+                            ${maskSpanMoney(obj.hourConsultant)}
                         </td>
                         <td>
-                            ${obj.hourSale}
+                            ${maskSpanMoney(obj.hourSale)}
                         </td>
                         <td>
-                            ${obj.valueCLTType}
+                            ${maskSpanMoney(obj.valueCLTType)}
                         </td>
                         <td>
-                            ${obj.vt}
+                            ${maskSpanMoney(obj.vt)}
                         </td>
                         <td>
-                            ${obj.cust}
+                            ${maskSpanMoney(obj.cust)}
                         </td>
                         <td>
                             ${obj.ageYears}
@@ -283,6 +290,8 @@ function deleteDetailsPricings(id) {
 }
 
 function editDetailsPricings(id) {
+    $('.DetailsPricing_Id').remove();
+
     $.ajax({
         url: `/api/DetailsPricingsAPI/${id}`,
         type: 'GET',
@@ -310,14 +319,23 @@ function editDetailsPricings(id) {
                 $('#DetailsPricing_Cust').val(infos.cust)
                 $('#DetailsPricing_AgeYears').val(infos.ageYears)
 
-                $('#DetailsPricingsForm').append(`<input type="hidden" name="DetailsPricing.Id" id="DetailsPricing_Id" value=${infos.id} />`);
+            maskSpanMoney(infos.hourConsultant, 'DetailsPricing_HourConsultant')
+            maskSpanMoney(infos.hourSale, 'DetailsPricing_HourSale')
+            maskSpanMoney(infos.valueCLTType, 'DetailsPricing_ValueCLTType')
+            maskSpanMoney(infos.vt, 'DetailsPricing_VT')
+            maskSpanMoney(infos.cust, 'DetailsPricing_Cust')
+
+            $('#DetailsPricingsForm').append(`<input type="hidden" class="DetailsPricing_Id" name="DetailsPricing.Id" id="DetailsPricing_Id" value=${infos.id} />`);
 
         })
         .fail(function () {
             console.log("error");
         })
         .always(function () {
-            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
+            setTimeout(function () {
+                $('.modalSpinner').modal('hide');
+                maskMoney();
+            }, 1000)
         });
 }
 
@@ -349,7 +367,7 @@ function saveDetailsPricings() {
         $('#DetailsPricing_AgeYears').val(0);
     }
 
-    let data = $('#DetailsPricingsForm').serialize()
+    let data = $('#DetailsPricingsForm').serialize().replace(/R%24%20/g,'')
 
     $.ajax({
         url: '/DetailsPricings/EditAsync',
@@ -364,13 +382,21 @@ function saveDetailsPricings() {
             console.log("success");
             returnDetailsPricings();
             $('.success-save-details').hide();
-            $('#DetailsPricing_Id').remove();
+            $('.DetailsPricing_Id').remove();
+            $('.inputs').val('')
+
         })
         .fail(function () {
             console.log("error");
+            $('.success-save-details').hide();
+            $('.DetailsPricing_Id').remove();
+            $('.inputs').val('')
         })
         .always(function () {
-            setTimeout(function () { $('.modalSpinner').modal('hide'); }, 1000)
+            setTimeout(function () {
+                $('.modalSpinner').modal('hide');
+                maskMoney();
+            }, 1000)
         });
 }
 
