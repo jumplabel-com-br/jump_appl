@@ -55,36 +55,6 @@ namespace CoreUI.Web.Migrations
                     b.ToTable("Description");
                 });
 
-            modelBuilder.Entity("CoreUI.Web.Models.DetailsPricing", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AgeYears");
-
-                    b.Property<double>("Cust");
-
-                    b.Property<double>("HourConsultant");
-
-                    b.Property<double>("HourSale");
-
-                    b.Property<int>("HoursMonth");
-
-                    b.Property<int>("Pricing_Id");
-
-                    b.Property<string>("SpecialtyName");
-
-                    b.Property<int>("TypeContract");
-
-                    b.Property<double>("VT");
-
-                    b.Property<double>("ValueCLTType");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DetailsPricing");
-                });
-
             modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -255,15 +225,61 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<int>("NumberProposal");
 
+                    b.Property<int>("PricingType");
+
                     b.Property<int>("Risk");
 
                     b.Property<string>("TimeBetweenInitialAndEndDate");
 
-                    b.Property<int>("TypePricing");
-
                     b.HasKey("Id");
 
                     b.ToTable("Pricing");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.PricingDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AgeYears");
+
+                    b.Property<double>("Cust");
+
+                    b.Property<DateTime>("DateBirth");
+
+                    b.Property<double>("HourConsultant");
+
+                    b.Property<double>("HourSale");
+
+                    b.Property<int>("HoursMonth");
+
+                    b.Property<int>("Pricing_Id");
+
+                    b.Property<string>("SpecialtyName");
+
+                    b.Property<int>("TypeContract");
+
+                    b.Property<double>("VT");
+
+                    b.Property<double>("ValueCLTType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PricingDetails");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.PricingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Active");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PricingType");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Project", b =>
@@ -304,20 +320,6 @@ namespace CoreUI.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Project_team");
-                });
-
-            modelBuilder.Entity("CoreUI.Web.Models.TypePricing", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Active");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TypePricing");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>

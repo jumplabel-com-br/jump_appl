@@ -1,0 +1,172 @@
+﻿@model CoreUI.Web.Models.ViewModel.PricingFormViewModel
+
+@{
+  ViewData["Title"] = "Create";
+  Layout = "";
+}
+
+<style>
+  .text-danger-span {
+    display: none;
+  }
+</style>
+
+<div class="col-12">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i> Precificação
+          <div class="card-header-actions">
+            <!--
+            <a asp-action="Create">
+              <input type="hidden" asp-for="PricingDetails.Pricing.@@ViewData["Email"]" />
+              <input type="hidden" asp-for="PricingDetails.Pricing.@@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+                -->
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="PricingDetailsForm" asp-action="Create" enctype="multipart/form-data">
+            <div class="form-group row">
+              <div class="input-group col-12" title="Contratação">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file"></i>
+                  </span>
+                </div>
+                <select asp-for="PricingDetails.TypeContract" class="form-control inputs" asp-items="@(new SelectList(Model.Hiring, "Id", "Name"))">
+                  <option value="">Contratação</option>
+                </select>
+                <span asp-validation-for="PricingDetails.TypeContract" name="typeContract" id="typeContract" class="text-danger text-danger-span col-12">Contratação inválida</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Especialidade/Nome">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <input asp-for="PricingDetails.SpecialtyName" class="form-control inputs" placeholder="Especialidade/Nome" />
+                <span asp-validation-for="PricingDetails.SpecialtyName" name="specialtyName" id="specialtyName" class="text-danger text-danger-span col-12">Especialidade/Nome inválida</span>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Horas mês">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input asp-for="PricingDetails.HoursMonth" class="form-control inputs" placeholder="Horas mês" value="168" />
+                <span asp-validation-for="PricingDetails.HoursMonth" name="hoursMonth" id="hoursMonth" class="text-danger text-danger-span col-12">Horas mês inválido</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Horas consultor">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input type="text" asp-for="PricingDetails.HourConsultant" class="form-control inputs" placeholder="Horas consultor" onkeyup="maskSpanMoney(this.value,this.id,this.id)" />
+                <span asp-validation-for="PricingDetails.HourConsultant" name="hourConsultant" id="hourConsultant" class="text-danger text-danger-span col-12">Horas consultor inválido</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Horas venda">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-clock-o"></i>
+                  </span>
+                </div>
+                <input type="text" asp-for="PricingDetails.HourSale" class="form-control inputs" placeholder="Horas venda" onkeyup="maskSpanMoney(this.value,this.id)" />
+                <span asp-validation-for="PricingDetails.HourSale" name="hourSale" id="hourSale" class="text-danger text-danger-span col-12">Horas venda inválida</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Valor CLT">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-money"></i>
+                  </span>
+                </div>
+                <input asp-for="PricingDetails.ValueCLTType" class="form-control inputs" placeholder="Valor CLT" onkeyup="maskSpanMoney(this.value,this.id)" />
+                <span asp-validation-for="PricingDetails.ValueCLTType" name="valueCLTType" id="valueCLTType" class="text-danger text-danger-span col-12">Valor CLT inválido</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Vale transporte">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-money"></i>
+                  </span>
+                </div>
+                <input asp-for="PricingDetails.VT" class="form-control inputs" placeholder="Vale transporte" onkeyup="maskSpanMoney(this.value,this.id)" />
+                <span asp-validation-for="PricingDetails.VT" name="vt" id="vt" class="text-danger text-danger-span col-12">VT inválido</span>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Ajuda/Custo">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+                <input asp-for="PricingDetails.Cust" class="form-control inputs" placeholder="Ajuda/Custo" onkeyup="maskSpanMoney(this.value,this.id)" />
+                <span asp-validation-for="PricingDetails.Cust" name="cust" id="cust" class="text-danger text-danger-span col-12">Ajuda/Custo inválido</span>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="input-group col-12" title="Data de nascimento">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                <input type="date" class="form-control clssAgeYears inputs" asp-for="PricingDetails.DateBirth" placeholder="Idade" onchange="ageYears();" />
+                <span name="ageYears" id="ageYears" class="text-danger text-danger-span col-12">Idade inválida</span>
+              </div>
+            </div>
+
+            <input type="hidden" asp-for="PricingDetails.AgeYears" class="inputs" />
+            <input type="hidden" asp-for="PricingDetails.Pricing_Id" class="form-control" />
+            <div class="row">
+              <div class="form-group col-6 text-left">
+                <button class="btn btn-sm btn-warning text-right" type="button" onclick="Modal(`/Pricings/Edit/${$('#PricingDetails_Pricing_Id').val()}`, 'GET')">Voltar</button>
+              </div>
+              <div class="form-group form-actions text-right col-6">
+
+                <button type="button" class="btn btn-sm btn-primary" onclick="addPricingDetails()">Adicionar</button>
+                <button type="button" class="btn btn-sm btn-success success-save-details" style="display: none" onclick="savePricingDetails();">Salvar</button>
+                <!--<button class="btn btn-sm btn-success" type="button" onclick="SubmitPricing();">Editar</button>-->
+              </div>
+            </div>
+          </form>
+          <div class="grid-pricings" style="height:150px; overflow:auto;">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#PricingDetails_Pricing_Id').val(returnData)
+</script>
+<script src="~/js/PricingDetails/Generic.js?@DateTime.Now.ToString()"></script>
+

@@ -261,7 +261,7 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<int>("TimeBetweenInitialAndEndDate");
 
-                    b.Property<int>("TypePricing");
+                    b.Property<int>("PricingType");
 
                     b.HasKey("Id");
 
@@ -308,7 +308,7 @@ namespace CoreUI.Web.Migrations
                     b.ToTable("Project_team");
                 });
 
-            modelBuilder.Entity("CoreUI.Web.Models.TypePricing", b =>
+            modelBuilder.Entity("CoreUI.Web.Models.PricingType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -319,7 +319,7 @@ namespace CoreUI.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypePricing");
+                    b.ToTable("PricingType");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>

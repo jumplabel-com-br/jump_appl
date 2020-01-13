@@ -14,7 +14,7 @@ namespace CoreUI.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    TypePricing = table.Column<int>(nullable: false),
+                    PricingType = table.Column<int>(nullable: false),
                     Client_Id = table.Column<int>(nullable: false),
                     Allocation = table.Column<string>(nullable: true),
                     AccountExecutive = table.Column<string>(nullable: true),

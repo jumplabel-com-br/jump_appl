@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoreUI.Web.Migrations
 {
-    public partial class PricingTypes : Migration
+    public partial class PricingType : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

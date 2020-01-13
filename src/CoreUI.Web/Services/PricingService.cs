@@ -21,9 +21,9 @@ namespace CoreUI.Web.Services
         public async Task<List<ListPricing>> FindAllAsync(int? tipoPrecificacao, int? clients, int? executivoConta, int? alocacaoGerente, int? responsavel, DateTime? dtInicial, DateTime? dtFinal)
         {
             var result = from pricing in _context.Pricing
-                         join typePricing in _context.TypePricing on pricing.TypePricing equals typePricing.Id
+                         join pricingType in _context.PricingType on pricing.TypePricing equals pricingType.Id
                             into typesPricings
-                         from typePricing in typesPricings.DefaultIfEmpty()
+                         from PricingType in typesPricings.DefaultIfEmpty()
 
                          join client in _context.Client on pricing.Client_Id equals client.Id
                             into clientes
@@ -46,7 +46,7 @@ namespace CoreUI.Web.Services
                          {
                              Id = pricing.Id,
                              TypePricing = pricing.TypePricing,
-                             TypesPricing = typePricing.Name,
+                             TypesPricing = PricingType.Name,
                              Client_Id = client.Id,
                              Cliente = client.Name,
                              Allocation = pricing.Allocation,
@@ -102,22 +102,22 @@ namespace CoreUI.Web.Services
                 .ToListAsync();
         }
 
-        public async Task<DetailsPricing> DetailsPricing(int? id = null)
+        public async Task<PricingDetails> PricingDetails(int? id = null)
         {
-            var result = from detailsPricing in _context.DetailsPricing
-                         select new DetailsPricing
+            var result = from pricingDetails in _context.PricingDetails
+                         select new PricingDetails
                          {
-                             Id = detailsPricing.Id,
-                             TypeContract = detailsPricing.TypeContract == null ? 0 : detailsPricing.TypeContract,
-                             Pricing_Id = detailsPricing.Pricing_Id == null ? 0 : detailsPricing.Pricing_Id,
-                             SpecialtyName = detailsPricing.SpecialtyName == null ? "" : detailsPricing.SpecialtyName,
-                             HoursMonth = detailsPricing.HoursMonth == null ? 0 : detailsPricing.HoursMonth,
-                             HourConsultant = detailsPricing.HourConsultant == null ? 0 : detailsPricing.HourConsultant,
-                             HourSale = detailsPricing.HourSale == null ? 0 : detailsPricing.HourSale,
-                             ValueCLTType = detailsPricing.ValueCLTType == null ? 0 : detailsPricing.ValueCLTType,
-                             VT = detailsPricing.VT == null ? 0 : detailsPricing.VT,
-                             Cust = detailsPricing.Cust == null ? 0 : detailsPricing.Cust,
-                             AgeYears = detailsPricing == null ? 0 : detailsPricing.AgeYears
+                             Id = pricingDetails.Id,
+                             TypeContract = pricingDetails.TypeContract == null ? 0 : pricingDetails.TypeContract,
+                             Pricing_Id = pricingDetails.Pricing_Id == null ? 0 : pricingDetails.Pricing_Id,
+                             SpecialtyName = pricingDetails.SpecialtyName == null ? "" : pricingDetails.SpecialtyName,
+                             HoursMonth = pricingDetails.HoursMonth == null ? 0 : pricingDetails.HoursMonth,
+                             HourConsultant = pricingDetails.HourConsultant == null ? 0 : pricingDetails.HourConsultant,
+                             HourSale = pricingDetails.HourSale == null ? 0 : pricingDetails.HourSale,
+                             ValueCLTType = pricingDetails.ValueCLTType == null ? 0 : pricingDetails.ValueCLTType,
+                             VT = pricingDetails.VT == null ? 0 : pricingDetails.VT,
+                             Cust = pricingDetails.Cust == null ? 0 : pricingDetails.Cust,
+                             AgeYears = pricingDetails == null ? 0 : pricingDetails.AgeYears
                          };
 
             if (id.HasValue)

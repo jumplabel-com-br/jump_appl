@@ -23,9 +23,9 @@ namespace CoreUI.Web.Models
         public DbSet<Description> Description { get; set; }
         public DbSet<Locality> Locality { get; set; }
         public DbSet<CoreUI.Web.Models.Pricing> Pricing { get; set; }
-        public DbSet<CoreUI.Web.Models.DetailsPricing> DetailsPricing { get; set; }
         public DbSet<CoreUI.Web.Models.Hiring> Hiring { get; set; }
-        public DbSet<CoreUI.Web.Models.TypePricing> TypePricing { get; set; }
+        public DbSet<CoreUI.Web.Models.PricingType> PricingType { get; set; }
+        public DbSet<CoreUI.Web.Models.PricingDetails> PricingDetails { get; set; }
 
 
     }

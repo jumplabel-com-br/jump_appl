@@ -1,0 +1,16 @@
+﻿.fa-clean {
+    height: 200px;
+    width:  20px;
+}
+    
+/*
+    Declaração das imagens por icone
+*/
+
+.fa-clean {
+    background-image: url(../images/icons/fa-clean.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: 75% 0;
+    background-size: 25%;
+}

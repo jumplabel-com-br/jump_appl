@@ -25,7 +25,7 @@
 
               <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
                 <div class="col-12">
-                  <form asp-action="OutlaysAdmin">
+                  <form id="formFilters" asp-action="OutlaysAdmin">
                     <label>
                       Status:
                       <select name="status" id="status" class="form-control">
@@ -36,8 +36,6 @@
                         <option value="3">Reprovado</option>
                       </select>
                     </label>
-
-                    
 
                     <label>
                       Clientes:
@@ -60,7 +58,7 @@
                       </select>
                     </label>
 
-                    
+
 
                     <label>
                       Mês:
@@ -88,7 +86,8 @@
                       </select>
                     </label>
 
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-send-o"></i></button>
+                    <button type="submit" class="btn btn-primary" title="Enviar"><i class="fa fa-send-o"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" title="Limpar" onclick="$('#formFilters input, #formFilters select').val(''); fnLoadMes();"><i class="icon-close font-2xl d-block"></i></button>
                   </form>
                 </div>
               </div>

@@ -88,9 +88,9 @@ namespace CoreUI.Web.Controllers
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
             var funcionarios = await _employeeService.FindDifferenceEmployeeAsync();
-            var typePricing = await _context.TypePricing.ToListAsync();
+            var pricingType = await _context.PricingType.ToListAsync();
 
-            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
+            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, Managers = managers, PricingType = pricingType };
             return View(viewModel);
         }
 
@@ -118,9 +118,9 @@ namespace CoreUI.Web.Controllers
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
             var funcionarios = await _employeeService.FindAllAsync();
-            var typePricing = await _context.TypePricing.ToListAsync();
+            var pricingType = await _context.PricingType.ToListAsync();
 
-            var viewModel = new PricingFormViewModel { Pricing = pricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
+            var viewModel = new PricingFormViewModel { Pricing = pricing, Clients = clientes, Employees = funcionarios, Managers = managers, PricingType = pricingType };
             if (pricing == null)
             {
                 return NotFound();
@@ -146,9 +146,9 @@ namespace CoreUI.Web.Controllers
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
             var funcionarios = await _employeeService.FindEmployeesActivesAsync();
-            var typePricing = await _context.TypePricing.ToListAsync();
+            var pricingType = await _context.PricingType.ToListAsync();
 
-            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
+            var viewModel = new PricingFormViewModel { ListPricing = listPricing, Clients = clientes, Employees = funcionarios, Managers = managers, PricingType = pricingType };
             return View(viewModel);
         }
 
@@ -209,9 +209,9 @@ namespace CoreUI.Web.Controllers
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var managers = await _employeeService.FindAllManagersAsync();
             var funcionarios = await _employeeService.FindEmployeesActivesAsync();
-            var typePricing = await _context.TypePricing.ToListAsync();
+            var pricingType = await _context.PricingType.ToListAsync();
 
-            var viewModel = new PricingFormViewModel { Pricing = pricing, Clients = clientes, Employees = funcionarios, Managers = managers, TypePricing = typePricing };
+            var viewModel = new PricingFormViewModel { Pricing = pricing, Clients = clientes, Employees = funcionarios, Managers = managers, PricingType = pricingType };
             if (pricing == null)
             {
                 return NotFound();
@@ -300,10 +300,10 @@ namespace CoreUI.Web.Controllers
             var pricing = await _context.Pricing.FindAsync(id);
             _context.Pricing.Remove(pricing);
 
-            var detailsPricing = await _context.DetailsPricing.Where(x => x.Pricing_Id == id).FirstOrDefaultAsync();
+            var detailsPricing = await _context.PricingDetails.Where(x => x.Pricing_Id == id).FirstOrDefaultAsync();
             if (detailsPricing != null)
             {
-                _context.DetailsPricing.Remove(detailsPricing);
+                _context.PricingDetails.Remove(detailsPricing);
             }
 
             await _context.SaveChangesAsync();

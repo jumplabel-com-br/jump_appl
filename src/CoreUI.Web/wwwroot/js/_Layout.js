@@ -810,9 +810,13 @@ var arrMes = [
     { value: '12', name: 'Dezembro' }
 ]
 
-$('#searchMothDataTable').html(
-    arrMes.map((obj) => {
-        return `
+function fnLoadMes() {
+    $('#searchMothDataTable').html(
+        arrMes.map((obj) => {
+            return `
             <option ${$('#Month').val() == obj.value ? `selected` : ''} value="${obj.value}">${obj.name}</option>
         `
-}).join(''));
+        }).join(''));
+}
+
+fnLoadMes();

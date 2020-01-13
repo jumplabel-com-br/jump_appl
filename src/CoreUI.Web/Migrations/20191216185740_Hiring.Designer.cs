@@ -261,7 +261,7 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<int>("TimeBetweenInitialAndEndDate");
 
-                    b.Property<int>("TypePricing");
+                    b.Property<int>("PricingType");
 
                     b.HasKey("Id");
 

@@ -36,10 +36,10 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.TypePricing" class="form-control" asp-items="@(new SelectList(Model.TypePricing, "Id",  "Name"))">
+                <select asp-for="Pricing.TypePricing" class="form-control" asp-items="@(new SelectList(Model.PricingType, "Id",  "Name"))">
                   <option value="">Tipo de precificação</option>
                 </select>
-                <span asp-validation-for="Pricing.TypePricing" name="pricing_typePricing" id="pricing_typePricing" class="text-danger text-danger-span col-12">Tipo de precificação inválida</span>
+                <span asp-validation-for="Pricing.TypePricing" name="pricing_PricingType" id="pricing_PricingType" class="text-danger text-danger-span col-12">Tipo de precificação inválida</span>
               </div>
             </div>
 
@@ -173,7 +173,7 @@
 
             <div class="form-group form-actions text-right col-12">
               <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
-              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/CreateAsync', `/DetailsPricings/Create`)">Próximo</button>
+              <button class="btn btn-sm btn-success" type="button" onclick="FormSubmit('/Pricings/CreateAsync', `/PricingDetails/Create`)">Próximo</button>
             </div>
           </form>
         </div>

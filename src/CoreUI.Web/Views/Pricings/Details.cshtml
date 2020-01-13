@@ -32,10 +32,10 @@
                     <i class="fa fa-user"></i>
                   </span>
                 </div>
-                <select asp-for="Pricing.TypePricing" class="form-control" asp-items="@(new SelectList(Model.TypePricing, "Id",  "Name"))" disabled>
+                <select asp-for="Pricing.TypePricing" class="form-control" asp-items="@(new SelectList(Model.PricingType, "Id",  "Name"))" disabled>
                   <option value="">Selecione</option>
                 </select>
-                <span asp-validation-for="Pricing.TypePricing" name="pricing_typePricing" id="pricing_typePricing" class="text-danger"></span>
+                <span asp-validation-for="Pricing.TypePricing" name="pricing_PricingType" id="pricing_PricingType" class="text-danger"></span>
               </div>
             </div>
 
@@ -179,8 +179,9 @@
 <input type="hidden" name="hiring_Id" id="hiring_Id" value="" />
 <script src="~/js/Pricing/Generic.js?@DateTime.Now.ToString()"></script>
 <script src="~/js/DetailsPricing/Generic.js?@DateTime.Now.ToString()"></script>
+<script src="~/js/PricingDetails/Generic.js?@DateTime.Now.ToString()"></script>
 <script>
   betweenDates();
-  returnDetailsPricings();
+  returnPricingDetails();
 </script>
 

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreUI.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191216123700_DetailsPricings")]
-    partial class DetailsPricings
+    [Migration("20200113184846_PricingDetails")]
+    partial class PricingDetails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,13 +66,15 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<double>("Cust");
 
-                    b.Property<int>("Hiring_Id");
+                    b.Property<DateTime>("DateBirth");
 
-                    b.Property<DateTime>("HourConsultant");
+                    b.Property<double>("HourConsultant");
 
-                    b.Property<DateTime>("HourSale");
+                    b.Property<double>("HourSale");
 
-                    b.Property<DateTime>("HoursMonth");
+                    b.Property<int>("HoursMonth");
+
+                    b.Property<int>("Pricing_Id");
 
                     b.Property<string>("SpecialtyName");
 
@@ -118,6 +120,20 @@ namespace CoreUI.Web.Migrations
                     b.HasIndex("Access_LevelId");
 
                     b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.Hiring", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Active");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Hiring");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Hour", b =>
@@ -227,7 +243,7 @@ namespace CoreUI.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountExecutive");
+                    b.Property<int>("AccountExecutive_Id");
 
                     b.Property<int>("Administrator_Id");
 
@@ -245,13 +261,45 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<int>("Risk");
 
-                    b.Property<int>("TimeBetweenInitialAndEndDate");
+                    b.Property<string>("TimeBetweenInitialAndEndDate");
 
                     b.Property<int>("PricingType");
 
                     b.HasKey("Id");
 
                     b.ToTable("Pricing");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.PricingDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AgeYears");
+
+                    b.Property<double>("Cust");
+
+                    b.Property<DateTime>("DateBirth");
+
+                    b.Property<double>("HourConsultant");
+
+                    b.Property<double>("HourSale");
+
+                    b.Property<int>("HoursMonth");
+
+                    b.Property<int>("Pricing_Id");
+
+                    b.Property<string>("SpecialtyName");
+
+                    b.Property<int>("TypeContract");
+
+                    b.Property<double>("VT");
+
+                    b.Property<double>("ValueCLTType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PricingDetails");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Project", b =>
@@ -292,6 +340,20 @@ namespace CoreUI.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Project_team");
+                });
+
+            modelBuilder.Entity("CoreUI.Web.Models.PricingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Active");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PricingType");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Employee", b =>

@@ -28,10 +28,10 @@
 
               <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
                 <div class="col-12">
-                  <form asp-action="Index">
+                  <form  id="formFilters" asp-action="Index">
                     <label>
                       Tipo de precificação:
-                      <select name="tipoPrecificacao" id="tipoPrecificacao" asp-items="@(new SelectList(Model.TypePricing, "Id", "Name"))" class="form-control">
+                      <select name="tipoPrecificacao" id="tipoPrecificacao" asp-items="@(new SelectList(Model.PricingType, "Id", "Name"))" class="form-control">
                         <option value="">Selecione</option>
                       </select>
                     </label>
@@ -74,7 +74,8 @@
                       <input type="date" name="dtFinal" id="dtFinal" class="form-control">
                     </label>
 
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-send-o"></i></button>
+                    <button type="submit" class="btn btn-primary" title="Enviar"><i class="fa fa-send-o"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" title="Limpar" onclick="$('#formFilters input, #formFilters select').val('')"><i class="icon-close font-2xl d-block"></i></button>
                   </form>
                 </div>
               </div>
