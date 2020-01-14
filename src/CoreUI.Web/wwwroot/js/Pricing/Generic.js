@@ -34,7 +34,7 @@ function FormSubmit(url, modal) {
 
 function verificationsOnSubmit() {
 
-    $('#pricing_PricingType').hide();
+    $('#Pricing_TypePricing').hide();
     $('#pricing_client_Id').hide();
     $('#pricing_allocation').hide();
     $('#pricing_accountExecutive').hide();
@@ -46,8 +46,8 @@ function verificationsOnSubmit() {
     $('#pricing_TimeBetweenInitialAndEndDate').hide();
     $('#pricing_risk').hide();
 
-    if ($('#Pricing_PricingType').val().length == 0) {
-        $('#pricing_PricingType').show();
+    if ($('#Pricing_TypePricing').val().length == 0) {
+        $('#Pricing_TypePricing').show();
         return false;
     }
 
