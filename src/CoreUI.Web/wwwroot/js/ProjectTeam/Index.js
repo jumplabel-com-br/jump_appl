@@ -23,8 +23,12 @@
     AtualizaComboAno();
 });
 
+setTimeout(function () {
+    Projects();
+    $('#projects').val($('#Projects').val());
+}, 1000)
+
 $('#clients').val($('#Clients').val())
-$('#projects').val($('#Projects').val())
 $('#employees').val($('#Employees').val())
 $('#searchMothDataTable').val($('#Month').val())
 $('#searchYearDataTable').val($('#Year').val())

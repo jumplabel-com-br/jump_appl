@@ -19,14 +19,14 @@
           <div class="card-body">
             <div class="row ml-0">
               <div class="col-12 mb-3">
-                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#formFilters" aria-expanded="false" aria-controls="formFilters">
                   Filtros
                 </button>
               </div>
 
-              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
+              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group">
                 <div class="col-8">
-                  <form id="formFilters" asp-action="ModeAdmin">
+                  <form id="formFilters" class="collapse" asp-action="ModeAdmin">
                     <!--
   <label>
     Cobrança:
@@ -132,6 +132,9 @@
                 <thead>
                   <tr>
                     <th>
+                      @Html.DisplayNameFor(model => model.Hour.Billing)
+                    </th>
+                    <th>
                       Status
                     </th>
                     <th>
@@ -169,70 +172,91 @@
                 <tbody id="tbodyHour">
                   @foreach (var item in Model.Hours)
                   {
-                    <tr class="trCount" id="tr_@item.Id">
-                      <td>
-                        @{
-                          switch (item.Approval)
-                          {
-                            case 1:
-                              @Html.DisplayName("Aguardando");
-                              break;
+                  <tr class="trCount" id="tr_@item.Id">
 
-                            case 2:
-                              @Html.DisplayName("Revisar");
-                              break;
+                    <td>
+                      @{
+                        switch (item.Billing)
+                        {
+                          case 0:
+                            @Html.DisplayName("Não");
+                            break;
 
-                            case 3:
-                              @Html.DisplayName("Reprovado");
-                              break;
+                          case 1:
+                            @Html.DisplayName("Sim");
+                            break;
 
-                            case 4:
-                              @Html.DisplayName("Aprovado");
-                              break;
-
-                            default:
-                              @Html.DisplayName("Sem status");
-                              break;
-                          }
-
+                          default:
+                            @Html.DisplayName("Sem status");
+                            break;
                         }
-                      </td>
-                      <td class="DatesMonth">
-                        @Html.DisplayFor(modelItem => item.Date)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Client)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Project)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Consultant)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Arrival_Time)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Beginning_Of_The_Break)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.End_Of_The_Break)
-                      </td>
-                      <td>
-                        @Html.DisplayFor(modelItem => item.Exit_Time)
-                      </td>
-                      <th class="totalHours">
-                        @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
-                      </th>
-                      <td colspan="2">
-                        <div class="row ml-0">
-                          <button class="btn btn-ghost-warning" onclick="Modal(`/Reports/DetailsModeAdmin/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`)"><i class="fa fa-search"></i></button>
-                          <!--<a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" asp-route-Employee_id="@@item.Employee_Id"><i class="fa fa-edit"></i></a>
-                          <a><i></i></a>
-                          <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
-                        </div>
-                      </td>
-                    </tr>
+
+                      }
+                    </td>
+
+                    <td>
+                      @{
+                        switch (item.Approval)
+                        {
+                          case 1:
+                            @Html.DisplayName("Aguardando");
+                            break;
+
+                          case 2:
+                            @Html.DisplayName("Revisar");
+                            break;
+
+                          case 3:
+                            @Html.DisplayName("Reprovado");
+                            break;
+
+                          case 4:
+                            @Html.DisplayName("Aprovado");
+                            break;
+
+                          default:
+                            @Html.DisplayName("Sem status");
+                            break;
+                        }
+
+                      }
+                    </td>
+                    <td class="DatesMonth">
+                      @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Client)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Project)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Consultant)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Arrival_Time)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Beginning_Of_The_Break)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.End_Of_The_Break)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Exit_Time)
+                    </td>
+                    <th class="totalHours">
+                      @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
+                    </th>
+                    <td colspan="2">
+                      <div class="row ml-0">
+                        <button class="btn btn-ghost-warning" onclick="Modal(`/Reports/DetailsModeAdmin/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`)"><i class="fa fa-search"></i></button>
+                        <!--<a class="btn btn-ghost-primary" asp-action="Edit" asp-route-id="@@item.Id" asp-route-Employee_id="@@item.Employee_Id"><i class="fa fa-edit"></i></a>
+      <a><i></i></a>
+      <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@@item.Id);"><i class="fa fa-trash-o"></i></button>-->
+                      </div>
+                    </td>
+                  </tr>
                   }
                 </tbody>
                 <tfoot>

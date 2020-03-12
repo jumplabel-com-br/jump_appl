@@ -358,7 +358,7 @@ if ($('table').length > 0) {
 
     columnsModeAdmin = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     columnsOutlaysAdmin = [2, 3, 4, 5, 6, 7, 8];
-    columnsReportsModeAdmin = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    columnsReportsModeAdmin = [2, 3, 4, 5, 6, 7, 8, 9, 10];
     columnsReportsOutlaysAdmin = [1, 2, 3, 4, 5, 6, 7];
 
     columnDefsModeAdmin = [
@@ -444,7 +444,7 @@ if ($('table').length > 0) {
                 exportOptions: {
                     // Aqui você inclui o índice da coluna
                     // Sabendo que os índices começam com 0
-                    columns : [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                    columns
                 },
 
             },
@@ -652,9 +652,40 @@ if ($('table').length > 0) {
 
 
     $('input[type="search"]').on('keyup', function () {
-        Wlhs == 'Hours' || Wlhs == "ModeAdmin" ? SumTotalHours() : '';
+        Wlhs == 'Hours' || Wlhs == "ModeAdmin" || Wlhs == "Reports" ? SumTotalHours() : '';
         Wlhs == "ModeAdmin" ? $('table tfoot tr td:eq(12)').text($('#TotalOfSumHours').val()) : '';
+        Wlhs == "Reports" ? $('table tfoot tr td:eq(10)').text($('#TotalOfSumHours').val()) : '';
     });
+}
+
+
+function SumTotalHours() {
+
+    if ($('table tbody tr td').text() == "Não foram encontrados resultados") {
+        $('#TotalOfSumHours').val('');
+        return false;
+    }
+
+    let hours = 0;
+    let minutes = 0;
+
+    document.querySelectorAll('.totalHours').forEach(obj => {
+        if (obj.style.display != 'none') {
+            hours += new Date('1999-01-01 ' + obj.textContent.trim()).getHours();
+            minutes += new Date('1999-01-01 ' + obj.textContent.trim()).getMinutes();
+        }
+    });
+
+    for (var i = minutes; minutes >= 60; i++) {
+        hours += 1
+        minutes -= 60
+    }
+
+    hours < 10 ? hours = '0' + hours : '';
+    minutes < 10 ? minutes = '0' + minutes : '';
+
+    $('#TotalOfSumHours').val(hours + ':' + minutes)
+
 }
 
 $('.imgLogo').attr('src', $('#ImgLogo').val())

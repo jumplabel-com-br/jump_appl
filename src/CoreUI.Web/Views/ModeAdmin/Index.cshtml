@@ -21,14 +21,14 @@
           <div class="card-body">
             <div class="row ml-0">
               <div class="col-12 mb-3">
-                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#DataTables_Table_0_filter" aria-expanded="false" aria-controls="DataTables_Table_0_filter">
+                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#formFilters" aria-expanded="false" aria-controls="formFilters">
                   Filtros
                 </button>
               </div>
 
-              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group collapse">
-                <div class="col-8">
-                  <form id="formFilters" asp-action="Index">
+              <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group">
+                <div class="col-8" >
+                  <form id="formFilters" class="collapse" asp-action="Index">
                     <label>
                       Cobrança:
                       <select name="Selectbilling" id="Selectbilling" class="form-control">
