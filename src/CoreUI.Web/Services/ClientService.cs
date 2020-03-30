@@ -57,7 +57,7 @@ namespace CoreUI.Web.Services
                 result = from client in _context.Client
                          join project in _context.Project on client.Id equals project.Client_Id
                          join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
-                         where projectTeam.Employee_Id == employeeId && project.Project_Manager_Id == employeeId
+                         where project.Project_Manager_Id == employeeId
                          select client;
             }
 
