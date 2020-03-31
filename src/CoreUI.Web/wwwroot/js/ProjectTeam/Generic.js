@@ -44,7 +44,7 @@ function FilterProjectPerClient() {
             $('#Project_team_Project_Id').prop('disabled', false);
             setTimeout(function () {
                 $('.modalSpinner').modal('hide');
-            },1000);
+            }, 1000);
         })
         .fail(function () {
             console.log("error");
@@ -62,7 +62,7 @@ function listProjects(model) {
     `
 }
 
-/*
+
 function searchHours() {
     $.ajax({
         url: '/api/HoursAPI',
@@ -80,7 +80,7 @@ function searchHours() {
             console.log("error");
         });
 }
-*/
+
 function JsonChecksDatesStartAndEndProjectTeam() {
 
     let project = $('#Project_team_Project_Id').val();
@@ -162,7 +162,7 @@ function disabledInput(employee, start, end, projectId) {
 
 function projectTeamSubmit(start, end) {
     JsonChecksDatesStartAndEndProjectTeam();
-    
+
 
     let employeeId = employee;
     let start_Date = $('#Project_team_Start_Date').val();
@@ -179,16 +179,16 @@ function projectTeamSubmit(start, end) {
         return false;
     }
 
-    if ($('#Project_team_Start_Date').val() > hoursStart) {
+    if ($('#Project_team_Start_Date').val() > hoursStart && hoursStart != "") {
         alert('A alteração não pode ser feita, pois há horas deste funcionário com a data maior que a data de início');
         return false;
     }
 
-    if ($('#Project_team_End_Date').val() < hoursEnd) {
+    if ($('#Project_team_End_Date').val() < hoursEnd && hoursEnd != "") {
         alert('A alteração não pode ser feita, pois há horas deste funcionário com a data maior que a data de fim');
         return false;
     }
-    
+
     if (count.length > 0) {
         alert('O funcionário ja tem um projeto deste tipo entre estas datas');
         return false;
@@ -213,14 +213,16 @@ function projectTeamSubmit(start, end) {
 
 }
 
-/*
-if (wlh == 'Edit') {
+function activeHours() {
     searchHours();
     let hours = arrHours.filter(obj => obj.employee_Id == $('#Project_team_Employee_Id').val() && obj.date.replace('T00:00:00', '') >= $('#Project_team_Start_Date').val() && obj.date.replace('T00:00:00', '') <= $('#Project_team_End_Date').val() && obj.id_Project == $('#Project_team_Project_Id').val())
-    var hoursStart = hours.length > 0 ? hours[0].date.replace('T00:00:00', '') : '';
-    var hoursEnd = hours.length > 0 ? hours[hours.length - 1].date.replace('T00:00:00', '') : '';
+    hoursStart = hours.length > 0 ? hours[0].date.replace('T00:00:00', '') : '';
+    hoursEnd = hours.length > 0 ? hours[hours.length - 1].date.replace('T00:00:00', '') : '';
     //filterClient();
 }
-*/
+
+$(document).ready(function () {
+    activeHours();
+});
 
 filterClient();

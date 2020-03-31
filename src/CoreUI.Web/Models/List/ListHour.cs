@@ -99,5 +99,6 @@ namespace CoreUI.Web.Models.List
         public int Billing { get; set; }
         public string File { get; set; }
         public int LocalityId { get; set; }
+        public int Project_Manager_Id { get; set; }
     }
 }

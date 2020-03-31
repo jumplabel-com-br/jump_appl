@@ -83,7 +83,7 @@ namespace CoreUI.Web.Services
 
         }
 
-        public async Task<List<ListHour>> FindAllAsync(int? billing, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
+        public async Task<List<ListHour>> FindAllAsync(int? billing, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year, int? empId, int? accessLevel)
         {
             if (!year.HasValue)
             {
@@ -133,9 +133,14 @@ namespace CoreUI.Web.Services
                              Description = horas.Description,
                              Description_Name = descriptions.Name,
                              Billing = horas.Billing,
-                             LocalityId = locality.Id == null ? 1 : locality.Id
+                             LocalityId = locality.Id == null ? 1 : locality.Id,
+                             Project_Manager_Id = projetos.Project_Manager_Id
                          };
 
+            if (accessLevel == 2)
+            {
+                result = result.Where(x => x.Project_Manager_Id == empId);
+            }
 
             if (month.HasValue)
             {
