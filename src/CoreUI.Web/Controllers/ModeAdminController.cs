@@ -433,9 +433,19 @@ namespace CoreUI.Web.Controllers
             ExecuteQuery(queryString);
         }
 
-        public async Task<IActionResult> UpdateStatus(int status, string ids)
+        public async Task<IActionResult> UpdateStatus(int status, string ids, int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
         {
             GetSessions();
+
+
+            ViewBag.Month = month;
+            ViewBag.Year = year;
+            ViewBag.Billing = Selectbilling;
+            ViewBag.Approval = approval;
+            ViewBag.Description = description;
+            ViewBag.Clients = clients;
+            ViewBag.Projects = projects;
+            ViewBag.Employees = employees;
 
             if (ViewBag.Email == null)
             {
@@ -446,7 +456,7 @@ namespace CoreUI.Web.Controllers
             string queryString = "update Hour set Approver = " + id + ", Approval = '" + status + "' where Id in (" + ids + ")";
             ExecuteQuery(queryString);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { Selectbilling, approval, description, clients, projects, employees, month, year });
         }
 
         public async void ExecuteQuery(string queryString)

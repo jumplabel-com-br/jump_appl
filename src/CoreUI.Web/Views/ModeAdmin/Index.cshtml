@@ -287,7 +287,7 @@
                 </tfoot>
               </table>
             </div>
-            <form id="UpdateStatus" asp-action="UpdateStatus">
+            <form id="UpdateStatus" asp-action="UpdateStatus"  asp-route-Selectbilling="@ViewBag.Selectbilling" asp-route-approval="@ViewBag.approval" asp-route-description="@ViewBag.description" asp-route-clients="@ViewBag.clients" asp-route-projects="@ViewBag.projects" asp-route-employees="@ViewBag.employees" asp-route-month="@ViewBag.month" asp-route-year="@ViewBag.year">
               <div class="row mt-3">
                 <div class="col-2">
                   <input type="hidden" name="ids" id="ids" value="" />

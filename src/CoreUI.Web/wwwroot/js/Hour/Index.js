@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 
     function AtualizaComboAno() {
-        for (i = 1990; i <= new Date().getFullYear(); i++) {
+        for (i = new Date().getFullYear(); i>= 1990 && i <= i; i--) {
             arrAno.push({ 'ano': i })
         }
 

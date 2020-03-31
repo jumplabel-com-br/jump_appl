@@ -297,7 +297,7 @@ function SumTotalHours() {
 
 function confirmUpdateStatus() {
 
-    if ($('#statusUpdate').val().length <= 0) {
+    if ($('#status').val().length <= 0) {
         $('.toast-container').show();
         $('.toast-message').hide();
         $('.message-error-delete').html('Operação inválida, selecione um status');
