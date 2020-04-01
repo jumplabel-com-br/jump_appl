@@ -180,7 +180,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Employees = employees;
 
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
-                var projetos = await _projectService.FindAllAsync();
+                var projetos = await _projectService.FindAllAsync(accessLevel, empId);
                 var funcionarios = await _employeeService.FindEmployeesActivesAsync();
                 //var projectsTeam = await _projectTeamService.FindAllAsync();
                 var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();

@@ -63,6 +63,35 @@ namespace CoreUI.Web.Services
             //  .OrderBy(x => x.Project_Name).ToListAsync();
         }
 
+        public async Task<List<Project>> FindAllAsync(int? accessLevel, int? employeeId)
+        {
+
+            var obj = from project in _context.Project
+                      select new Project()
+                      {
+                          Id = project.Id,
+                          Project_Name = project.Project_Name == null ? "" : project.Project_Name,
+                          Client_Id = project.Client_Id == null ? 0 : project.Client_Id,
+                          Cost_Center_Id = project.Cost_Center_Id == null ? 0 : project.Cost_Center_Id,
+                          Active = project.Active == null ? 0 : project.Active,
+                          Project_Manager_Id = project.Project_Manager_Id == null ? 0 : project.Project_Manager_Id,
+                          Manager_Id = project.Manager_Id == null ? 0 : project.Manager_Id
+                      };
+
+            if (accessLevel == 2)
+            {
+                obj = obj.Where(x => x.Project_Manager_Id == employeeId);
+            }
+
+            return await obj
+                .Where(x => x.Project_Name != "" && x.Project_Name != null && x.Active == 1)
+                .OrderBy(x => x.Project_Name)
+                .Distinct()
+                .ToListAsync();
+            //return await _context.Project
+            //  .OrderBy(x => x.Project_Name).ToListAsync();
+        }
+
         public async Task<List<Project>> FindProjectAsync(int? id)
         {
 
