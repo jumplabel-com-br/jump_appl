@@ -111,7 +111,8 @@ namespace CoreUI.Web.Controllers
             try
             {
                 var accessLevel = await _accessLevelService.FindAllAsync();
-                var viewModel = new EmployeeFormViewModel { Access_Level = accessLevel };
+                var typeReleases = await _hourService.FindStatus("tipoProjeto");
+                var viewModel = new EmployeeFormViewModel { Access_Level = accessLevel, TypeReleases = typeReleases };
 
                 return View(viewModel);
             }
@@ -128,7 +129,7 @@ namespace CoreUI.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Name,Document,Contract_Mode,Active,Appointment,Password,Change_Password,Access_LevelId")] Employee employee, IFormFile Document)
+        public async Task<IActionResult> Create(Employee employee, IFormFile Document)
         {
             GetSessions();
 
@@ -181,7 +182,9 @@ namespace CoreUI.Web.Controllers
 
                 var employee = await _context.Employee.FindAsync(id);
                 var accessLevel = await _accessLevelService.FindAllAsync();
-                var viewModel = new EmployeeFormViewModel { Employee = employee, Access_Level = accessLevel };
+                var typeReleases = await _hourService.FindStatus("tipoProjeto");
+
+                var viewModel = new EmployeeFormViewModel { Employee = employee, Access_Level = accessLevel, TypeReleases = typeReleases };
                 return View(viewModel);
             }
              catch (Exception e)
@@ -196,7 +199,7 @@ namespace CoreUI.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Name,Document,Contract_Mode,Active,Appointment,Password,Change_Password,Access_LevelId")] Employee employee, IFormFile Document)
+        public async Task<IActionResult> Edit(int id, Employee employee, IFormFile Document)
         {
 
             GetSessions();

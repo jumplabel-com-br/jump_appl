@@ -50,12 +50,8 @@
 
                     <label>
                       Status:
-                      <select name="approval" id="approval" class="form-control">
+                      <select name="approval" id="approval" asp-items="@(new SelectList(Model.Status, "Id", "Description"))" class="form-control">
                         <option value="">Selecione</option>
-                        <option value="1">Aguardando</option>
-                        <option value="2">Revisar</option>
-                        <option value="3">Reprovado</option>
-                        <option value="4">Aprovado</option>
                       </select>
                     </label>
 
@@ -195,31 +191,7 @@
                     </td>
 
                     <td>
-                      @{
-                        switch (item.Approval)
-                        {
-                          case 1:
-                            @Html.DisplayName("Aguardando");
-                            break;
-
-                          case 2:
-                            @Html.DisplayName("Revisar");
-                            break;
-
-                          case 3:
-                            @Html.DisplayName("Reprovado");
-                            break;
-
-                          case 4:
-                            @Html.DisplayName("Aprovado");
-                            break;
-
-                          default:
-                            @Html.DisplayName("Sem status");
-                            break;
-                        }
-
-                      }
+                      @Html.DisplayFor(modelItem => item.Status)
                     </td>
                     <td class="DatesMonth">
                       @Html.DisplayFor(modelItem => item.Date)

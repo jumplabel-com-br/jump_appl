@@ -83,6 +83,7 @@ namespace CoreUI.Web.Models.List
         [DisplayFormat(DataFormatString = "{0:HH\\:mm}")]
         public DateTime Total_Hours_In_Activity { get; set; }
 
+        public string Status { get; set; }
         public int Approval { get; set; }
         public int Approver { get; set; }
 

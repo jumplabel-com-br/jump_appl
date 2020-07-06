@@ -14,6 +14,7 @@ namespace CoreUI.Web.Controllers.APIs
     public class ClientsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        const string SessionEmail = "_Email";
 
         public ClientsAPIController(ApplicationDbContext context)
         {
@@ -22,8 +23,17 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/ClientsAPI
         [HttpGet]
-        public IEnumerable<Client> GetClient()
+        public dynamic GetClient()
         {
+
+            var Email = HttpContext.Session.GetString(SessionEmail);
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+            if (Email == null)
+            {
+                return ElementoVetor;
+            }
+
             return _context.Client.OrderBy(x => x.Name).Distinct();
         }
 

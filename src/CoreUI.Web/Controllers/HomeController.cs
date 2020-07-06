@@ -27,6 +27,7 @@ namespace CoreUI.Web.Controllers
         const string SessionEmployeeId = "_Id";
         const string SessionAcessLevel = "_IdAccessLevel";
         const string SessionChangePassword = "_ChangePassword";
+        const string SessionTypeReleases = "_TypeReleases";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
@@ -137,12 +138,12 @@ namespace CoreUI.Web.Controllers
         public IActionResult ValidLogin([Bind("Email", "Password")] Employee employee)
         {
 
-            if (_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1) == 0 && !ModelState.IsValid)
+            if ((_context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1) == 0 || _context.Employee.Count(emp => emp.Email == employee.Email && emp.Password == employee.Password && emp.Active == 1 && emp.Access_LevelId == 5) == 1) && !ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Home", "true");
             }
 
-            string queryString = "SELECT * FROM Employee where email = '" + employee.Email + "' and active = 1";
+            string queryString = "SELECT * FROM Employee where email = '" + employee.Email + "' and active = 1 and Access_LevelId not in (5)";
             string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
 
             MySqlConnection connection = new MySqlConnection(connString);
@@ -160,6 +161,7 @@ namespace CoreUI.Web.Controllers
             string NameEmployee = dt.Rows[0]["Name"].ToString();
             int accessLEvel = (int)dt.Rows[0]["Access_LevelId"];
             int changePassword = (sbyte)dt.Rows[0]["Change_Password"];
+            string TypeReleases = dt.Rows[0]["TypeReleases"].ToString();
 
             /*
             if (!string.IsNullOrEmpty(idEmployee))
@@ -191,6 +193,8 @@ namespace CoreUI.Web.Controllers
                 HttpContext.Session.SetInt32(SessionAcessLevel, accessLEvel);
                 HttpContext.Session.SetInt32(SessionChangePassword, changePassword);
                 HttpContext.Session.SetString(SessionImgLogo, img);
+                HttpContext.Session.SetString(SessionTypeReleases, TypeReleases);
+
                 ViewBag.RDM = rdm;
                 
             }

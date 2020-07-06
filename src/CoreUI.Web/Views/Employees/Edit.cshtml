@@ -131,13 +131,24 @@
                   <option value="0">Não</option>
                 </select>
               </div>
+
+              <div class="input-group col-3" title="Tipo de lançamentos">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="icon-lock"></i>
+                  </span>
+                </div>
+                <select asp-for="Employee.TypeReleases" asp-items="@(new SelectList(Model.TypeReleases, "Id", "Description"))" class="form-control">
+                </select>
+              </div>
             </div>
 
             <input type="hidden" asp-for="Employee.Document" />
             <input type="hidden" asp-for="Employee.Password" class="form-control" placeholder="Senha" />
             <input type="hidden" name="file" id="file" />
 
-            <div class="form-group form-actions text-right col-10">
+            <div class="form-group form-actions text-right col-12">
+              <br />
               <button class="btn btn-sm btn-warning" type="button" data-dismiss="modal" aria-label="Close">Voltar</button>
               <button class="btn btn-sm btn-success" type="button" onclick="EmployeeSubmit();">Salvar</button>
             </div>

@@ -54,22 +54,15 @@
 
                     <label>
                       Atividade:
-                      <select name="description" id="description" class="form-control">
+                      <select name="description" id="description"  asp-items="@(new SelectList(Model.Description, "Id", "Name"))" class="form-control">
                         <option value="">Selecione</option>
-                        <option value="1">Dia útil</option>
-                        <option value="2">Férias</option>
-                        <option value="3">Licença</option>
                       </select>
                     </label>
 
                     <label>
                       Status:
-                      <select name="approval" id="approval" class="form-control">
+                      <select name="approval" id="approval" asp-items="@(new SelectList(Model.Status, "Id", "Description"))" class="form-control">
                         <option value="">Selecione</option>
-                        <option value="1">Aguardando</option>
-                        <option value="2">Revisar</option>
-                        <option value="3">Reprovado</option>
-                        <option value="4">Aprovado</option>
                       </select>
                     </label>
 
@@ -197,31 +190,7 @@
                     </td>
                     -->
                     <td>
-                      @{
-                        switch (item.Approval)
-                        {
-                          case 1:
-                            @Html.DisplayName("Aguardando");
-                            break;
-
-                          case 2:
-                            @Html.DisplayName("Revisar");
-                            break;
-
-                          case 3:
-                            @Html.DisplayName("Reprovado");
-                            break;
-
-                          case 4:
-                            @Html.DisplayName("Aprovado");
-                            break;
-
-                          default:
-                            @Html.DisplayName("Sem status");
-                            break;
-                        }
-
-                      }
+                      @Html.DisplayFor(modelItem => item.Status)
                     </td>
                     <td colspan="2">
                       <div class="row ml-0">
@@ -266,6 +235,6 @@
 <input type="hidden" name="Description" id="Description" value="@ViewBag.Description" />
 <input type="hidden" name="Clients" id="Clients" value="@ViewBag.Clients" />
 <input type="hidden" name="Projects" id="Projects" value="@ViewBag.Projects" />
-
+<input type="hidden" name="TypeReleases" id="TypeReleases" value="@ViewBag.TypeReleases" />
 <script src="~/js/Hour/Index.js?@DateTime.Now.ToString()"></script>
 <script src="~/js/Hour/Delete.js?@DateTime.Now.ToString()"></script>

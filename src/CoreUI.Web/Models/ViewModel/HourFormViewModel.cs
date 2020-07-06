@@ -22,5 +22,7 @@ namespace CoreUI.Web.Models.ViewModel
         public ICollection<Description> Description { get; set; }
         public ICollection<Locality> Locality { get; set; }
 
+        public ICollection<Status> Status { get; set; }
+
     }
 }

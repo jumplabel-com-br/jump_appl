@@ -184,7 +184,8 @@ namespace CoreUI.Web.Services
 
         public async Task<List<Project>> FindProjecPerEmployeetAsync(int employeeId)
         {
-
+            try
+            {
                 var result = from project in _context.Project
                              join projectTeam in _context.Project_team on project.Id equals projectTeam.Project_Id
                              join employee in _context.Employee on projectTeam.Employee_Id equals employee.Id
@@ -205,6 +206,11 @@ namespace CoreUI.Web.Services
                .OrderBy(x => x.Project_Name)
                .Distinct()
                .ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Exceção de lista de projeto");
+            }
         }
 
         public async Task<List<ListProject>> FindAllToListAsync(int? accessLevel, int? employeeId)

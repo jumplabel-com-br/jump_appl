@@ -79,7 +79,9 @@ namespace CoreUI.Web.Controllers
                 var clientes = await _clientService.FindAllAsync(accessLevel, empId);
                 var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+                var status = await _hourService.FindStatus("horas");
+
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes, Status = status };
 
                 return View(viewModel);
 
@@ -107,7 +109,9 @@ namespace CoreUI.Web.Controllers
             var clientes = await _clientService.FindAllAsync(accessLevel, empId);
             var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
             var funcionarios = await _employeeService.FindAllAsync();
-            var viewModel = new OutlaysFormViewModel { Outlay = despesas, Projects = projetos, Employees = funcionarios, Clients = clientes };
+            var statusDespesas = await _hourService.FindStatus("despesas");
+
+            var viewModel = new OutlaysFormViewModel { Outlay = despesas, Projects = projetos, Employees = funcionarios, Clients = clientes, Status = statusDespesas };
 
             ViewBag.Month = month;
             ViewBag.Year = year;

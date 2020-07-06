@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CoreUI.Web.Models;
+using CoreUI.Web.Models.List.API;
 
 namespace CoreUI.Web.Models
 {
@@ -26,6 +27,8 @@ namespace CoreUI.Web.Models
         public DbSet<CoreUI.Web.Models.Hiring> Hiring { get; set; }
         public DbSet<CoreUI.Web.Models.PricingType> PricingType { get; set; }
         public DbSet<CoreUI.Web.Models.PricingDetails> PricingDetails { get; set; }
+        public DbSet<CoreUI.Web.Models.Status> Status { get; set; }
+        public DbSet<ListHourAPI> ListHourAPI { get; set; }
 
 
     }

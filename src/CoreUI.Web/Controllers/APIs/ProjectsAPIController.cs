@@ -14,6 +14,7 @@ namespace CoreUI.Web.Controllers.APIs
     public class ProjectsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        const string SessionEmail = "_Email";
 
         public ProjectsAPIController(ApplicationDbContext context)
         {
@@ -22,8 +23,17 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/ProjectsAPI
         [HttpGet]
-        public IEnumerable<Project> GetProject(int? clientId, int? accessLevel, int? employeeId)
+        public dynamic GetProject(int? clientId, int? accessLevel, int? employeeId)
         {
+
+            var Email = HttpContext.Session.GetString(SessionEmail);
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+            if (Email == null)
+            {
+                return ElementoVetor;
+            }
+
             if (clientId.HasValue && accessLevel == 3)
             {
                 var result = from project in _context.Project

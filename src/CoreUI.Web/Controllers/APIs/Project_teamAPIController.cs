@@ -14,6 +14,7 @@ namespace CoreUI.Web.Controllers
     public class Project_teamAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        const string SessionEmail = "_Email";
 
         public Project_teamAPIController(ApplicationDbContext context)
         {
@@ -22,8 +23,15 @@ namespace CoreUI.Web.Controllers
 
         // GET: api/Project_teamAPI
         [HttpGet]
-        public IEnumerable<Project_team> GetProject_team()
+        public dynamic GetProject_team()
         {
+            var Email = HttpContext.Session.GetString(SessionEmail);
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+            if (Email == null)
+            {
+                return ElementoVetor;
+            }
             return _context.Project_team;
         }
 

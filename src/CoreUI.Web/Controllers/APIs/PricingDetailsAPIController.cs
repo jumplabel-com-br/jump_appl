@@ -14,6 +14,7 @@ namespace CoreUI.Web.Controllers.APIs
     public class PricingDetailsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        const string SessionEmail = "_Email";
 
         public PricingDetailsAPIController(ApplicationDbContext context)
         {
@@ -22,8 +23,16 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/PricingDetailsAPI
         [HttpGet]
-        public IEnumerable<PricingDetails> GetPricingDetails(int? pricingId)
+        public dynamic GetPricingDetails(int? pricingId)
         {
+            var Email = HttpContext.Session.GetString(SessionEmail);
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+            if (Email == null)
+            {
+                return ElementoVetor;
+            }
+
             if (pricingId.HasValue)
             {
 

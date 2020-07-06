@@ -14,6 +14,7 @@ using CoreUI.Web.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CoreUI.Web.Services;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace CoreUI.Web
 {
@@ -48,6 +49,14 @@ namespace CoreUI.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore);
+            services.AddCors();
+            services.AddCors(option => {
+                option.AddPolicy("AllowSpecificOrigin", policy => policy.WithOrigins("http://admin.desenv.jumplabel.com.br/api/HoursAPI"));
+                option.AddPolicy("AllowGetMethod", policy => policy.WithMethods("POST"));
+            });
+            services.Configure<MvcOptions>(options => {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ApplicationDbContext"), builder =>
@@ -88,6 +97,9 @@ namespace CoreUI.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+            app.UseCors(option => option.AllowAnyOrigin()); ;
+
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseMvc(routes =>
             {

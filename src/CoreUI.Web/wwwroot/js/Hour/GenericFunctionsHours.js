@@ -285,7 +285,7 @@ function searchProjectsPerEmployee() {
         type: 'GET',
         async: false,
         dataType: 'json',
-        data: {},
+        data: { defaultVerification : "0"},
     })
         .done(function (data) {
             console.log(data);
@@ -486,7 +486,7 @@ function HourSubmit() {
         return false;
     }
 
-    if (existingDate == false) {
+    if (existingDate == false && $('#TypeReleases').val() == '10') {
         alert('Já existe horas lançadas para este dia entre estes horários');
         return false;
     }

@@ -1,9 +1,13 @@
 ﻿using CoreUI.Web.Models;
 using CoreUI.Web.Models.List;
+using CoreUI.Web.Models.List.API;
 using CoreUI.Web.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,10 +17,99 @@ namespace CoreUI.Web.Services
     public class HourService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _config;
 
-        public HourService(ApplicationDbContext context)
+        public HourService(ApplicationDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
+        }
+
+
+        public async Task<List<Status>> FindStatus(string nameSelect)
+        {
+            var result = from status in _context.Status
+                         where status.NameSelect == nameSelect
+                         select status;
+
+            return await result
+                .OrderBy(x => x.NameSelect)
+                .ToListAsync();
+        }
+
+        public dynamic APIHours(string email, string senha, DateTime? dtInicio, DateTime? dtFim, string statusDescription, string defaultVerification)
+        {
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+            if (defaultVerification != "0")
+            {
+                defaultVerification = "1";
+            }
+
+            string queryString = "select Email from dev_jump.Employee where email = '" + email + "' and password = '" + senha + "' and access_LevelId in (1,5)";
+            string connString = _config.GetValue<string>("ConnectionStrings:ApplicationDbContext");
+
+            MySqlConnection connection = new MySqlConnection(connString);
+            MySqlCommand command = new MySqlCommand(queryString, connection);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+
+            da.SelectCommand = command;
+
+            DataTable dt = new DataTable();
+
+            da.Fill(dt);
+            object id = dt;
+
+            string NameEmployee = dt.Rows.Count != 0 ? dt.Rows[0]["Email"].ToString() : null;
+
+
+            if ((NameEmployee == null && defaultVerification == "1") || defaultVerification == null)
+            {
+                return ElementoVetor;
+            }
+
+
+            var result = from horas in _context.Hour
+                         join projetos in _context.Project on horas.Id_Project equals projetos.Id
+                         join clientes in _context.Client on projetos.Client_Id equals clientes.Id
+                         join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
+                         join status in _context.Status on horas.Approval equals status.Id
+                         orderby horas.Start_Time ascending
+
+                         select new ListHourAPI
+                         {
+                             Id = horas.Id,
+                             Projeto = horas.Project.Replace("\n", ""),
+                             Clientes = clientes.Name.Replace("\n", ""),
+                             Data = horas.Date.ToString("dd/MM/yyyy"),
+                             Date = horas.Date,
+                             HoraInicio = horas.Start_Time,
+                             Pausa = horas.Stop_Time,
+                             Retorno = horas.Start_Time_2,
+                             HoraFim = horas.Stop_Time_2,
+                             TotalHoras = horas.Total_Activies_Hours,
+                             Atividades = horas.Activies.Replace("\n", ""),
+                             Consultor = funcionarios.Email.Replace("@jumplabel.com.br", ""),
+                             Cobranca = horas.Billing == 1 ? "SIM" : "NÂO",
+                             Status = status.Description
+                         };
+
+            if (dtInicio.HasValue)
+            {
+                result = result.Where(x => x.Date >= dtInicio);
+            }
+
+            if (dtFim.HasValue)
+            {
+                result = result.Where(x => x.Date <= dtFim);
+            }
+
+            if (statusDescription != null)
+            {
+                result = result.Where(x => x.Status.ToLower() == statusDescription.ToLower());
+            }
+
+            return result.OrderBy(x => x.HoraInicio);
         }
 
         public async Task<List<ListHour>> FindAllAsync(int? month, int? year)
@@ -30,6 +123,7 @@ namespace CoreUI.Web.Services
                          join projetos in _context.Project on horas.Id_Project equals projetos.Id
                          join clientes in _context.Client on projetos.Client_Id equals clientes.Id
                          join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
+                         join status in _context.Status on horas.Approval equals status.Id
                          //where hour.Date.Month == month && hour.Date.Year == year
                          //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
                          //where projects.Active == 1 //&& employees.Active == 1
@@ -60,7 +154,8 @@ namespace CoreUI.Web.Services
                              Id_Client = clientes.Id,
                              Client = clientes.Name,
                              Description = horas.Description,
-                             Billing = horas.Billing
+                             Billing = horas.Billing,
+                             Status = status.Description
                          };
 
             if (month.HasValue)
@@ -94,6 +189,7 @@ namespace CoreUI.Web.Services
                          join projetos in _context.Project on horas.Id_Project equals projetos.Id
                          join clientes in _context.Client on projetos.Client_Id equals clientes.Id
                          join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
+                         join status in _context.Status on horas.Approval equals status.Id
                          join Descriptions in _context.Description on horas.Description equals Descriptions.Id
                            into Description
                          from descriptions in Description.DefaultIfEmpty()
@@ -134,7 +230,8 @@ namespace CoreUI.Web.Services
                              Description_Name = descriptions.Name,
                              Billing = horas.Billing,
                              LocalityId = locality.Id == null ? 1 : locality.Id,
-                             Project_Manager_Id = projetos.Project_Manager_Id
+                             Project_Manager_Id = projetos.Project_Manager_Id,
+                             Status = status.Description
                          };
 
             if (accessLevel == 2)
@@ -161,7 +258,7 @@ namespace CoreUI.Web.Services
             {
                 result = result.Where(x => x.Approval == approval);
             }
-            
+
             if (description.HasValue)
             {
                 result = result.Where(x => x.Description == description);
@@ -210,13 +307,13 @@ namespace CoreUI.Web.Services
             var result = from hours in _context.Hour
                          join projetos in _context.Project on hours.Id_Project equals projetos.Id
                          join clientes in _context.Client on projetos.Client_Id equals clientes.Id
-
+                         join status in _context.Status on hours.Approval equals status.Id
                          join Descriptions in _context.Description on hours.Description equals Descriptions.Id
                             into Description
-                                from descriptions in Description.DefaultIfEmpty()
+                         from descriptions in Description.DefaultIfEmpty()
                          join locality in _context.Locality on hours.LocalityId equals locality.Id
                             into localities
-                                from locality in localities.DefaultIfEmpty()
+                         from locality in localities.DefaultIfEmpty()
 
                          where hours.Employee_Id == employee
                          orderby hours.Start_Time ascending
@@ -250,7 +347,8 @@ namespace CoreUI.Web.Services
                              Description_Name = descriptions.Name,
                              Billing = hours.Billing,
                              File = hours.File == null ? "Sem Documento" : hours.File,
-                             LocalityId = locality.Id == null ? 1 : locality.Id
+                             LocalityId = locality.Id == null ? 1 : locality.Id,
+                             Status = status.Description
 
                          };
 

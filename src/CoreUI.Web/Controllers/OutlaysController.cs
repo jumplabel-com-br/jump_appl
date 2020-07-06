@@ -186,8 +186,9 @@ namespace CoreUI.Web.Controllers
 
                     _context.Update(outlays);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index), new { status, clients, projects, employees, month, year});
                 }
+
+                return RedirectToAction(nameof(Index), new { status, clients, projects, employees, month, year });
             }
             catch (DbUpdateConcurrencyException e)
             {
@@ -220,8 +221,6 @@ namespace CoreUI.Web.Controllers
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
-
-            return View(outlays);
         }
 
         // GET: Outlays/Edit/5

@@ -50,6 +50,9 @@ namespace CoreUI.Web.Models
         public Access_Level Access_Level { get; set; }
         public int Access_LevelId { get; set; }
 
+        [Display(Name = "Tipo de Lançamento")]
+        public int TypeReleases { get; set; }
+
         public Employee()
         {
 

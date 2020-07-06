@@ -51,6 +51,7 @@ namespace CoreUI.Web.Controllers
         const string SessionName = "_Name";
         const string SessionEmployeeId = "_Id";
         const string SessionAcessLevel = "_IdAccessLevel";
+        const string SessionTypeReleases = "_TypeReleases";
         const string SessionInvalid = "false";
         const string SessionExpired = "false";
         const string SessionTotalBells = "false";
@@ -88,9 +89,10 @@ namespace CoreUI.Web.Controllers
                 var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var descriptions = await _context.Description.Where(x => x.Active == 1).ToListAsync();
                 var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+                var status = await _hourService.FindStatus("horas");
 
                 //var funcionarios = await _employeeService.FindEmployeesActivesAsync();
-                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes, Description = descriptions, Locality = localities };
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes, Description = descriptions, Locality = localities, Status = status };
 
 
                 return View(viewModel);
@@ -220,14 +222,16 @@ namespace CoreUI.Web.Controllers
             {
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
-                if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
+                string email = ViewBag.Email;
+
+                if (_context.Employee.Count(elem => elem.TypeReleases != 10 && elem.Email == email) > 0)
                 {
-                    var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
-                    var viewModel = new HourFormViewModel { Hour = hour, Projects = projetos };
-
-                    return View(viewModel);
+                    if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
+                    {
+                        return RedirectToAction(nameof(Error), new { message = "Informações que foram inseridas estão duplicadas, por favor verificar" });
+                    }
                 }
-
+                
                 if (ModelState.IsValid)
                 {
                     hour.File = string.Empty;
@@ -254,17 +258,30 @@ namespace CoreUI.Web.Controllers
                         _context.Update(hour);
                         await _context.SaveChangesAsync();
                     }
-
-                    
-                    return RedirectToAction(nameof(Index), new { approval, description, clients, projects, month, year});
                 }
+                else
+                {
+                    return RedirectToAction(nameof(Error), new { message = "Informações que foram inseridas não são válidas, por favor verificar" });
+                }
+
+                return RedirectToAction(nameof(Index), new { approval, description, clients, projects, month, year });
+            }
+            catch (NotFoundException e)
+            {
+
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
+            catch (DbConcurrencyException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
             catch (Exception e)
             {
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
-            return View(hour);
+
+            //return View(hour);
         }
 
         // GET: Hours/Edit/5
@@ -470,6 +487,7 @@ namespace CoreUI.Web.Controllers
             ViewBag.AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
             ViewBag.TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
             ViewBag.SessionImgLogo = HttpContext.Session.GetString(SessionImgLogo);
+            ViewBag.TypeReleases = HttpContext.Session.GetString(SessionTypeReleases);
 
         }
 

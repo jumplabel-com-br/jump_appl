@@ -29,13 +29,21 @@ namespace CoreUI.Web.Controllers
 
         // GET: api/AlertsHours
         [HttpGet]
-        public IEnumerable<Hour> GetHour()
+        public dynamic GetHour()
         {
             var Email = HttpContext.Session.GetString(SessionEmail);
             var Id = HttpContext.Session.GetInt32(SessionEmployeeId);
             var Name = HttpContext.Session.GetString(SessionName);
             var AcessLevel = HttpContext.Session.GetInt32(SessionAcessLevel);
             var TotalMessagesBells = HttpContext.Session.GetInt32(SessionTotalBells);
+
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+
+            if (Email == null)
+            {
+                return ElementoVetor;
+            }
 
             if (AcessLevel == 3)
             {

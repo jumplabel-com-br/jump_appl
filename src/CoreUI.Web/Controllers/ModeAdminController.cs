@@ -83,9 +83,10 @@ namespace CoreUI.Web.Controllers
                 var funcionarios = await _employeeService.FindAllAsync();
                 var Description = await _context.Description.Where(x => x.Active == 1).ToListAsync();
                 var localities = await _context.Locality.Where(x => x.Active == 1).ToListAsync();
+                var status = await _hourService.FindStatus("horas");
 
                 //var funcionarios = await _employeeService.FindAllAsync();
-                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes, Employees = funcionarios, Description = Description, Locality = localities };
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Clients = clientes, Employees = funcionarios, Description = Description, Locality = localities, Status = status };
 
                 return View(viewModel);
 

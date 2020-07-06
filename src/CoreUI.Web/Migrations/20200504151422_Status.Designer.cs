@@ -3,14 +3,16 @@ using System;
 using CoreUI.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreUI.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200504151422_Status")]
+    partial class Status
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,8 +82,6 @@ namespace CoreUI.Web.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired();
-
-                    b.Property<int>("TypeReleases");
 
                     b.HasKey("Id");
 
@@ -162,44 +162,6 @@ namespace CoreUI.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hour");
-                });
-
-            modelBuilder.Entity("CoreUI.Web.Models.List.API.ListHourAPI", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Atividades");
-
-                    b.Property<string>("Clientes");
-
-                    b.Property<string>("Cobranca");
-
-                    b.Property<string>("Consultor");
-
-                    b.Property<string>("Data");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<TimeSpan>("HoraFim");
-
-                    b.Property<TimeSpan>("HoraInicio");
-
-                    b.Property<TimeSpan>("Pausa");
-
-                    b.Property<string>("Projeto");
-
-                    b.Property<TimeSpan>("Retorno");
-
-                    b.Property<string>("Senha");
-
-                    b.Property<string>("Status");
-
-                    b.Property<TimeSpan>("TotalHoras");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ListHourAPI");
                 });
 
             modelBuilder.Entity("CoreUI.Web.Models.Locality", b =>
@@ -370,8 +332,6 @@ namespace CoreUI.Web.Migrations
                     b.Property<int>("Active");
 
                     b.Property<string>("Description");
-
-                    b.Property<string>("NameSelect");
 
                     b.Property<int>("User");
 

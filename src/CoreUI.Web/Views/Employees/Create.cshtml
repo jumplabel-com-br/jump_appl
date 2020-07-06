@@ -2,7 +2,7 @@
 
 @{
   ViewData["Title"] = "Create";
-    Layout = "";
+  Layout = "";
 }
 
 
@@ -98,16 +98,16 @@
               </div>
 
               <!--
-  <div class="input-group col-2">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
-        <i class="fa fa-money"></i>
-      </span>
-    </div>
-    <input asp-for="Employee.Salary" class="form-control" placeholder="Salary" />
-    <span asp-validation-for="Employee.Salary" name="employee_salary" id="employee_salary" class="text-danger col-12">Salary invalid</span>
-  </div>
-  -->
+              <div class="input-group col-2">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-money"></i>
+                  </span>
+                </div>
+                <input asp-for="Employee.Salary" class="form-control" placeholder="Salary" />
+                <span asp-validation-for="Employee.Salary" name="employee_salary" id="employee_salary" class="text-danger col-12">Salary invalid</span>
+              </div>
+              -->
 
               <div class="input-group col-2">
                 <div class="input-group-prepend" title="Apontamento">
@@ -137,7 +137,19 @@
               </div>
             </div>
 
-            <input type="hidden" asp-for="Employee.Document" value="Sem Documento"/>
+            <div class="form-group row">
+              <div class="input-group col-3" title="Tipo de lançamentos">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="icon-lock"></i>
+                  </span>
+                </div>
+                <select asp-for="Employee.TypeReleases" asp-items="@(new SelectList(Model.TypeReleases, "Id", "Description"))" class="form-control">
+                </select>
+              </div>
+            </div>
+
+            <input type="hidden" asp-for="Employee.Document" value="Sem Documento" />
             <input type="hidden" asp-for="Employee.Change_Password" class="form-control" placeholder="Change Password" value="1" />
             <input type="hidden" asp-for="Employee.Active" class="form-control" placeholder="Active" value="1" />
 

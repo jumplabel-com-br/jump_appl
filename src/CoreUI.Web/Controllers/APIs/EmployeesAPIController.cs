@@ -14,6 +14,7 @@ namespace CoreUI.Web.Controllers.APIs
     public class EmployeesAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        const string SessionEmail = "_Email";
 
         public EmployeesAPIController(ApplicationDbContext context)
         {
@@ -22,8 +23,17 @@ namespace CoreUI.Web.Controllers.APIs
 
         // GET: api/EmployeesAPI
         [HttpGet]
-        public IEnumerable<Employee> GetEmployee(int? projectId)
+        public dynamic GetEmployee(int? projectId)
         {
+
+            var Email = HttpContext.Session.GetString(SessionEmail);
+            string[] ElementoVetor = new string[1] { "Acesso inválido" };
+
+            if (Email == null)
+            {
+                return ElementoVetor;
+            }
+
             if (projectId.HasValue)
             {
                 var result = from employees in _context.Employee
