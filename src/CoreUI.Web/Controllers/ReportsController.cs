@@ -51,7 +51,7 @@ namespace CoreUI.Web.Controllers
         const string SessionTotalBells = "false";
         const string SessionImgLogo = "false";
 
-        public async Task<IActionResult> ModeAdmin(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year)
+        public async Task<IActionResult> ModeAdmin(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? employees, int? month, int? year, int? obsDay)
         {
             GetSessions();
 
@@ -70,6 +70,7 @@ namespace CoreUI.Web.Controllers
                 ViewBag.Clients = clients;
                 ViewBag.Projects = projects;
                 ViewBag.Employees = employees;
+                ViewBag.obsDay = obsDay;
 
                 int empId = ViewBag.Id;
                 int accessLevel = ViewBag.AcessLevel;
@@ -80,8 +81,9 @@ namespace CoreUI.Web.Controllers
                 var projetos = await _projectService.FindProjectAsync(empId, accessLevel);
                 var funcionarios = await _employeeService.FindAllAsync();
                 var status = await _hourService.FindStatus("horas");
+                var descri = await _context.Description.Where(x => x.Active == 1).ToListAsync();
 
-                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes, Status = status };
+                var viewModel = new HourFormViewModel { Hours = horas, Projects = projetos, Employees = funcionarios, Clients = clientes, Status = status, Description = descri };
 
                 return View(viewModel);
 

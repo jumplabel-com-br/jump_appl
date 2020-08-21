@@ -27,26 +27,13 @@
               <div id="DataTables_Table_0_filter" class="dataTables_filter row col-12 form-group">
                 <div class="col-8">
                   <form id="formFilters" class="collapse" asp-action="ModeAdmin">
-                    <!--
-  <label>
-    Cobrança:
-    <select name="Selectbilling" id="Selectbilling" class="form-control">
-      <option value="">Selecione</option>
-      <option value="0">Não</option>
-      <option value="1">Sim</option>
-    </select>
-  </label>
 
-  <label>
-    Atividade:
-    <select name="description" id="description" class="form-control">
-      <option value="">Selecione</option>
-      <option value="1">Dia útil</option>
-      <option value="2">Férias</option>
-      <option value="3">Licença</option>
-    </select>
-  </label>
-  -->
+                    <label>
+                      Atividade:
+                      <select name="description" id="description" asp-items="@(new SelectList(Model.Description, "Id", "Name"))" class="form-control">
+                        <option value="">Selecione</option>
+                      </select>
+                    </label>
 
                     <label>
                       Status:
@@ -105,6 +92,15 @@
                       </select>
                     </label>
 
+                    <label>
+                      Observação diária:
+                      <select name="obsDay" id="obsDay" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                      </select>
+                    </label>
+
                     <button type="submit" class="btn btn-primary" title="Enviar"><i class="fa fa-send-o"></i></button>
                     <button type="button" class="btn btn-danger btn-sm" title="Limpar" onclick="$('#formFilters input, #formFilters select').val(''); fnLoadMes();"><i class="icon-close font-2xl d-block"></i></button>
                   </form>
@@ -137,6 +133,9 @@
                       @Html.DisplayNameFor(model => model.Hour.Date)
                     </th>
                     <th>
+                      @Html.DisplayNameFor(model => model.Hour.Description)
+                    </th>
+                    <th>
                       Clientes
                     </th>
                     <th>
@@ -159,6 +158,9 @@
                     </th>
                     <th>
                       @Html.DisplayNameFor(model => model.Hour.Total_Hours_In_Activity)
+                    </th>
+                    <th style="display: none">
+                      Observação diária
                     </th>
                     <th>
                       Ações
@@ -197,6 +199,9 @@
                       @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
+                      @Html.DisplayFor(modelItem => item.Description_Name)
+                    </td>
+                    <td>
                       @Html.DisplayFor(modelItem => item.Client)
                     </td>
                     <td>
@@ -220,6 +225,9 @@
                     <th class="totalHours">
                       @Html.DisplayFor(modelItem => item.Total_Hours_In_Activity)
                     </th>
+                    <th style="display: none">
+                      @Html.DisplayFor(modelItem => item.Activies)
+                    </th>
                     <td colspan="2">
                       <div class="row ml-0">
                         <button class="btn btn-ghost-warning" onclick="Modal(`/Reports/DetailsModeAdmin/@item.Id?Employee_id=@item.Employee_Id&month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}&employees=${$('#employees').val().length > 0 ? $('#employees').val() : null}`)"><i class="fa fa-search"></i></button>
@@ -233,7 +241,6 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td></td>
                     <td>Total de horas</td>
                     <td></td>
                     <td></td>
@@ -242,7 +249,10 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>759:00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                   </tr>
                 </tfoot>
@@ -266,4 +276,5 @@
 <input type="hidden" name="Clients" id="Clients" value="@ViewBag.Clients">
 <input type="hidden" name="Projects" id="Projects" value="@ViewBag.Projects">
 <input type="hidden" name="Employees" id="Employees" value="@ViewBag.Employees">
+<input type="hidden" name="obsDays" id="obsDays" value="@ViewBag.obsDay">
 <script src="~/js/ModeAdmin/Index.js?@DateTime.Now.ToString()"></script>

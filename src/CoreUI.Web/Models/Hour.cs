@@ -98,7 +98,7 @@ namespace CoreUI.Web.Models
         public int Register { get; set; }
 
 
-        [Display(Name = "Atividade")]
+        [Display(Name = "Lançamento")]
         public int Description { get; set; }
         public string File { get; set; }
 

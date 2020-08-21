@@ -340,7 +340,7 @@ function UpdateStatusSubmit() {
 
 $(document).ready(function () {
     setInterval(function () {
-        Wlhs == "Reports" ? $('table tfoot tr td:eq(9)').text($('#TotalOfSumHours').val()) : $('table tfoot tr td:eq(12)').text($('#TotalOfSumHours').val())
+        Wlhs == "Reports" ? $('table tfoot tr td:eq(11)').text($('#TotalOfSumHours').val()) : $('table tfoot tr td:eq(12)').text($('#TotalOfSumHours').val())
     }, 1000)
     /*
     $('.dt-button').mouseover(() => {
@@ -357,3 +357,4 @@ $('#description').val($('#Description').val());
 $('#clients').val($('#Clients').val());
 $('#projects').val($('#Projects').val());
 $('#employees').val($('#Employees').val());
+$('#obsDay').val() != undefined ? $('#obsDay').val($('#obsDays').val()) : '';

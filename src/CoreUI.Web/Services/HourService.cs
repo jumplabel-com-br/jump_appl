@@ -69,47 +69,108 @@ namespace CoreUI.Web.Services
             }
 
 
-            var result = from horas in _context.Hour
-                         join projetos in _context.Project on horas.Id_Project equals projetos.Id
-                         join clientes in _context.Client on projetos.Client_Id equals clientes.Id
-                         join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
-                         join status in _context.Status on horas.Approval equals status.Id
-                         orderby horas.Start_Time ascending
-
-                         select new ListHourAPI
-                         {
-                             Id = horas.Id,
-                             Projeto = horas.Project.Replace("\n", ""),
-                             Clientes = clientes.Name.Replace("\n", ""),
-                             Data = horas.Date.ToString("dd/MM/yyyy"),
-                             Date = horas.Date,
-                             HoraInicio = horas.Start_Time,
-                             Pausa = horas.Stop_Time,
-                             Retorno = horas.Start_Time_2,
-                             HoraFim = horas.Stop_Time_2,
-                             TotalHoras = horas.Total_Activies_Hours,
-                             Atividades = horas.Activies.Replace("\n", ""),
-                             Consultor = funcionarios.Email.Replace("@jumplabel.com.br", ""),
-                             Cobranca = horas.Billing == 1 ? "SIM" : "NÂO",
-                             Status = status.Description
-                         };
-
-            if (dtInicio.HasValue)
+            if (defaultVerification == "0")
             {
-                result = result.Where(x => x.Date >= dtInicio);
+                var result = from horas in _context.Hour
+                             join projetos in _context.Project on horas.Id_Project equals projetos.Id
+                             join clientes in _context.Client on projetos.Client_Id equals clientes.Id
+                             join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
+                             join status in _context.Status on horas.Approval equals status.Id
+                             orderby horas.Start_Time ascending
+
+                             select new ListHour
+                             {
+                                 Id = horas.Id,
+                                 Project = horas.Project,
+                                 Date = horas.Date,
+                                 Start_Time = horas.Start_Time,
+                                 Stop_Time = horas.Stop_Time,
+                                 Start_Time_2 = horas.Start_Time_2,
+                                 Stop_Time_2 = horas.Stop_Time_2,
+                                 Activies = horas.Activies,
+                                 Total_Activies_Hours = horas.Total_Activies_Hours,
+                                 Consultant = funcionarios.Email.Replace("@jumplabel.com.br", ""),
+                                 Creation_Date = horas.Creation_Date,
+                                 Id_Project = horas.Id_Project,
+                                 Employee_Id = horas.Employee_Id,
+                                 Arrival_Time = horas.Arrival_Time,
+                                 Beginning_Of_The_Break = horas.Beginning_Of_The_Break,
+                                 End_Of_The_Break = horas.End_Of_The_Break,
+                                 Exit_Time = horas.Exit_Time,
+                                 Total_Hours_In_Activity = horas.Total_Hours_In_Activity,
+                                 Approval = horas.Approval,
+                                 Approver = horas.Approver,
+                                 Id_Client = clientes.Id,
+                                 Client = clientes.Name,
+                                 Description = horas.Description,
+                                 Billing = horas.Billing,
+                                 Status = status.Description
+                             };
+                if (dtInicio.HasValue)
+                {
+                    result = result.Where(x => x.Date >= dtInicio);
+                }
+
+                if (dtFim.HasValue)
+                {
+                    result = result.Where(x => x.Date <= dtFim);
+                }
+
+                if (statusDescription != null)
+                {
+                    result = result.Where(x => x.Status.ToLower() == statusDescription.ToLower());
+                }
+
+                return result.OrderBy(x => x.Start_Time);
+            }
+            else
+            {
+                var result = from horas in _context.Hour
+                             join projetos in _context.Project on horas.Id_Project equals projetos.Id
+                             join clientes in _context.Client on projetos.Client_Id equals clientes.Id
+                             join funcionarios in _context.Employee on horas.Employee_Id equals funcionarios.Id
+                             join status in _context.Status on horas.Approval equals status.Id
+                             orderby horas.Start_Time ascending
+
+                             select new ListHourAPI
+                             {
+                                 Id = horas.Id,
+                                 Projeto = horas.Project.Replace("\n", ""),
+                                 Clientes = clientes.Name.Replace("\n", ""),
+                                 Data = horas.Date.ToString("dd/MM/yyyy"),
+                                 Date = horas.Date,
+                                 HoraInicio = horas.Start_Time,
+                                 Pausa = horas.Stop_Time,
+                                 Retorno = horas.Start_Time_2,
+                                 HoraFim = horas.Stop_Time_2,
+                                 TotalHoras = horas.Total_Activies_Hours,
+                                 Atividades = horas.Activies.Replace("\n", ""),
+                                 Consultor = funcionarios.Email.Replace("@jumplabel.com.br", ""),
+                                 Cobranca = horas.Billing == 1 ? "SIM" : "NÂO",
+                                 Status = status.Description
+                             };
+
+                if (dtInicio.HasValue)
+                {
+                    result = result.Where(x => x.Date >= dtInicio);
+                }
+
+                if (dtFim.HasValue)
+                {
+                    result = result.Where(x => x.Date <= dtFim);
+                }
+
+                if (statusDescription != null)
+                {
+                    result = result.Where(x => x.Status.ToLower() == statusDescription.ToLower());
+                }
+
+                return result.OrderBy(x => x.HoraInicio);
             }
 
-            if (dtFim.HasValue)
-            {
-                result = result.Where(x => x.Date <= dtFim);
-            }
 
-            if (statusDescription != null)
-            {
-                result = result.Where(x => x.Status.ToLower() == statusDescription.ToLower());
-            }
 
-            return result.OrderBy(x => x.HoraInicio);
+
         }
 
         public async Task<List<ListHour>> FindAllAsync(int? month, int? year)

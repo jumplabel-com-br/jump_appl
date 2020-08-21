@@ -226,9 +226,14 @@ namespace CoreUI.Web.Controllers
 
                 if (_context.Employee.Count(elem => elem.TypeReleases != 10 && elem.Email == email) > 0)
                 {
-                    if (!ModelState.IsValid || _context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time) > 0)
+                    if (!ModelState.IsValid)
                     {
-                        return RedirectToAction(nameof(Error), new { message = "Informações que foram inseridas estão duplicadas, por favor verificar" });
+                        return RedirectToAction(nameof(Error), new { message = "Erro no servidor, não foi possivel carregar todas as informações" });
+                    }
+
+                    if (_context.Hour.Count(hours => hours.Id_Project == hour.Id_Project && hours.Date == hour.Date && hours.Arrival_Time == hour.Arrival_Time && hours.Exit_Time == hour.Exit_Time && hours.Employee_Id == empId) > 0)
+                    {
+                        return RedirectToAction(nameof(Error), new { message = "As informações inseridas estão duplicadas, por favor verificar" });
                     }
                 }
                 
