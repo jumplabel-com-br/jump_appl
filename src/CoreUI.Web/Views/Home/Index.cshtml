@@ -36,6 +36,36 @@
   <!-- Main styles for this application-->
   <link href="~/css/style.css" rel="stylesheet">
   <link href="~/vendors/pace-progress/css/pace.min.css" rel="stylesheet">
+  <link href="~/css/toastr.css" rel="stylesheet" />
+  <link href="~/css/spinkit.min.css" rel="stylesheet" />
+  <link href="~/css/_Layout.css" rel="stylesheet" />
+  <!--<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />-->
+  <link href="~/Jquery/css/jqueryDatatables1-10-20.css" rel="stylesheet" />
+  <link href="~/css/icons.css" rel="stylesheet" />
+
+  <!-- Bootstrap and necessary plugins-->
+  <script src="~/lib/jquery/dist/jquery.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jquery-3-3-1.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatables-1-10-20.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtons-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsFlash-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryCloudFlare3-1-2.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryCloudFlarePdfMake-0-1-53.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryCloudFlarePdfMakeVfsFonts-0-1-53.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsHtml5-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsPrint-1-6-0.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesColreorder1-5-1.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtons-1-5-2.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryDatatablesButtonsColVis-1-5-2.js?@DateTime.Now.ToString()"></script>
+  <script src="~/Jquery/js/jqueryUI-1-12-1.js?@DateTime.Now.ToString()"></script>
+  <script src="~/jQuery-Mask-Plugin/dist/jquery.mask.js?@DateTime.Now.ToString()"></script>
+  <script src="~/jQuery-Mask-Plugin/dist/jquery.mask.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/jQuery-Mask-Plugin/src/jquery.mask.js?@DateTime.Now.ToString()"></script>
+  <script src="~/js/Masks.js?@DateTime.Now.ToString()"></script>
+
+  <script src="~/jQuery-Mask-Plugin/dist/jquery.mask.js?@DateTime.Now.ToString()"></script>
+  <script src="~/jQuery-Mask-Plugin/dist/jquery.mask.min.js?@DateTime.Now.ToString()"></script>
+  <script src="~/jQuery-Mask-Plugin/src/jquery.mask.js?@DateTime.Now.ToString()"></script>
 </head>
 <body class="app flex-row align-items-center">
   <div class="container">
@@ -86,7 +116,7 @@
                     <button type="submit" class="btn btn-primary px-4" value="ValidLogin" onclick="$('.modalSpinner').modal('show')">Login</button>
                   </div>
                   <div class="col-6 text-right">
-                    <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                    <button type="button" class="btn btn-link px-0" onclick="newPassoword();">Forgot password?</button>
                   </div>
                 </div>
               </form>
@@ -106,6 +136,18 @@
           </div>
           -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalSpinner modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
       </div>
     </div>
   </div>

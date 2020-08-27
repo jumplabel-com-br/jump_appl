@@ -3,7 +3,41 @@ var arrProjectTeam;
 var arrClients;
 var arrHours;
 var arrFilterClients;
-var wlh = window.location.href.split('/')[4]
+var wlh = window.location.href.split('/')[4];
+
+function SendProject(message, email) {
+
+    let params = {
+        id : $('#Project_team_Employee_Id').val(),
+        projeto : $('#Project_team_Project_Id :selected').text(),
+        dt_inicial : DateFormatPtBr($('#Project_team_Start_Date').val()),
+        dt_final : DateFormatPtBr($('#Project_team_End_Date').val())
+    }
+
+    $.ajax({
+        url: '/SendEmail/ProjectTeamAlert',
+        type: 'POST',
+        data: params,
+        beforeSend: function () {
+            $('.modalSpinner').modal('show');
+        }
+    })
+        .done(function (data) {
+            alert(data);
+            $('.modalSpinner').modal('hide');
+        })
+        .fail(function () {
+            console.log("error");
+            $('.modalSpinner').modal('hide');
+        });
+}
+
+function DateFormatPtBr(value) {
+    value = value.split('-')
+
+    date = `${value[2]}/${value[1]}/${value[0]}`;
+    return date;
+}
 
 function filterClient() {
     $.ajax({
@@ -208,6 +242,8 @@ function projectTeamSubmit(start, end) {
         alert('Data de finalização não pode ser maior que a de início');
         return false;
     }
+
+    SendProject();
     $('#toast-container-saved').toggle();
     $('#projectTeamForm').submit();
 

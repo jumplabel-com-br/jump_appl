@@ -32,13 +32,13 @@ $(document).ready(function () {
 $('.btn-edit').on('click', function () {
     $('.btn-submit-sim-modal').on('click', function () {
         Update('Hours/EditAsync', $('#HoursForm'))
-    });  
+    });
 });
 
 $('.btn-copy').on('click', function () {
     $('.btn-submit-sim-modal').on('click', function () {
         Create('Hours/CreateAsync', $('#HoursForm'))
-    }); 
+    });
 });
 
 //setTimeout(function () { $('#Hour_Description').val() == 3 ? $('.divDocument').show() : $('.divDocument').hide() }, 3000)

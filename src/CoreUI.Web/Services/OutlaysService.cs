@@ -28,6 +28,8 @@ namespace CoreUI.Web.Services
                             on outlays.Employee_Id equals funcionarios.Id
                          join projectTeam in _context.Project_team
                             on projetos.Id equals projectTeam.Project_Id
+                         join statusDesc in _context.Status
+                            on outlays.Status equals statusDesc.Id
 
                          select new ListOutlays
                          {
@@ -43,7 +45,8 @@ namespace CoreUI.Web.Services
                              NoteValue = outlays.NoteValue,
                              Description = outlays.Description,
                              File = outlays.File,
-                             Status = outlays.Status
+                             Status = outlays.Status,
+                             DescriptionStatus = statusDesc.Description
                          };
 
             if (status.HasValue)

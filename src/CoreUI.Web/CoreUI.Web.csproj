@@ -35,12 +35,17 @@
   <ItemGroup>
     <Folder Include="Views\CoreUI\" />
     <Folder Include="wwwroot\Files\Employee\Document\" />
-    <Folder Include="wwwroot\Files\Hour\" />
+    <Folder Include="wwwroot\Files\Hour\Attachment\" />
     <Folder Include="wwwroot\Files\Outlays\" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <None Include="Views\Emails\Create.cshtml" />
+    <None Include="Views\Emails\Delete.cshtml" />
+    <None Include="Views\Emails\Details.cshtml" />
+    <None Include="Views\Emails\Edit.cshtml" />
+    <None Include="Views\Emails\Index.cshtml" />
     <None Include="wwwroot\jQuery-Mask-Plugin\.gitignore" />
     <None Include="wwwroot\jQuery-Mask-Plugin\.jshintrc" />
     <None Include="wwwroot\jQuery-Mask-Plugin\.ruby-version" />

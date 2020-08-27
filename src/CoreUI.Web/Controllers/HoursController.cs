@@ -57,6 +57,7 @@ namespace CoreUI.Web.Controllers
         const string SessionTotalBells = "false";
         const string SessionImgLogo = "false";
         const string storage = "Hour\\";
+        const string storageAttachment = "Hour\\Attachment\\";
 
         public async Task<IActionResult> Index(int? Selectbilling, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
@@ -208,7 +209,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Hour hour, IFormFile Document, int? approval, int? description, int? clients, int? projects, int? month, int? year)
+        public async Task<IActionResult> Create(Hour hour, IFormFile Document, IFormFile Attachment, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
             GetSessions();
@@ -240,7 +241,10 @@ namespace CoreUI.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     hour.File = string.Empty;
+                    hour.Attachment = string.Empty;
+
                     string nomeArquivo = string.Empty;
+                    string nomeArquivoAttachment = string.Empty;
 
                     await _hourService.InsertAsync(hour);
                     await _context.SaveChangesAsync();
@@ -258,6 +262,25 @@ namespace CoreUI.Web.Controllers
                             nomeArquivo = string.Concat(hoursId, "-", Document.FileName);
                             hour.File = nomeArquivo;
                             _files.EnviarArquivo(Document, nomeArquivo, storage);
+                        }
+
+                        _context.Update(hour);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    if (Attachment != null)
+                    {
+                        var lastId = (from result in _context.Hour
+                                      where result.Employee_Id == empId
+                                      orderby result.Id descending
+                                      select result).FirstOrDefault();
+
+                        if (lastId != null)
+                        {
+                            int hoursId = lastId.Id;
+                            nomeArquivoAttachment = string.Concat(hoursId, "-", Attachment.FileName);
+                            hour.Attachment = nomeArquivoAttachment;
+                            _files.EnviarArquivo(Attachment, nomeArquivoAttachment, storageAttachment);
                         }
 
                         _context.Update(hour);
@@ -336,7 +359,7 @@ namespace CoreUI.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Hour hour, IFormFile Document, int? approval, int? description, int? clients, int? projects, int? month, int? year)
+        public async Task<IActionResult> Edit(Hour hour, IFormFile Document, IFormFile Attachment, int? approval, int? description, int? clients, int? projects, int? month, int? year)
         {
 
 
@@ -361,6 +384,13 @@ namespace CoreUI.Web.Controllers
                             string nomeArquivo = string.Concat(hour.Id ,"-",Document.FileName);
                             _files.EnviarArquivo(Document, nomeArquivo, storage);
                             hour.File = nomeArquivo;
+                        }
+
+                        if (Attachment != null)
+                        {
+                            string nomeArquivoAttachment = string.Concat(hour.Id, "-", Attachment.FileName);
+                            _files.EnviarArquivo(Attachment, nomeArquivoAttachment, storageAttachment);
+                            hour.Attachment = nomeArquivoAttachment;
                         }
 
                         await _hourService.UpdateAsync(hour);

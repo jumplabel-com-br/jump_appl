@@ -29,6 +29,7 @@ namespace CoreUI.Web.Models
         public DbSet<CoreUI.Web.Models.PricingDetails> PricingDetails { get; set; }
         public DbSet<CoreUI.Web.Models.Status> Status { get; set; }
         public DbSet<ListHourAPI> ListHourAPI { get; set; }
+        public DbSet<Email> Email { get; set; }
 
 
     }

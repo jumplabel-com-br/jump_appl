@@ -106,6 +106,7 @@ namespace CoreUI.Web.Models
         public int Billing { get; set; }
         public int LocalityId { get; set; }
 
+        public string Attachment { get; set; }
         public Hour()
         {
 

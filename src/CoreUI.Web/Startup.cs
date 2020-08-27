@@ -62,6 +62,10 @@ namespace CoreUI.Web
                     options.UseMySql(Configuration.GetConnectionString("ApplicationDbContext"), builder =>
                     builder.MigrationsAssembly("CoreUI.Web")));
 
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+
+
             services.AddScoped<SeedingService>(); //--> registra o servico na injecao de dependencia da aplicacao
             services.AddScoped<EmployeeService>();
             services.AddScoped<ProjectService>();

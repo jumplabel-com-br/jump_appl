@@ -199,7 +199,7 @@
                         @{
                           if (item.Approval <= 1)
                           {
-                            <button class="btn btn-ghost-primary" onclick="Modal(`/Hours/Edit/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET')"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-ghost-primary" onclick="Modal(`/Hours/Edit/@item.Id?month=${$('#searchMothDataTable').val().length > 0 ? $('#searchMothDataTable').val() : null}&year=${$('#searchYearDataTable').val().length > 0 ? $('#searchYearDataTable').val() : null}&approval=${$('#approval').val().length > 0 ? $('#approval').val() : null}&description=${$('#description').val().length > 0 ? $('#description').val() : null}&clients=${$('#clients').val().length > 0 ? $('#clients').val() : null}&projects=${$('#projects').val().length > 0 ? $('#projects').val() : null}`, 'GET');"><i class="fa fa-edit"></i></button>
                             <button type="button" class="btn btn-ghost-danger" onclick="fn_showMessageDelete(@item.Id);"><i class="fa fa-trash-o"></i></button>
                           }
                         }

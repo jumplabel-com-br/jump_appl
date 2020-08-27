@@ -42,5 +42,6 @@ namespace CoreUI.Web.Models.List
         public string File { get; set; }
 
         public int Status { get; set; }
+        public string DescriptionStatus { get; set; }
     }
 }

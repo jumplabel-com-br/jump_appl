@@ -316,7 +316,7 @@ function nameClass(id) {
 
 
 if ($('table').length > 0) {
-    var lastWlhs = wlhs[wlhs.length - 1].split('?')[0].replace('#','');
+    var lastWlhs = wlhs[wlhs.length - 1].split('?')[0].replace('#', '');
     var Wlhs = wlhs[3].split('?')[0].replace('#', '');
 
     /*
@@ -571,7 +571,9 @@ if ($('table').length > 0) {
 		                    </div>
 	                    </div>
                     </div>
-                    `)}}] : [];
+                    `)
+                }
+            }] : [];
 
     $('table').DataTable({
         //initComplete: initComplete,
@@ -602,7 +604,7 @@ if ($('table').length > 0) {
             }
         }
     });
-    
+
     if (Wlhs.replace('#', '') == "ModeAdmin" || Wlhs.replace('#', '') == "OutlaysAdmin" || Wlhs.replace('#', '') == "Reports") {
 
         //$('table thead tr').clone(true).appendTo('table thead');

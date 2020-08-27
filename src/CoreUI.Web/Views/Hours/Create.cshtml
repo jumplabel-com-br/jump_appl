@@ -1,10 +1,10 @@
 ﻿@model CoreUI.Web.Models.ViewModel.HourFormViewModel
 
 @{
-    ViewData["Title"] = "Create"; ;
-    //ViewData["Name"];
-    //ViewData["Id"];
-    Layout = "";
+  ViewData["Title"] = "Create"; ;
+  //ViewData["Name"];
+  //ViewData["Id"];
+  Layout = "";
 }
 
 
@@ -13,15 +13,15 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-            <i class="fa fa-edit"></i> Lançamento de hora
-            <div class="card-header-actions">
-              <!--
-              <a asp-action="Create">
-                <input type="hidden" asp-for="@@ViewData["Email"]" />
-                <input type="hidden" asp-for="@@ViewData["Password"]" />
-                <i class="fa fa-plus"></i>
-              </a>
-              -->
+          <i class="fa fa-edit"></i> Lançamento de hora
+          <div class="card-header-actions">
+            <!--
+            <a asp-action="Create">
+              <input type="hidden" asp-for="@@ViewData["Email"]" />
+              <input type="hidden" asp-for="@@ViewData["Password"]" />
+              <i class="fa fa-plus"></i>
+            </a>
+            -->
           </div>
         </div>
         <div class="card-body">
@@ -153,6 +153,28 @@
                 </div>
                 <textarea asp-for="Hour.Activies" class="form-control" style="height: 100px;" placeholder="Atividades"></textarea>
                 <span style="display: none" asp-validation-for="Hour.Activies" name="hour_activies" id="hour_activies" class="text-danger text-danger-span text-danger-span col-12">Atividades inválidas</span>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="input-group col-6">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-sm btn-ghost-primary" onclick="$('#attachment').toggle();">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row" id="attachment" style="display:none">
+              <div class="input-group col-12" title="Anexo/Atividades">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <input type="file" name="Attachment" id="Attachment" class="ml-2"/>
+                <input type="hidden" asp-for="Hour.Attachment" />
               </div>
             </div>
 

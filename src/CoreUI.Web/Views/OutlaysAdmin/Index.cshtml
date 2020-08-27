@@ -152,31 +152,7 @@
                       </div>
                     </td>
                     <td>
-                      @{
-                        switch (item.Status)
-                        {
-                          case 1:
-                            @Html.DisplayName("Aguardando");
-                            break;
-
-                          case 2:
-                            @Html.DisplayName("Efetuado");
-                            break;
-
-                          case 3:
-                            @Html.DisplayName("Reprovado");
-                            break;
-
-                          case 4:
-                            @Html.DisplayName("Aprovado");
-                            break;
-
-                          default:
-                            @Html.DisplayName("Sem status");
-                            break;
-                        }
-
-                      }
+                      @Html.DisplayFor(modelItem => item.DescriptionStatus)
                     </td>
                     <td>
                       @Html.DisplayFor(modelItem => item.Client)
@@ -216,16 +192,12 @@
               </tbody>
             </table>
           </div>
-          <form id="UpdateStatus" asp-action="UpdateStatus">
+          <form id="UpdateStatus" asp-action="UpdateStatus" asp-route-month="@ViewBag.Month" asp-route-year="@ViewBag.Year" asp-route-status="@ViewBag.Status" asp-route-clients="@ViewBag.Clients" asp-route-projects="@ViewBag.Projects" asp-route-employees="@ViewBag.Employees">
             <div class="row mb-3 ml-1">
               <div class="col-2">
                 <input type="hidden" name="ids" id="ids" value="" />
-                <select class="form-control" name="statusUpdate" id="statusUpdate">
-                  <option value="">Selecione...</option>
-                  <option value="1">Aguardando</option>
-                  <option value="4">Aprovado</option>
-                  <option value="2">Efetuado</option>
-                  <option value="3">Reprovado</option>
+                <select name="statusUpdate" id="statusUpdate" asp-items="@(new SelectList(Model.Status, "Id", "Description"))" class="form-control">
+                  <option value="">Selecione</option>
                 </select>
               </div>
               <div class="col-2">
