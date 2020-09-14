@@ -182,6 +182,31 @@
               </div>
             </div>
 
+            <div class="form-group row">
+              <div class="input-group col-6">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-sm btn-ghost-primary" onclick="$('#attachment').toggle();  $('#hrefAttachment').attr({ href: 'Files/Hour/Attachment/' + $('#Hour_Attachment').val() }); $('#hrefAttachment').html($('#Hour_Attachment').val());">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row box-file" id="attachment" style="display:none;">
+              <div class="input-group col-4" title="Anexo/Atividades">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-file-text-o"></i>
+                  </span>
+                </div>
+                <input type="hidden" name="Attachment" id="Attachment" class="ml-2" />
+                <input type="hidden" asp-for="Hour.Attachment" />
+                <p>
+                  Download: <a id="hrefAttachment" download=""></a>
+                </p>
+              </div>
+            </div>
+
             <input type="hidden" asp-for="Hour.Project" class="form-control" />
             <input type="hidden" asp-for="Hour.Consultant" />
             <input type="hidden" asp-for="Hour.Id_Project" />

@@ -260,7 +260,7 @@ namespace CoreUI.Web.Services
                              //where hour.Date.Month == month && hour.Date.Year == year
                              //join projectTeam in _context.Project_team on projects.Id equals projectTeam.Project_Id
                              //where projects.Active == 1 //&& employees.Active == 1
-                         where horas.Billing == 1
+                         /*where horas.Billing == 1*/
                          orderby horas.Start_Time ascending
 
                          select new ListHour

@@ -14280,3 +14280,20 @@ body {
         height: 90px;
     }
 }
+
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.box-file {
+    border: 1px solid rgb(228, 229, 230);
+    margin-right: 2px;
+    margin-left: 2px;
+    border-radius: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: none;
+}
